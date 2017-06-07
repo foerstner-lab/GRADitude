@@ -10,4 +10,5 @@ Grad-seq approach offers a way to study the distribution of all RNA
 involvement in various macromolecular assemblies.
 
 GRADitude is a computational tool for the analysis of Grad-seq
-in-gradient profiling.
+in-gradient profiling. It is currently in a **very early** development
+stage!
