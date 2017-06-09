@@ -47,9 +47,6 @@ def divide_rows_by_geometric_mean(table, g_mean):
     for index, row in table.reset_index(drop=True).iterrows():
         if g_mean[index] != 0:
             rows.append(row.multiply(1 / g_mean[index]))
-            # else:
-            #     print("g_mean[index] == 0")
-            #     rows.append(row.multiply(g_mean[index]))
     return pd.DataFrame(rows)
 
 
