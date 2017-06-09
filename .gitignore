@@ -174,3 +174,8 @@ ENV/
 .ropeproject
 # discard directories
 .directories
+.data
+
+.directory
+2017-05-31-k_mean_clustering/
+data/

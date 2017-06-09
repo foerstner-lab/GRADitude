@@ -1,31 +1,43 @@
 import pandas as pd
-import os
-
-
-output_dir = "./output"
-csvs_div_maximum = output_dir + '/csvs_div_maximum/'
+from config import OUTPUT_DIR, SIZE_FACTORS_DIR, NORMALIZED_TABLE, INPUT_DIR
 
 
 def main():
-    path = output_dir + "/csv_nb_vs_seq/"
-    for (path, dirs, files) in os.walk(path):
-        for file in files:
-            table_read = read_table(os.path.join(path + file))
-            new_table(table_read, file)
+    table = read_table(INPUT_DIR + '')
+    normalized_table = new_table(table)
+    normalized_table.to_csv('normalized_by_max_value_without_pellet.csv', sep=',', header=True, index=None)
 
 
 def read_table(file):
-    table = pd.read_table(file, sep=',')
+    table = pd.read_excel(file)
     return table
 
 
-def new_table(table_read, name):
-    result_table = pd.DataFrame()
-    for col_name in table_read.columns:
-        table_read.columns.get_loc(col_name)
-        max_val = table_read[col_name].max()
-        result_table[col_name] = table_read[col_name].apply(lambda x: x / max_val)
+def new_table(table_read):
 
-    return result_table.to_csv(csvs_div_maximum + name, sep=',', header=True, index=None)
+    rows = []
+    for i, row in table_read.iloc[:, 11:].iterrows():
+        res = divide_by_max(row)
+        rows.append(res)
+
+    computed_df = pd.concat(rows, axis=1).transpose()
+
+    cols = []
+    for col in table_read.iloc[:, 0:11]:
+        cols.append(table_read[col])
+    for col in computed_df:
+        cols.append(computed_df[col])
+
+    return pd.concat(cols, axis=1)
+
+
+def divide_by_max(row):
+    max_val = 0
+    for item in row:
+        if item > max_val:
+            max_val = item
+
+    return row / max_val
+
 
 main()
