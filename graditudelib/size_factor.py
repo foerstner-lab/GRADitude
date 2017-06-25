@@ -18,7 +18,7 @@ def main(params):
                                       'size_factor_ERCC_to_normalize_tables_without_pellet.csv')
     q_table = read_table_quanti(params.gene_wise_quantification)
     table = new_table_(sf_table, q_table)
-    table.to_csv(config.OUTPUT_DIR + 'normalized_table_ERCC_without_pellet.csv', sep='/t', index=0)
+    table.to_csv(config.OUTPUT_DIR + 'normalized_table_ERCC_without_pellet.csv', index=0)
 
 
 def create_a_new_table(alignment_table, output_file):
