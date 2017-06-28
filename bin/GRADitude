@@ -10,9 +10,11 @@ def main():
 
     normalize_parser = subparsers.add_parser("normalize")
     normalize_parser.set_defaults(func=normalize_table)
-    normalize_parser.add_argument('--read_alignment_stats', required=True)
-    normalize_parser.add_argument("--gene_wise_quantification", required=True)
-    normalize_parser.add_argument("--output_file", required=True)
+    normalize_parser.add_argument('--read_count_file', '-c', required=True)
+    normalize_parser.add_argument('--read_count_start_column', default=1)
+    normalize_parser.add_argument("--reference_read_count_file", "-r", required=True)
+    normalize_parser.add_argument("--reference_read_count_start_column", default=1)
+    normalize_parser.add_argument("--output_file", "-o" required=True)
 
     # k_means_clustering_parser = subparsers.add_parser("k-means_clustering")
     # k_means_clustering_parser.set_defaults(func=k_means_clustering)
