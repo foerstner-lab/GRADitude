@@ -7,8 +7,9 @@ from graditudelib import size_factor
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--version", "-v", action="store_true", help="show version")
-    parser.add_argument("--read_alignment_stats")
-    parser.add_argument("--filtered_alignment_stats")
+    parser.add_argument("--read_alignment_stats", required=True)
+    parser.add_argument("--filtered_alignment_stats", required=True)
+    parser.add_argument("--output_file", required=True)
     subparsers = parser.add_subparsers(help="commands")
 
     normalize_parser = subparsers.add_parser("normalize")
