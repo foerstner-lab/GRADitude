@@ -6,16 +6,13 @@ from graditudelib import size_factor
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--version", "-v", action="store_true", help="show version")
-    parser.add_argument("--read_alignment_stats", required=True)
-    parser.add_argument("--filtered_alignment_stats", required=True)
-    parser.add_argument("--output_file", required=True)
     subparsers = parser.add_subparsers(help="commands")
 
     normalize_parser = subparsers.add_parser("normalize")
     normalize_parser.set_defaults(func=normalize_table)
     normalize_parser.add_argument('--read_alignment_stats', required=True)
     normalize_parser.add_argument("--gene_wise_quantification", required=True)
+    normalize_parser.add_argument("--output_file", required=True)
 
     # k_means_clustering_parser = subparsers.add_parser("k-means_clustering")
     # k_means_clustering_parser.set_defaults(func=k_means_clustering)
@@ -34,11 +31,6 @@ def main():
 
 def normalize_table(args):
     size_factor.main(args)
-    # normalize_table(args.read_alignment_stats)
-    # normalize_table(args.feature_counting_table)
-    # normalize_table(args.spike_in_counting_table)
-    # normalize_table(args.minimal_counting_feature)
-
 
 # def k_means_clustering(args):
 #     k_means_clustering(args.normalized_ERCC_table)
