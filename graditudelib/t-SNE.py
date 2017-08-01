@@ -9,6 +9,7 @@ from bokeh.plotting import figure, output_file, save, ColumnDataSource
 from bokeh.models import HoverTool, BoxZoomTool, ResetTool, PanTool
 from bokeh.models import WheelZoomTool, TapTool, OpenURL
 
+
 def main():
     parser = argparse.ArgumentParser(description=__description__)
     parser.add_argument("input_file")

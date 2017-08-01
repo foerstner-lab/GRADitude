@@ -22,13 +22,13 @@ def elbow(d_frame):
     k_m = [KMeans(n_clusters=k).fit(d_frame) for k in range_k]
     centroids = [k.cluster_centers_ for k in k_m]
     d_k = [cdist(d_frame, cent, 'euclidean') for cent in centroids]
-    cIdx = [np.argmin(D, axis=1) for D in d_k]
+    c_idx = [np.argmin(D, axis=1) for D in d_k]
     dist = [np.min(D, axis=1) for D in d_k]
     avg_within_sum_of_squares = [sum(d)/d_frame.shape[0] for d in dist]
-    wcss = [sum(d**2) for d in dist]
+    w_css = [sum(d**2) for d in dist]
     tss = sum(pdist(d_frame)**2)/d_frame.shape[0]
-    bss = tss-wcss
-    kIdx = 10-1
+    bss = tss - w_css
+    k_idx = 10-1
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.plot(range_k, avg_within_sum_of_squares, 'b*-')
