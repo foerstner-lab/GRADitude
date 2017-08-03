@@ -3,18 +3,18 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from config import OUTPUT_DIR
+import config
+import argparse
 
 
 def main():
-    table = read_table(OUTPUT_DIR + 'normalized_table_ERCC_without_pellet.csv')
-    elbow(table)
-
-
-def read_table(file):
-    normalized_table = pd.read_csv(file, sep=',')
-    new_table = normalized_table.drop(normalized_table.columns[[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, -2, -1]], axis=1)
-    return new_table
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--normalized_table", required=True)
+    args = parser.parse_args()
+    normalized_table = pd.read_csv(args.normalized_table, sep='\t')
+    grad_rows = normalized_table[list(filter(lambda col: col.startswith("Grad"), normalized_table.columns))]
+    attribute_rows = normalized_table[list(filter(lambda col: "Grad" not in col, normalized_table.columns))]
+    elbow(grad_rows)
 
 
 def elbow(d_frame):
