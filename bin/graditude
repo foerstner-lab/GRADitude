@@ -9,6 +9,7 @@ def main():
     subparsers = parser.add_subparsers(help="commands")
 
     # Currently done with DESeq2's approach - maybe add further options
+    # TODO: add filter for min row sum (and/or min average number in row etc)
     normalize_parser = subparsers.add_parser("normalize")
     normalize_parser.set_defaults(func=normalize_table)
     normalize_parser.add_argument('--count_table', '-c', required=True)
