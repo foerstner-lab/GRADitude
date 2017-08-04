@@ -5,10 +5,12 @@ import numpy as np
 import os
 
 
-def main(params):
-    read_alignment_stats = params.read_alignment_stats
-    alignment_table = pd.read_table(read_alignment_stats)
-    create_a_new_table(alignment_table, 'filtered_alignment_stats.csv')
+def normalized_count_table(count_table, read_count_start_column,
+                           reference_count_table,
+                           reference_read_count_start_column,
+                           output_file):
+    count_table_df = pd.read_table(count_table)
+    _create_a_new_table(alignment_table, 'filtered_alignment_stats.csv')
     csv_file = read_filtered_alignment_stats(config.OUTPUT_DIR + 'filtered_alignment_stats.csv')
     g_mean = geometric_mean_by_row(csv_file)
     normalized_table = divide_rows_by_geometric_mean(csv_file, g_mean)
@@ -21,7 +23,7 @@ def main(params):
     table.to_csv(config.NORMALIZED_TABLE + 'normalized_table_ERCC_without_pellet.csv', index=0)
 
 
-def create_a_new_table(alignment_table, output_file):
+def _create_a_new_table(alignment_table, output_file):
     if not os.path.exists(config.OUTPUT_DIR):
         os.makedirs(config.OUTPUT_DIR)
     series = []

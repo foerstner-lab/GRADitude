@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-from graditudelib import size_factor
+from graditudelib import normalize
 
 
 def main():
@@ -87,7 +87,10 @@ def main():
 
 
 def normalize_table(args):
-    size_factor.main(args)
+    normalize.normalize_count_table(
+        args.count_table, args.read_count_start_column,
+        args.reference_count_table, args.reference_read_count_start_column,
+        args.output_file)
 
 # def k_means_clustering(args):
 #     k_means_clustering(args.normalized_ERCC_table)
