@@ -15,7 +15,7 @@ def main():
     normalize_parser.add_argument('--read_count_start_column', default=1)
     normalize_parser.add_argument("--reference_count_table", "-r", required=True)
     normalize_parser.add_argument("--reference_read_count_start_column", default=1)
-    normalize_parser.add_argument("--output_file", "-o" required=True)
+    normalize_parser.add_argument("--output_file", "-o", required=True)
 
     # For each fraction generate/write
     # - Histogram 
@@ -82,6 +82,8 @@ def main():
     args = parser.parse_args()
     if "func" in dir(args):
         args.func(args)
+    else:
+        parser.print_help()
 
 
 def normalize_table(args):
