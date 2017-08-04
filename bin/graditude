@@ -44,6 +44,8 @@ def main():
     # k_means_clustering_parser.add_argument("--number_of_clusters", required=True, type=int)
     # k_means_clustering_parser.add_argument("--output_file", "-o" required=True)
 
+    # TODO: add maybe also silhouette analysis
+    # (http://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html)
     # k_means_clustering_elbow_parser = subparsers.add_parser("k_means_clustering_elbow")
     # k_means_clustering_elbow_parser.set_defaults(func=generate_k_means_clustering_elbow)
     # k_means_clustering_elbow_parser.add_argument("--count_table", "-c", required=True)
