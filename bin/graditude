@@ -9,6 +9,7 @@ def main():
     subparsers = parser.add_subparsers(help="commands")
 
     # Currently done with DESeq2's approach - maybe add further options
+    # TODO: add filter for min row sum (and/or min average number in row etc)
     normalize_parser = subparsers.add_parser("normalize")
     normalize_parser.set_defaults(func=normalize_table)
     normalize_parser.add_argument('--count_table', '-c', required=True)
@@ -43,6 +44,8 @@ def main():
     # k_means_clustering_parser.add_argument("--number_of_clusters", required=True, type=int)
     # k_means_clustering_parser.add_argument("--output_file", "-o" required=True)
 
+    # TODO: add maybe also silhouette analysis
+    # (http://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html)
     # k_means_clustering_elbow_parser = subparsers.add_parser("k_means_clustering_elbow")
     # k_means_clustering_elbow_parser.set_defaults(func=generate_k_means_clustering_elbow)
     # k_means_clustering_elbow_parser.add_argument("--count_table", "-c", required=True)
