@@ -9,19 +9,21 @@ def normalized_count_table(
         feature_count_table, feature_count_start_column,
         ref_feature_count_table, ref_feature_count_start_column,
         normalized_table, size_factor_table):
-
     ref_feature_count_table_df = pd.read_table(ref_feature_count_table)
     feauture_count_table_df = pd.read_table(feature_count_table)
-
     size_factors = _calc_size_factors(ref_feature_count_table_df,
                                       ref_feature_count_start_column)
 
 
 def _calc_size_factors(ref_feature_count_table_df,
                        ref_feature_count_start_column):
+    """
+    TODO: Documentation the calculation with formular
+
+    """
     counting_value_matrix = _extract_value_matrix(
         ref_feature_count_table_df, ref_feature_count_start_column)
-    geomeotric_mean = scipy.stats.mstats.gmean(
+    geometric_mean = scipy.stats.mstats.gmean(
         counting_value_matrix, axis=1)
 
 def _extract_value_matrix(ref_feature_count_table_df,
