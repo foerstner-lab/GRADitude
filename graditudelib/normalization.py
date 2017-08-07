@@ -9,7 +9,8 @@ def main():
     parser.add_argument("--normalized_table", required=True)
     args = parser.parse_args()
     normalized_table = pd.read_csv(args.normalized_table, sep='\t')
-    grad_rows = normalized_table[list(filter(lambda col: col.startswith("Grad"), normalized_table.columns))]
+    grad_rows = normalized_table[list(filter(lambda col:
+                                             col.startswith("Grad"), normalized_table.columns))]
     attribute_rows = normalized_table[list(filter(lambda col: "Grad" not in col, normalized_table.columns))]
     max_table = new_table_max(normalized_table)
     log2_table = new_table_log2(normalized_table)

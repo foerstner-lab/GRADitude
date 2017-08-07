@@ -10,7 +10,7 @@ def normalized_count_table(count_table, read_count_start_column,
                            reference_read_count_start_column,
                            output_file):
     count_table_df = pd.read_table(count_table)
-    _create_a_new_table(alignment_table, 'filtered_alignment_stats.csv')
+    _create_a_new_table(count_table_df, 'filtered_alignment_stats.csv')
     csv_file = read_filtered_alignment_stats(config.OUTPUT_DIR + 'filtered_alignment_stats.csv')
     g_mean = geometric_mean_by_row(csv_file)
     normalized_table = divide_rows_by_geometric_mean(csv_file, g_mean)
