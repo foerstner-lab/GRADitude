@@ -28,9 +28,9 @@ def silhouette(table):
         s.append(silhouette_score(table, labels, metric='euclidean'))
 
     plt.plot(s)
-    plt.ylabel("Silouette")
+    plt.ylabel("Silhouette")
     plt.xlabel("k")
-    plt.title("Silouette for K-means behaviour")
-    plt.savefig('silouette.png')
+    plt.title("Silhouette for K-means behaviour")
+    plt.savefig('silhouette.png')
 
 main()

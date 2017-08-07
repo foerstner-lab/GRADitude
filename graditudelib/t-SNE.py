@@ -11,7 +11,7 @@ from bokeh.models import WheelZoomTool, TapTool, OpenURL
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__description__)
+    parser = argparse.ArgumentParser()
     parser.add_argument("input_file")
     parser.add_argument("output_file")
     parser.add_argument("normalization_method")
