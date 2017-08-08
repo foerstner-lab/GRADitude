@@ -13,11 +13,11 @@ def main():
     normalize_parser = subparsers.add_parser("normalize")
     normalize_parser.set_defaults(func=normalize_table)
     normalize_parser.add_argument('--feature_count_table', '-c', required=True)
-    normalize_parser.add_argument('--feature_count_start_column', default=1)
+    normalize_parser.add_argument('--feature_count_start_columlsn', default=1)
     normalize_parser.add_argument("--ref_feature_count_table", "-r", required=True)
     normalize_parser.add_argument("--ref_feature_count_start_column", default=1)
-    normalize_parser.add_argument("--normalized_table", "-o", required=True)
-    normalize_parser.add_argument("--size_factor_table", "-s", default=None)
+    #normalize_parser.add_argument("--normalized_table", "-o", required=True)
+    #normalize_parser.add_argument("--size_factor_table", "-s", default=None)
 
     # For each fraction generate/write
     # - Histogram 
