@@ -25,19 +25,22 @@ def test_extract_value_matrix():
 
 def test_geometric_means():
     numpy.testing.assert_array_almost_equal(
-        normalize._geometric_means(_generate_data_frame()[["A", "B", "C", "D"]]),
+        normalize._geometric_means(
+            _generate_data_frame()[["A", "B", "C", "D"]]),
         np.array([3.363586, 2.44949, 0]))
 
 
 def test_multiply_geometric_means_with_value_matrix():
     pandas.util.testing.assert_frame_equal(
         normalize._multiply_geometric_means_with_value_matrix(
-            _generate_data_frame()[["A", "B", "C", "D"]], np.array([3.363586, 2.44949, 0])),
+            _generate_data_frame()[["A", "B", "C", "D"]],
+            np.array([3.363586, 2.44949, 0])),
         pd.DataFrame({'A': [0.594603, 0.816496], 'B': [1.189207, 2.449489],
                       'C': [2.378414, 1.224745], 'D': [0.594603, 0.408248]},
                      index=list('ab')))
 
 
 def test_calc_size_factors():
-    pd.util.testing.assert_series_equal(normalize._calc_size_factors(_generate_data_frame(), 1),
-                                        pd.Series([0.891905336252, 1.02062072616], index=list('ab')))
+    pd.util.testing.assert_series_equal(
+        normalize._calc_size_factors(_generate_data_frame(), 1),
+        pd.Series([0.891905336252, 1.02062072616], index=list('ab')))
