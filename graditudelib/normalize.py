@@ -1,8 +1,5 @@
-from graditudelib import config
 import pandas as pd
 import scipy.stats.mstats
-import numpy as np
-import os
 
 
 def normalized_count_table(
@@ -29,11 +26,13 @@ def _calc_size_factors(ref_feature_count_table_df,
     counting_value_matrix = _extract_value_matrix(
         ref_feature_count_table_df, ref_feature_count_start_column)
     geometric_means = _geometric_means(counting_value_matrix)
-    scaled_counting_value_matrix = _multiply_geometric_means_with_value_matrix(counting_value_matrix, geometric_means)
+    scaled_counting_value_matrix = _multiply_geometric_means_with_value_matrix(
+        counting_value_matrix, geometric_means)
     return scaled_counting_value_matrix.median(axis=1)
 
 
-def _multiply_geometric_means_with_value_matrix(counting_value_matrix, geometric_means):
+def _multiply_geometric_means_with_value_matrix(counting_value_matrix,
+                                                geometric_means):
     """Before the multiplication remove rows where the geometric mean is 0"""
     nonzero = geometric_means != 0.0
     nonzero_geometric_mean = geometric_means[nonzero]
