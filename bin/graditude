@@ -110,7 +110,7 @@ def main():
 
 
 def normalize_table(args):
-    normalize.normalize_count_table(
+    normalize.normalized_count_table(
         args.feature_count_table, args.feature_count_start_column,
         args.ref_feature_count_table, args.ref_feature_count_start_column,
         args.normalized_table, args.size_factor_table)
