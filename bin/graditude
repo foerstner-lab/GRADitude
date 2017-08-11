@@ -3,6 +3,7 @@
 import argparse
 from graditudelib import normalize
 from graditudelib import visualizing_kinetics
+from graditudelib import k_means_clustering
 
 
 def main():
@@ -51,12 +52,14 @@ def main():
 
     # TODO: add maybe also silhouette analysis
     # (http://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html)
-    # k_means_clustering_elbow_parser = subparsers.add_parser("k_means_clustering_elbow")
-    # k_means_clustering_elbow_parser.set_defaults(func=generate_k_means_clustering_elbow)
-    # k_means_clustering_elbow_parser.add_argument("--feature_count_table", "-c", required=True)
-    # k_means_clustering_elbow_parser.add_argument("--output_file", "-o" required=True)
-    # k_means_clustering_elbow_parser.add_argument("--min_number_of_clusters", required=True, type=int)
-    # k_means_clustering_elbow_parser.add_argument("--max_number_of_clusters", required=True, type=int)
+    k_means_clustering_elbow_parser = subparsers.add_parser("k_means_clustering_elbow")
+    k_means_clustering_elbow_parser.set_defaults(func=generate_k_means_clustering_elbow)
+    k_means_clustering_elbow_parser.add_argument('--feature_count_start_column', default=1)
+    k_means_clustering_elbow_parser.add_argument("--feature_count_table", "-c", required=True)
+    k_means_clustering_elbow_parser.add_argument("--output_file", "-o", required=True)
+    k_means_clustering_elbow_parser.add_argument("--min_number_of_clusters", required=True, type=int)
+    k_means_clustering_elbow_parser.add_argument("--max_number_of_clusters", required=True, type=int)
+    k_means_clustering_elbow_parser.add_argument("--number_of_clusters", required=True, type=int)
     # k_means_clustering_elbow_parser.add_argument(
     #     "--scaling_method", required=True,
     #     choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
@@ -123,6 +126,16 @@ def plot_kinetics(args):
     visualizing_kinetics.plot_kinetics(
         args.feature_count_table, args.gene_name, args.feature_count_start_column,
         args.output_format)
+
+
+def generate_k_means_clustering_elbow(args):
+    k_means_clustering.generate_k_means_clustering_elbow(args.feature_count_table,
+                                                         args.number_of_clusters,
+                                                         args.feature_count_start_column,
+                                                         #args.min_number_of_clusters,
+                                                         #args.max_number_of_clusters
+                                                         args.output_file)
+
 
 # def k_means_clustering(args):
 #     k_means_clustering(args.normalized_ERCC_table)
