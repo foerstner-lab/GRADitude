@@ -1,11 +1,9 @@
 import pandas as pd
 import numpy as np
+import pytest
 import numpy.testing
 import pandas.util.testing
 from graditudelib import normalize
-from graditudelib import visualizing_kinetics
-from graditudelib import k_means_clustering
-
 
 
 def _generate_data_frame():
@@ -22,7 +20,7 @@ def test_extract_value_matrix():
     pd.util.testing.assert_frame_equal(
         normalize._extract_value_matrix(_generate_data_frame(), 1),
         pd.DataFrame(
-            {'A': [1, 2, 3], 'B': [4, 5, 6], 'C': [8, 1, 3], 'D': [2, 1, 6]},
+            {'A': [2, 2, 0], 'B': [4, 6, 0], 'C': [8, 3, 0], 'D': [2, 1, 0]},
             index=list('abc'))[["A", "B", "C", "D"]])
 
 
@@ -46,37 +44,11 @@ def test_multiply_geometric_means_with_value_matrix():
 def test_calc_size_factors():
     pd.util.testing.assert_series_equal(
         normalize._calc_size_factors(_generate_data_frame(), 1),
-        pd.Series([0.891905336252, 1.02062072616], index=list('ab')))
+        pd.Series([0.7055495, 1.819348, 1.8015795, 0.5014255], index=list('ABCD')))
 
 
-# def test_run_normalize():
-#     normalize.normalized_count_table(
-#         "../data/gene_wise_quantifications_combined_extended_test.csv",
-#         13,
-#         "../data/filtered_alignment_stats.csv",
-#         1,
-#         "normalized_table.csv",
-#         "size_factor_table.csv",
-#     )
-#
-#
-# def test_run_visualizing_kinetics():
-#     visualizing_kinetics.plot_kinetics(
-#         "../data/gene_wise_quantifications_combined_extended_test.csv",
-#         'chiX',
-#         13,
-#         '.html')
+def test_normalize_by_size_factor():
+    normalize._normalize_by_size_factor(_generate_data_frame(), 1,  pd.Series([1, 2, 3, 4]))
 
 
-def test_run_k_means_clustering():
-    k_means_clustering.generate_k_means_clustering_elbow(
-        "../data/normalized_by_max_value.csv",
-        12,
-        7,
-        'normalized_table_by_max_value_with_clustering.csv')
-
-
-# test_run_normalize()
-# test_run_visualizing_kinetics()
-test_run_k_means_clustering()
 
