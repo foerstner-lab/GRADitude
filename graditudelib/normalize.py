@@ -14,15 +14,32 @@ def normalized_count_table(
     size_factors = _calc_size_factors(ref_feature_count_table_df,
                                       ref_feature_count_start_column)
 
-    _get_normalized_table(feature_count_table_df,
-                          feature_count_start_column,
-                          size_factors).to_csv(normalized_table, sep='\t', index=None)
+    attributes_table = pd.DataFrame(_extract_attributes(feature_count_table_df,
+                                                        feature_count_start_column))
+
+    value_tables = pd.DataFrame(_get_normalized_table(feature_count_table_df,
+                                                      feature_count_start_column,
+                                                      size_factors))
+
+    normalized_table_df = pd.concat([attributes_table,
+                                     value_tables], axis=1)
+    normalized_table_df.to_csv(normalized_table, sep='\t', index=None)
     size_factors.to_csv(size_factor_table, sep='\t', header=['size_factors'])
 
 
-def _extract_value_matrix(ref_feature_count_table_df,
-                          ref_feature_count_start_column):
+def _extract_value_matrix(feature_count_table_df,
+                          feature_count_start_column):
+    return feature_count_table_df.iloc[:, int(feature_count_start_column):]
+
+
+def _extract_value_matrix_ref(ref_feature_count_table_df,
+                              ref_feature_count_start_column):
     return ref_feature_count_table_df.iloc[:, ref_feature_count_start_column:]
+
+
+def _extract_attributes(feature_count_table_df,
+                        feature_count_start_column):
+    return feature_count_table_df.iloc[:, : int(feature_count_start_column)-1]
 
 
 def _calc_size_factors(ref_feature_count_table_df,
