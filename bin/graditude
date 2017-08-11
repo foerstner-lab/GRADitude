@@ -2,6 +2,7 @@
 
 import argparse
 from graditudelib import normalize
+from graditudelib import visualizing_kinetics
 
 
 def main():
@@ -13,11 +14,11 @@ def main():
     normalize_parser = subparsers.add_parser("normalize")
     normalize_parser.set_defaults(func=normalize_table)
     normalize_parser.add_argument('--feature_count_table', '-c', required=True)
-    normalize_parser.add_argument('--feature_count_start_columlsn', default=1)
+    normalize_parser.add_argument('--feature_count_start_column', default=1)
     normalize_parser.add_argument("--ref_feature_count_table", "-r", required=True)
     normalize_parser.add_argument("--ref_feature_count_start_column", default=1)
-    #normalize_parser.add_argument("--normalized_table", "-o", required=True)
-    #normalize_parser.add_argument("--size_factor_table", "-s", default=None)
+    normalize_parser.add_argument("--normalized_table", "-o", required=True)
+    normalize_parser.add_argument("--size_factor_table", "-s", default=None)
 
     # For each fraction generate/write
     # - Histogram 
@@ -29,12 +30,14 @@ def main():
     # generate_table_stats_parser.add_argument("--feature_count_table", "-c", required=True)
     # generate_table_stats_parser.add_argument("--output_file", "-o" required=True)
 
-    # plot_kinetics_parser = subparsers.add_parser("plot_kinetics")
-    # plot_kinetics_parser.set_defaults(func=plot_kinetics)
-    # plot_kinetics_parser.add_argument("--feature_count_table", "-c", required=True)
-    # plot_kinetics_parser.add_argument("--output_file", "-o" required=True)
-    # plot_kinetics_parser.add_argument("--output_format", choices=["html", "pdf"],
-    # default="html")
+    plot_kinetics_parser = subparsers.add_parser("plot_kinetics")
+    plot_kinetics_parser.set_defaults(func=plot_kinetics)
+    plot_kinetics_parser.add_argument("--feature_count_table", "-c", required=True)
+    plot_kinetics_parser.add_argument("--gene_name", "-c", required=True)
+    plot_kinetics_parser.add_argument('--feature_count_start_column', default=1)
+    #plot_kinetics_parser.add_argument("--output_plot", "-o", required=True)
+    plot_kinetics_parser.add_argument("--output_format", choices=["html", "pdf"],
+                                      default="html")
     
     # k_means_clustering_parser = subparsers.add_parser("k_means_clustering")
     # k_means_clustering_parser.set_defaults(func=k_means_clustering)
@@ -114,6 +117,12 @@ def normalize_table(args):
         args.feature_count_table, args.feature_count_start_column,
         args.ref_feature_count_table, args.ref_feature_count_start_column,
         args.normalized_table, args.size_factor_table)
+
+
+def plot_kinetics(args):
+    visualizing_kinetics.plot_kinetics(
+        args.feature_count_table, args.gene_name, args.feature_count_start_column,
+        args.output_format)
 
 # def k_means_clustering(args):
 #     k_means_clustering(args.normalized_ERCC_table)
