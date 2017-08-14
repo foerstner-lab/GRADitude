@@ -47,9 +47,8 @@ def test_calc_size_factors():
         pd.Series([0.7055495, 1.819348, 1.8015795, 0.5014255], index=list('ABCD')))
 
 
-# def test_normalize_by_size_factor():
-#     pandas.util.testing.assert_frame_equal(normalize._normalize_by_size_factor(_generate_data_frame(),
-#                                                                                1,  pd.Series([1, 2, 3, 4])))
+def test_normalize_by_size_factor():
+    normalize._normalize_by_size_factor(_generate_data_frame(), 1,  pd.Series([1, 2, 3, 4]))
 
 
 

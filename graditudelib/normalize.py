@@ -13,16 +13,8 @@ def normalized_count_table(
     feature_count_table_df = pd.read_table(feature_count_table)
     size_factors = _calc_size_factors(ref_feature_count_table_df,
                                       ref_feature_count_start_column)
-
-    attributes_table = pd.DataFrame(_extract_attributes(feature_count_table_df,
-                                                        feature_count_start_column))
-
-    value_tables = pd.DataFrame(_get_normalized_table(feature_count_table_df,
-                                                      feature_count_start_column,
-                                                      size_factors))
-
-    normalized_table_df = pd.concat([attributes_table,
-                                     value_tables], axis=1)
+    normalized_table_df = _normalize_by_size_factor(feature_count_table_df,
+                                                    feature_count_start_column, size_factors)
     normalized_table_df.to_csv(normalized_table, sep='\t', index=None)
     size_factors.to_csv(size_factor_table, sep='\t', header=['size_factors'])
 
@@ -39,12 +31,11 @@ def _extract_value_matrix_ref(ref_feature_count_table_df,
 
 def _extract_attributes(feature_count_table_df,
                         feature_count_start_column):
-    return feature_count_table_df.iloc[:, : int(feature_count_start_column)-1]
+    return feature_count_table_df.iloc[:, : int(feature_count_start_column)]
 
 
 def _calc_size_factors(ref_feature_count_table_df,
                        ref_feature_count_start_column):
-
     # TODO: Documentation the calculation with formula
     counting_value_matrix = _extract_value_matrix(
         ref_feature_count_table_df, ref_feature_count_start_column)
@@ -67,8 +58,11 @@ def _geometric_means(counting_value_matrix):
     return scipy.stats.mstats.gmean(counting_value_matrix, axis=1)
 
 
-def _get_normalized_table(feature_counting_table_df,
-                          feature_count_start_column, size_factor):
-    counting_value_matrix = _extract_value_matrix(feature_counting_table_df,
-                                                  feature_count_start_column)
-    return counting_value_matrix.divide(size_factor)
+def _normalize_by_size_factor(feature_counting_table_df,
+                              feature_count_start_column, size_factor):
+    df = feature_counting_table_df.copy()
+    value_columns = df.columns[feature_count_start_column:]
+    df[value_columns] = df[value_columns].divide(list(size_factor), axis=1)
+    return df
+
+
