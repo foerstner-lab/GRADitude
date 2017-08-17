@@ -3,7 +3,7 @@
 import argparse
 from graditudelib import normalize
 from graditudelib import visualizing_kinetics
-from graditudelib import k_means_clustering
+from graditudelib import k_means
 from graditudelib import elbow_curve
 
 
@@ -37,19 +37,20 @@ def main():
     plot_kinetics_parser.add_argument("--feature_count_table", "-c", required=True)
     plot_kinetics_parser.add_argument("--gene_name", "-c", required=True)
     plot_kinetics_parser.add_argument('--feature_count_start_column', default=1)
-    #plot_kinetics_parser.add_argument("--output_plot", "-o", required=True)
+    plot_kinetics_parser.add_argument("--output_plot", "-o", required=True)
     plot_kinetics_parser.add_argument("--output_format", choices=["html", "pdf"],
                                       default="html")
     
-    # k_means_clustering_parser = subparsers.add_parser("k_means_clustering")
-    # k_means_clustering_parser.set_defaults(func=k_means_clustering)
-    # k_means_clustering_parser.add_argument("--feature_count_table", required=True)
-    # k_means_clustering_parser.add_argument(
-    #     "--scaling_method", required=True,
-    #     choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
-    # k_means_clustering_parser.add_argument("--pseudo_count", type=float, default=0.0)
-    # k_means_clustering_parser.add_argument("--number_of_clusters", required=True, type=int)
-    # k_means_clustering_parser.add_argument("--output_file", "-o", required=True)
+    k_means_clustering_parser = subparsers.add_parser("k_means_clustering")
+    k_means_clustering_parser.set_defaults(func=k_means_clustering)
+    k_means_clustering_parser.add_argument("--feature_count_table", required=True)
+    k_means_clustering_parser.add_argument("--feature_count_start_column', default=1")
+    k_means_clustering_parser.add_argument(
+        "--scaling_method", required=True,
+        choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
+    k_means_clustering_parser.add_argument("--pseudo_count", type=float, default=0.0)
+    k_means_clustering_parser.add_argument("--number_of_clusters", required=True, type=int)
+    k_means_clustering_parser.add_argument("--output_file", "-o", required=True)
 
     k_means_clustering_elbow_parser = subparsers.add_parser("k_means_clustering_elbow")
     k_means_clustering_elbow_parser.set_defaults(func=generate_k_means_clustering_elbow)
@@ -121,11 +122,12 @@ def plot_kinetics(args):
         args.output_format)
 
 
-def generate_k_means_clustering(args):
-    k_means_clustering.generate_k_means_clustering(args.feature_count_table,
-                                                   args.number_of_clusters,
-                                                   args.feature_count_start_column,
-                                                   args.output_file)
+def k_means_clustering(args):
+    k_means.generate_k_means_clustering(args.feature_count_table,
+                                        args.number_of_clusters,
+                                        args.feature_count_start_column,
+                                        args.output_file,
+                                        args.scaling_method, args.pseudo_count)
 
 
 def generate_k_means_clustering_elbow(args):
@@ -133,16 +135,6 @@ def generate_k_means_clustering_elbow(args):
                                          args.min_number_of_clusters,
                                          args.max_number_of_clusters,
                                          args.output_plot)
-
-
-# def k_means_clustering(args):
-#     k_means_clustering(args.normalized_ERCC_table)
-#     k_means_clustering(args.un_normalized_table)
-#     k_means_clustering(args.normalized_by_max_value)
-#
-#
-# def plot_kinetics(args):
-#     plot_kinetics(args.tables_with_clusters)
 
 
 main()
