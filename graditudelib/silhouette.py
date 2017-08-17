@@ -20,15 +20,16 @@ def _extract_value_matrix(feature_count_table_df,
 
 def silhouette_plot(value_matrix, min_number_of_clusters,
                     max_number_of_clusters):
-    s = []
+    silhouette = []
     for n_clusters in range(int(min_number_of_clusters), int(max_number_of_clusters)):
         kmeans = KMeans(n_clusters=n_clusters)
         kmeans.fit(value_matrix)
         centroids = kmeans.cluster_centers_
         labels = kmeans.labels_
-        s.append(silhouette_score(value_matrix, labels, metric='euclidean'))
+        silhouette.append(silhouette_score(
+            value_matrix, labels, metric='euclidean'))
 
-    plt.plot(s)
+    plt.plot(silhouette)
     plt.ylabel("Silhouette")
     plt.xlabel("k")
     plt.title("Silhouette for K-means behaviour")

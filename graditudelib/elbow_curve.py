@@ -5,14 +5,15 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
 
-def k_means_clustering_elbow(feature_count_table, feature_count_start_column, min_number_of_clusters,
-                             max_number_of_clusters):
+def k_means_clustering_elbow(feature_count_table, feature_count_start_column,
+                             min_number_of_clusters, max_number_of_clusters):
 
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
     elbow_methods(value_matrix, min_number_of_clusters, max_number_of_clusters)
-    elbow_methods1(value_matrix, min_number_of_clusters, max_number_of_clusters)
+    elbow_methods1(value_matrix, min_number_of_clusters,
+                   max_number_of_clusters)
 
 
 def elbow_methods(value_matrix, min_number_of_clusters,
