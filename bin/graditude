@@ -13,6 +13,7 @@ def main():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(help="commands")
 
+
     # Currently done with DESeq2's approach - maybe add further options
     # TODO: add filter for min row sum (and/or min average number in row etc)
     normalize_parser = subparsers.add_parser("normalize")
@@ -37,12 +38,12 @@ def main():
     plot_kinetics_parser = subparsers.add_parser("plot_kinetics")
     plot_kinetics_parser.set_defaults(func=plot_kinetics)
     plot_kinetics_parser.add_argument("--feature_count_table", "-c", required=True)
-    plot_kinetics_parser.add_argument("--gene_name", "-c", required=True)
+    plot_kinetics_parser.add_argument("--gene_name", "-g", required=True)
     plot_kinetics_parser.add_argument('--feature_count_start_column', default=1)
     plot_kinetics_parser.add_argument("--output_plot", "-o", required=True)
     plot_kinetics_parser.add_argument("--output_format", choices=["html", "pdf"],
                                       default="html")
-    
+
     k_means_clustering_parser = subparsers.add_parser("k_means_clustering")
     k_means_clustering_parser.set_defaults(func=k_means_clustering)
     k_means_clustering_parser.add_argument("--feature_count_table", required=True)
@@ -62,11 +63,10 @@ def main():
 
     silhouette_parser = subparsers.add_parser("silhouette_analysis")
     silhouette_parser.set_defaults(func=silhouette_analysis)
-    k_means_clustering_parser.add_argument("--feature_count_table", required=True)
-    k_means_clustering_parser.add_argument("--feature_count_start_column", default=1)
-    k_means_clustering_elbow_parser.add_argument("--min_number_of_clusters", required=True, type=int)
-    k_means_clustering_elbow_parser.add_argument("--max_number_of_clusters", required=True, type=int)
-
+    silhouette_parser.add_argument("--feature_count_table", required=True)
+    silhouette_parser.add_argument("--feature_count_start_column", default=1)
+    silhouette_parser.add_argument("--min_number_of_clusters", required=True, type=int)
+    silhouette_parser.add_argument("--max_number_of_clusters", required=True, type=int)
     
     # hierachical_clustering_parser = subparsers.add_parser("hierachical_clustering")
     # hierachical_clustering_parser.set_defaults(func=run_hierachical_clustering)
