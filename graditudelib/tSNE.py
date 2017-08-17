@@ -2,7 +2,7 @@
 import pandas as pd
 from sklearn.manifold import TSNE
 import numpy as np
-from bokeh.plotting import figure, output_file, save, ColumnDataSource
+from bokeh.plotting import figure, save, ColumnDataSource
 from bokeh.models import HoverTool, BoxZoomTool, ResetTool, PanTool
 from bokeh.models import WheelZoomTool, TapTool, OpenURL
 import bokeh.palettes
@@ -13,7 +13,8 @@ def t_sne_analysis(feature_count_table, feature_count_start_column,
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
-    normalized_values = normalize_values(value_matrix, scaling_method, pseudo_count)
+    normalized_values = normalize_values(
+        value_matrix, scaling_method, pseudo_count)
     t_sne_results = perform_t_sne(normalized_values)
     plot(feature_count_table_df, t_sne_results)
 
@@ -59,15 +60,15 @@ def plot(read_counting_table, tsne_result):
 
     read_counting_table["Attributes_split"] = \
         read_counting_table["Attributes"].apply(lambda attr: dict(
-        [key_value_pair.split("=")
-         for key_value_pair in attr.split(";")]))
-#
+            [key_value_pair.split("=")
+             for key_value_pair in attr.split(";")]))
+
     hower_data = dict(
         x=read_counting_table["t-SNE-component_1"],
         y=read_counting_table["t-SNE-component_2"],
         feature=read_counting_table["Feature"],
         cluster_label=read_counting_table["Cluster_label"])
-#
+
     for feature in ["gene", "product", "ID", "type", "ncrna_class",
                     "sRNA_type", "Name", "pseudo"]:
         read_counting_table[feature] = \
