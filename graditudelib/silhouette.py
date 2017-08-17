@@ -1,36 +1,46 @@
-
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.metrics import silhouette_score
-import argparse
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--normalized_table", required=True)
-    args = parser.parse_args()
-    normalized_table = pd.read_csv(args.normalized_table, sep='\t')
-    read_countings_values_only = normalized_table[list(filter(
-        lambda col: col.startswith("Grad"), normalized_table.columns))]
-    silhouette(read_countings_values_only)
+def silhouette_analysis(feature_count_table, feature_count_start_column,
+                        min_number_of_clusters, max_number_of_clusters):
+    feature_count_table_df = pd.read_table(feature_count_table)
+    value_matrix = _extract_value_matrix(feature_count_table_df,
+                                         feature_count_start_column)
+    silhouette_plot(value_matrix, min_number_of_clusters, max_number_of_clusters)
+    score(value_matrix, min_number_of_clusters, max_number_of_clusters)
 
 
-def silhouette(table):
+def _extract_value_matrix(feature_count_table_df,
+                          feature_count_start_column):
+    return feature_count_table_df.iloc[:, int(feature_count_start_column):]
+
+
+def silhouette_plot(value_matrix, min_number_of_clusters,
+                    max_number_of_clusters):
     s = []
-    for n_clusters in range(2, 10):
+    for n_clusters in range(int(min_number_of_clusters), int(max_number_of_clusters)):
         kmeans = KMeans(n_clusters=n_clusters)
-        kmeans.fit(table)
-
-        labels = kmeans.labels_
+        kmeans.fit(value_matrix)
         centroids = kmeans.cluster_centers_
-
-        s.append(silhouette_score(table, labels, metric='euclidean'))
+        labels = kmeans.labels_
+        s.append(silhouette_score(value_matrix, labels, metric='euclidean'))
 
     plt.plot(s)
     plt.ylabel("Silhouette")
     plt.xlabel("k")
     plt.title("Silhouette for K-means behaviour")
-    plt.savefig('silhouette.png')
+    plt.savefig('silhouette.pdf')
 
-main()
+
+def score(value_matrix, min_number_of_clusters,
+          max_number_of_clusters):
+    for n_clusters in range(int(min_number_of_clusters), int(max_number_of_clusters)):
+        clusterer = KMeans(n_clusters=n_clusters, random_state=10)
+        cluster_labels = clusterer.fit_predict(value_matrix)
+        silhouette_avg = silhouette_score(value_matrix, cluster_labels)
+        print("For n_clusters =", n_clusters,
+              "The average silhouette_score is :", silhouette_avg)
+

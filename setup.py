@@ -17,7 +17,8 @@ setup(
         "matplotlib == 2.0.2",
         "pandas == 0.20.1",
         "numpy == 1.11.3",
-        "scipy == 0.19.0"
+        "scipy == 0.19.0",
+        "scikit-learn == 0.18.1"
     ],
     scripts=['bin/GRADitude'],
     license='ISC License (ISCL)',

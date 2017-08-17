@@ -5,6 +5,8 @@ from graditudelib import normalize
 from graditudelib import visualizing_kinetics
 from graditudelib import k_means
 from graditudelib import elbow_curve
+from graditudelib import silhouette
+from graditudelib import tSNE
 
 
 def main():
@@ -44,7 +46,7 @@ def main():
     k_means_clustering_parser = subparsers.add_parser("k_means_clustering")
     k_means_clustering_parser.set_defaults(func=k_means_clustering)
     k_means_clustering_parser.add_argument("--feature_count_table", required=True)
-    k_means_clustering_parser.add_argument("--feature_count_start_column', default=1")
+    k_means_clustering_parser.add_argument("--feature_count_start_column" , default=1)
     k_means_clustering_parser.add_argument(
         "--scaling_method", required=True,
         choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
@@ -55,9 +57,16 @@ def main():
     k_means_clustering_elbow_parser = subparsers.add_parser("k_means_clustering_elbow")
     k_means_clustering_elbow_parser.set_defaults(func=generate_k_means_clustering_elbow)
     k_means_clustering_elbow_parser.add_argument("--count_table", "-c", required=True)
-    k_means_clustering_elbow_parser.add_argument("--output_file", "-o", required=True)
     k_means_clustering_elbow_parser.add_argument("--min_number_of_clusters", required=True, type=int)
     k_means_clustering_elbow_parser.add_argument("--max_number_of_clusters", required=True, type=int)
+
+    silhouette_parser = subparsers.add_parser("silhouette_analysis")
+    silhouette_parser.set_defaults(func=silhouette_analysis)
+    k_means_clustering_parser.add_argument("--feature_count_table", required=True)
+    k_means_clustering_parser.add_argument("--feature_count_start_column", default=1)
+    k_means_clustering_elbow_parser.add_argument("--min_number_of_clusters", required=True, type=int)
+    k_means_clustering_elbow_parser.add_argument("--max_number_of_clusters", required=True, type=int)
+
     
     # hierachical_clustering_parser = subparsers.add_parser("hierachical_clustering")
     # hierachical_clustering_parser.set_defaults(func=run_hierachical_clustering)
@@ -81,17 +90,18 @@ def main():
     # Can either be done on the normalized count table or on the table
     # with k-means cluster. In the later case the dots are colorized
     # by the cluster id.
-    # t_sne_parser = subparsers.add_parser("t_sne")
-    # t_sne_parser.set_defaults(func=run_t_sena)
-    # t_sne_parser.add_argument("--feature_count_table", required=True)
-    # t_sne_parser.add_argument("--output_format", choices=["html", "pdf"],
-    # default="html")
-    # t_sne_parser.add_argument("--output_file", "-o" required=True)
-    # t_sne_parser.add_argument(
-    #     "--scaling_method", required=True,
-    #     choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
-    # t_sne_parser.add_argument("--pseudo_count", type=float, default=0.0)
-    
+    t_sne_parser = subparsers.add_parser("t_sne")
+    t_sne_parser.set_defaults(func=run_t_sne)
+    t_sne_parser.add_argument("--feature_count_table", required=True)
+    t_sne_parser.add_argument("--feature_count_start_column", default=1)
+    t_sne_parser.add_argument("--output_format", choices=["html", "pdf"],
+    default="html")
+    t_sne_parser.add_argument("--output_file", "-o", required=True)
+    t_sne_parser.add_argument(
+        "--scaling_method", required=True,
+        choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
+    t_sne_parser.add_argument("--pseudo_count", type=float, default=0.0)
+
     
     # version_parser = subparsers.add_parser("version")
     # version_parser.set_defaults(func=show_version)
@@ -135,6 +145,21 @@ def generate_k_means_clustering_elbow(args):
                                          args.min_number_of_clusters,
                                          args.max_number_of_clusters,
                                          args.output_plot)
+
+
+def silhouette_analysis(args):
+    silhouette.silhouette_analysis(args.feature_count_table,
+                                   args.feature_count_start_column,
+                                   args.min_number_of_clusters,
+                                   args.max_number_of_clusters)
+
+
+def run_t_sne(args):
+    tSNE.t_sne_analysis(args.feature_count_table,
+                        args.feature_count_start_column,
+                        args.pseudo_count,
+                        args.scaling_method,
+                        args.output_format)
 
 
 main()
