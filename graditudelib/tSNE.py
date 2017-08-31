@@ -9,14 +9,14 @@ import bokeh.palettes
 
 
 def t_sne_analysis(feature_count_table, feature_count_start_column,
-                   pseudo_count, scaling_method, output_format):
+                   pseudo_count, scaling_method, output_format, file_output):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
     normalized_values = normalize_values(
         value_matrix, scaling_method, pseudo_count)
     t_sne_results = perform_t_sne(normalized_values)
-    plot(feature_count_table_df, t_sne_results)
+    plot(feature_count_table_df, t_sne_results, output_format, file_output)
 
 
 def _extract_value_matrix(feature_count_table_df,
@@ -53,8 +53,8 @@ def perform_t_sne(normalized_values):
     tsne_result = model.fit_transform(normalized_values)
     return tsne_result
 
-    
-def plot(read_counting_table, tsne_result):
+
+def plot(read_counting_table, tsne_result, output_format, file_output):
     read_counting_table["t-SNE-component_1"] = [pos[0] for pos in tsne_result]
     read_counting_table["t-SNE-component_2"] = [pos[1] for pos in tsne_result]
 
@@ -119,14 +119,3 @@ def plot(read_counting_table, tsne_result):
     save(p)
 
 
-def _color(row, srnas_and_list_names):
-    color = {"CDS": "#BDBDBD", "ncRNA": "#FF4D4D", "tRNA": "#EBB000",
-             "rRNA": "#8080FF", "tmRNA": "#3D3D3D"}[row["Feature"]]
-    sRNA_cluster_color = {"sRNA_cluster_1": "#33CCFF",
-                          "sRNA_cluster_2": "#000000",
-                          "sRNA_cluster_3": "#D600D6"}
-    for feature in ["ID", "Name", "gene"]:
-        if row[feature] in srnas_and_list_names:
-            color = sRNA_cluster_color[
-                srnas_and_list_names[row[feature]]]
-    return color
