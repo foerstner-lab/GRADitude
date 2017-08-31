@@ -38,26 +38,23 @@ def k_means_clustering(values_matrix, number_of_clusters):
     return values_matrix
 
 
-def normalize_values(read_counting_table, scaling_method, pseudo_count):
-    pseudo_count = 1.0
-    read_countings_values_only = read_counting_table[list(filter(
-        lambda col: col.startswith("Grad_47"), read_counting_table.columns))]
+def normalize_values(values_matrix, scaling_method, pseudo_count):
     if scaling_method == "no_normalization":
-        normalized_values = read_countings_values_only
+        normalized_values = values_matrix
     elif scaling_method == "log2":
-        normalized_values = read_countings_values_only.applymap(
+        normalized_values = values_matrix.applymap(
             lambda val: val + pseudo_count).applymap(np.log2)
     elif scaling_method == "log10":
-        normalized_values = read_countings_values_only.applymap(
+        normalized_values = values_matrix.applymap(
             lambda val: val + pseudo_count).applymap(np.log10)
     elif scaling_method == "normalized_to_max":
-        row_max_values = read_countings_values_only.max(axis=1)
-        normalized_values = read_countings_values_only.divide(
+        row_max_values = values_matrix.max(axis=1)
+        normalized_values = values_matrix.divide(
             row_max_values, axis=0)
     elif scaling_method == "normalized_to_range":
-        row_max_values = read_countings_values_only.max(axis=1)
-        row_min_values = read_countings_values_only.min(axis=1)
-        normalized_values = read_countings_values_only.subtract(
+        row_max_values = values_matrix.max(axis=1)
+        row_min_values = values_matrix.min(axis=1)
+        normalized_values = values_matrix.subtract(
             row_min_values, axis=0).divide(row_max_values, axis=0)
     else:
         print("Normalization method not known")
