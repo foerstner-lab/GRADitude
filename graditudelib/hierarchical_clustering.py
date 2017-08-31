@@ -6,7 +6,8 @@ import numpy as np
 def generate_hierarchical_clustering(feature_count_table,
                                      feature_count_start_column,
                                      number_of_clusters,
-                                     output_file, scaling_method, pseudo_count):
+                                     output_file, scaling_method,
+                                     pseudo_count):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
@@ -30,11 +31,13 @@ def _extract_attributes(feature_count_table_df,
 
 def hierarchical_clustering(values_matrix, number_of_clusters):
     h_clustering = AgglomerativeClustering(n_clusters=number_of_clusters,
-                                           affinity="euclidean", linkage="ward")
+                                           affinity="euclidean",
+                                           linkage="ward")
     h_clustering.fit(values_matrix)
     labels = h_clustering.labels_
     pd.DataFrame(data=labels, columns=['cluster'])
-    values_matrix["Cluster_label"] = pd.Series(h_clustering.labels_).astype(int)
+    values_matrix["Cluster_label"] = pd.Series(
+        h_clustering.labels_).astype(int)
     return values_matrix
 
 
