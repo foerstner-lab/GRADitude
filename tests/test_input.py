@@ -3,11 +3,11 @@ from graditudelib import visualizing_kinetics
 from graditudelib import k_means
 from graditudelib import elbow_curve
 from graditudelib import silhouette
-from graditudelib import tSNE_K_means
 from graditudelib import hierarchical_clustering
 from graditudelib import DBSCAN_clustering
 from graditudelib import Nearest_Neighbors
 from graditudelib import pca_after_clustering
+from graditudelib import tSNE
 
 
 def test_run_normalize():
@@ -55,13 +55,6 @@ def test_run_silhouette_analysis():
         10)
 
 
-def test_run_t_sne_analysis():
-    tSNE_K_means.t_sne_analysis("../data/normalized_by_log10_with_clusters.csv",
-                                12,
-                                'png',
-                                'test')
-
-
 def test_run_hierarchical_clustering():
     hierarchical_clustering.generate_hierarchical_clustering(
         "../data/gene_wise_quantifications_combined_extended_test.csv",
@@ -82,22 +75,31 @@ def test_run_db_scan_clustering():
 
 def test_run_nearest_neighbors():
     Nearest_Neighbors.generate_nearest_neighbors("../data/gene_wise_quantifications_combined_extended_test.csv",
-                                                 12,)
+                                                 12, )
 
 
 def test_run_pca():
     pca_after_clustering.pca_analysis('../data/normalized_by_log10_with_clusters.csv',
-                                      12, )
+                                      12,
+                                      'pca_after_clustering.html')
 
 
+def test_run_t_sne_analysis():
+    tSNE.t_sne_analysis("../data/gene_wise_quantifications_combined_extended_test.csv",
+                        12,
+                        1,
+                        'log10',
+                        'no_cluster',
+                        'test')
 
-#test_run_normalize()
-#test_run_visualizing_kinetics()
-#test_run_k_means_clustering()
-#test_run_elbow_method()
-#test_run_silhouette_analysis()
-#test_run_t_sne_analysis()
-#test_run_hierarchical_clustering()
-#test_run_db_scan_clustering()
-#test_run_nearest_neighbors()
-test_run_pca()
+
+# test_run_normalize()
+# test_run_visualizing_kinetics()
+# test_run_k_means_clustering()
+# test_run_elbow_method()
+# test_run_silhouette_analysis()
+# test_run_hierarchical_clustering()
+# test_run_db_scan_clustering()
+# test_run_nearest_neighbors()
+#test_run_pca()
+test_run_t_sne_analysis()
