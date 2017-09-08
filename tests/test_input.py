@@ -7,7 +7,7 @@ from graditudelib import tSNE_K_means
 from graditudelib import hierarchical_clustering
 from graditudelib import DBSCAN_clustering
 from graditudelib import Nearest_Neighbors
-from graditudelib import pca_after_k_means
+from graditudelib import pca_after_clustering
 
 
 def test_run_normalize():
@@ -86,8 +86,8 @@ def test_run_nearest_neighbors():
 
 
 def test_run_pca():
-    pca_after_k_means.pca_analysis('../data/normalized_by_log10_with_clusters.csv',
-                                   12, )
+    pca_after_clustering.pca_analysis('../data/normalized_by_log10_with_clusters.csv',
+                                      12, )
 
 
 

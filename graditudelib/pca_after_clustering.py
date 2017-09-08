@@ -1,7 +1,6 @@
 from sklearn.decomposition import PCA
 from sklearn.decomposition import IncrementalPCA
 import pandas as pd
-import numpy as np
 from bokeh.plotting import figure, save, ColumnDataSource
 from bokeh.models import HoverTool, BoxZoomTool, ResetTool, PanTool
 from bokeh.models import WheelZoomTool, TapTool, OpenURL
@@ -19,29 +18,6 @@ def pca_analysis(feature_count_table, feature_count_start_column):
 def _extract_value_matrix(feature_count_table_df,
                           feature_count_start_column):
     return feature_count_table_df.iloc[:, int(feature_count_start_column):]
-
-
-def normalize_values(values_matrix, scaling_method, pseudo_count):
-    if scaling_method == "no_normalization":
-        normalized_values = values_matrix
-    elif scaling_method == "log2":
-        normalized_values = values_matrix.applymap(
-            lambda val: val + pseudo_count).applymap(np.log2)
-    elif scaling_method == "log10":
-        normalized_values = values_matrix.applymap(
-            lambda val: val + pseudo_count).applymap(np.log10)
-    elif scaling_method == "normalized_to_max":
-        row_max_values = values_matrix.max(axis=1)
-        normalized_values = values_matrix.divide(
-            row_max_values, axis=0)
-    elif scaling_method == "normalized_to_range":
-        row_max_values = values_matrix.max(axis=1)
-        row_min_values = values_matrix.min(axis=1)
-        normalized_values = values_matrix.subtract(
-            row_min_values, axis=0).divide(row_max_values, axis=0)
-    else:
-        print("Normalization method not known")
-    return normalized_values
 
 
 def perform_pca(normalized_values):
