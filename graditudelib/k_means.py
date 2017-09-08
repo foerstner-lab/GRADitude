@@ -15,7 +15,7 @@ def generate_k_means_clustering(feature_count_table,
                                            feature_count_start_column)
     clustering_table = k_means_clustering(new_table, number_of_clusters)
     pd.concat([attribute_matrix, clustering_table],
-              axis=1).to_csv(output_file, sep='\t')
+              axis=1).to_csv(output_file, sep='\t', index=None)
 
 
 def _extract_value_matrix(feature_count_table_df,
