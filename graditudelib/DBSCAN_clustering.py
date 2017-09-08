@@ -1,13 +1,11 @@
 from sklearn.cluster import DBSCAN
-from sklearn.preprocessing import StandardScaler
-import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
 
 def generate_dbscan_clustering(feature_count_table,
-                                     feature_count_start_column,
-                                     output_file, scaling_method, pseudo_count):
+                               feature_count_start_column,
+                               output_file, scaling_method, pseudo_count):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
@@ -30,9 +28,11 @@ def _extract_attributes(feature_count_table_df,
 
 
 def dbscan_clustering(values_matrix):
-    dbscan = DBSCAN(eps=0.4, min_samples=4)
-    clusters = dbscan.fit_predict(values_matrix)
+    dbscan = DBSCAN(eps=0.5, min_samples=10)
+    dbscan.fit_predict(values_matrix)
     labels = dbscan.labels_
+    n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
+    print('Estimated number of clusters: %d' % n_clusters_)
     pd.DataFrame(data=labels, columns=['cluster'])
     values_matrix["Cluster_label"] = pd.Series(dbscan.labels_).astype(int)
     return values_matrix
@@ -59,4 +59,3 @@ def normalize_values(values_matrix, scaling_method, pseudo_count):
     else:
         print("Normalization method not known")
     return normalized_values
-
