@@ -7,6 +7,8 @@ from graditudelib import k_means
 from graditudelib import elbow_curve
 from graditudelib import silhouette
 from graditudelib import tSNE
+from graditudelib import hierarchical_clustering
+from graditudelib import pca
 
 
 def main():
@@ -68,24 +70,25 @@ def main():
     silhouette_parser.add_argument("--min_number_of_clusters", required=True, type=int)
     silhouette_parser.add_argument("--max_number_of_clusters", required=True, type=int)
     
-    # hierachical_clustering_parser = subparsers.add_parser("hierachical_clustering")
-    # hierachical_clustering_parser.set_defaults(func=run_hierachical_clustering)
-    # hierachical_clustering_parser.add_argument("--feature_count_table", required=True)
-    # hierachical_clustering_parser.add_argument("--output_file", "-o", required=True)
-    # hierachical_clustering_parser.add_argument(
-    #     "--scaling_method", required=True,
-    #     choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
-    # hierachical_clustering_parserr.add_argument("--pseudo_count", type=float, default=0.0)
-    
+    hierachical_clustering_parser = subparsers.add_parser("hierachical_clustering")
+    hierachical_clustering_parser.set_defaults(func=run_hierarchical_clustering)
+    hierachical_clustering_parser.add_argument("--feature_count_table", required=True)
+    hierachical_clustering_parser.add_argument("--feature_count_start_column", required=True)
+    hierachical_clustering_parser.add_argument("--output_file", "-o", required=True)
+    hierachical_clustering_parser.add_argument("--output_format", "-o", required=True)
+    hierachical_clustering_parser.add_argument(
+        "--scaling_method", required=True,
+        choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
+    hierachical_clustering_parser.add_argument("--pseudo_count", type=float, default=0.0)
 
-    # pca_parser = subparsers.add_parser("pca")
-    # pca_parser.set_defaults(func=run_pca)
-    # pca_parser.add_argument("--feature_count_table", required=True)
-    # pca_parser.add_argument("--output_file", "-o" required=True)
-    # pca_parser.add_argument(
-    #     "--scaling_method", required=True,
-    #     choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
-    # pca_parser.add_argument("--pseudo_count", type=float, default=0.0)
+    pca_parser = subparsers.add_parser("pca")
+    pca_parser.set_defaults(func=run_pca)
+    pca_parser.add_argument("--feature_count_table", required=True)
+    pca_parser.add_argument("--output_file", "-o", required=True)
+    pca_parser.add_argument(
+        "--scaling_method", required=True,
+        choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
+    pca_parser.add_argument("--pseudo_count", type=float, default=0.0)
 
     # Can either be done on the normalized count table or on the table
     # with k-means cluster. In the later case the dots are colorized
@@ -159,7 +162,22 @@ def run_t_sne(args):
                         args.feature_count_start_column,
                         args.pseudo_count,
                         args.scaling_method,
+                        args.output_file,
                         args.output_format)
+
+
+def run_hierarchical_clustering(args):
+    hierarchical_clustering.generate_hierarchical_clustering(args.feature_count_table,
+                                                             args.feature_count_start_column,
+                                                             args.pseudo_count,
+                                                             args.scaling_method,
+                                                             args.output_file,
+                                                             args.output_format)
+
+#
+# def run_pca(args):
+#     pca
+#
 
 
 main()
