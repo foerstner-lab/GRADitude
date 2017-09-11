@@ -2,12 +2,8 @@ from sklearn.decomposition import PCA
 from sklearn.decomposition import IncrementalPCA
 import pandas as pd
 import numpy as np
-from bokeh.plotting import figure, save, ColumnDataSource
-from bokeh.models import HoverTool, BoxZoomTool, ResetTool, PanTool
-from bokeh.models import WheelZoomTool, TapTool, OpenURL
 from sklearn.cluster import KMeans
 from sklearn.cluster import AgglomerativeClustering
-import bokeh.palettes
 from sklearn.cluster import DBSCAN
 
 
@@ -22,13 +18,16 @@ def pca_analysis(feature_count_table, feature_count_start_column,
     result_pca = perform_pca(normalized_table)
     if clustering_method == 'k-means':
         table_with_attributes = k_means_clustering(result_pca, normalized_table, number_of_clusters, attribute_matrix)
+        table_with_attributes.to_csv(file_output, sep='\t', index=0)
     elif clustering_method == 'hierarchical_clustering':
         table_with_attributes = hierarchical_clustering(result_pca, normalized_table, number_of_clusters,
                                                         attribute_matrix)
+
+        table_with_attributes.to_csv(file_output, sep='\t', index=0)
     elif clustering_method == 'DBSCAN':
         table_with_attributes = dbscan_clustering(result_pca, normalized_table,
                                                   attribute_matrix)
-    plot(table_with_attributes, result_pca, file_output)
+        table_with_attributes.to_csv(file_output, sep='\t', index=0)
 
 
 def _extract_value_matrix(feature_count_table_df,
@@ -63,9 +62,11 @@ def normalize_values(values_matrix, scaling_method, pseudo_count):
         normalized_values = values_matrix.applymap(
             lambda val: val + pseudo_count).applymap(np.log10)
     elif scaling_method == "normalized_to_max":
+        values_matrix = values_matrix.fillna(lambda x: 0)
         row_max_values = values_matrix.max(axis=1)
         normalized_values = values_matrix.divide(
             row_max_values, axis=0)
+        normalized_values = pd.DataFrame(normalized_values).fillna(0)
     elif scaling_method == "normalized_to_range":
         row_max_values = values_matrix.max(axis=1)
         row_min_values = values_matrix.min(axis=1)
@@ -101,7 +102,7 @@ def hierarchical_clustering(result_pca, values_matrix, number_of_clusters, attri
 
 
 def dbscan_clustering(result_pca, values_matrix, attribute_matrix):
-    dbscan = DBSCAN(eps=0.5, min_samples=10)
+    dbscan = DBSCAN(eps=0.5, min_samples=42)
     dbscan.fit_predict(result_pca)
     labels = dbscan.labels_
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
@@ -111,61 +112,3 @@ def dbscan_clustering(result_pca, values_matrix, attribute_matrix):
     table_with_clusters = pd.concat([attribute_matrix, values_matrix],
                                     axis=1)
     return table_with_clusters
-
-
-def plot(read_counting_table, result_pca, file_output):
-    read_counting_table["t-SNE-component_1"] = [pos[0] for pos in result_pca]
-    read_counting_table["t-SNE-component_2"] = [pos[1] for pos in result_pca]
-
-    read_counting_table["Attributes_split"] = \
-        read_counting_table["Attributes"].apply(lambda attr: dict(
-            [key_value_pair.split("=")
-             for key_value_pair in attr.split(";")]))
-
-    hower_data = dict(
-        x=read_counting_table["t-SNE-component_1"],
-        y=read_counting_table["t-SNE-component_2"],
-        feature=read_counting_table["Feature"],
-        cluster_label=read_counting_table["Cluster_label"])
-
-    for feature in ["gene", "product", "ID", "type", "ncrna_class",
-                    "sRNA_type", "Name", "pseudo"]:
-        read_counting_table[feature] = \
-            read_counting_table["Attributes_split"].apply(
-                lambda attributes: attributes.get(feature, "-"))
-        hower_data[feature] = read_counting_table[feature]
-
-    source = ColumnDataSource(hower_data)
-
-    hover = HoverTool(tooltips=[
-        ("Gene", "@gene"),
-        ("Product", "@product"),
-        ("ID", "@ID"),
-        ("Type", "@type"),
-        ("Ncrna_class", "@ncrna_class"),
-        ("sRNA_type", "@sRNA_type"),
-        ("Name", "@Name"),
-        ("Pseudo", "@pseudo"),
-        ("Feature", "@feature"),
-        ("Cluster label", "@cluster_label")])
-
-    p = figure(plot_width=700, plot_height=700,
-               tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
-                      WheelZoomTool(), "tap"],
-               title="Grad-Seq t-SNE RNA-Seq", logo=None)
-
-    color_palette = bokeh.palettes.viridis(
-        len(read_counting_table["Cluster_label"].unique()))
-    color = read_counting_table["Cluster_label"].apply(
-        lambda lable: color_palette[lable])
-
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color=color)
-
-    url = "http://www.uniprot.org/uniprot/@protein_id"
-    taptool = p.select(type=TapTool)
-    taptool.callback = OpenURL(url=url)
-
-    p.xaxis.axis_label = "Component 1"
-    p.yaxis.axis_label = "Component 2"
-
-    save(p, file_output)
