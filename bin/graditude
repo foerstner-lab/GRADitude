@@ -9,12 +9,12 @@ from graditudelib import silhouette
 from graditudelib import tSNE
 from graditudelib import hierarchical_clustering
 from graditudelib import pca
+from graditudelib import scaling
 
 
 def main():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(help="commands")
-
 
     # Currently done with DESeq2's approach - maybe add further options
     # TODO: add filter for min row sum (and/or min average number in row etc)
@@ -26,6 +26,18 @@ def main():
     normalize_parser.add_argument("--ref_feature_count_start_column", default=1)
     normalize_parser.add_argument("--normalized_table", "-o", required=True)
     normalize_parser.add_argument("--size_factor_table", "-s", default=None)
+
+    scaling_parser = subparsers.add_parser("scaling")
+    scaling_parser.set_defaults(func=normalize_table)
+    scaling_parser.add_argument('--feature_count_table', '-c', required=True)
+    scaling_parser.add_argument('--feature_count_start_column', default=1)
+    scaling_parser.add_argument("--scaled_table", "-o", required=True)
+    scaling_parser.add_argument(
+        "--scaling_method", required=True,
+        choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
+    scaling_parser.add_argument("--pseudo_count", type=float, default=0.0)
+
+
 
     # For each fraction generate/write
     # - Histogram 
@@ -49,7 +61,7 @@ def main():
     k_means_clustering_parser = subparsers.add_parser("k_means_clustering")
     k_means_clustering_parser.set_defaults(func=k_means_clustering)
     k_means_clustering_parser.add_argument("--feature_count_table", required=True)
-    k_means_clustering_parser.add_argument("--feature_count_start_column" , default=1)
+    k_means_clustering_parser.add_argument("--feature_count_start_column", default=1)
     k_means_clustering_parser.add_argument(
         "--scaling_method", required=True,
         choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
@@ -69,7 +81,7 @@ def main():
     silhouette_parser.add_argument("--feature_count_start_column", default=1)
     silhouette_parser.add_argument("--min_number_of_clusters", required=True, type=int)
     silhouette_parser.add_argument("--max_number_of_clusters", required=True, type=int)
-    
+
     hierachical_clustering_parser = subparsers.add_parser("hierachical_clustering")
     hierachical_clustering_parser.set_defaults(func=run_hierarchical_clustering)
     hierachical_clustering_parser.add_argument("--feature_count_table", required=True)
@@ -84,11 +96,15 @@ def main():
     pca_parser = subparsers.add_parser("pca")
     pca_parser.set_defaults(func=run_pca)
     pca_parser.add_argument("--feature_count_table", required=True)
-    pca_parser.add_argument("--output_file", "-o", required=True)
     pca_parser.add_argument(
         "--scaling_method", required=True,
         choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
-    pca_parser.add_argument("--pseudo_count", type=float, default=0.0)
+    hierachical_clustering_parser.add_argument("--pseudo_count", type=float, default=0.0)
+    pca_parser.add_argument("--output_file", "-o", required=True)
+    pca_parser.add_argument(
+        "--clustering_methods", required=True,
+        choices=["k-means", "DBSCAN", 'hierarchical_clustering'])
+    pca_parser.add_argument("--number_of_clusters", required=True, type=int)
 
     # Can either be done on the normalized count table or on the table
     # with k-means cluster. In the later case the dots are colorized
@@ -98,14 +114,12 @@ def main():
     t_sne_parser.add_argument("--feature_count_table", required=True)
     t_sne_parser.add_argument("--feature_count_start_column", default=1)
     t_sne_parser.add_argument("--output_format", choices=["html", "pdf"],
-    default="html")
+                              default="html")
     t_sne_parser.add_argument("--output_file", "-o", required=True)
     t_sne_parser.add_argument(
-        "--scaling_method", required=True,
-        choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
-    t_sne_parser.add_argument("--pseudo_count", type=float, default=0.0)
+        "--clustering", required=True,
+        choices=["no_cluster", "with_cluster"])
 
-    
     # version_parser = subparsers.add_parser("version")
     # version_parser.set_defaults(func=show_version)
 
@@ -160,10 +174,8 @@ def silhouette_analysis(args):
 def run_t_sne(args):
     tSNE.t_sne_analysis(args.feature_count_table,
                         args.feature_count_start_column,
-                        args.pseudo_count,
-                        args.scaling_method,
-                        args.output_file,
-                        args.output_format)
+                        args.clustering,
+                        args.output_file)
 
 
 def run_hierarchical_clustering(args):
@@ -174,10 +186,21 @@ def run_hierarchical_clustering(args):
                                                              args.output_file,
                                                              args.output_format)
 
-#
-# def run_pca(args):
-#     pca
-#
+
+def run_pca(args):
+    pca.pca_analysis(args.feature_count_table,
+                     args.feature_count_start_column,
+                     args.pseudo_count,
+                     args.scaling_method,
+                     args.output_file, args.clustering_methods, args.number_of_clusters)
+
+
+def run_scaling(args):
+    scaling.scaling(args.feature_count_table,
+                    args.feature_count_start_column,
+                    args.pseudo_count,
+                    args.scaling_method,
+                    args.output_file)
 
 
 main()
