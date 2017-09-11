@@ -9,13 +9,11 @@ import bokeh.palettes
 
 
 def t_sne_analysis(feature_count_table, feature_count_start_column,
-                   pseudo_count, scaling_method, clustering, output_file):
+                   clustering, output_file):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
-    normalized_values = normalize_values(
-        value_matrix, scaling_method, pseudo_count)
-    t_sne_results = perform_t_sne(normalized_values)
+    t_sne_results = perform_t_sne(value_matrix)
     if clustering == 'with_cluster':
         plot_with_clusters(feature_count_table_df, t_sne_results, output_file)
     elif clustering == 'no_cluster':
@@ -25,29 +23,6 @@ def t_sne_analysis(feature_count_table, feature_count_start_column,
 def _extract_value_matrix(feature_count_table_df,
                           feature_count_start_column):
     return feature_count_table_df.iloc[:, int(feature_count_start_column):]
-
-
-def normalize_values(values_matrix, scaling_method, pseudo_count):
-    if scaling_method == "no_normalization":
-        normalized_values = values_matrix
-    elif scaling_method == "log2":
-        normalized_values = values_matrix.applymap(
-            lambda val: val + pseudo_count).applymap(np.log2)
-    elif scaling_method == "log10":
-        normalized_values = values_matrix.applymap(
-            lambda val: val + pseudo_count).applymap(np.log10)
-    elif scaling_method == "normalized_to_max":
-        row_max_values = values_matrix.max(axis=1)
-        normalized_values = values_matrix.divide(
-            row_max_values, axis=0)
-    elif scaling_method == "normalized_to_range":
-        row_max_values = values_matrix.max(axis=1)
-        row_min_values = values_matrix.min(axis=1)
-        normalized_values = values_matrix.subtract(
-            row_min_values, axis=0).divide(row_max_values, axis=0)
-    else:
-        print("Normalization method not known")
-    return normalized_values
 
 
 def perform_t_sne(normalized_values):
