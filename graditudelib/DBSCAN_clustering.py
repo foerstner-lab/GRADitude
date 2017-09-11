@@ -14,7 +14,7 @@ def generate_dbscan_clustering(feature_count_table,
                                            feature_count_start_column)
     clustering_table = dbscan_clustering(new_table)
     pd.concat([attribute_matrix, clustering_table],
-              axis=1).to_csv(output_file, sep='\t')
+              axis=1).to_csv(output_file, sep='\t', index=0)
 
 
 def _extract_value_matrix(feature_count_table_df,
@@ -28,7 +28,7 @@ def _extract_attributes(feature_count_table_df,
 
 
 def dbscan_clustering(values_matrix):
-    dbscan = DBSCAN(eps=0.5, min_samples=10)
+    dbscan = DBSCAN(eps=0.9, min_samples=20)
     dbscan.fit_predict(values_matrix)
     labels = dbscan.labels_
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
