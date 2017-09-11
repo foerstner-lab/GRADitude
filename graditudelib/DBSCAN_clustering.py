@@ -48,9 +48,11 @@ def normalize_values(values_matrix, scaling_method, pseudo_count):
         normalized_values = values_matrix.applymap(
             lambda val: val + pseudo_count).applymap(np.log10)
     elif scaling_method == "normalized_to_max":
+        values_matrix = values_matrix.fillna(lambda x: 0)
         row_max_values = values_matrix.max(axis=1)
         normalized_values = values_matrix.divide(
             row_max_values, axis=0)
+        normalized_values = pd.DataFrame(normalized_values).fillna(0)
     elif scaling_method == "normalized_to_range":
         row_max_values = values_matrix.max(axis=1)
         row_min_values = values_matrix.min(axis=1)
@@ -59,3 +61,4 @@ def normalize_values(values_matrix, scaling_method, pseudo_count):
     else:
         print("Normalization method not known")
     return normalized_values
+
