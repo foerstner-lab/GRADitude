@@ -11,7 +11,7 @@ def robust_regression(
     ref_feature_count_table_df = read_table(ref_feature_count_table)
     concentration_table_df = read_table_concentration(concentration_table)
     merging_dict(ref_feature_count_table_df, concentration_table_df)
-    outliers('../tests/test.csv', number_of_outliers)
+    outliers('../data/ERCC_TABLE_reads+concentration.csv', number_of_outliers)
 
 
 def read_table(ref_feature_count_table):
@@ -43,17 +43,23 @@ def merging_dict(ref_feature_count_table_dict, new_dict_for_conc_table):
             combined_dict[gradient][key] = val
         concentration_list.append(concentration)
     concentration_df = pd.DataFrame(concentration_list)
-    test = pd.DataFrame.from_dict(combined_dict)
-    new_test = pd.concat([test, concentration_df])
+    combined_df = pd.DataFrame.from_dict(combined_dict)
+    table_with_reads_and_concentration = pd.concat([combined_df, concentration_df])
 
-    new_test.to_csv('ERCC_TABLE_reads+concentration.csv')
+    table_with_reads_and_concentration.to_csv\
+        ('ERCC_TABLE_reads+concentration.csv', sep='\t')
 
 
 def outliers(gradient_file, number_of_outliers):
-    data = pd.read_csv(gradient_file, sep='\t', index_col=False, header=0)
-    key = data.ERCC_ID.ravel()
-    x = np.log10(data.c1.values)
-    y = np.log10(data.c2.values)
+    table = pd.read_csv(gradient_file, sep=',', index_col=False, header=0)
+    read_grad_value = table[list(filter(
+        lambda col: col.startswith("Grad_47"), table.columns))]
+    read_concentration_value = table[list(filter(
+        lambda col: col.startswith("Concentration"), table.columns))]
+
+    key = table.ix[:, 0].ravel()
+    y = np.log10(read_concentration_value.values)
+    x = np.log10(read_grad_value.ix[:, 0])
     x[x == -inf] = 0
     y[y == -inf] = 0
     x = x.reshape(len(key), 1)
@@ -76,15 +82,15 @@ def outliers(gradient_file, number_of_outliers):
                     y[index[-number_of_outliers:]], c='r', label='outliers')
     axes[1].set_xlabel('Reads')
     axes[1].legend(loc=2)
-    plt.title(gradient_file + '\n'
-                              "The intercept values is " +
+    plt.title('first_gradient' + '\n'
+                                 "The intercept values is " +
               str(clt_ransac.estimator_.intercept_)
               + '\n' +
               "The slope values is " +
               str(clt_ransac.estimator_.coef_),
               fontsize=10)
-    plt.savefig(gradient_file + 'with_outliers.pdf')
+    plt.savefig("first_gradient" + 'with_outliers.pdf')
     outliers_keys = key[index[-number_of_outliers:]]
     df = pd.DataFrame(outliers_keys)
-    df.to_csv(gradient_file + 'ERCC_outliers.csv', index=0,
-              header=['ERCC_to_discard' + gradient_file])
+    df.to_csv("first_gradient" + 'ERCC_outliers.csv', index=0,
+              header=['ERCC_to_discard' + "first_gradient"])
