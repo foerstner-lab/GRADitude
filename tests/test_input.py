@@ -108,7 +108,7 @@ def test_run_scaling():
 def test_run_robust_regression():
     robust_regression.robust_regression("../data/filtered_alignment_stats.csv",
                                         '../data/cms_095046.txt',
-                                        'output.csv', 20)
+                                        'output.csv', 20, 'plot_with_outliers.pdf')
 
 
 #test_run_normalize()

@@ -7,6 +7,7 @@ from sklearn.linear_model import RANSACRegressor
 
 
 def robust_regression(
+        # TODO don't print the file but only return and use directly as input for the new functions
         ref_feature_count_table, concentration_table, output_file, number_of_outliers,
         output_plot):
     ref_feature_count_table_df = read_table(ref_feature_count_table)
@@ -16,8 +17,8 @@ def robust_regression(
         modify_input('../data/ERCC_TABLE_reads+concentration.csv')
     clt_ransac, x_values, y_values, key = regression(read_grad_value, read_concentration_value,
                                                      gradient_file)
-    plot_outlier(clt_ransac, x_values, y_values, key, number_of_outliers, output_file,
-                 output_plot)
+    plot_and_list_outlier(clt_ransac, x_values, y_values, key, number_of_outliers, output_file,
+                          output_plot)
 
 
 def read_table(ref_feature_count_table):
@@ -78,8 +79,8 @@ def regression(read_grad_value, read_concentration_value, gradient_file):
     return clt_ransac, x_values, y_values, key
 
 
-def plot_outlier(clt_ransac, x_values, y_values, key,
-                 number_of_outliers, output_file, output_plot):
+def plot_and_list_outlier(clt_ransac, x_values, y_values, key,
+                          number_of_outliers, output_file, output_plot):
     fig, axes = plt.subplots(ncols=2)
     axes[0].scatter(x_values, y_values, c='g')
     axes[0].set_xlabel('Reads')
@@ -103,8 +104,8 @@ def plot_outlier(clt_ransac, x_values, y_values, key,
               "The slope values is " +
               str(clt_ransac.estimator_.coef_),
               fontsize=10)
-    plt.savefig(output_plot + 'with_outliers.pdf')
+    plt.savefig(output_plot)
     outliers_keys = key[index[-number_of_outliers:]]
     outliers_df = pd.DataFrame(outliers_keys)
-    outliers_df.to_csv(output_file + 'ERCC_outliers.csv', index=0,
-                       header=['ERCC_to_discard' + "first_gradient"])
+    outliers_df.to_csv(output_file, index=0,
+                       header=['ERCC_to_discard'])
