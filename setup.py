@@ -19,6 +19,7 @@ setup(
         "numpy == 1.11.3",
         "scipy == 0.19.0",
         "scikit-learn == 0.18.1"
+        "bokeh == 0.12.6"
     ],
     scripts=['bin/GRADitude'],
     license='ISC License (ISCL)',

@@ -10,6 +10,7 @@ from graditudelib import tSNE
 from graditudelib import hierarchical_clustering
 from graditudelib import pca
 from graditudelib import scaling
+from graditudelib import robust_regression
 
 
 def main():
@@ -43,6 +44,7 @@ def main():
     robust_regression_parser.add_argument('--concentration_table', '-c', required=True)
     robust_regression_parser.add_argument("--number_of_outliers", "-o", required=True)
     robust_regression_parser.add_argument("--outliers_table", "-o", required=True)
+    robust_regression_parser.add_argument("--outliers_plot", "-o", required=True)
 
 
     # For each fraction generate/write
@@ -112,9 +114,6 @@ def main():
         choices=["k-means", "DBSCAN", 'hierarchical_clustering'])
     pca_parser.add_argument("--number_of_clusters", required=True, type=int)
 
-    # Can either be done on the normalized count table or on the table
-    # with k-means cluster. In the later case the dots are colorized
-    # by the cluster id.
     t_sne_parser = subparsers.add_parser("t_sne")
     t_sne_parser.set_defaults(func=run_t_sne)
     t_sne_parser.add_argument("--feature_count_table", required=True)
@@ -207,6 +206,12 @@ def run_scaling(args):
                     args.pseudo_count,
                     args.scaling_method,
                     args.output_file)
+
+
+def run_robust_regression(args):
+    robust_regression.robust_regression(args.ref_feature_count_table,
+                                        args.concentration_table, args.number_of_outliers,
+                                        args.output_file, args.output_plot)
 
 
 main()

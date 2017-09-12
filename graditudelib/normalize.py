@@ -24,16 +24,6 @@ def _extract_value_matrix(feature_count_table_df,
     return feature_count_table_df.iloc[:, int(feature_count_start_column):]
 
 
-def _extract_value_matrix_ref(ref_feature_count_table_df,
-                              ref_feature_count_start_column):
-    return ref_feature_count_table_df.iloc[:, ref_feature_count_start_column:]
-
-
-def _extract_attributes(feature_count_table_df,
-                        feature_count_start_column):
-    return feature_count_table_df.iloc[:, : int(feature_count_start_column)]
-
-
 def _calc_size_factors(ref_feature_count_table_df,
                        ref_feature_count_start_column):
     # TODO: Documentation the calculation with formula
