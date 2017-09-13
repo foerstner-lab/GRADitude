@@ -1,4 +1,6 @@
 from sklearn.cluster import AgglomerativeClustering
+from scipy.cluster.hierarchy import ward, dendrogram
+import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
@@ -11,12 +13,12 @@ def generate_hierarchical_clustering(feature_count_table,
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
-    new_table = normalize_values(value_matrix, scaling_method, pseudo_count)
+    normalized_table = normalize_values(value_matrix, scaling_method, pseudo_count)
     attribute_matrix = _extract_attributes(feature_count_table_df,
                                            feature_count_start_column)
-    clustering_table = hierarchical_clustering(new_table, number_of_clusters)
+    clustering_table = hierarchical_clustering(normalized_table, number_of_clusters)
     pd.concat([attribute_matrix, clustering_table],
-              axis=1).to_csv(output_file, sep='\t')
+              axis=1).to_csv(output_file, sep='\t', index=None)
 
 
 def _extract_value_matrix(feature_count_table_df,
@@ -35,6 +37,9 @@ def hierarchical_clustering(values_matrix, number_of_clusters):
                                            linkage="ward")
     h_clustering.fit(values_matrix)
     labels = h_clustering.labels_
+    plt.figure()
+    dendrogram(ward(values_matrix))
+    plt.show()
     pd.DataFrame(data=labels, columns=['cluster'])
     values_matrix["Cluster_label"] = pd.Series(
         h_clustering.labels_).astype(int)
