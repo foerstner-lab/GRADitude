@@ -1,8 +1,5 @@
 import pandas as pd
 from sklearn.neighbors import NearestNeighbors
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn import metrics
-
 
 import matplotlib.pyplot as plt
 
@@ -31,8 +28,8 @@ def nearest_neighbors(value_matrix):
 
     my_distance = distances[:, -1]
     my_distance_df = pd.DataFrame(my_distance)
-    my_distance_df_div= my_distance_df.divide(len(my_distance))
+    my_distance_df_div = my_distance_df.divide(len(my_distance))
     sorted_df = my_distance_df_div.sort_values(by=0, ascending=False)
     sorted_list = sorted_df[0].tolist()
-    plt.plot(sorted_list[0:100])
+    plt.plot(sorted_list)
     plt.show()
