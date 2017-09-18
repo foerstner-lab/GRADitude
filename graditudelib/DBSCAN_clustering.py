@@ -5,14 +5,14 @@ import numpy as np
 
 def generate_dbscan_clustering(feature_count_table,
                                feature_count_start_column,
-                               output_file, scaling_method, pseudo_count):
+                               scaling_method, pseudo_count, epsilon, min_samples, output_file):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
     new_table = normalize_values(value_matrix, scaling_method, pseudo_count)
     attribute_matrix = _extract_attributes(feature_count_table_df,
                                            feature_count_start_column)
-    clustering_table = dbscan_clustering(new_table)
+    clustering_table = dbscan_clustering(new_table, epsilon, min_samples)
     pd.concat([attribute_matrix, clustering_table],
               axis=1).to_csv(output_file, sep='\t', index=0)
 
@@ -27,8 +27,8 @@ def _extract_attributes(feature_count_table_df,
     return feature_count_table_df.iloc[:, : int(feature_count_start_column)]
 
 
-def dbscan_clustering(values_matrix):
-    dbscan = DBSCAN(eps=0.9, min_samples=20)
+def dbscan_clustering(values_matrix, epsilon, min_samples):
+    dbscan = DBSCAN(eps=epsilon, min_samples=min_samples)
     dbscan.fit_predict(values_matrix)
     labels = dbscan.labels_
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
