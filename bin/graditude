@@ -11,6 +11,7 @@ from graditudelib import hierarchical_clustering
 from graditudelib import pca
 from graditudelib import scaling
 from graditudelib import robust_regression
+from graditudelib import DBSCAN_clustering
 
 
 def main():
@@ -39,15 +40,16 @@ def main():
 
     robust_regression_parser = subparsers.add_parser("robust_regression")
     robust_regression_parser.set_defaults(func=normalize_table)
-    robust_regression_parser.add_argument('--ref_feature_count_table', '-c', required=True)
+    robust_regression_parser.add_argument('--ref_feature_count_table', '-f', required=True)
     robust_regression_parser.add_argument('--ref_feature_count_start_column', default=1)
     robust_regression_parser.add_argument('--concentration_table', '-c', required=True)
-    robust_regression_parser.add_argument("--number_of_outliers", "-o", required=True)
-    robust_regression_parser.add_argument("--outliers_table", "-o", required=True)
-    robust_regression_parser.add_argument("--outliers_plot", "-o", required=True)
+    robust_regression_parser.add_argument("--number_of_outliers", "-n", required=True)
+    robust_regression_parser.add_argument("--outliers_table", '-o', required=True)
+    robust_regression_parser.add_argument("--plot_outliers", '-p', default=False, action="store_true",
+                                          help='plot the outliers. Default is False')
 
 
-    # For each fraction generate/write
+    # For each fraction generate/write--output_format/
     # - Histogram 
     # - Max, mix, median, average
     # - all again all correlation (scatter plot, Pearson and Spearman cor. factor) 
@@ -57,57 +59,74 @@ def main():
     # generate_table_stats_parser.add_argument("--feature_count_table", "-c", required=True)
     # generate_table_stats_parser.add_argument("--output_file", "-o" required=True)
 
+    # histogram_of_fraction_parser = subparsers.add_parser("plot_histograms")
+    # histogram_of_fraction_parser.set_defaults(func=plot_histograms)
+    # histogram_of_fraction_parser.add_argument("--feature_count_table", "-c", required=True)
+    # histogram_of_fraction_parser.add_argument('--feature_count_start_column', default=1)
+
     plot_kinetics_parser = subparsers.add_parser("plot_kinetics")
     plot_kinetics_parser.set_defaults(func=plot_kinetics)
     plot_kinetics_parser.add_argument("--feature_count_table", "-c", required=True)
     plot_kinetics_parser.add_argument("--gene_name", "-g", required=True)
     plot_kinetics_parser.add_argument('--feature_count_start_column', default=1)
     plot_kinetics_parser.add_argument("--output_plot", "-o", required=True)
-    plot_kinetics_parser.add_argument("--output_format", choices=["html", "pdf"],
+    plot_kinetics_parser.add_argument("--output_format", '-f', choices=["html", "pdf"],
                                       default="html")
 
     k_means_clustering_parser = subparsers.add_parser("k_means_clustering")
     k_means_clustering_parser.set_defaults(func=k_means_clustering)
-    k_means_clustering_parser.add_argument("--feature_count_table", required=True)
+    k_means_clustering_parser.add_argument("--feature_count_table", "-c", required=True)
     k_means_clustering_parser.add_argument("--feature_count_start_column", default=1)
     k_means_clustering_parser.add_argument(
         "--scaling_method", required=True,
         choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
     k_means_clustering_parser.add_argument("--pseudo_count", type=float, default=0.0)
-    k_means_clustering_parser.add_argument("--number_of_clusters", required=True, type=int)
-    k_means_clustering_parser.add_argument("--output_file", "-o", required=True)
+    k_means_clustering_parser.add_argument("--number_of_clusters", '-nc', required=True, type=int)
+    k_means_clustering_parser.add_argument("--output_file", "-f", required=True)
 
     k_means_clustering_elbow_parser = subparsers.add_parser("k_means_clustering_elbow")
     k_means_clustering_elbow_parser.set_defaults(func=generate_k_means_clustering_elbow)
     k_means_clustering_elbow_parser.add_argument("--count_table", "-c", required=True)
-    k_means_clustering_elbow_parser.add_argument("--min_number_of_clusters", required=True, type=int)
-    k_means_clustering_elbow_parser.add_argument("--max_number_of_clusters", required=True, type=int)
+    k_means_clustering_elbow_parser.add_argument("--min_number_of_clusters" '-min', required=True, type=int)
+    k_means_clustering_elbow_parser.add_argument("--max_number_of_clusters", '-max', required=True, type=int)
 
     silhouette_parser = subparsers.add_parser("silhouette_analysis")
     silhouette_parser.set_defaults(func=silhouette_analysis)
-    silhouette_parser.add_argument("--feature_count_table", required=True)
+    silhouette_parser.add_argument("--feature_count_table", "-c", required=True)
     silhouette_parser.add_argument("--feature_count_start_column", default=1)
     silhouette_parser.add_argument("--min_number_of_clusters", required=True, type=int)
     silhouette_parser.add_argument("--max_number_of_clusters", required=True, type=int)
 
     hierachical_clustering_parser = subparsers.add_parser("hierachical_clustering")
     hierachical_clustering_parser.set_defaults(func=run_hierarchical_clustering)
-    hierachical_clustering_parser.add_argument("--feature_count_table", required=True)
+    hierachical_clustering_parser.add_argument("--feature_count_table", "-c", required=True)
     hierachical_clustering_parser.add_argument("--feature_count_start_column", required=True)
     hierachical_clustering_parser.add_argument("--output_file", "-o", required=True)
-    hierachical_clustering_parser.add_argument("--output_format", "-o", required=True)
+    hierachical_clustering_parser.add_argument("--output_format", "-f", required=True)
     hierachical_clustering_parser.add_argument(
         "--scaling_method", required=True,
         choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
     hierachical_clustering_parser.add_argument("--pseudo_count", type=float, default=0.0)
 
+    dbscan_clustering_parser = subparsers.add_parser("dbscan_clustering")
+    dbscan_clustering_parser.set_defaults(func=dbscan_clustering)
+    dbscan_clustering_parser.add_argument("--feature_count_table", "-c", required=True)
+    dbscan_clustering_parser.add_argument("--feature_count_start_column", required=True)
+    dbscan_clustering_parser.add_argument(
+        "--scaling_method", required=True,
+        choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
+    dbscan_clustering_parser.add_argument("--pseudo_count", required=True)
+    dbscan_clustering_parser.add_argument("--epsilon", required=True)
+    dbscan_clustering_parser.add_argument("--min_samples", required=True)
+    dbscan_clustering_parser.add_argument("--output_file", "-o", required=True)
+
     pca_parser = subparsers.add_parser("pca")
     pca_parser.set_defaults(func=run_pca)
-    pca_parser.add_argument("--feature_count_table", required=True)
+    pca_parser.add_argument("--feature_count_table", "-c", required=True)
     pca_parser.add_argument(
         "--scaling_method", required=True,
         choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
-    hierachical_clustering_parser.add_argument("--pseudo_count", type=float, default=0.0)
+    pca_parser.add_argument("--pseudo_count", type=float, default=0.0)
     pca_parser.add_argument("--output_file", "-o", required=True)
     pca_parser.add_argument(
         "--clustering_methods", required=True,
@@ -116,7 +135,7 @@ def main():
 
     t_sne_parser = subparsers.add_parser("t_sne")
     t_sne_parser.set_defaults(func=run_t_sne)
-    t_sne_parser.add_argument("--feature_count_table", required=True)
+    t_sne_parser.add_argument("--feature_count_table", "-c", required=True)
     t_sne_parser.add_argument("--feature_count_start_column", default=1)
     t_sne_parser.add_argument("--output_format", choices=["html", "pdf"],
                               default="html")
@@ -124,6 +143,8 @@ def main():
     t_sne_parser.add_argument(
         "--clustering", required=True,
         choices=["no_cluster", "with_cluster"])
+
+
 
     # version_parser = subparsers.add_parser("version")
     # version_parser.set_defaults(func=show_version)
@@ -211,7 +232,13 @@ def run_scaling(args):
 def run_robust_regression(args):
     robust_regression.robust_regression(args.ref_feature_count_table,
                                         args.concentration_table, args.number_of_outliers,
-                                        args.output_file, args.output_plot)
+                                        args.output_file)
+
+
+def dbscan_clustering(args):
+    DBSCAN_clustering.generate_dbscan_clustering(args.feature_count_table,
+                    args.feature_count_start_column, args.scaling_method, args.pseudo_count,
+                                                 args.epsilon, args.min_samples, args.output_file)
 
 
 main()
