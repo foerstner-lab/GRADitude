@@ -10,6 +10,7 @@ from graditudelib import pca
 from graditudelib import tSNE
 from graditudelib import scaling
 from graditudelib import robust_regression
+from graditudelib import histograms_of_fractions
 
 
 def test_run_normalize():
@@ -37,7 +38,7 @@ def test_run_k_means_clustering():
         12,
         7,
         'normalized_by_log10_with_clusters.csv',
-        'normalized_to_max',
+        'log10',
         1)
 
 
@@ -99,7 +100,7 @@ def test_run_t_sne_analysis():
 
 def test_run_scaling():
     scaling.scaling('../data/gene_wise_quantifications_combined_extended_test.csv',
-                     12,
+                    12,
                     1,
                     'normalized_to_max',
                     'test.csv')
@@ -108,18 +109,24 @@ def test_run_scaling():
 def test_run_robust_regression():
     robust_regression.robust_regression("../data/filtered_alignment_stats.csv",
                                         '../data/cms_095046.txt',
-                                        'output.csv', 20, 'plot_with_outliers.pdf')
+                                        20, 'ERCC_common.csv')
 
 
-#test_run_normalize()
+def test_run_histograms_of_fractions():
+    histograms_of_fractions.plot_histograms('../data/gene_wise_quantifications_combined_extended_test.csv',
+                                            12)
+
+
+# test_run_normalize()
 # test_run_visualizing_kinetics()
-#test_run_k_means_clustering()
+# test_run_k_means_clustering()
 # test_run_elbow_method()
 # test_run_silhouette_analysis()
-#test_run_hierarchical_clustering()
-#test_run_db_scan_clustering()
-#test_run_nearest_neighbors()
-#test_run_pca()
-#test_run_t_sne_analysis()
-#test_run_scaling()
+# test_run_hierarchical_clustering()
+# test_run_db_scan_clustering()
+# test_run_nearest_neighbors()
+# test_run_pca()
+# test_run_t_sne_analysis()
+# test_run_scaling()
 test_run_robust_regression()
+# test_run_histograms_of_fractions()
