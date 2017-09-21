@@ -12,6 +12,7 @@ from graditudelib import pca
 from graditudelib import scaling
 from graditudelib import robust_regression
 from graditudelib import DBSCAN_clustering
+from graditudelib import Clustering
 
 
 def main():
@@ -23,8 +24,9 @@ def main():
     normalize_parser = subparsers.add_parser("normalize")
     normalize_parser.set_defaults(func=normalize_table)
     normalize_parser.add_argument('--feature_count_table', '-c', required=True)
+    normalize_parser.add_argument('--feature_count_start_column', '-fc', type=int)
     normalize_parser.add_argument("--ref_feature_count_table", "-r", required=True)
-    normalize_parser.add_argument("--ref_feature_count_start_column", default=1)
+    normalize_parser.add_argument("--ref_feature_count_start_column", "-rf", default=1, type=int)
     normalize_parser.add_argument("--normalized_table", "-o", required=True)
     normalize_parser.add_argument("--size_factor_table", "-s", default=None)
 
@@ -41,13 +43,11 @@ def main():
     robust_regression_parser = subparsers.add_parser("robust_regression")
     robust_regression_parser.set_defaults(func=normalize_table)
     robust_regression_parser.add_argument('--ref_feature_count_table', '-f', required=True)
-    robust_regression_parser.add_argument('--ref_feature_count_start_column', default=1)
     robust_regression_parser.add_argument('--concentration_table', '-c', required=True)
     robust_regression_parser.add_argument("--number_of_outliers", "-n", required=True)
     robust_regression_parser.add_argument("--outliers_table", '-o', required=True)
     robust_regression_parser.add_argument("--plot_outliers", '-p', default=False, action="store_true",
                                           help='plot the outliers. Default is False')
-
 
     # For each fraction generate/write--output_format/
     # - Histogram 
@@ -73,14 +73,30 @@ def main():
     plot_kinetics_parser.add_argument("--output_format", '-f', choices=["html", "pdf"],
                                       default="html")
 
+    clustering_parser = subparsers.add_parser("clustering")
+    clustering_parser.set_defaults(func=clustering)
+    clustering_parser.add_argument("--feature_count_table", "-c", required=True)
+    clustering_parser.add_argument("feature_count_start_column", default=1)
+    clustering_parser.add_argument("--number_of_clusters", '-nc', required=True, type=int)
+    clustering_parser.add_argument("--pseudo_count", required=True, type=int, default=1)
+    clustering_parser.add_argument("--clustering_methods", required=True,
+                                   choices=["k-means", "DBSCAN", 'hierarchical_clustering'])
+    clustering_parser.add_argument("--epsilon", required=True, type=float)
+    clustering_parser.add_argument("--min_samples", required=True)
+    clustering_parser.add_argument(
+        "--scaling_method", required=True,
+        choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
+    clustering_parser.add_argument("--output_format", '-f', choices=["html", "pdf"],
+                                   default="html")
+
     k_means_clustering_parser = subparsers.add_parser("k_means_clustering")
     k_means_clustering_parser.set_defaults(func=k_means_clustering)
     k_means_clustering_parser.add_argument("--feature_count_table", "-c", required=True)
-    k_means_clustering_parser.add_argument("--feature_count_start_column", default=1)
+    k_means_clustering_parser.add_argument("--feature_count_start_column", default=1, type=1)
     k_means_clustering_parser.add_argument(
         "--scaling_method", required=True,
         choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
-    k_means_clustering_parser.add_argument("--pseudo_count", type=float, default=0.0)
+    k_means_clustering_parser.add_argument("--pseudo_count", type=int, default=1)
     k_means_clustering_parser.add_argument("--number_of_clusters", '-nc', required=True, type=int)
     k_means_clustering_parser.add_argument("--output_file", "-f", required=True)
 
@@ -106,7 +122,7 @@ def main():
     hierachical_clustering_parser.add_argument(
         "--scaling_method", required=True,
         choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
-    hierachical_clustering_parser.add_argument("--pseudo_count", type=float, default=0.0)
+    hierachical_clustering_parser.add_argument("--pseudo_count", type=int, default=1)
 
     dbscan_clustering_parser = subparsers.add_parser("dbscan_clustering")
     dbscan_clustering_parser.set_defaults(func=dbscan_clustering)
@@ -116,7 +132,7 @@ def main():
         "--scaling_method", required=True,
         choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
     dbscan_clustering_parser.add_argument("--pseudo_count", required=True)
-    dbscan_clustering_parser.add_argument("--epsilon", required=True)
+    dbscan_clustering_parser.add_argument("--epsilon", required=True, type=float)
     dbscan_clustering_parser.add_argument("--min_samples", required=True)
     dbscan_clustering_parser.add_argument("--output_file", "-o", required=True)
 
@@ -126,7 +142,7 @@ def main():
     pca_parser.add_argument(
         "--scaling_method", required=True,
         choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
-    pca_parser.add_argument("--pseudo_count", type=float, default=0.0)
+    pca_parser.add_argument("--pseudo_count", type=int, default=1)
     pca_parser.add_argument("--output_file", "-o", required=True)
     pca_parser.add_argument(
         "--clustering_methods", required=True,
@@ -143,8 +159,6 @@ def main():
     t_sne_parser.add_argument(
         "--clustering", required=True,
         choices=["no_cluster", "with_cluster"])
-
-
 
     # version_parser = subparsers.add_parser("version")
     # version_parser.set_defaults(func=show_version)
@@ -232,13 +246,22 @@ def run_scaling(args):
 def run_robust_regression(args):
     robust_regression.robust_regression(args.ref_feature_count_table,
                                         args.concentration_table, args.number_of_outliers,
-                                        args.output_file)
+                                        args.output_file,
+                                        args.plot_outliers)
 
 
 def dbscan_clustering(args):
     DBSCAN_clustering.generate_dbscan_clustering(args.feature_count_table,
-                    args.feature_count_start_column, args.scaling_method, args.pseudo_count,
+                                                 args.feature_count_start_column, args.scaling_method,
+                                                 args.pseudo_count,
                                                  args.epsilon, args.min_samples, args.output_file)
+
+
+def clustering(args):
+    Clustering.clustering(args.feature_count_table, args.feature_count_start_column, args.number_of_clusters,
+                          args.pseudo_count, args.clustering_method, args.epsilon, args.minimal_samples,
+                          args.scaling_method,
+                          args.output_file)
 
 
 main()
