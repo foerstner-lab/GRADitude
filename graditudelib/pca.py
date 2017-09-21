@@ -5,10 +5,14 @@ import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.cluster import DBSCAN
+from bokeh.plotting import figure, output_file, save, ColumnDataSource
+from bokeh.models import HoverTool, BoxZoomTool, ResetTool, PanTool
+from bokeh.models import WheelZoomTool, TapTool, OpenURL
+import bokeh.palettes
 
 
 def pca_analysis(feature_count_table, feature_count_start_column,
-                 pseudo_count, number_of_clusters, scaling_method, clustering_method, file_output):
+                 pseudo_count, number_of_clusters, scaling_method, clustering_method, file_output, plot_output):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
@@ -22,12 +26,13 @@ def pca_analysis(feature_count_table, feature_count_start_column,
     elif clustering_method == 'hierarchical_clustering':
         table_with_attributes = hierarchical_clustering(result_pca, normalized_table, number_of_clusters,
                                                         attribute_matrix)
-
         table_with_attributes.to_csv(file_output, sep='\t', index=0)
     elif clustering_method == 'DBSCAN':
         table_with_attributes = dbscan_clustering(result_pca, normalized_table,
                                                   attribute_matrix)
         table_with_attributes.to_csv(file_output, sep='\t', index=0)
+
+    plot_with_clusters(table_with_attributes, result_pca, plot_output)
 
 
 def _extract_value_matrix(feature_count_table_df,
@@ -112,3 +117,62 @@ def dbscan_clustering(result_pca, values_matrix, attribute_matrix):
     table_with_clusters = pd.concat([attribute_matrix, values_matrix],
                                     axis=1)
     return table_with_clusters
+
+
+def plot_with_clusters(read_counting_table, pca_result, output_file_path):
+    read_counting_table["pca-component_1"] = [pos[0] for pos in pca_result]
+    read_counting_table["pca-component_2"] = [pos[1] for pos in pca_result]
+
+    read_counting_table["Attributes_split"] = \
+        read_counting_table["Attributes"].apply(lambda attr: dict(
+            [key_value_pair.split("=")
+             for key_value_pair in attr.split(";")]))
+
+    hower_data = dict(
+        x=read_counting_table["pca-component_1"],
+        y=read_counting_table["pca-component_2"],
+        feature=read_counting_table["Feature"],
+        cluster_label=read_counting_table["Cluster_label"])
+
+    for feature in ["gene", "product", "ID", "type", "ncrna_class",
+                    "sRNA_type", "Name", "pseudo"]:
+        read_counting_table[feature] = \
+            read_counting_table["Attributes_split"].apply(
+                lambda attributes: attributes.get(feature, "-"))
+        hower_data[feature] = read_counting_table[feature]
+
+    source = ColumnDataSource(hower_data)
+
+    hover = HoverTool(tooltips=[
+        ("Gene", "@gene"),
+        ("Product", "@product"),
+        ("ID", "@ID"),
+        ("Type", "@type"),
+        ("Ncrna_class", "@ncrna_class"),
+        ("sRNA_type", "@sRNA_type"),
+        ("Name", "@Name"),
+        ("Pseudo", "@pseudo"),
+        ("Feature", "@feature"),
+        ("Cluster label", "@cluster_label")])
+
+    p = figure(plot_width=700, plot_height=700,
+               tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
+                      WheelZoomTool(), "tap"],
+               title="Grad-Seq PCA RNA-Seq", logo=None)
+
+    color_palette = bokeh.palettes.viridis(
+        len(read_counting_table["Cluster_label"].unique()))
+    color = read_counting_table["Cluster_label"].apply(
+        lambda lable: color_palette[lable])
+
+    p.circle("x", "y", source=source, size=5, alpha=0.7, color=color)
+
+    url = "http://www.uniprot.org/uniprot/@protein_id"
+    taptool = p.select(type=TapTool)
+    taptool.callback = OpenURL(url=url)
+
+    p.xaxis.axis_label = "Component 1"
+    p.yaxis.axis_label = "Component 2"
+
+    output_file(output_file_path)
+    save(p)
