@@ -6,25 +6,25 @@ from sklearn.cluster import DBSCAN
 
 
 def clustering(feature_count_table, feature_count_start_column,
-               number_of_clusters, clustering_method, epsilon, min_samples,
-               output_file, scaling_method, pseudo_count):
+               number_of_clusters, pseudo_count, clustering_methods, scaling_method,
+               output_file):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
     normalized_table = normalize_values(value_matrix, scaling_method, pseudo_count)
     attribute_matrix = _extract_attributes(feature_count_table_df,
                                            feature_count_start_column)
-    if clustering_method == 'k-means':
+    if clustering_methods == 'k-means':
         table_with_attributes = k_means_clustering(normalized_table, number_of_clusters, attribute_matrix)
         table_with_attributes.to_csv(output_file, sep='\t', index=0)
-    elif clustering_method == 'hierarchical_clustering':
+    elif clustering_methods == 'hierarchical_clustering':
         table_with_attributes = hierarchical_clustering(normalized_table, number_of_clusters,
                                                         attribute_matrix)
         table_with_attributes.to_csv(output_file, sep='\t', index=0)
-    elif clustering_method == 'DBSCAN':
-        table_with_attributes = dbscan_clustering(normalized_table,
-                                                  attribute_matrix, epsilon, min_samples)
-        table_with_attributes.to_csv(output_file, sep='\t', index=0)
+    # elif clustering_method == 'DBSCAN':
+    #     table_with_attributes = dbscan_clustering(normalized_table,
+    #                                               attribute_matrix, epsilon, min_samples)
+    #     table_with_attributes.to_csv(output_file, sep='\t', index=0)
 
 
 def _extract_value_matrix(feature_count_table_df,
@@ -61,17 +61,17 @@ def k_means_clustering(values_matrix, number_of_clusters, attribute_matrix):
     return table_with_clusters
 
 
-def dbscan_clustering(values_matrix, epsilon, min_samples, attribute_matrix):
-    dbscan = DBSCAN(eps=epsilon, min_samples=min_samples)
-    dbscan.fit_predict(values_matrix)
-    labels = dbscan.labels_
-    n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
-    print('Estimated number of clusters: %d' % n_clusters_)
-    pd.DataFrame(data=labels, columns=['cluster'])
-    values_matrix["Cluster_label"] = pd.Series(dbscan.labels_).astype(int)
-    table_with_clusters = pd.concat([attribute_matrix, values_matrix],
-                                    axis=1)
-    return table_with_clusters
+# def dbscan_clustering(values_matrix, epsilon, min_samples, attribute_matrix):
+#     dbscan = DBSCAN(eps=epsilon, min_samples=min_samples)
+#     dbscan.fit_predict(values_matrix)
+#     labels = dbscan.labels_
+#     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
+#     print('Estimated number of clusters: %d' % n_clusters_)
+#     pd.DataFrame(data=labels, columns=['cluster'])
+#     values_matrix["Cluster_label"] = pd.Series(dbscan.labels_).astype(int)
+#     table_with_clusters = pd.concat([attribute_matrix, values_matrix],
+#                                     axis=1)
+#     return table_with_clusters
 
 
 def normalize_values(values_matrix, scaling_method, pseudo_count):
