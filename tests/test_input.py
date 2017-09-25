@@ -11,6 +11,8 @@ from graditudelib import tSNE
 from graditudelib import scaling
 from graditudelib import robust_regression
 from graditudelib import histograms_of_fractions
+from graditudelib import Clustering
+from graditudelib import min_row_sum
 
 
 def test_run_normalize():
@@ -88,7 +90,8 @@ def test_run_pca():
                      6,
                      'normalized_to_max',
                      'k-means',
-                     'test.csv')
+                     'test.csv',
+                     'output_plot')
 
 
 def test_run_t_sne_analysis():
@@ -117,6 +120,19 @@ def test_run_histograms_of_fractions():
                                             12)
 
 
+def test_clustering():
+    Clustering.clustering('../data/normalized_table.csv',
+                          12,
+                          6,
+                          'k-means',
+                          'test.csv',
+                          'log10', 1)
+
+
+def test_run_min_row_sum():
+    min_row_sum.exclude_the_min_row_sum("../data/normalized_table.csv", 12, 100)
+
+
 # test_run_normalize()
 # test_run_visualizing_kinetics()
 # test_run_k_means_clustering()
@@ -128,5 +144,7 @@ def test_run_histograms_of_fractions():
 # test_run_pca()
 # test_run_t_sne_analysis()
 # test_run_scaling()
-test_run_robust_regression()
+# test_run_robust_regression()
 # test_run_histograms_of_fractions()
+# test_clustering()
+test_run_min_row_sum()
