@@ -14,7 +14,7 @@ from graditudelib import robust_regression
 from graditudelib import DBSCAN_clustering
 from graditudelib import Clustering
 from graditudelib import min_row_sum
-from graditudelib import tSNE_colored_list_clustering_features
+from graditudelib import t_sne_colored_list_clustering_features
 
 
 def main():
@@ -32,23 +32,23 @@ def main():
     normalize_parser.add_argument("--size_factor_table", "-s", default=None)
 
     scaling_parser = subparsers.add_parser("scaling")
-    scaling_parser.set_defaults(func=normalize_table)
+    scaling_parser.set_defaults(func=scaling)
     scaling_parser.add_argument('--feature_count_table', '-f', required=True)
     scaling_parser.add_argument('--feature_count_start_column', '-fc', required=True)
     scaling_parser.add_argument("--scaled_table", "-o", required=True)
     scaling_parser.add_argument(
         "--scaling_method", "-sm", required=True,
         choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
-    scaling_parser.add_argument("--pseudo_count", '-p',  type=int, default=1)
+    scaling_parser.add_argument("--pseudo_count", '-p', type=int, default=1)
 
     robust_regression_parser = subparsers.add_parser("robust_regression")
-    robust_regression_parser.set_defaults(func=normalize_table)
+    robust_regression_parser.set_defaults(func=run_robust_regression)
     robust_regression_parser.add_argument('--ref_feature_count_table', '-r', required=True)
     robust_regression_parser.add_argument('--concentration_table', '-c', required=True)
-    robust_regression_parser.add_argument("--number_of_outliers", "-n", required=True)
+    robust_regression_parser.add_argument("--number_of_outliers", "-n", required=True, type=int)
     robust_regression_parser.add_argument("--outliers_table", '-o', required=True)
-    robust_regression_parser.add_argument("--plot_outliers", '-p', default=False, action="store_true",
-                                          help='plot the outliers. Default is False')
+    # robust_regression_parser.add_argument("--plot_outliers", '-p', default=False,
+    #                                       help='plot the outliers. Default is False')
 
     # For each fraction generate/write--output_format/
     # - Histogram 
@@ -78,7 +78,7 @@ def main():
     plot_kinetics_parser.add_argument("--gene_name", "-gene", required=True)
     plot_kinetics_parser.add_argument('--feature_count_start_column', "-fc", required=True)
     plot_kinetics_parser.add_argument("--output_plot", "-o", required=True)
-    plot_kinetics_parser.add_argument("--output_format", '-f', choices=["html", "pdf"],
+    plot_kinetics_parser.add_argument("--output_format", '-format', choices=["html", "pdf"],
                                       default="html")
 
     clustering_parser = subparsers.add_parser("clustering")
@@ -90,10 +90,10 @@ def main():
                                    default=1)
     clustering_parser.add_argument("--clustering_methods", "-cm", required=True,
                                    choices=["k-means", "DBSCAN", 'hierarchical_clustering'])
-    clustering_parser.add_argument("--epsilon", "-e", default=False, action="store_true",
-                                   help='only for DBSCAN clustering')
-    clustering_parser.add_argument("--min_samples", '-ms', default=False, action="store_true",
-                                   help='only for DBSCAN clustering')
+    clustering_parser.add_argument("--epsilon", "-e", default=False,
+                                   help='only for DBSCAN clustering', type=float)
+    clustering_parser.add_argument("--min_samples", '-ms', default=False,
+                                   help='only for DBSCAN clustering', type=int)
     clustering_parser.add_argument(
         "--scaling_method", '-sm', required=True,
         choices=["no_normalization", "normalized_to_max", "normalized_to_range", "log10", "log2"])
@@ -146,21 +146,22 @@ def main():
         choices=["no_normalization", "normalized_to_max", "normalized_to_range", "log10", "log2"])
     dbscan_clustering_parser.add_argument("--pseudo_count", "-p", required=True)
     dbscan_clustering_parser.add_argument("--epsilon", "-e", required=True, type=float)
-    dbscan_clustering_parser.add_argument("--min_samples", "-ms", required=True)
+    dbscan_clustering_parser.add_argument("--min_samples", "-ms", required=True, type=int)
     dbscan_clustering_parser.add_argument("--output_file", "-o", required=True)
 
     pca_parser = subparsers.add_parser("pca")
     pca_parser.set_defaults(func=run_pca)
     pca_parser.add_argument("--feature_count_table", "-f", required=True)
     pca_parser.add_argument(
-        "--scaling_method", required=True,
-        choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
-    pca_parser.add_argument("--pseudo_count", type=int, default=1)
+        "--scaling_method", '-sm', required=True,
+        choices=["no_normalization", "normalized_to_max", "normalized_to_range", "log10", "log2"])
+    pca_parser.add_argument("--pseudo_count", "-p", type=int, default=1)
     pca_parser.add_argument("--output_file", "-o", required=True)
     pca_parser.add_argument(
-        "--clustering_methods", required=True,
+        "--clustering_methods", '-cm', required=True,
         choices=["no_normalization", "normalized_to_max", "normalized_to_range", "log10", "log2"])
-    pca_parser.add_argument("--number_of_clusters", required=True, type=int)
+    pca_parser.add_argument("--number_of_clusters", "-nc", required=True, type=int)
+    pca_parser.add_argument("--plot_output", "-plot", required=True)
 
     t_sne_parser = subparsers.add_parser("t_sne")
     t_sne_parser.set_defaults(func=run_t_sne)
@@ -178,17 +179,13 @@ def main():
     t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_table", "-f", required=True)
     t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_start_column", "-fc", required=True)
     t_sne_colored_list_clustering_features_parser.add_argument("--s_rna_list_files", "-list", default=False,
-                                                               action="store_true",
                                                                help='tSNE colored using a certain list, DEFAULT false')
 
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file1", "-o1", default=False,
-                                                               action="store_true",
                                                                help="output colorized using clusters information")
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file2", "-o2", default=False,
-                                                               action="store_true",
                                                                help="output colorized using attributes information")
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file3", "-o3", default=False,
-                                                               action="store_true",
                                                                help="output colorized using list ")
 
     # version_parser = subparsers.add_parser("version")
@@ -251,11 +248,11 @@ def run_t_sne(args):
 
 
 def run_t_sne_colored_using_different_methods(args):
-    tSNE_colored_list_clustering_features.t_sne(args.feature_count_table, args.feature_count_start_column,
-                                                args.perplexity, args.s_rna_list_files,
-                                                args.output_file_colorized_by_clusters,
-                                                args.output_file_colorized_by_rna_class,
-                                                args.output_file_colorized_by_rna_class_and_list)
+    t_sne_colored_list_clustering_features.t_sne(args.feature_count_table, args.feature_count_start_column,
+                                                 args.perplexity, args.s_rna_list_files,
+                                                 args.output_file_colorized_by_clusters,
+                                                 args.output_file_colorized_by_rna_class,
+                                                 args.output_file_colorized_by_rna_class_and_list)
 
 
 def run_hierarchical_clustering(args):
@@ -271,7 +268,7 @@ def run_pca(args):
                      args.feature_count_start_column,
                      args.pseudo_count,
                      args.scaling_method,
-                     args.output_file, args.clustering_methods, args.number_of_clusters)
+                     args.output_file, args.clustering_methods, args.number_of_clusters, args.plot_output)
 
 
 def run_scaling(args):
@@ -285,8 +282,7 @@ def run_scaling(args):
 def run_robust_regression(args):
     robust_regression.robust_regression(args.ref_feature_count_table,
                                         args.concentration_table, args.number_of_outliers,
-                                        args.output_file,
-                                        args.plot_outliers)
+                                        args.outliers_table)
 
 
 def dbscan_clustering(args):
@@ -299,7 +295,8 @@ def dbscan_clustering(args):
 def clustering(args):
     Clustering.clustering(args.feature_count_table, args.feature_count_start_column, args.number_of_clusters,
                           args.pseudo_count, args.clustering_methods,
-                          args.scaling_method, args.epsilon, args.min_samples,
+                          args.epsilon, args.min_samples,
+                          args.scaling_method,
                           args.output_file)
 
 
