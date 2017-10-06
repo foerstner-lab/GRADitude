@@ -15,7 +15,8 @@ def robust_regression(
         modify_input(gradient_file_combined)
     common_ercc_df = regression(read_grad_value, read_concentration_value, gradient_file,
                                 number_of_outliers)
-    common_ercc(common_ercc_df, output_file)
+    df_common_ercc = common_ercc(common_ercc_df)
+    new_ref_table(df_common_ercc, ref_feature_count_table_df, output_file)
 
 
 def read_table(ref_feature_count_table):
@@ -105,7 +106,7 @@ def regression(read_grad_value, read_concentration_value, gradient_file,
     return outliers_df
 
 
-def common_ercc(csv_file, output_file):
+def common_ercc(csv_file):
     unique_vals = pd.Series(csv_file.values.ravel()).unique()
     data_dict = {}
     for val in unique_vals:
@@ -117,11 +118,20 @@ def common_ercc(csv_file, output_file):
     results_df = pd.DataFrame(data_dict).T
     results_df.columns = csv_file.columns
     results_df = results_df.sum(axis=1).sort_values(ascending=False)
-    results_df.to_csv(output_file, header=(['values']), sep='\t')
+    return results_df
 
 
-# def cleaning_ercc_from_ref_table(ercc_table, ref_feature_count_table):
-#     ercc = pd.read_table(ercc_table, sep='\t')
-#     for row in ercc.iterrows():
-#         if ercc['values'] >= 18:
-#             print(row)
+def new_ref_table(csv_common_ercc, ref_table, output_file):
+    ercc_table_final = []
+    csv_common_ercc_df = pd.Series.to_frame(csv_common_ercc)
+    new_csv_common_ercc_df = csv_common_ercc_df.reset_index()
+    new_csv_common_ercc_df.columns = ['keys', 'values']
+    selected_df = new_csv_common_ercc_df[~(new_csv_common_ercc_df['values'] >= 18)]
+    selected_df.reset_index(drop=True, inplace=True)
+    ref_table_df = pd.DataFrame.from_dict(ref_table, orient='index')
+    my_keys = selected_df['keys'].tolist()
+    for index, row in ref_table_df.iterrows():
+        if index in my_keys:
+            ercc_table_final.append(row)
+    df_with_selected_ercc = pd.DataFrame(ercc_table_final)
+    df_with_selected_ercc.to_csv(output_file)
