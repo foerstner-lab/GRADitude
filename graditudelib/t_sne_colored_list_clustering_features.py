@@ -102,6 +102,7 @@ def plot_t_sne_using_rna_classes_and_jens_list(read_counting_table, tsne_result,
     p.yaxis.axis_label = "Component 2"
 
     output_file(output_file_colorized_by_rna_class_and_list)
+    save(p)
 
 
 def _color_1(row, srnas_and_list_names):
@@ -173,6 +174,7 @@ def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_col
     p.yaxis.axis_label = "Component 2"
 
     output_file(output_file_colorized_by_rna_class)
+    save(p)
 
 
 def _color(row):
@@ -237,4 +239,5 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file_co
     p.yaxis.axis_label = "Component 2"
 
     output_file(output_file_colorized_by_clusters)
+    save(p)
 
