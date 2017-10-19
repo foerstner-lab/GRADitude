@@ -13,9 +13,10 @@ def robust_regression(
     gradient_file_combined = merging_df(ref_feature_count_table_df, concentration_table_df)
     read_grad_value, read_concentration_value, gradient_file = \
         modify_input(gradient_file_combined)
-    common_ercc_df, x_values, y_values = regression(read_grad_value, read_concentration_value, gradient_file,
+    common_ercc_df, x_values, y_values = regression(read_grad_value,
+                                                    read_concentration_value, gradient_file,
                                                     number_of_outliers)
-    regression_plot(read_grad_value, x_values, y_values, gradient_file, number_of_outliers)
+    regression_plot(read_grad_value, x_values, y_values, number_of_outliers)
     df_common_ercc = common_ercc(common_ercc_df)
     new_ref_table(df_common_ercc, ref_feature_count_table_df, output_file)
 
@@ -62,13 +63,12 @@ def regression(read_grad_value, read_concentration_value, gradient_file,
     return outliers_df, x_values, y_values
 
 
-def regression_plot(read_grad_value, x_values, y_values, gradient_file,
+def regression_plot(read_grad_value, x_values, y_values,
                     number_of_outliers):
-    key = gradient_file.ix[:, 0].ravel()
     for gradient in read_grad_value:
         clt_ransac = linear_model.RANSACRegressor(linear_model.LinearRegression())
         clt_ransac = clt_ransac.fit(x_values, y_values)
-        fig, axes = plt.subplots(ncols=2)
+        axes = plt.subplots(ncols=2)
         axes[0].scatter(x_values, y_values, c='g')
         axes[0].set_xlabel('Reads')
         axes[0].set_ylabel('Concentration')
@@ -96,9 +96,9 @@ def regression_plot(read_grad_value, x_values, y_values, gradient_file,
 
 
 def common_ercc(csv_file):
-    unique_vals = pd.Series(csv_file.values.ravel()).unique()
+    unique_val = pd.Series(csv_file.values.ravel()).unique()
     data_dict = {}
-    for val in unique_vals:
+    for val in unique_val:
         row = []
         for value in csv_file.columns:
             row.append((csv_file[value] == val).sum())
