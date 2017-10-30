@@ -16,6 +16,7 @@ from graditudelib import Clustering
 from graditudelib import min_row_sum
 from graditudelib import t_sne_colored_list_clustering_features
 from graditudelib import correlation_between_genes
+from graditudelib import selecting_ncRNAs
 
 
 def main():
@@ -48,6 +49,7 @@ def main():
     robust_regression_parser.add_argument('--concentration_table', '-c', required=True)
     robust_regression_parser.add_argument("--number_of_outliers", "-n", required=True, type=int)
     robust_regression_parser.add_argument("--outliers_table", '-o', required=True)
+    robust_regression_parser.add_argment('--number_of_ercc_in_common', '-nc', type=int)
     # robust_regression_parser.add_argument("--plot_outliers", '-p', default=False,
     #                                       help='plot the outliers. Default is False')
 
@@ -56,6 +58,13 @@ def main():
     correlation_gene_gene_parser.add_argument('--feature_count_table', '-f', required=True)
     correlation_gene_gene_parser.add_argument('--feature_count_start_column', '-fc', required=True)
     correlation_gene_gene_parser.add_argument('--output_file', '-o', required=True)
+
+    selecting_specific_features = subparsers.add_parser("selecting_specific_features")
+    selecting_specific_features.set_defaults(func=select_specific_features)
+    selecting_specific_features.add_argument('--normalized_table', '-n', required=True)
+    selecting_specific_features.add_argument('--feature_count_start_column', '-fc', required=True, type=int)
+    selecting_specific_features.add_argument('--feautures', '-f', required=True, nargs="+")
+    selecting_specific_features.add_argument('--output_table', '-o', required=True)
 
     # For each fraction generate/write--output_format/
     # - Histogram 
@@ -226,8 +235,12 @@ def run_correlation_gene_gene(args):
 
 def plot_kinetics(args):
     visualizing_kinetics.plot_kinetics(
-        args.feature_count_table, args.gene_name, args.feature_count_start_column,
-        args.output_format)
+        args.feature_count_table, args.gene_name, args.feature_count_start_column)
+
+
+def select_specific_features(args):
+    selecting_ncRNAs.selecting_specific_features(args.normalized_table,
+                                                 args.feature_count_start_column, args.features, args.output_file)
 
 
 def k_means_clustering(args):
@@ -295,7 +308,7 @@ def run_scaling(args):
 def run_robust_regression(args):
     robust_regression.robust_regression(args.ref_feature_count_table,
                                         args.concentration_table, args.number_of_outliers,
-                                        args.outliers_table)
+                                        args.outliers_table, args.number_of_ercc_in_common)
 
 
 def dbscan_clustering(args):
