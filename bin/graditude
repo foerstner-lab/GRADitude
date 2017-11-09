@@ -28,9 +28,9 @@ def main():
     modify_input_parser.set_defaults(func=filtering_tables)
     modify_input_parser.add_argument('--feature_count_table', '-f', required=True)
     modify_input_parser.add_argument("--ref_feature_count_table", "-r", required=True)
-    modify_input_parser.add_argument("--filtered_ref_feature_count_table", "-fr", required=True)
     modify_input_parser.add_argument("--filtered_feature_count_table", "-ff", required=True)
-    modify_input_parser.add_argument("--column_to_drop", "-c", default=None)
+    modify_input_parser.add_argument("--filtered_ref_feature_count_table", "-fr", required=True)
+    modify_input_parser.add_argument("--column_to_drop", "-c", default=None, nargs="+")
 
     # Currently done with DESeq2's approach - maybe add further options
     normalize_parser = subparsers.add_parser("normalize")
@@ -226,9 +226,11 @@ def main():
 
 
 def filtering_tables(args):
-    modify_input.filtering_input(args.feature_count_table, args.ref_feature_count_table,
-                                 args.filtered_ref_feature_count_table, args.filtered_feature_count_table,
-                                 args.column_to_drop)
+    modify_input.filtering_input(args.feature_count_table,
+                                 args.column_to_drop,
+                                 args.ref_feature_count_table,
+                                 args.filtered_feature_count_table,
+                                 args.filtered_ref_feature_count_table)
 
 
 def normalize_table(args):
