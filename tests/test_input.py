@@ -6,22 +6,34 @@ from graditudelib import silhouette
 from graditudelib import hierarchical_clustering
 from graditudelib import DBSCAN_clustering
 from graditudelib import Nearest_Neighbors
-from graditudelib import pca
+from graditudelib import PCA_analysis
 from graditudelib import tSNE
 from graditudelib import scaling
 from graditudelib import robust_regression
 from graditudelib import histograms_of_fractions
 from graditudelib import Clustering
 from graditudelib import min_row_sum
+from graditudelib import t_sne_colored_list_clustering_features
+from graditudelib import correlation_between_genes
+from graditudelib import robust_regression_old
+from graditudelib import modify_input
+
+
+def test_run_modify_input():
+    modify_input.filtering_input('/home/silvia/work/GRADitude/data/gene_wise_quantifications_combined_extended.csv',
+                                 'Locus_tag',
+                                 '/home/silvia/work/GRADitude/data/read_alignment_stats.csv',
+                                 'filtered_alignment_stats.csv',
+                                 'filtered_gene_wise_quantifications_combined_extended.csv')
 
 
 def test_run_normalize():
     normalize.normalized_count_table(
-        "../data/gene_wise_quantifications_combined_extended_test.csv",
+        "../tests/filtered_gene_wise_quantifications_combined_extended.csv",
         12,
-        "../data/filtered_alignment_stats.csv",
-        1,
-        "normalized_table.csv",
+        "../tests/filtered_alignment_stats.csv",
+        2,
+        "normalized_table_with_pellet.csv",
         "size_factor_table.csv",
     )
 
@@ -30,8 +42,7 @@ def test_run_visualizing_kinetics():
     visualizing_kinetics.plot_kinetics(
         "../data/gene_wise_quantifications_combined_extended_test.csv",
         'chiX',
-        13,
-        '.html')
+        12)
 
 
 def test_run_k_means_clustering():
@@ -84,12 +95,8 @@ def test_run_nearest_neighbors():
 
 
 def test_run_pca():
-    pca.pca_analysis('../data/gene_wise_quantifications_combined_extended_test.csv',
+    PCA_analysis.pca('../data/gene_wise_quantifications_combined_extended_test.csv',
                      12,
-                     1,
-                     6,
-                     'normalized_to_max',
-                     'k-means',
                      'test.csv',
                      'output_plot')
 
@@ -112,7 +119,15 @@ def test_run_scaling():
 def test_run_robust_regression():
     robust_regression.robust_regression("../data/filtered_alignment_stats.csv",
                                         '../data/cms_095046.txt',
-                                        20, 'ERCC_common.csv')
+                                        20,
+                                        'ERCC_common.csv')
+
+
+def test_run_robust_regression_old():
+    robust_regression_old.robust_regression("../data/filtered_alignment_stats.csv",
+                                            '../data/cms_095046.txt',
+                                            20,
+                                            'ERCC_common.csv')
 
 
 def test_run_histograms_of_fractions():
@@ -121,18 +136,37 @@ def test_run_histograms_of_fractions():
 
 
 def test_clustering():
-    Clustering.clustering('../data/normalized_table.csv',
+    Clustering.clustering('../tests/normalized_table_with_pellet.csv',
                           12,
                           6,
-                          'k-means',
-                          'test.csv',
-                          'log10', 1)
+                          1,
+                          'DBSCAN',
+                          0.05,
+                          20,
+                          "log10",
+                          "test.csv")
 
 
 def test_run_min_row_sum():
-    min_row_sum.exclude_the_min_row_sum("../data/normalized_table.csv", 12, 100)
+    min_row_sum.exclude_the_min_row_sum("../tests/filtered_gene_wise_quantifications_combined_extended.csv", 11, 100,
+                                        'gene_wise_combined_100_min_row_sum.csv')
 
 
+def test_run_t_sne_colored_list_clustering_features():
+    t_sne_colored_list_clustering_features.t_sne("../tests/k-means_normalized_with_pellet_to_max_6_clusters.csv",
+                                                 12, 30,
+                                                 "../data/sRNA_cluster1.txt",
+                                                 'output1',
+                                                 'output2',
+                                                 'output3')
+
+
+def test_run_correlation():
+    correlation_between_genes.correlation("../tests/filtered_gene_wise_quantifications_combined_extended.csv", 11,
+                                          'hist.png')
+
+
+# test_run_modify_input()
 # test_run_normalize()
 # test_run_visualizing_kinetics()
 # test_run_k_means_clustering()
@@ -145,6 +179,11 @@ def test_run_min_row_sum():
 # test_run_t_sne_analysis()
 # test_run_scaling()
 # test_run_robust_regression()
+# test_run_robust_regression_old()
 # test_run_histograms_of_fractions()
 # test_clustering()
+
+
 test_run_min_row_sum()
+# test_run_t_sne_colored_list_clustering_features()
+# test_run_correlation()

@@ -30,7 +30,15 @@ def main():
     modify_input_parser.add_argument("--ref_feature_count_table", "-r", required=True)
     modify_input_parser.add_argument("--filtered_feature_count_table", "-ff", required=True)
     modify_input_parser.add_argument("--filtered_ref_feature_count_table", "-fr", required=True)
-    modify_input_parser.add_argument("--column_to_drop", "-c", default=None, nargs="+")
+    modify_input_parser.add_argument("--column_to_drop", "-c", nargs="+")
+
+    robust_regression_parser = subparsers.add_parser("robust_regression")
+    robust_regression_parser.set_defaults(func=run_robust_regression)
+    robust_regression_parser.add_argument('--ref_feature_count_table', '-r', required=True)
+    robust_regression_parser.add_argument('--concentration_table', '-c', required=True)
+    robust_regression_parser.add_argument("--number_of_outliers", "-n", required=True, type=int)
+    robust_regression_parser.add_argument("--outliers_table", '-o', required=True)
+    robust_regression_parser.add_argument('--number_of_ercc_in_common', '-nc', type=int)
 
     # Currently done with DESeq2's approach - maybe add further options
     normalize_parser = subparsers.add_parser("normalize")
@@ -51,16 +59,6 @@ def main():
         "--scaling_method", "-sm", required=True,
         choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
     scaling_parser.add_argument("--pseudo_count", '-p', type=int, default=1)
-
-    robust_regression_parser = subparsers.add_parser("robust_regression")
-    robust_regression_parser.set_defaults(func=run_robust_regression)
-    robust_regression_parser.add_argument('--ref_feature_count_table', '-r', required=True)
-    robust_regression_parser.add_argument('--concentration_table', '-c', required=True)
-    robust_regression_parser.add_argument("--number_of_outliers", "-n", required=True, type=int)
-    robust_regression_parser.add_argument("--outliers_table", '-o', required=True)
-    robust_regression_parser.add_argument('--number_of_ercc_in_common', '-nc', type=int)
-    # robust_regression_parser.add_argument("--plot_outliers", '-p', default=False,
-    #                                       help='plot the outliers. Default is False')
 
     correlation_gene_gene_parser = subparsers.add_parser("correlation_gene_gene")
     correlation_gene_gene_parser.set_defaults(func=run_correlation_gene_gene)
@@ -193,7 +191,7 @@ def main():
         "--clustering", "-c", required=True,
         choices=["no_cluster", "with_cluster"])
 
-    t_sne_colored_list_clustering_features_parser = subparsers.add_parser("t_sne_colored_using_different_methods")
+    t_sne_colored_list_clustering_features_parser = subparsers.add_parser("t_<sne_colored_using_different_methods")
     t_sne_colored_list_clustering_features_parser.set_defaults(func=run_t_sne_colored_using_different_methods)
     t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_table", "-f", required=True)
     t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_start_column", "-fc", required=True,
