@@ -23,8 +23,8 @@ def test_run_modify_input():
     modify_input.filtering_input('/home/silvia/work/GRADitude/data/gene_wise_quantifications_combined_extended.csv',
                                  'Locus_tag',
                                  '/home/silvia/work/GRADitude/data/read_alignment_stats.csv',
-                                 'filtered_alignment_stats.csv',
-                                 'filtered_gene_wise_quantifications_combined_extended.csv')
+                                 'filtered_gene_wise_quantifications_combined_extended.csv',
+                                 'filtered_alignment_stats.csv')
 
 
 def test_run_normalize():
@@ -148,7 +148,7 @@ def test_clustering():
 
 
 def test_run_min_row_sum():
-    min_row_sum.exclude_the_min_row_sum("../tests/filtered_gene_wise_quantifications_combined_extended.csv", 11, 100,
+    min_row_sum.exclude_the_min_row_sum("../tests/filtered_alignment_stats.csv", 1, 100,
                                         'gene_wise_combined_100_min_row_sum.csv')
 
 
@@ -166,7 +166,7 @@ def test_run_correlation():
                                           'hist.png')
 
 
-# test_run_modify_input()
+test_run_modify_input()
 # test_run_normalize()
 # test_run_visualizing_kinetics()
 # test_run_k_means_clustering()
@@ -182,8 +182,6 @@ def test_run_correlation():
 # test_run_robust_regression_old()
 # test_run_histograms_of_fractions()
 # test_clustering()
-
-
-test_run_min_row_sum()
+# test_run_min_row_sum()
 # test_run_t_sne_colored_list_clustering_features()
 # test_run_correlation()

@@ -28,6 +28,7 @@ def main():
     modify_input_parser.set_defaults(func=filtering_tables)
     modify_input_parser.add_argument('--feature_count_table', '-f', required=True)
     modify_input_parser.add_argument("--ref_feature_count_table", "-r", required=True)
+    modify_input_parser.add_argument("--min_row_sum", "-m", type=int, default=0)
     modify_input_parser.add_argument("--filtered_feature_count_table", "-ff", required=True)
     modify_input_parser.add_argument("--filtered_ref_feature_count_table", "-fr", required=True)
     modify_input_parser.add_argument("--column_to_drop", "-c", nargs="+")
@@ -227,6 +228,7 @@ def filtering_tables(args):
     modify_input.filtering_input(args.feature_count_table,
                                  args.column_to_drop,
                                  args.ref_feature_count_table,
+                                 args.min_row_sum,
                                  args.filtered_feature_count_table,
                                  args.filtered_ref_feature_count_table)
 
