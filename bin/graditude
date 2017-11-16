@@ -319,7 +319,8 @@ def run_scaling(args):
 def run_robust_regression(args):
     robust_regression.robust_regression(args.ref_feature_count_table,
                                         args.concentration_table, args.number_of_outliers,
-                                        args.outliers_table, args.number_of_ercc_in_common)
+                                        args.number_of_ercc_in_common,
+                                        args.outliers_table)
 
 
 def dbscan_clustering(args):

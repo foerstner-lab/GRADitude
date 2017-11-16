@@ -15,8 +15,8 @@ from graditudelib import Clustering
 from graditudelib import min_row_sum
 from graditudelib import t_sne_colored_list_clustering_features
 from graditudelib import correlation_between_genes
-from graditudelib import robust_regression_old
 from graditudelib import modify_input
+from graditudelib import UMAP_analysis
 
 
 def test_run_modify_input():
@@ -29,10 +29,10 @@ def test_run_modify_input():
 
 def test_run_normalize():
     normalize.normalized_count_table(
-        "../tests/filtered_gene_wise_quantifications_combined_extended.csv",
+        "../output/filtered_gene_wise_quantifications_combined_extended.csv",
         12,
-        "../tests/filtered_alignment_stats.csv",
-        2,
+        "../output/filtered_alignment_stats_with_correlated_ERCC.csv",
+        1,
         "normalized_table_with_pellet.csv",
         "size_factor_table.csv",
     )
@@ -40,14 +40,14 @@ def test_run_normalize():
 
 def test_run_visualizing_kinetics():
     visualizing_kinetics.plot_kinetics(
-        "../data/gene_wise_quantifications_combined_extended_test.csv",
+        "../tests/filtered_gene_wise_quantifications_combined_extended.csv",
         'chiX',
-        12)
+        11)
 
 
 def test_run_k_means_clustering():
     k_means.generate_k_means_clustering(
-        "../data/gene_wise_quantifications_combined_extended_test.csv",
+        "/home/silvia/work/GRADitude/tests/filtered_gene_wise_quantifications_combined_extended.csv",
         12,
         7,
         'normalized_by_log10_with_clusters.csv',
@@ -117,17 +117,10 @@ def test_run_scaling():
 
 
 def test_run_robust_regression():
-    robust_regression.robust_regression("../data/filtered_alignment_stats.csv",
-                                        '../data/cms_095046.txt',
-                                        20,
-                                        'ERCC_common.csv')
-
-
-def test_run_robust_regression_old():
-    robust_regression_old.robust_regression("../data/filtered_alignment_stats.csv",
-                                            '../data/cms_095046.txt',
-                                            20,
-                                            'ERCC_common.csv')
+    robust_regression.robust_regression("../output/filtered_alignment_stats.csv",
+                                        "../data/cms_095046.txt",
+                                        20, 18,
+                                        'filtered_alignment_stats_with_correlated_ERCC.csv')
 
 
 def test_run_histograms_of_fractions():
@@ -153,7 +146,7 @@ def test_run_min_row_sum():
 
 
 def test_run_t_sne_colored_list_clustering_features():
-    t_sne_colored_list_clustering_features.t_sne("../tests/k-means_normalized_with_pellet_to_max_6_clusters.csv",
+    t_sne_colored_list_clustering_features.t_soe("../tests/k-means_normalized_with_pellet_to_max_6_clusters.csv",
                                                  12, 30,
                                                  "../data/sRNA_cluster1.txt",
                                                  'output1',
@@ -161,13 +154,20 @@ def test_run_t_sne_colored_list_clustering_features():
                                                  'output3')
 
 
+def test_run_umap_analysis():
+    UMAP_analysis.umap_("/home/silvia/work/GRADitude/tests/normalized_by_log10_with_clusters.csv",
+                        11,
+                        'output1_test',
+                        'output2_test')
+
+
 def test_run_correlation():
-    correlation_between_genes.correlation("../tests/filtered_gene_wise_quantifications_combined_extended.csv", 11,
+    correlation_between_genes.correlation("../tests/normalized_by_log10_with_clusters.csv", 11,
                                           'hist.png')
 
 
-test_run_modify_input()
-# test_run_normalize()
+# test_run_modify_input()
+test_run_normalize()
 # test_run_visualizing_kinetics()
 # test_run_k_means_clustering()
 # test_run_elbow_method()
@@ -179,9 +179,9 @@ test_run_modify_input()
 # test_run_t_sne_analysis()
 # test_run_scaling()
 # test_run_robust_regression()
-# test_run_robust_regression_old()
 # test_run_histograms_of_fractions()
 # test_clustering()
 # test_run_min_row_sum()
 # test_run_t_sne_colored_list_clustering_features()
 # test_run_correlation()
+# test_run_umap_analysis()
