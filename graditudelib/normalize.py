@@ -9,7 +9,7 @@ def normalized_count_table(
         ref_feature_count_start_column,
         normalized_table,
         size_factor_table):
-    ref_feature_count_table_df = pd.read_table(ref_feature_count_table, sep=',')
+    ref_feature_count_table_df = pd.read_table(ref_feature_count_table, sep='\t')
     feature_count_table_df = pd.read_table(feature_count_table)
     size_factors = _calc_size_factors(ref_feature_count_table_df,
                                       ref_feature_count_start_column)
@@ -52,7 +52,7 @@ def _normalize_by_size_factor(feature_counting_table_df,
                               feature_count_start_column, size_factor):
     df = feature_counting_table_df.copy()
     value_columns = df.columns[feature_count_start_column:]
+    """Divide the gene quantification table for the size factor to normalize the data"""
     df[value_columns] = df[value_columns].divide(list(size_factor), axis=1)
     return df
-
 
