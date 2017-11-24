@@ -192,7 +192,7 @@ def main():
         "--clustering", "-c", required=True,
         choices=["no_cluster", "with_cluster"])
 
-    t_sne_colored_list_clustering_features_parser = subparsers.add_parser("t_<sne_colored_using_different_methods")
+    t_sne_colored_list_clustering_features_parser = subparsers.add_parser("t_sne_colored_using_different_methods")
     t_sne_colored_list_clustering_features_parser.set_defaults(func=run_t_sne_colored_using_different_methods)
     t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_table", "-f", required=True)
     t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_start_column", "-fc", required=True,

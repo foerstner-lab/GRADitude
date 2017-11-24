@@ -45,7 +45,8 @@ def _multiply_geometric_means_with_value_matrix(counting_value_matrix,
 
 
 def _geometric_means(counting_value_matrix):
-    return scipy.stats.mstats.gmean(counting_value_matrix, axis=1)
+    g_mean = scipy.stats.mstats.gmean(counting_value_matrix, axis=1)
+    return g_mean
 
 
 def _normalize_by_size_factor(feature_counting_table_df,
