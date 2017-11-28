@@ -1,6 +1,4 @@
 from sklearn.cluster import AgglomerativeClustering
-from scipy.cluster.hierarchy import ward, dendrogram
-import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
@@ -13,10 +11,10 @@ def generate_hierarchical_clustering(feature_count_table,
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
-    normalized_table = normalize_values(value_matrix, scaling_method, pseudo_count)
+    table_normalized = normalize_values(value_matrix, scaling_method, pseudo_count)
     attribute_matrix = _extract_attributes(feature_count_table_df,
                                            feature_count_start_column)
-    clustering_table = hierarchical_clustering(normalized_table, number_of_clusters)
+    clustering_table = hierarchical_clustering(table_normalized, number_of_clusters)
     pd.concat([attribute_matrix, clustering_table],
               axis=1).to_csv(output_file, sep='\t', index=None)
 
@@ -37,9 +35,9 @@ def hierarchical_clustering(values_matrix, number_of_clusters):
                                            linkage="ward")
     h_clustering.fit(values_matrix)
     labels = h_clustering.labels_
-    plt.figure()
-    dendrogram(ward(values_matrix))
-    plt.show()
+    # plt.figure()
+    # dendrogram(ward(values_matrix))
+    # plt.show()
     pd.DataFrame(data=labels, columns=['cluster'])
     values_matrix["Cluster_label"] = pd.Series(
         h_clustering.labels_).astype(int)
@@ -56,17 +54,22 @@ def normalize_values(values_matrix, scaling_method, pseudo_count):
         normalized_values = values_matrix.applymap(
             lambda val: val + pseudo_count).applymap(np.log10)
     elif scaling_method == "normalized_to_max":
+        values_matrix = values_matrix.fillna(lambda x: 0)
         row_max_values = values_matrix.max(axis=1)
         normalized_values = values_matrix.divide(
             row_max_values, axis=0)
+        normalized_values = pd.DataFrame(normalized_values).fillna(0)
     elif scaling_method == "normalized_to_range":
+        values_matrix = values_matrix.fillna(lambda x: 0)
         row_max_values = values_matrix.max(axis=1)
         row_min_values = values_matrix.min(axis=1)
         normalized_values = values_matrix.subtract(
             row_min_values, axis=0).divide(row_max_values, axis=0)
+        normalized_values = pd.DataFrame(normalized_values).fillna(0)
     else:
         print("Normalization method not known")
     return normalized_values
+
 
 
 

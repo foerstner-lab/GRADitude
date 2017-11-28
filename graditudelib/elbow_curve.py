@@ -6,18 +6,18 @@ import matplotlib.pyplot as plt
 
 
 def k_means_clustering_elbow(feature_count_table, feature_count_start_column,
-                             min_number_of_clusters, max_number_of_clusters):
+                             min_number_of_clusters, max_number_of_clusters, output_plots1, output_plot2):
 
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
-    elbow_methods(value_matrix, min_number_of_clusters, max_number_of_clusters)
+    elbow_methods(value_matrix, min_number_of_clusters, max_number_of_clusters, output_plots1)
     elbow_methods1(value_matrix, min_number_of_clusters,
-                   max_number_of_clusters)
+                   max_number_of_clusters, output_plot2)
 
 
 def elbow_methods(value_matrix, min_number_of_clusters,
-                  max_number_of_clusters):
+                  max_number_of_clusters, output_plots1):
     range_k = range(int(min_number_of_clusters), int(max_number_of_clusters))
     k_m = [KMeans(n_clusters=k).fit(value_matrix) for k in range_k]
     centroids = [k.cluster_centers_ for k in k_m]
@@ -33,11 +33,11 @@ def elbow_methods(value_matrix, min_number_of_clusters,
     plt.xlabel('Number of clusters')
     plt.ylabel('Percentage of variance explained')
     plt.title('Elbow for KMeans clustering')
-    plt.savefig('elbow_for_kmeans_clustering2.pdf', format='pdf')
+    plt.savefig(output_plots1, format='pdf')
 
 
 def elbow_methods1(value_matrix, min_number_of_clusters,
-                   max_number_of_clusters):
+                   max_number_of_clusters, output_plot2):
     range_k = range(int(min_number_of_clusters), int(max_number_of_clusters))
     k_m = [KMeans(n_clusters=k).fit(value_matrix) for k in range_k]
     centroids = [k.cluster_centers_ for k in k_m]
@@ -51,7 +51,7 @@ def elbow_methods1(value_matrix, min_number_of_clusters,
     plt.xlabel('Number of clusters')
     plt.ylabel('Average within-cluster sum of squares')
     plt.title('Elbow for KMeans clustering')
-    plt.savefig('elbow_for_kmeans_clustering.pdf', format='pdf')
+    plt.savefig(output_plot2, format='pdf')
 
 
 def _extract_value_matrix(feature_count_table_df,
