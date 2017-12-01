@@ -24,14 +24,14 @@ def _extract_gene_matrix(feature_count_table_df):
 
 def _extract_attributes(feature_count_table_df,
                         feature_count_start_column):
-    return feature_count_table_df.iloc[:, : int(feature_count_start_column) - 1]
+    return feature_count_table_df.iloc[:, : int(feature_count_start_column)]
 
 
 def min_row_sum(value_matrix, attribute_matrix, gene_column, min_row, output_file):
     gene_table_final = []
     combined_df_ext = pd.concat([attribute_matrix, value_matrix], axis=1)
-    normalized_values = value_matrix.sum(axis=1)
-    combined_df = pd.concat([gene_column, normalized_values], axis=1)
+    summed_values = value_matrix.sum(axis=1)
+    combined_df = pd.concat([gene_column, summed_values], axis=1)
     combined_df.columns = ['Gene', 'sum_of_values']
     selected_df = combined_df[~(combined_df['sum_of_values'] <= min_row)]
     selected_df.reset_index(drop=True, inplace=True)

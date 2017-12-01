@@ -182,7 +182,6 @@ def main():
     pca_parser.add_argument("--feature_count_start_column", "-fc", required=True, type=int)
     pca_parser.add_argument("--output_file_colorized_by_clusters", "-clusters", required=True)
     pca_parser.add_argument("--output_file_colorized_by_rna_class", "-features", required=True)
-    pca_parser.add_argument("--output_file_colorized_by_rna_class_and_list", "-list")
 
     t_sne_parser = subparsers.add_parser("t_sne")
     t_sne_parser.set_defaults(func=run_t_sne)
