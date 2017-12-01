@@ -23,16 +23,20 @@ def test_run_modify_input():
     modify_input.filtering_input('/home/silvia/work/GRADitude/data/gene_wise_quantifications_combined_extended.csv',
                                  'Locus_tag',
                                  '/home/silvia/work/GRADitude/data/read_alignment_stats.csv',
+                                 100,
                                  'filtered_gene_wise_quantifications_combined_extended.csv',
-                                 'filtered_alignment_stats.csv')
+                                 'filtered_alignment_stats.csv',
+                                 'Grad_47_Fraction_00L_Rep_3')
 
 
 def test_run_normalize():
     normalize.normalized_count_table(
         "../output/filtered_gene_wise_quantifications_combined_extended.csv",
-        12,
+        11,
+        30,
         "../output/filtered_alignment_stats_with_correlated_ERCC.csv",
         1,
+        20,
         "normalized_table_with_pellet.csv",
         "size_factor_table.csv",
     )
@@ -129,13 +133,11 @@ def test_run_histograms_of_fractions():
 
 
 def test_clustering():
-    Clustering.clustering('../tests/normalized_table_with_pellet.csv',
-                          12,
+    Clustering.clustering('../output/normalized_table_with_pellet.csv',
+                          10,
                           6,
                           1,
-                          'DBSCAN',
-                          0.05,
-                          20,
+                          'K-means',
                           "log10",
                           "test.csv")
 
@@ -146,12 +148,10 @@ def test_run_min_row_sum():
 
 
 def test_run_t_sne_colored_list_clustering_features():
-    t_sne_colored_list_clustering_features.t_soe("../tests/k-means_normalized_with_pellet_to_max_6_clusters.csv",
-                                                 12, 30,
-                                                 "../data/sRNA_cluster1.txt",
-                                                 'output1',
-                                                 'output2',
-                                                 'output3')
+    t_sne_colored_list_clustering_features.t_sne("../output/test_table.csv",
+                                                 11, 30,
+                                                 'output1.html',
+                                                 'output2.html')
 
 
 def test_run_umap_analysis():
@@ -166,8 +166,8 @@ def test_run_correlation():
                                           'hist.png')
 
 
-# test_run_modify_input()
-test_run_normalize()
+#test_run_modify_input()
+#test_run_normalize()
 # test_run_visualizing_kinetics()
 # test_run_k_means_clustering()
 # test_run_elbow_method()
@@ -180,8 +180,8 @@ test_run_normalize()
 # test_run_scaling()
 # test_run_robust_regression()
 # test_run_histograms_of_fractions()
-# test_clustering()
+#test_clustering()
 # test_run_min_row_sum()
-# test_run_t_sne_colored_list_clustering_features()
+test_run_t_sne_colored_list_clustering_features()
 # test_run_correlation()
 # test_run_umap_analysis()
