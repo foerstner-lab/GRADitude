@@ -103,7 +103,7 @@ def main():
     plot_kinetics_parser.set_defaults(func=plot_kinetics)
     plot_kinetics_parser.add_argument("--feature_count_table", "-f", required=True)
     plot_kinetics_parser.add_argument("--gene_name", "-gene", required=True)
-    plot_kinetics_parser.add_argument('--feature_count_start_column', "-fc", required=True)
+    plot_kinetics_parser.add_argument('--feature_count_start_column', "-fc", required=True, type =int)
     plot_kinetics_parser.add_argument("--output_plot", "-o", required=True)
     plot_kinetics_parser.add_argument("--output_format", '-format', choices=["html", "pdf"],
                                       default="html")
