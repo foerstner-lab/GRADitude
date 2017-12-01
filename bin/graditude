@@ -201,15 +201,12 @@ def main():
     t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_start_column", "-fc", required=True,
                                                                type=int)
     t_sne_colored_list_clustering_features_parser.add_argument("--perplexity", "-pp", required=True, type=int)
-    t_sne_colored_list_clustering_features_parser.add_argument("--s_rna_list_files", "-list", default=False, nargs="+",
-                                                               help='tSNE colored using a certain list, DEFAULT false')
 
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file1", "-o1", default=False,
                                                                help="output colorized using clusters information")
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file2", "-o2", default=False,
                                                                help="output colorized using attributes information")
-    t_sne_colored_list_clustering_features_parser.add_argument("--output_file3", "-o3", default=False,
-                                                               help="output colorized using list ")
+
 
     # version_parser = subparsers.add_parser("version")
     # version_parser.set_defaults(func=show_version)
@@ -289,10 +286,9 @@ def run_t_sne(args):
 
 def run_t_sne_colored_using_different_methods(args):
     t_sne_colored_list_clustering_features.t_sne(args.feature_count_table, args.feature_count_start_column,
-                                                 args.perplexity, args.s_rna_list_files,
+                                                 args.perplexity,
                                                  args.output_file1,
-                                                 args.output_file2,
-                                                 args.output_file3)
+                                                 args.output_file2)
 
 
 def run_hierarchical_clustering(args):
@@ -306,9 +302,7 @@ def run_hierarchical_clustering(args):
 def run_pca(args):
     PCA_analysis.pca(args.feature_count_table,
                      args.feature_count_start_column,
-                     args.s_rna_list_files,
-                     args.output_file_colorized_by_clusters, args.output_file_colorized_by_rna_class,
-                     args.output_file_colorized_by_rna_class_and_list)
+                     args.output_file_colorized_by_clusters, args.output_file_colorized_by_rna_class)
 
 
 def run_scaling(args):
