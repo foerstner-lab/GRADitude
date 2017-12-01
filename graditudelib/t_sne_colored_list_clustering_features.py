@@ -55,10 +55,18 @@ def plot_t_sne_using_rna_classes_and_jens_list(read_counting_table, tsne_result,
             [key_value_pair.split("=") for
              key_value_pair in attr.split(";")]))
 
+    default_color = "#4271FF"
+    # highlight_color = "#FF9C38"
+    color = default_color
+
+    color = read_counting_table.apply(
+        _color_1, args=(srnas_and_list_names,), axis=1)
+    
     hower_data = dict(
         x=read_counting_table["t-SNE-component_1"],
         y=read_counting_table["t-SNE-component_2"],
-        feature=read_counting_table["Feature"])
+        feature=read_counting_table["Feature"],
+        color=color)
 
     for feature in ["gene", "product", "ID", "type", "ncrna_class",
                     "sRNA_type", "Name", "pseudo"]:
@@ -85,14 +93,7 @@ def plot_t_sne_using_rna_classes_and_jens_list(read_counting_table, tsne_result,
                       WheelZoomTool(), "tap"],
                title="Grad-Seq t-SNE RNA-Seq", logo=None)
 
-    default_color = "#4271FF"
-    # highlight_color = "#FF9C38"
-    color = default_color
-
-    color = read_counting_table.apply(
-        _color_1, args=(srnas_and_list_names,), axis=1)
-
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color=color)
+    p.circle("x", "y", source=source, size=5, alpha=0.7, color="color")
 
     url = "http://www.uniprot.org/uniprot/@protein_id"
     taptool = p.select(type=TapTool)
