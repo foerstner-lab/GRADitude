@@ -18,7 +18,7 @@ def _extract_value_matrix(feature_count_table_df,
 
 def _extract_gene_matrix(feature_count_table_df):
     gene_column = feature_count_table_df[list(filter(
-        lambda col: col.startswith("Gene"), feature_count_table_df.columns))]
+        lambda col: col.startswith("Attributes"), feature_count_table_df.columns))]
     return gene_column
 
 
@@ -32,12 +32,12 @@ def min_row_sum(value_matrix, attribute_matrix, gene_column, min_row, output_fil
     combined_df_ext = pd.concat([attribute_matrix, value_matrix], axis=1)
     summed_values = value_matrix.sum(axis=1)
     combined_df = pd.concat([gene_column, summed_values], axis=1)
-    combined_df.columns = ['Gene', 'sum_of_values']
+    combined_df.columns = ['Attributes', 'sum_of_values']
     selected_df = combined_df[~(combined_df['sum_of_values'] <= min_row)]
     selected_df.reset_index(drop=True, inplace=True)
-    my_keys = selected_df['Gene'].tolist()
+    my_keys = selected_df['Attributes'].tolist()
     for index, row in combined_df_ext.iterrows():
-        gene = row["Gene"]
+        gene = row["Attributes"]
         if gene in my_keys:
             gene_table_final.append(row)
     df_with_min_row_samples = pd.DataFrame(gene_table_final)
