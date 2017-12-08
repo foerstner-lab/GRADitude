@@ -54,8 +54,6 @@ def create_gene_quanti_table_modified(gene_quanti_table, column_to_drop, droppin
     cols = gene_quanti_table.columns.tolist()
     cols = cols[-1:] + cols[:-1]
     gene_quanti_table_with_gene_column_modified = gene_quanti_table[cols]
-    gene_without_column = gene_quanti_table_with_gene_column_modified.drop(column_to_drop, axis=1)
-    gene_without_column.drop(dropping_lisate, axis=1, inplace=True)
-    return gene_without_column
-
-
+    del gene_quanti_table_with_gene_column_modified[column_to_drop]
+    del gene_quanti_table_with_gene_column_modified[dropping_lisate]
+    return gene_quanti_table_with_gene_column_modified
