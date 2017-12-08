@@ -1,8 +1,5 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 from bokeh.plotting import figure, output_file, show
-from scipy import interpolate
-import numpy as np
 
 
 def plot_kinetics(feature_count_table,
@@ -32,3 +29,13 @@ def _plot_gene_html(counting_value_list, gene_name):
     plot_html.line(y_axis, counting_value_list)
     show(plot_html)
 
+
+def _plot_gene_png(counting_value_list, gene_name):
+    output_file(gene_name + '.html')
+    plot_html = figure(title="GRAD-seq" +
+                             '\n' + gene_name,
+                       x_axis_label='Fraction number',
+                       y_axis_label='Read counts')
+    y_axis = range(0, 21)
+    plot_html.line(y_axis, counting_value_list)
+    show(plot_html)
