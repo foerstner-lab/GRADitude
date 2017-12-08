@@ -14,6 +14,11 @@ def _extract_value_matrix(feature_count_table_df,
     return feature_count_table_df.iloc[:, int(feature_count_start_column):]
 
 
-def _plot_histogram_pdf(counting_value_list):
-    counting_value_list.plot.hist(bins=50, legend=False)
-    plt.show()
+def _plot_histogram_pdf(feature_count_table_df_value):
+    i = 0
+    for column in feature_count_table_df_value:
+        i = i + 1
+        plt.figure(i)
+        plt.hist(feature_count_table_df_value[column].values)
+        # plt.show()
+        plt.savefig(column)
