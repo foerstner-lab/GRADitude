@@ -73,9 +73,10 @@ def main():
     selecting_specific_features = subparsers.add_parser("selecting_specific_features")
     selecting_specific_features.set_defaults(func=select_specific_features)
     selecting_specific_features.add_argument('--normalized_table', '-n', required=True)
-    selecting_specific_features.add_argument('--feature_count_start_column', '-fc', required=True, type=int)
-    selecting_specific_features.add_argument('--feautures', '-f', required=True, nargs="+")
-    selecting_specific_features.add_argument('--output_table', '-o', required=True)
+    selecting_specific_features.add_argument('--feature_count_start_column', '-fc',
+                                             required=True, type=int)
+    selecting_specific_features.add_argument('--features', '-f', nargs='+', required=True)
+    selecting_specific_features.add_argument('--output_file', '-o', required=True)
 
     # For each fraction generate/write--output_format/
     # - Histogram 
