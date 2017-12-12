@@ -7,10 +7,10 @@ from sklearn.linear_model import RANSACRegressor
 
 
 def robust_regression(
-        ref_feature_count_table, concentration_table, number_of_outliers,number_of_ercc_in_common, output_file):
+        ref_feature_count_table, concentration_table, number_of_outliers, number_of_ercc_in_common, output_file, mix):
     ref_feature_count_table_df = read_table(ref_feature_count_table)
     concentration_table_df = read_table_concentration(concentration_table)
-    gradient_file_combined = merging_dict(ref_feature_count_table_df, concentration_table_df)
+    gradient_file_combined = merging_dict(ref_feature_count_table_df, concentration_table_df, mix)
     read_grad_value, read_concentration_value, gradient_file = \
         modify_input(gradient_file_combined)
     common_ercc_df = regression(read_grad_value, read_concentration_value, gradient_file,
@@ -38,13 +38,13 @@ def read_table_concentration(concentration_table):
     return new_dict_for_conc_table
 
 
-def merging_dict(ref_feature_count_table_dict, new_dict_for_conc_table):
+def merging_dict(ref_feature_count_table_dict, new_dict_for_conc_table, mix):
     """Merge the two dictionaries using common keys. """
     combined_dict = {}
     concentration_list = []
     for key in ref_feature_count_table_dict:
         reads = ref_feature_count_table_dict[key][1:]
-        concentration = new_dict_for_conc_table[key][4]
+        concentration = new_dict_for_conc_table[key][mix]
         for gradient, val in reads.iteritems():
             if gradient not in combined_dict:
                 combined_dict[gradient] = {}

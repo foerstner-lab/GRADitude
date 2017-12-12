@@ -41,6 +41,7 @@ def main():
     robust_regression_parser.add_argument("--number_of_outliers", "-n", required=True, type=int)
     robust_regression_parser.add_argument("--outliers_table", '-o', required=True)
     robust_regression_parser.add_argument('--number_of_ercc_in_common', '-nc', type=int)
+    robust_regression_parser.add_argument("--used_mix, '-mix", required=True, type=int)
 
     # Currently done with DESeq2's approach - maybe add further options
     normalize_parser = subparsers.add_parser("normalize")
