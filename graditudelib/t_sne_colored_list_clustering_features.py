@@ -93,7 +93,7 @@ def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_col
 def _color(row):
     color = {"CDS": "#BDBDBD", "ncRNA": "#FF4D4D", "tRNA": "#EBB000",
              "rRNA": "#8080FF", "tmRNA": "#3D3D3D", "5UTR": "9F000F",
-             "3UTR": "0000AF"
+             "3UTR": "0000AF", "pseudogenic_tRNA": "C2EFFF"
              }[row["Feature"]]
     return color
 
