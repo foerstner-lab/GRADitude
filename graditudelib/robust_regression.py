@@ -7,10 +7,11 @@ from sklearn.linear_model import RANSACRegressor
 
 
 def robust_regression(
-        ref_feature_count_table, concentration_table, number_of_outliers, number_of_ercc_in_common, output_file, mix):
+        ref_feature_count_table, concentration_table, number_of_outliers, number_of_ercc_in_common, used_mix,
+        output_file):
     ref_feature_count_table_df = read_table(ref_feature_count_table)
     concentration_table_df = read_table_concentration(concentration_table)
-    gradient_file_combined = merging_dict(ref_feature_count_table_df, concentration_table_df, mix)
+    gradient_file_combined = merging_dict(ref_feature_count_table_df, concentration_table_df, used_mix)
     read_grad_value, read_concentration_value, gradient_file = \
         modify_input(gradient_file_combined)
     common_ercc_df = regression(read_grad_value, read_concentration_value, gradient_file,
@@ -140,4 +141,4 @@ def new_ref_table(csv_common_ercc, ref_table, output_file, number_of_ercc_in_com
     for index, row in ref_table_df.iterrows():
         if index in my_keys:
             df = ref_table_df.drop(my_keys)
-        df.to_csv(output_file, sep='\t', index=None)
+    df.to_csv(output_file, sep='\t', index=None)
