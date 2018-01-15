@@ -17,26 +17,28 @@ from graditudelib import t_sne_colored_list_clustering_features
 from graditudelib import correlation_between_genes
 from graditudelib import modify_input
 from graditudelib import UMAP_analysis
+from graditudelib import selecting_ncRNAs
 
 
 def test_run_modify_input():
-    modify_input.filtering_input('/home/silvia/work/GRADitude/data/gene_wise_quantifications_combined_extended.csv',
-                                 'Locus_tag',
-                                 '/home/silvia/work/GRADitude/data/read_alignment_stats.csv',
-                                 100,
-                                 'filtered_gene_wise_quantifications_combined_extended.csv',
-                                 'filtered_alignment_stats.csv',
-                                 'Grad_47_Fraction_00L_Rep_3')
+    modify_input.filtering_input(
+        '/home/silvia/work/GRADitude/data/gene_wise_quantifications_combined_extended.csv',
+        'Locus_tag',
+        '/home/silvia/work/GRADitude/data/read_alignment_stats.csv',
+        100,
+        'filtered_gene_wise_quantifications_combined_extended.csv',
+        'filtered_alignment_stats.csv',
+        'Grad_47_Fraction_00L_Rep_3')
 
 
 def test_run_normalize():
     normalize.normalized_count_table(
-        "../output/filtered_gene_wise_quantifications_combined_extended.csv",
-        11,
-        30,
-        "../output/filtered_alignment_stats_with_correlated_ERCC.csv",
+        "../data/filtered_gene_wise_quantifications_combined_extended.csv",
+        12,
+        32,
+        "../data/filtered_alignment_stats_with_correlated_ERCC.csv",
         1,
-        20,
+        21,
         "normalized_table_with_pellet.csv",
         "size_factor_table.csv",
     )
@@ -121,15 +123,16 @@ def test_run_scaling():
 
 
 def test_run_robust_regression():
-    robust_regression.robust_regression("../output/filtered_alignment_stats.csv",
+    robust_regression.robust_regression("../data/filtered_alignment_stats_MIN_ROW_SUM_100.csv",
                                         "../data/cms_095046.txt",
                                         20, 18,
+                                        4,
                                         'filtered_alignment_stats_with_correlated_ERCC.csv')
 
 
 def test_run_histograms_of_fractions():
-    histograms_of_fractions.plot_histograms('../data/gene_wise_quantifications_combined_extended_test.csv',
-                                            12)
+    histograms_of_fractions.plot_histograms('../output/filtered_gene_wise_quantifications_combined_extended.csv',
+                                            11)
 
 
 def test_clustering():
@@ -143,7 +146,8 @@ def test_clustering():
 
 
 def test_run_min_row_sum():
-    min_row_sum.exclude_the_min_row_sum("../tests/filtered_alignment_stats.csv", 1, 100,
+    min_row_sum.exclude_the_min_row_sum("../output/filtered_gene_wise_quantifications_combined_extended._max.csv", 11,
+                                        100,
                                         'gene_wise_combined_100_min_row_sum.csv')
 
 
@@ -166,8 +170,13 @@ def test_run_correlation():
                                           'hist.png')
 
 
+def test_run_selecting_ncRNAs():
+    selecting_ncRNAs.selecting_specific_features("../data/gene_wise_quantifications_combined_extended.csv",
+                                                 11, 'ncRNA', 'test.csv')
+
+
 #test_run_modify_input()
-#test_run_normalize()
+# test_run_normalize()
 # test_run_visualizing_kinetics()
 # test_run_k_means_clustering()
 # test_run_elbow_method()
@@ -178,10 +187,11 @@ def test_run_correlation():
 # test_run_pca()
 # test_run_t_sne_analysis()
 # test_run_scaling()
-# test_run_robust_regression()
+test_run_robust_regression()
 # test_run_histograms_of_fractions()
-#test_clustering()
+# test_clustering()
 # test_run_min_row_sum()
-test_run_t_sne_colored_list_clustering_features()
+# test_run_t_sne_colored_list_clustering_features()
 # test_run_correlation()
 # test_run_umap_analysis()
+# test_run_selecting_ncRNAs()
