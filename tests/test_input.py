@@ -115,7 +115,7 @@ def test_run_t_sne_analysis():
 
 
 def test_run_scaling():
-    scaling.scaling('../data/gene_wise_quantifications_combined_extended_test.csv',
+    scaling.scaling('../data/gene_wise_quantifications_combined_extended.csv',
                     12,
                     1,
                     'normalized_to_max',
@@ -136,12 +136,12 @@ def test_run_histograms_of_fractions():
 
 
 def test_clustering():
-    Clustering.clustering('../output/normalized_table_with_pellet.csv',
-                          10,
+    Clustering.clustering('../data/gene_wise_quantifications_combined_extended.csv',
+                          12,
                           6,
                           1,
                           'K-means',
-                          "log10",
+                          "normalized_to_range",
                           "test.csv")
 
 
@@ -186,10 +186,10 @@ def test_run_selecting_ncRNAs():
 # test_run_nearest_neighbors()
 # test_run_pca()
 # test_run_t_sne_analysis()
-# test_run_scaling()
-test_run_robust_regression()
+test_run_scaling()
+#test_run_robust_regression()
 # test_run_histograms_of_fractions()
-# test_clustering()
+#test_clustering()
 # test_run_min_row_sum()
 # test_run_t_sne_colored_list_clustering_features()
 # test_run_correlation()

@@ -18,6 +18,7 @@ from graditudelib import t_sne_colored_list_clustering_features
 from graditudelib import correlation_between_genes
 from graditudelib import selecting_ncRNAs
 from graditudelib import modify_input
+from graditudelib import correlation_rna_protein
 
 
 def main():
@@ -105,7 +106,7 @@ def main():
     plot_kinetics_parser.set_defaults(func=plot_kinetics)
     plot_kinetics_parser.add_argument("--feature_count_table", "-f", required=True)
     plot_kinetics_parser.add_argument("--gene_name", "-gene", required=True)
-    plot_kinetics_parser.add_argument('--feature_count_start_column', "-fc", required=True, type =int)
+    plot_kinetics_parser.add_argument('--feature_count_start_column', "-fc", required=True, type=int)
     plot_kinetics_parser.add_argument("--output_plot", "-o", required=True)
     plot_kinetics_parser.add_argument("--output_format", '-format', choices=["html", "pdf"],
                                       default="html")
@@ -208,6 +209,18 @@ def main():
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file2", "-o2", default=False,
                                                                help="output colorized using attributes information")
 
+    correlation_rna_protein_parser = subparsers.add_parser("correlation_rnas_protein")
+    correlation_rna_protein_parser.set_defaults(func=correlation_rnas_protein)
+    correlation_rna_protein_parser.add_argument("--feature_count_table", "-f", required=True)
+    correlation_rna_protein_parser.add_argument("--feature_count_start_column", "-fc", required=True,
+                                                type=int)
+    correlation_rna_protein_parser.add_argument("--feature_count_end_column", "-fe", type=int)
+    correlation_rna_protein_parser.add_argument("--protein_table", "-p", required=True)
+    correlation_rna_protein_parser.add_argument("--protein_count_start_column", "-pc", required=True,
+                                                type=int)
+    correlation_rna_protein_parser.add_argument("--protein_count_end_column", "-pe", type=int)
+    correlation_rna_protein_parser.add_argument("--output_file", "-o", default=False,
+                                                help="output table")
 
     # version_parser = subparsers.add_parser("version")
     # version_parser.set_defaults(func=show_version)
@@ -339,6 +352,14 @@ def clustering(args):
 def find_min_rows(args):
     min_row_sum.exclude_the_min_row_sum(args.feature_count_table, args.feature_count_start_column, args.min_row,
                                         args.output_file)
+
+
+def correlation_rnas_protein(args):
+    correlation_rna_protein.rna_protein_correlation(args.feature_count_table,
+                                                    args.feature_count_start_column, args.feature_count_end_column,
+                                                    args.protein_table, args.protein_count_start_column,
+                                                    args.protein_count_end_column,
+                                                    args.output_file)
 
 
 main()
