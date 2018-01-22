@@ -19,6 +19,7 @@ from graditudelib import correlation_between_genes
 from graditudelib import selecting_ncRNAs
 from graditudelib import modify_input
 from graditudelib import correlation_rna_protein
+from graditudelib import plot_network_graph
 
 
 def main():
@@ -222,6 +223,14 @@ def main():
     correlation_rna_protein_parser.add_argument("--output_file", "-o", default=False,
                                                 help="output table")
 
+    plot_network_graph_parser = subparsers.add_parser("plot_network_graph_parser")
+    plot_network_graph_parser.set_defaults(func=plot_network_graph_parser_rna_protein)
+    plot_network_graph_parser.add_argument("--feature_count_table", "-f", required=True)
+    plot_network_graph_parser.add_argument("--threshold", "-t", required=True)
+    plot_network_graph_parser.add_argument("--max_size", "-max", required=True,
+                                           type=int)
+    plot_network_graph_parser.add_argument("--output_plot", "-o", type=int)
+
     # version_parser = subparsers.add_parser("version")
     # version_parser.set_defaults(func=show_version)
 
@@ -360,6 +369,11 @@ def correlation_rnas_protein(args):
                                                     args.protein_table, args.protein_count_start_column,
                                                     args.protein_count_end_column,
                                                     args.output_file)
+
+
+def plot_network_graph_parser_rna_protein(args):
+    plot_network_graph.plot_network_graph_rna_protein(args.feature_count_table, args.threshold, args.max_size,
+                                                      args.output_plot)
 
 
 main()
