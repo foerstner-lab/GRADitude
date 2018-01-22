@@ -21,7 +21,9 @@ def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
     plot.title.text = description
 
     plot.add_tools(HoverTool(tooltips=[("name", "@index")]), TapTool(), BoxSelectTool())
+
     graph_renderer = from_networkx(G, nx.fruchterman_reingold_layout, scale=1)
+
     source = ColumnDataSource({'index': nodes, 'fill_color': colors, 'size': sizes})
     graph_renderer.node_renderer.data_source = source
     graph_renderer.node_renderer.glyph = Circle(size="size", fill_color="fill_color")
@@ -29,7 +31,7 @@ def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
     graph_renderer.node_renderer.selection_glyph = Circle(size="size", fill_color=Spectral4[2])
     graph_renderer.node_renderer.hover_glyph = Circle(size="size", fill_color=Spectral4[1])
 
-    graph_renderer.edge_renderer.glyph = MultiLine(line_color="#000000", line_alpha=0.1, line_width=1)
+    graph_renderer.edge_renderer.glyph = MultiLine(line_color="#CCCCCC", line_alpha=0.2, line_width=1)
     graph_renderer.edge_renderer.selection_glyph = MultiLine(line_color=Spectral4[2], line_width=2)
     graph_renderer.edge_renderer.hover_glyph = MultiLine(line_color=Spectral4[1], line_width=2)
 

@@ -18,6 +18,7 @@ from graditudelib import correlation_between_genes
 from graditudelib import modify_input
 from graditudelib import UMAP_analysis
 from graditudelib import selecting_ncRNAs
+from graditudelib import plot_network_graph
 
 
 def test_run_modify_input():
@@ -175,7 +176,11 @@ def test_run_selecting_ncRNAs():
                                                  11, 'ncRNA', 'test.csv')
 
 
-#test_run_modify_input()
+def test_run_ploth_graph():
+    plot_network_graph.plot_network_graph_rna_protein("../output/correlated_table_test.csv", float(0.4), 10, 'test')
+
+
+# test_run_modify_input()
 # test_run_normalize()
 # test_run_visualizing_kinetics()
 # test_run_k_means_clustering()
@@ -186,12 +191,13 @@ def test_run_selecting_ncRNAs():
 # test_run_nearest_neighbors()
 # test_run_pca()
 # test_run_t_sne_analysis()
-test_run_scaling()
-#test_run_robust_regression()
+# test_run_scaling()
+# test_run_robust_regression()
 # test_run_histograms_of_fractions()
-#test_clustering()
+# test_clustering()
 # test_run_min_row_sum()
 # test_run_t_sne_colored_list_clustering_features()
 # test_run_correlation()
 # test_run_umap_analysis()
 # test_run_selecting_ncRNAs()
+test_run_ploth_graph()

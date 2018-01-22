@@ -226,10 +226,10 @@ def main():
     plot_network_graph_parser = subparsers.add_parser("plot_network_graph_parser")
     plot_network_graph_parser.set_defaults(func=plot_network_graph_parser_rna_protein)
     plot_network_graph_parser.add_argument("--feature_count_table", "-f", required=True)
-    plot_network_graph_parser.add_argument("--threshold", "-t", required=True)
+    plot_network_graph_parser.add_argument("--threshold", "-t", required=True, type=float)
     plot_network_graph_parser.add_argument("--max_size", "-max", required=True,
                                            type=int)
-    plot_network_graph_parser.add_argument("--output_plot", "-o", type=int)
+    plot_network_graph_parser.add_argument("--output_plot", "-o")
 
     # version_parser = subparsers.add_parser("version")
     # version_parser.set_defaults(func=show_version)
