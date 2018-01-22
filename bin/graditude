@@ -62,11 +62,11 @@ def main():
     scaling_parser.set_defaults(func=scaling)
     scaling_parser.add_argument('--feature_count_table', '-f', required=True)
     scaling_parser.add_argument('--feature_count_start_column', '-fc', required=True)
-    scaling_parser.add_argument("--scaled_table", "-o", required=True)
+    scaling_parser.add_argument("--pseudo_count", '-p', type=int, default=1)
     scaling_parser.add_argument(
         "--scaling_method", "-sm", required=True,
-        choices=["no_scaling", "to_max", "to_range", "log_10_to_max"])
-    scaling_parser.add_argument("--pseudo_count", '-p', type=int, default=1)
+        choices=["no_normalization", "normalized_to_max", "normalized_to_range", "log10", "log2"])
+    scaling_parser.add_argument("--scaled_table", "-o", required=True)
 
     correlation_gene_gene_parser = subparsers.add_parser("correlation_gene_gene")
     correlation_gene_gene_parser.set_defaults(func=run_correlation_gene_gene)
