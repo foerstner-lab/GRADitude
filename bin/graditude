@@ -20,6 +20,7 @@ from graditudelib import selecting_ncRNAs
 from graditudelib import modify_input
 from graditudelib import correlation_rna_protein
 from graditudelib import plot_network_graph
+from graditudelib import distribution_correlation
 
 
 def main():
@@ -223,6 +224,13 @@ def main():
     correlation_rna_protein_parser.add_argument("--output_file", "-o", default=False,
                                                 help="output table")
 
+    correlation_distribution_graph_parser = subparsers.add_parser("correlation_distribution_graph")
+    correlation_distribution_graph_parser.set_defaults(func=correlation_distribution_graph)
+    correlation_distribution_graph_parser.add_argument("--table_with_correlation_coefficient", "-c", required=True)
+    correlation_distribution_graph_parser.add_argument("--percentile", "-p", required=True,
+                                                       type=int)
+    correlation_distribution_graph_parser.add_argument("--output_plot", "-o", required= True)
+
     plot_network_graph_parser = subparsers.add_parser("plot_network_graph_parser")
     plot_network_graph_parser.set_defaults(func=plot_network_graph_parser_rna_protein)
     plot_network_graph_parser.add_argument("--feature_count_table", "-f", required=True)
@@ -369,6 +377,11 @@ def correlation_rnas_protein(args):
                                                     args.protein_table, args.protein_count_start_column,
                                                     args.protein_count_end_column,
                                                     args.output_file)
+
+
+def correlation_distribution_graph(args):
+    distribution_correlation.distribution_correlation_graph(args.table_with_correlation_coefficient, args.percentile,
+                                                            args.output_plot)
 
 
 def plot_network_graph_parser_rna_protein(args):

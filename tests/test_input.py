@@ -200,4 +200,4 @@ def test_run_ploth_graph():
 # test_run_correlation()
 # test_run_umap_analysis()
 # test_run_selecting_ncRNAs()
-test_run_ploth_graph()
+# test_run_ploth_graph()
