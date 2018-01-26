@@ -21,6 +21,7 @@ from graditudelib import modify_input
 from graditudelib import correlation_rna_protein
 from graditudelib import plot_network_graph
 from graditudelib import distribution_correlation
+from graditudelib import t_sne_proteins_data
 
 
 def main():
@@ -64,7 +65,7 @@ def main():
     scaling_parser.add_argument('--feature_count_start_column', '-fc', required=True)
     scaling_parser.add_argument("--pseudo_count", '-p', type=int, default=1)
     scaling_parser.add_argument(
-        "--scaling_method", "-sm", required=True,
+        "--scaling_method", '-sm', required=True,
         choices=["no_normalization", "normalized_to_max", "normalized_to_range", "log10", "log2"])
     scaling_parser.add_argument("--scaled_table", "-o", required=True)
 
@@ -229,7 +230,7 @@ def main():
     correlation_distribution_graph_parser.add_argument("--table_with_correlation_coefficient", "-c", required=True)
     correlation_distribution_graph_parser.add_argument("--percentile", "-p", required=True,
                                                        type=int)
-    correlation_distribution_graph_parser.add_argument("--output_plot", "-o", required= True)
+    correlation_distribution_graph_parser.add_argument("--output_plot", "-o", required=True)
 
     plot_network_graph_parser = subparsers.add_parser("plot_network_graph_parser")
     plot_network_graph_parser.set_defaults(func=plot_network_graph_parser_rna_protein)
@@ -238,6 +239,15 @@ def main():
     plot_network_graph_parser.add_argument("--max_size", "-max", required=True,
                                            type=int)
     plot_network_graph_parser.add_argument("--output_plot", "-o")
+
+    t_sne_proteins_data_parser = subparsers.add_parser("t_sne_proteins")
+    t_sne_proteins_data_parser.add_argument("--feature_count_table", "-f", required=True)
+    t_sne_proteins_data_parser.add_argument("--feature_count_start_column", "-fc", required=True,
+                                            type=int)
+    t_sne_proteins_data_parser.add_argument("--perplexity", "-pp", required=True, type=int)
+
+    t_sne_proteins_data_parser.add_argument("--output_file", "-o", default=False,
+                                            help="output colorized using clusters information")
 
     # version_parser = subparsers.add_parser("version")
     # version_parser.set_defaults(func=show_version)
@@ -387,6 +397,12 @@ def correlation_distribution_graph(args):
 def plot_network_graph_parser_rna_protein(args):
     plot_network_graph.plot_network_graph_rna_protein(args.feature_count_table, args.threshold, args.max_size,
                                                       args.output_plot)
+
+
+def t_sne_proteins(args):
+    t_sne_proteins_data.t_sne(args.feature_count_table, args.feature_count_start_column,
+                              args.perplexity,
+                              args.output_file)
 
 
 main()
