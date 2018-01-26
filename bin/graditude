@@ -22,6 +22,7 @@ from graditudelib import correlation_rna_protein
 from graditudelib import plot_network_graph
 from graditudelib import distribution_correlation
 from graditudelib import t_sne_proteins_data
+from graditudelib import clustering_proteins
 
 
 def main():
@@ -240,6 +241,20 @@ def main():
                                            type=int)
     plot_network_graph_parser.add_argument("--output_plot", "-o")
 
+    clustering_parser_proteins = subparsers.add_parser("clustering_proteins")
+    clustering_parser_proteins.set_defaults(func=clustering_proteins_data)
+    clustering_parser_proteins.add_argument("--feature_count_table", "-f", required=True)
+    clustering_parser_proteins.add_argument("--feature_count_start_column", "-fc", required=True, type=int)
+    clustering_parser_proteins.add_argument("--feature_count_end_column", "-fe", required=True, type=int)
+    clustering_parser_proteins.add_argument("--number_of_clusters", '-nc', required=True, type=int)
+    clustering_parser_proteins.add_argument("--clustering_methods", "-cm", required=True,
+                                            choices=["k-means", "DBSCAN", 'hierarchical_clustering'])
+    clustering_parser_proteins.add_argument("--epsilon", "-e", default=False,
+                                            help='only for DBSCAN clustering', type=float)
+    clustering_parser_proteins.add_argument("--min_samples", '-ms', default=False,
+                                            help='only for DBSCAN clustering', type=int)
+    clustering_parser_proteins.add_argument("--output_file", "-o", required=True)
+
     t_sne_proteins_data_parser = subparsers.add_parser("t_sne_proteins")
     t_sne_proteins_data_parser.add_argument("--feature_count_table", "-f", required=True)
     t_sne_proteins_data_parser.add_argument("--feature_count_start_column", "-fc", required=True,
@@ -397,6 +412,15 @@ def correlation_distribution_graph(args):
 def plot_network_graph_parser_rna_protein(args):
     plot_network_graph.plot_network_graph_rna_protein(args.feature_count_table, args.threshold, args.max_size,
                                                       args.output_plot)
+
+
+def clustering_proteins_data(args):
+    clustering_proteins.clustering(args.feature_count_table, args.feature_count_start_column,
+                                   args.feature_count_end_column,
+                                   args.number_of_clusters,
+                                   args.clustering_methods,
+                                   args.epsilon, args.min_samples,
+                                   args.output_file)
 
 
 def t_sne_proteins(args):
