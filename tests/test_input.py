@@ -19,6 +19,8 @@ from graditudelib import modify_input
 from graditudelib import UMAP_analysis
 from graditudelib import selecting_ncRNAs
 from graditudelib import plot_network_graph
+from graditudelib import clustering_proteins
+from graditudelib import t_sne_proteins_data
 
 
 def test_run_modify_input():
@@ -180,6 +182,15 @@ def test_run_ploth_graph():
     plot_network_graph.plot_network_graph_rna_protein("../output/correlated_table_test.csv", float(0.4), 10, 'test')
 
 
+def test_clustering_protein():
+    clustering_proteins.clustering("../data/modified_proteinGroups_No612_20180119.0755_pgFilt4.csv", 24, 43,
+                                   6, 'k-means', 'test.csv')
+
+
+def test_t_sne_proteins():
+    t_sne_proteins_data.t_sne("../tests/test.csv", 24, 30, 'test.html')
+
+
 # test_run_modify_input()
 # test_run_normalize()
 # test_run_visualizing_kinetics()
@@ -200,4 +211,6 @@ def test_run_ploth_graph():
 # test_run_correlation()
 # test_run_umap_analysis()
 # test_run_selecting_ncRNAs()
-# test_run_ploth_graph()
+test_run_ploth_graph()
+# test_clustering_protein()
+# test_t_sne_proteins()
