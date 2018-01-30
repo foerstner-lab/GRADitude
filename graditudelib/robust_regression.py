@@ -98,14 +98,14 @@ def regression(read_grad_value, read_concentration_value, gradient_file,
                         y_values[index[-number_of_outliers:]], c='r', label='outliers')
         axes[1].set_xlabel('Reads')
         axes[1].legend(loc=2)
-        # plt.title(gradient + '\n'
-        #                      "The intercept values is " +
-        #           str(clt_ransac.estimator_.intercept_)
-        #           + '\n' +
-        #           "The slope values is " +
-        #           str(clt_ransac.estimator_.coef_),
-        #           fontsize=10)
-        # plt.savefig(gradient)
+        plt.title(gradient + '\n'
+                             "The intercept values is " +
+                  str(clt_ransac.estimator_.intercept_)
+                  + '\n' +
+                  "The slope values is " +
+                  str(clt_ransac.estimator_.coef_),
+                  fontsize=10)
+        plt.savefig(gradient)
         plt.close()
         """Find the outliers using the number that you defined as parameter"""
         """Selecting first the number of outliers that you want to find in the dataset"""
