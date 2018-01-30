@@ -1,11 +1,11 @@
 import pandas as pd
 
 
-def filtering_input(feature_count_table, column_to_drop, ref_feature_count_table, min_row_sum,
+def filtering_input(feature_count_table, ref_feature_count_table, min_row_sum,
                     filtered_feature_count_table, filtered_ref_feature_count_table, dropping_lisate):
     feature_count_table_df = pd.read_table(feature_count_table, sep='\t')
     table_filtered_gene_quanti = create_gene_quanti_table_modified(feature_count_table_df,
-                                                                   column_to_drop, dropping_lisate)
+                                                                   dropping_lisate)
     ref_feature_count_table_df = pd.read_table(ref_feature_count_table, sep='\t')
     table_filtered_ercc = create_a_new_table_filtered_ercc(ref_feature_count_table_df, dropping_lisate)
     colum_with_libraries = _extract_gene_matrix(table_filtered_ercc)
@@ -50,12 +50,11 @@ def min_row_sum_ercc_table(table_filtered_ercc, colum_with_libraries, min_row_su
     return df_with_min_row_samples
 
 
-def create_gene_quanti_table_modified(gene_quanti_table, column_to_drop, dropping_lisate):
+def create_gene_quanti_table_modified(gene_quanti_table, dropping_lisate):
     cols = gene_quanti_table.columns.tolist()
     cols = cols[-1:] + cols[:-1]
     gene_quanti_table_with_gene_column_modified = gene_quanti_table[cols]
-    gene_without_column = gene_quanti_table_with_gene_column_modified.drop(column_to_drop, axis=1)
-    gene_without_column.drop(dropping_lisate, axis=1, inplace=True)
-    return gene_without_column
+    gene_quanti_table_with_gene_column_modified.drop(dropping_lisate, axis=1, inplace=True)
+    return gene_quanti_table_with_gene_column_modified
 
 

@@ -36,7 +36,6 @@ def main():
     modify_input_parser.add_argument("--min_row_sum", "-m", type=int, default=0)
     modify_input_parser.add_argument("--filtered_feature_count_table", "-ff", required=True)
     modify_input_parser.add_argument("--filtered_ref_feature_count_table", "-fr", required=True)
-    modify_input_parser.add_argument("--column_to_drop", "-c", nargs="+")
     modify_input_parser.add_argument("--dropping_lisate", '-l')
 
     robust_regression_parser = subparsers.add_parser("robust_regression")
@@ -282,7 +281,6 @@ def main():
 
 def filtering_tables(args):
     modify_input.filtering_input(args.feature_count_table,
-                                 args.column_to_drop,
                                  args.ref_feature_count_table,
                                  args.min_row_sum,
                                  args.filtered_feature_count_table,
