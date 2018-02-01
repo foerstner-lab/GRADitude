@@ -425,9 +425,9 @@ def clustering_proteins_data(args):
 
 
 def t_sne_proteins_f(args):
-    t_sne_proteins_data.t_sne(args.feature_count_table, args.feature_count_start_column,
+    t_sne_proteins_data.t_sne_pr(args.feature_count_table, args.feature_count_start_column,
                               args.perplexity,
-                              args.output_file)
+                              args.output_file_colorized_by_clusters)
 
 
 main()
