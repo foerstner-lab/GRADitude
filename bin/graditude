@@ -147,6 +147,7 @@ def main():
     k_means_clustering_elbow_parser.set_defaults(func=generate_k_means_clustering_elbow)
     k_means_clustering_elbow_parser.add_argument("--feature_count_table", "-f", required=True)
     k_means_clustering_elbow_parser.add_argument("--feature_count_start_column", "-fc", required=True)
+    k_means_clustering_elbow_parser.add_argument("--feature_count_end_column", "-fe", required=True)
     k_means_clustering_elbow_parser.add_argument("--min_number_of_clusters", '-min', required=True, type=int)
     k_means_clustering_elbow_parser.add_argument("--max_number_of_clusters", '-max', required=True, type=int)
     k_means_clustering_elbow_parser.add_argument("--output_plots1", '-o1', required=True)
@@ -319,6 +320,7 @@ def k_means_clustering(args):
 def generate_k_means_clustering_elbow(args):
     elbow_curve.k_means_clustering_elbow(args.feature_count_table,
                                          args.feature_count_start_column,
+                                         args.feature_count_end_column,
                                          args.min_number_of_clusters,
                                          args.max_number_of_clusters, args.output_plots1,
                                          args.output_plots2)
