@@ -211,6 +211,6 @@ def test_t_sne_proteins():
 # test_run_correlation()
 # test_run_umap_analysis()
 # test_run_selecting_ncRNAs()
-test_run_ploth_graph()
+#test_run_ploth_graph()
 # test_clustering_protein()
-# test_t_sne_proteins()
+test_t_sne_proteins()

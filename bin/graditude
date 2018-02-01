@@ -256,12 +256,13 @@ def main():
     clustering_parser_proteins.add_argument("--output_file", "-o", required=True)
 
     t_sne_proteins_data_parser = subparsers.add_parser("t_sne_proteins")
+    t_sne_proteins_data_parser.set_defaults(func=t_sne_proteins_f)
     t_sne_proteins_data_parser.add_argument("--feature_count_table", "-f", required=True)
     t_sne_proteins_data_parser.add_argument("--feature_count_start_column", "-fc", required=True,
                                             type=int)
     t_sne_proteins_data_parser.add_argument("--perplexity", "-pp", required=True, type=int)
 
-    t_sne_proteins_data_parser.add_argument("--output_file", "-o", default=False,
+    t_sne_proteins_data_parser.add_argument("--output_file_colorized_by_clusters", "-o", required=True,
                                             help="output colorized using clusters information")
 
     # version_parser = subparsers.add_parser("version")
@@ -423,7 +424,7 @@ def clustering_proteins_data(args):
                                    args.output_file)
 
 
-def t_sne_proteins(args):
+def t_sne_proteins_f(args):
     t_sne_proteins_data.t_sne(args.feature_count_table, args.feature_count_start_column,
                               args.perplexity,
                               args.output_file)

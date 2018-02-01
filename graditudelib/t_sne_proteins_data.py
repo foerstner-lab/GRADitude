@@ -7,8 +7,8 @@ from bokeh.models import WheelZoomTool, TapTool, OpenURL
 import bokeh.palettes
 
 
-def t_sne(feature_count_table, feature_count_start_column,
-          perplexity, output_file_colorized_by_clusters):
+def t_sne_pr(feature_count_table, feature_count_start_column,
+             perplexity, output_file_colorized_by_clusters):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
