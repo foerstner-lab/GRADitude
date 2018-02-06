@@ -21,6 +21,7 @@ from graditudelib import selecting_ncRNAs
 from graditudelib import plot_network_graph
 from graditudelib import clustering_proteins
 from graditudelib import t_sne_proteins_data
+from graditudelib import t_SNE_colored_by_lists
 
 
 def test_run_modify_input():
@@ -37,11 +38,11 @@ def test_run_modify_input():
 def test_run_normalize():
     normalize.normalized_count_table(
         "../data/filtered_gene_wise_quantifications_combined_extended.csv",
-        12,
+        11,
         32,
         "../data/filtered_alignment_stats_with_correlated_ERCC.csv",
         1,
-        21,
+        22,
         "normalized_table_with_pellet.csv",
         "size_factor_table.csv",
     )
@@ -149,16 +150,17 @@ def test_clustering():
 
 
 def test_run_min_row_sum():
-    min_row_sum.exclude_the_min_row_sum("../output/filtered_gene_wise_quantifications_combined_extended._max.csv", 11,
-                                        100,
-                                        'gene_wise_combined_100_min_row_sum.csv')
+    min_row_sum.exclude_the_min_row_sum("../data/filtered_gene_wise_quantifications_combined_extended.csv", 10,
+                                        0,
+                                        'gene_wise_combined_0_min_row_sum.csv')
 
 
 def test_run_t_sne_colored_list_clustering_features():
-    t_sne_colored_list_clustering_features.t_sne("../output/test_table.csv",
-                                                 11, 30,
-                                                 'output1.html',
-                                                 'output2.html')
+    t_sne_colored_list_clustering_features.t_sne(
+        "../data/k-means_clustering_Normalized_with_pellet_gene_wise_quanti_MIN_ROW_SUM_500_normalized_to_range_8_clusters.csv",
+        11, 30,
+        'output1.html',
+        'output2.html')
 
 
 def test_run_umap_analysis():
@@ -188,7 +190,13 @@ def test_clustering_protein():
 
 
 def test_t_sne_proteins():
-    t_sne_proteins_data.t_sne("../tests/test.csv", 24, 30, 'test.html')
+    t_sne_proteins_data.t_sne_pr("../tests/test.csv", 24, 30, 'test.html')
+
+
+def test_t_sne_list():
+    t_SNE_colored_by_lists.t_sne_using_selected_rna_colors(
+        "../data/Normalized_with_pellet_gene_wise_quanti_MIN_ROW_SUM_100.csv",
+        11, 30, '../data/20180202_all_Hfq_sRNAs.txt', 'test.html')
 
 
 # test_run_modify_input()
@@ -211,6 +219,7 @@ def test_t_sne_proteins():
 # test_run_correlation()
 # test_run_umap_analysis()
 # test_run_selecting_ncRNAs()
-#test_run_ploth_graph()
+# test_run_ploth_graph()
 # test_clustering_protein()
-test_t_sne_proteins()
+# test_t_sne_proteins()
+test_t_sne_list()

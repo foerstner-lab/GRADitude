@@ -6,7 +6,6 @@ from graditudelib import visualizing_kinetics
 from graditudelib import k_means
 from graditudelib import elbow_curve
 from graditudelib import silhouette
-from graditudelib import tSNE
 from graditudelib import hierarchical_clustering
 from graditudelib import PCA_analysis
 from graditudelib import scaling
@@ -190,28 +189,20 @@ def main():
     pca_parser.add_argument("--output_file_colorized_by_clusters", "-clusters", required=True)
     pca_parser.add_argument("--output_file_colorized_by_rna_class", "-features", required=True)
 
-    t_sne_parser = subparsers.add_parser("t_sne")
-    t_sne_parser.set_defaults(func=run_t_sne)
-    t_sne_parser.add_argument("--feature_count_table", "-f", required=True)
-    t_sne_parser.add_argument("--feature_count_start_column", "-fc", required=True)
-    t_sne_parser.add_argument("--output_format", "-format", choices=["html", "pdf"],
-                              default="html")
-    t_sne_parser.add_argument("--output_file", "-o", required=True)
-    t_sne_parser.add_argument(
-        "--clustering", "-c", required=True,
-        choices=["no_cluster", "with_cluster"])
-
     t_sne_colored_list_clustering_features_parser = subparsers.add_parser("t_sne_colored_using_different_methods")
     t_sne_colored_list_clustering_features_parser.set_defaults(func=run_t_sne_colored_using_different_methods)
     t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_table", "-f", required=True)
     t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_start_column", "-fc", required=True,
                                                                type=int)
     t_sne_colored_list_clustering_features_parser.add_argument("--perplexity", "-pp", required=True, type=int)
+    t_sne_colored_list_clustering_features_parser.add_argument("--srna_list", "-list", nargs="+")
 
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file1", "-o1", default=False,
                                                                help="output colorized using clusters information")
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file2", "-o2", default=False,
                                                                help="output colorized using attributes information")
+    t_sne_colored_list_clustering_features_parser.add_argument("--output_file3", "-o3", default=False,
+                                                               help="output colorized using a specific list")
 
     correlation_rna_protein_parser = subparsers.add_parser("correlation_rnas_protein")
     correlation_rna_protein_parser.set_defaults(func=correlation_rnas_protein)
@@ -334,18 +325,13 @@ def silhouette_analysis(args):
                                    args.max_number_of_clusters)
 
 
-def run_t_sne(args):
-    tSNE.t_sne_analysis(args.feature_count_table,
-                        args.feature_count_start_column,
-                        args.clustering,
-                        args.output_file)
-
-
 def run_t_sne_colored_using_different_methods(args):
     t_sne_colored_list_clustering_features.t_sne(args.feature_count_table, args.feature_count_start_column,
                                                  args.perplexity,
+                                                 args.srna_list,
                                                  args.output_file1,
-                                                 args.output_file2)
+                                                 args.output_file2,
+                                                 args.output_file3)
 
 
 def run_hierarchical_clustering(args):
@@ -426,8 +412,8 @@ def clustering_proteins_data(args):
 
 def t_sne_proteins_f(args):
     t_sne_proteins_data.t_sne_pr(args.feature_count_table, args.feature_count_start_column,
-                              args.perplexity,
-                              args.output_file_colorized_by_clusters)
+                                 args.perplexity,
+                                 args.output_file_colorized_by_clusters)
 
 
 main()
