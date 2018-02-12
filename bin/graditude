@@ -186,8 +186,10 @@ def main():
     pca_parser.set_defaults(func=run_pca)
     pca_parser.add_argument("--feature_count_table", "-f", required=True)
     pca_parser.add_argument("--feature_count_start_column", "-fc", required=True, type=int)
-    pca_parser.add_argument("--output_file_colorized_by_clusters", "-clusters", required=True)
-    pca_parser.add_argument("--output_file_colorized_by_rna_class", "-features", required=True)
+    pca_parser.add_argument("--srna_list_files", "-list", nargs="+")
+    pca_parser.add_argument("--output_file_colorized_by_clusters", "-o1", required=True)
+    pca_parser.add_argument("--output_file_colorized_by_rna_class", "-o2", required=True)
+    pca_parser.add_argument("--output_file_colorized_by_lists", "-o3", required=True)
 
     t_sne_colored_list_clustering_features_parser = subparsers.add_parser("t_sne_colored_using_different_methods")
     t_sne_colored_list_clustering_features_parser.set_defaults(func=run_t_sne_colored_using_different_methods)
@@ -343,9 +345,10 @@ def run_hierarchical_clustering(args):
 
 
 def run_pca(args):
-    PCA_analysis.pca(args.feature_count_table,
-                     args.feature_count_start_column,
-                     args.output_file_colorized_by_clusters, args.output_file_colorized_by_rna_class)
+    PCA_analysis.pca_(args.feature_count_table,
+                      args.feature_count_start_column, args.srna_list_files,
+                      args.output_file_colorized_by_clusters, args.output_file_colorized_by_rna_class,
+                      args.output_file_colorized_by_lists)
 
 
 def run_scaling(args):

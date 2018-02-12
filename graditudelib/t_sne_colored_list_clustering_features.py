@@ -106,6 +106,7 @@ def _label(row):
              "rRNA": "rRNA", "tmRNA": "tmRNA", "5UTR": "5UTR",
              "3UTR": "3UTR"
              }[row["Feature"]]
+    return label
 
 
 def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file_colorized_by_clusters):
@@ -188,9 +189,6 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
             [key_value_pair.split("=") for
              key_value_pair in attr.split(";")]))
 
-    default_color = "#4271FF"
-    # highlight_color = "#FF9C38"
-
     color = read_counting_table.apply(
         _color_1, args=(srnas_and_list_names,), axis=1)
     label = read_counting_table.apply(
@@ -246,8 +244,8 @@ def _color_1(row, srnas_and_list_names):
              "rRNA": "#8080FF", "tmRNA": "#3D3D3D"}[row["Feature"]]
     sRNA_cluster_color = {"sRNA_cluster_1": "#1f78b4",
                           "sRNA_cluster_2": "#b2df8a",
-                          "sRNA_cluster_3": "#33a02c"}
-    # "sRNA_cluster_4": "#fb9a99"}
+                          "sRNA_cluster_3": "#33a02c",
+                          "sRNA_cluster_4": "#fb9a99"}
     for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
             color = sRNA_cluster_color[
@@ -260,7 +258,8 @@ def _label_1(row, srnas_and_list_names):
     srna_cluster_label = {
         "sRNA_cluster_1": "classic_CsrA",
         "sRNA_cluster_2": "unique_Hfq",
-        "sRNA_cluster_3": "unique_ProQ"}
+        "sRNA_cluster_3": "unique_ProQ",
+        "sRNA_cluster_4": "Hfq_and_ProQ"}
     for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
             label = srna_cluster_label[
