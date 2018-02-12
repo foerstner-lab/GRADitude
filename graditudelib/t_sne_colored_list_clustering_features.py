@@ -43,17 +43,17 @@ def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_col
             [key_value_pair.split("=") for
              key_value_pair in attr.split(";")]))
 
-    default_color = "#4271FF"
-    # highlight_color = "#FF9C38"
-    color = default_color
     color = read_counting_table.apply(
         _color, axis=1)
+    label = read_counting_table.apply(
+        _label, axis=1)
 
     hower_data = dict(
         x=read_counting_table["t-SNE-component_1"],
         y=read_counting_table["t-SNE-component_2"],
         feature=read_counting_table["Feature"],
-        color=color)
+        color=color,
+        label=label)
 
     for feature in ["gene", "product", "ID", "type", "ncrna_class",
                     "sRNA_type", "Name", "pseudo"]:
@@ -80,7 +80,7 @@ def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_col
                       WheelZoomTool(), "tap"],
                title="Grad-Seq t-SNE RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color='color')
+    p.circle("x", "y", source=source, size=5, alpha=0.7, color='color', legend='label')
 
     url = "http://www.uniprot.org/uniprot/@protein_id"
     taptool = p.select(type=TapTool)
@@ -94,11 +94,18 @@ def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_col
 
 
 def _color(row):
-    color = {"CDS": "#BDBDBD", "ncRNA": "#FF4D4D", "tRNA": "#EBB000",
+    color = {"CDS": "#BDBDBD", "ncRNA": "#f0f9e8", "tRNA": "#EBB000",
              "rRNA": "#8080FF", "tmRNA": "#3D3D3D", "5UTR": "9F000F",
              "3UTR": "0000AF", "pseudogenic_tRNA": "C2EFFF"
              }[row["Feature"]]
     return color
+
+
+def _label(row):
+    label = {"CDS": "#CDS", "ncRNA": "ncRNA", "tRNA": "tRNA",
+             "rRNA": "rRNA", "tmRNA": "tmRNA", "5UTR": "5UTR",
+             "3UTR": "3UTR"
+             }[row["Feature"]]
 
 
 def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file_colorized_by_clusters):
@@ -183,16 +190,18 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
 
     default_color = "#4271FF"
     # highlight_color = "#FF9C38"
-    color = default_color
 
     color = read_counting_table.apply(
         _color_1, args=(srnas_and_list_names,), axis=1)
+    label = read_counting_table.apply(
+        _label_1, args=(srnas_and_list_names,), axis=1)
 
     hower_data = dict(
         x=read_counting_table["t-SNE-component_1"],
         y=read_counting_table["t-SNE-component_2"],
         feature=read_counting_table["Feature"],
-        color=color)
+        color=color,
+        label=label)
 
     for feature in ["gene", "product", "ID", "type", "ncrna_class",
                     "sRNA_type", "Name", "pseudo"]:
@@ -219,7 +228,7 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
                       WheelZoomTool(), "tap"],
                title="Grad-Seq t-SNE RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color="color")
+    p.circle("x", "y", source=source, size=5, alpha=0.7, color="color", legend='label')
 
     url = "http://www.uniprot.org/uniprot/@protein_id"
     taptool = p.select(type=TapTool)
@@ -233,13 +242,27 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
 
 
 def _color_1(row, srnas_and_list_names):
-    color = {"CDS": "#BDBDBD", "ncRNA": "#FF4D4D", "tRNA": "#EBB000",
+    color = {"CDS": "#BDBDBD", "ncRNA": "#a6cee3", "tRNA": "#EBB000",
              "rRNA": "#8080FF", "tmRNA": "#3D3D3D"}[row["Feature"]]
-    sRNA_cluster_color = {"sRNA_cluster_1": "#33CCFF",
-                          "sRNA_cluster_2": "#40ff00",
-                          "sRNA_cluster_3": "#D600D6"}
+    sRNA_cluster_color = {"sRNA_cluster_1": "#1f78b4",
+                          "sRNA_cluster_2": "#b2df8a",
+                          "sRNA_cluster_3": "#33a02c"}
+    # "sRNA_cluster_4": "#fb9a99"}
     for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
             color = sRNA_cluster_color[
                 srnas_and_list_names[row[feature]]]
     return color
+
+
+def _label_1(row, srnas_and_list_names):
+    label = {"ncRNA": "ncRNA"}[row["Feature"]]
+    srna_cluster_label = {
+        "sRNA_cluster_1": "classic_CsrA",
+        "sRNA_cluster_2": "unique_Hfq",
+        "sRNA_cluster_3": "unique_ProQ"}
+    for feature in ["Gene"]:
+        if row[feature] in srnas_and_list_names:
+            label = srna_cluster_label[
+                srnas_and_list_names[row[feature]]]
+    return label
