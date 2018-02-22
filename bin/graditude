@@ -59,7 +59,7 @@ def main():
     normalize_parser.add_argument("--size_factor_table", "-s", default=None)
 
     scaling_parser = subparsers.add_parser("scaling")
-    scaling_parser.set_defaults(func=scaling)
+    scaling_parser.set_defaults(func=run_scaling)
     scaling_parser.add_argument('--feature_count_table', '-f', required=True)
     scaling_parser.add_argument('--feature_count_start_column', '-fc', required=True)
     scaling_parser.add_argument("--pseudo_count", '-p', type=int, default=1)
@@ -356,7 +356,7 @@ def run_scaling(args):
                     args.feature_count_start_column,
                     args.pseudo_count,
                     args.scaling_method,
-                    args.output_file)
+                    args.scaled_table)
 
 
 def run_robust_regression(args):
