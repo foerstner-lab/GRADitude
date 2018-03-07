@@ -96,7 +96,7 @@ def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_col
 def _color(row):
     color = {"CDS": "#BDBDBD", "ncRNA": "#f0f9e8", "tRNA": "#EBB000",
              "rRNA": "#8080FF", "tmRNA": "#3D3D3D", "5UTR": "9F000F",
-             "3UTR": "0000AF", "pseudogenic_tRNA": "C2EFFF"
+             "3UTR": "0000AF"
              }[row["Feature"]]
     return color
 
@@ -240,12 +240,13 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
 
 
 def _color_1(row, srnas_and_list_names):
-    color = {"CDS": "#BDBDBD", "ncRNA": "#a6cee3", "tRNA": "#EBB000",
-             "rRNA": "#8080FF", "tmRNA": "#3D3D3D"}[row["Feature"]]
-    sRNA_cluster_color = {"sRNA_cluster_1": "#1f78b4",
-                          "sRNA_cluster_2": "#b2df8a",
-                          "sRNA_cluster_3": "#33a02c",
-                          "sRNA_cluster_4": "#fb9a99"}
+    color = {"CDS": "#BDBDBD", "ncRNA": "#E01F25", "tRNA": "#FFE118",
+             "rRNA": "#8080FF"
+             }[row["Feature"]]
+    sRNA_cluster_color = {"sRNA_cluster_1": "#000000",
+                          "sRNA_cluster_2": "#008000",
+                          "sRNA_cluster_3": "#00ffff",
+                          "sRNA_cluster_4": "#FF8100"}
     for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
             color = sRNA_cluster_color[
@@ -256,10 +257,10 @@ def _color_1(row, srnas_and_list_names):
 def _label_1(row, srnas_and_list_names):
     label = {"ncRNA": "ncRNA"}[row["Feature"]]
     srna_cluster_label = {
-        "sRNA_cluster_1": "classic_CsrA",
-        "sRNA_cluster_2": "unique_Hfq",
-        "sRNA_cluster_3": "unique_ProQ",
-        "sRNA_cluster_4": "Hfq_and_ProQ"}
+        "sRNA_cluster_1": "cluster1",
+        "sRNA_cluster_2": "cluster2",
+        "sRNA_cluster_3": "cluster3",
+        "sRNA_cluster_4": "cluster4"}
     for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
             label = srna_cluster_label[
