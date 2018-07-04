@@ -5,14 +5,11 @@
 import argparse
 from graditudelib import normalize
 from graditudelib import visualizing_kinetics
-
 from graditudelib import elbow_curve
 from graditudelib import silhouette
-
 from graditudelib import PCA_analysis
 from graditudelib import scaling
 from graditudelib import robust_regression
-
 from graditudelib import Clustering
 from graditudelib import min_row_sum
 from graditudelib import t_sne_colored_list_clustering_features
@@ -46,12 +43,12 @@ def main():
     modify_input_parser.set_defaults(func=filtering_tables)
     modify_input_parser.add_argument('--feature_count_table', '-f',
                                      required=True,
-                                     help="Gene quantification table")
+                                     help="gene quantification table")
     modify_input_parser.add_argument("--ref_feature_count_table", "-r",
                                      required=True,
                                      help="ERCC reads table")
     modify_input_parser.add_argument("--min_row_sum", "-m", type=int,
-                                     default=100, help="It calculates the sum of "
+                                     default=100, help="it calculates the sum of "
                                                        "the reads for each gene and discard the rows "
                                                        "with less then the sum")
     modify_input_parser.add_argument("--filtered_feature_count_table", "-ff",
@@ -70,14 +67,14 @@ def main():
                                           required=True, help="ERCC concentration table")
     robust_regression_parser.add_argument("--number_of_outliers", "-n",
                                           required=True, type=int, help="number of outliers")
-    robust_regression_parser.add_argument("--output_table", '-o',
-                                          required=True, help="output table with ercc in common")
+    robust_regression_parser.add_argument('--number_of_ercc_in_common', '-nc',
+                                          type=int)
     robust_regression_parser.add_argument("--used_mix", "-mix",
                                           required=True, type=int, help="define the ERCC mix used in the experiment,"
                                                                         "in case of mix1 and mix2 the "
                                                                         "--mix is either 3 or 4 ")
-    robust_regression_parser.add_argument('--number_of_ercc_in_common', '-nc',
-                                          type=int)
+    robust_regression_parser.add_argument("--output_table", '-o',
+                                          required=True, help="output table with ercc in common")
 
     # Currently done with DESeq2's approach - maybe add further options
     normalize_parser = subparsers.add_parser("normalize", help='calculate the ERCC size factor and '
@@ -140,7 +137,7 @@ def main():
     # histogram_of_fraction_parser.add_argument('--feature_count_start_column', default=1)
     #
     modify_input_with_min_row_sum = subparsers.add_parser("find_min_rows",
-                                                          help='Select the rows with '
+                                                          help='select the rows with '
                                                                'a certain reads number ')
     modify_input_with_min_row_sum.set_defaults(func=find_min_rows)
     modify_input_with_min_row_sum.add_argument("--feature_count_table", "-f", required=True)
@@ -157,7 +154,7 @@ def main():
     plot_kinetics_parser.add_argument("--output_format", '-format', choices=["html", "pdf"],
                                       default="html")
 
-    clustering_parser = subparsers.add_parser("clustering", help="Unsupervised clustering "
+    clustering_parser = subparsers.add_parser("clustering", help="unsupervised clustering "
                                                                  "using different methods")
     clustering_parser.set_defaults(func=clustering)
     clustering_parser.add_argument("--feature_count_table", "-f", required=True)
@@ -177,7 +174,7 @@ def main():
     clustering_parser.add_argument("--output_file", "-o", required=True)
 
     k_means_clustering_elbow_parser = subparsers.add_parser("k_means_clustering_elbow",
-                                                            help="Plot the elbow graph to choose"
+                                                            help="plot the elbow graph to choose"
                                                                  "the ideal number of clusters necessary for "
                                                                  "the k-means and the hierarchical clustering ")
     k_means_clustering_elbow_parser.set_defaults(func=generate_k_means_clustering_elbow)
