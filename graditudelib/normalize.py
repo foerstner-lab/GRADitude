@@ -55,9 +55,8 @@ def _geometric_means(counting_value_matrix):
 def _normalize_by_size_factor(feature_counting_table_df,
                               feature_count_start_column, feature_count_end_column, size_factor):
     df = feature_counting_table_df.copy()
-    df_selected = df.iloc[:, :int(feature_count_end_column)]
-    value_columns = df_selected.columns[feature_count_start_column:]
+    value_columns = df.iloc[:, int(feature_count_start_column):int(feature_count_end_column)].columns
     """Divide the gene quantification table for the size factor to normalize the data"""
-    df_selected[value_columns] = df_selected[value_columns].divide(list(size_factor), axis=1)
-    return df_selected
+    df[value_columns] = df[value_columns].divide(list(size_factor), axis=1)
+    return df
 
