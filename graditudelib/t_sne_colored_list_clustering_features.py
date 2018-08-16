@@ -75,12 +75,12 @@ def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_col
         ("Pseudo", "@pseudo"),
         ("Feature", "@feature")])
 
-    p = figure(plot_width=700, plot_height=700,
+    p = figure(plot_width=900, plot_height=900,
                tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                       WheelZoomTool(), "tap"],
                title="Grad-Seq t-SNE RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color='color', legend='label')
+    p.circle("x", "y", source=source, size=5, alpha=2, color='color', legend='label')
 
     url = "http://www.uniprot.org/uniprot/@protein_id"
     taptool = p.select(type=TapTool)
@@ -94,15 +94,15 @@ def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_col
 
 
 def _color(row):
-    color = {"CDS": "#BDBDBD", "ncRNA": "#f0f9e8", "tRNA": "#EBB000",
-             "rRNA": "#8080FF", "tmRNA": "#3D3D3D", "5UTR": "9F000F",
-             "3UTR": "0000AF"
+    color = {"CDS": "#BDBDBD", "ncRNA": "#0000AF", "tRNA": "#EBB000",
+             "rRNA": "#8080FF", "tmRNA": "#3D3D3D", "5'-UTR": "#9F000F",
+             "sRNA": "#0000AF"
              }[row["Feature"]]
     return color
 
 
 def _label(row):
-    label = {"CDS": "#CDS", "ncRNA": "ncRNA", "tRNA": "tRNA",
+    label = {"CDS": "CDS", "ncRNA": "ncRNA", "tRNA": "tRNA",
              "rRNA": "rRNA", "tmRNA": "tmRNA", "5UTR": "5UTR",
              "3UTR": "3UTR"
              }[row["Feature"]]
@@ -151,12 +151,12 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file_co
         ("Feature", "@feature"),
         ("Cluster label", "@cluster_label")])
 
-    p = figure(plot_width=700, plot_height=700,
+    p = figure(plot_width=900, plot_height=900,
                tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                       WheelZoomTool(), "tap"],
                title="Grad-Seq t-SNE RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color='color')
+    p.circle("x", "y", source=source, size=5, alpha=2, color='color')
 
     url = "http://www.uniprot.org/uniprot/@protein_id"
     taptool = p.select(type=TapTool)
@@ -221,12 +221,12 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
         ("Pseudo", "@pseudo"),
         ("Feature", "@feature")])
 
-    p = figure(plot_width=700, plot_height=700,
+    p = figure(plot_width=900, plot_height=900,
                tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                       WheelZoomTool(), "tap"],
                title="Grad-Seq t-SNE RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color="color", legend='label')
+    p.circle("x", "y", source=source, size=5, alpha=2, color="color", legend='label')
 
     url = "http://www.uniprot.org/uniprot/@protein_id"
     taptool = p.select(type=TapTool)
@@ -240,13 +240,13 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
 
 
 def _color_1(row, srnas_and_list_names):
-    color = {"CDS": "#BDBDBD", "ncRNA": "#E01F25", "tRNA": "#FFE118",
+    color = {"CDS": "#BDBDBD", "ncRNA": "#E01F25", "tRNA": "#EBB000",
              "rRNA": "#8080FF"
              }[row["Feature"]]
-    sRNA_cluster_color = {"sRNA_cluster_1": "#000000",
-                          "sRNA_cluster_2": "#008000",
-                          "sRNA_cluster_3": "#00ffff",
-                          "sRNA_cluster_4": "#FF8100"}
+    sRNA_cluster_color = {"sRNA_cluster_1": "#FF4D4D",
+                          "sRNA_cluster_2": "#EBB000",
+                          "sRNA_cluster_3": "#8080FF",
+                          "sRNA_cluster_4": "#3D3D3D"}
     for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
             color = sRNA_cluster_color[

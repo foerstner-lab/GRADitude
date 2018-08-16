@@ -104,17 +104,15 @@ def plot_using_only_rna_colors(read_counting_table, pca_result, output_file_colo
             [key_value_pair.split("=") for
              key_value_pair in attr.split(";")]))
 
-    default_color = "#4271FF"
-    # highlight_color = "#FF9C38"
-    color = default_color
     color = read_counting_table.apply(
         _color, axis=1)
-
+    label = read_counting_table.apply(_label1, axis=1)
     hower_data = dict(
         x=read_counting_table["PCA-component_1"],
         y=read_counting_table["PCA-component_2"],
         feature=read_counting_table["Feature"],
-        color=color)
+        color=color,
+        label=label)
 
     for feature in ["gene", "product", "ID", "type", "ncrna_class",
                     "sRNA_type", "Name", "pseudo"]:
@@ -155,9 +153,19 @@ def plot_using_only_rna_colors(read_counting_table, pca_result, output_file_colo
 
 
 def _color(row):
-    color = {"CDS": "#BDBDBD", "ncRNA": "#FF4D4D", "tRNA": "#EBB000",
-             "rRNA": "#8080FF", "tmRNA": "#3D3D3D"}[row["Feature"]]
+    color = {"CDS": "#BDBDBD", "ncRNA": "#0000AF", "tRNA": "#EBB000",
+             "rRNA": "#8080FF", "tmRNA": "#3D3D3D", "5'-UTR": "#9F000F",
+             "sRNA": "#0000AF"
+             }[row["Feature"]]
     return color
+
+
+def _label1(row):
+    label = {"CDS": "CDS", "ncRNA": "ncRNA", "tRNA": "tRNA",
+             "rRNA": "rRNA", "tmRNA": "tmRNA", "5UTR": "5UTR",
+             "3UTR": "3UTR"
+             }[row["Feature"]]
+    return label
 
 
 def read_srna_lists(srna_list_files):
@@ -179,10 +187,6 @@ def plot_pca_colored_by_lists(read_counting_table, pca_result,
         lambda attr: dict(
             [key_value_pair.split("=") for
              key_value_pair in attr.split(";")]))
-
-    default_color = "#4271FF"
-    # highlight_color = "#FF9C38"
-    color = default_color
 
     color = read_counting_table.apply(
         _color_1, args=(srnas_and_list_names,), axis=1)
