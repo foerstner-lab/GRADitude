@@ -1,3 +1,4 @@
+import numpy as np
 import networkx as nx
 import pandas as pd
 from bokeh.io import show, output_file
@@ -36,10 +37,13 @@ def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
 
     source = ColumnDataSource({'index': nodes, 'fill_color': colors, 'size': sizes})
     graph_renderer.node_renderer.data_source = source
-    graph_renderer.node_renderer.glyph = Circle(size="size", fill_color="fill_color")
+    graph_renderer.node_renderer.glyph = Circle(size="size", fill_color="fill_color", line_width=0,
+                                                line_color="fill_color")
 
-    graph_renderer.node_renderer.selection_glyph = Circle(size="size", fill_color=Spectral4[2])
-    graph_renderer.node_renderer.hover_glyph = Circle(size="size", fill_color=Spectral4[1])
+    graph_renderer.node_renderer.selection_glyph = Circle(size="size", fill_color=Spectral4[2], line_width=0,
+                                                          line_color=Spectral4[1])
+    graph_renderer.node_renderer.hover_glyph = Circle(size="size", fill_color=Spectral4[1], line_width=0,
+                                                      line_color=Spectral4[1])
 
     graph_renderer.edge_renderer.glyph = MultiLine(line_color="#CCCCCC", line_alpha=1, line_width=0.2)
     graph_renderer.edge_renderer.selection_glyph = MultiLine(line_color=Spectral4[2], line_width=1)
@@ -71,12 +75,12 @@ def plot_graph(correlated_table, threshold, max_size, output_plot):
 
     for index in correlated_table.index:
         s = correlated_table.loc[index]
-        size = s[s >= threshold].sum()
+        size = np.sqrt(s[s >= threshold].sum())
         sizes.append(size)
 
     for column in correlated_table.columns:
         s = correlated_table.loc[:, column]
-        size = s[s >= threshold].sum()
+        size = np.sqrt(s[s >= threshold].sum())
         sizes.append(size)
 
     scaled_sizes = [float(i) / max(sizes) * max_size for i in sizes]
