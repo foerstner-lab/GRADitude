@@ -223,7 +223,6 @@ def main():
                                                                type=int)
     t_sne_colored_list_clustering_features_parser.add_argument("--perplexity", "-pp", required=True, type=int)
     t_sne_colored_list_clustering_features_parser.add_argument("--srna_list", "-list", nargs="+", default=False)
-
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file1", "-o1", default=False,
                                                                help="output colorized using clusters information")
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file2", "-o2", default=False,
@@ -287,7 +286,6 @@ def main():
     t_sne_proteins_data_parser.add_argument("--feature_count_start_column", "-fc", required=True,
                                             type=int)
     t_sne_proteins_data_parser.add_argument("--perplexity", "-pp", required=True, type=int)
-
     t_sne_proteins_data_parser.add_argument("--output_file_colorized_by_clusters", "-o", required=True,
                                             help="output colorized using clusters information")
 
