@@ -22,6 +22,8 @@ from graditudelib import distribution_correlation
 from graditudelib import t_sne_proteins_data
 from graditudelib import clustering_proteins
 from graditudelib import correlation_specific_gene
+from graditudelib import interactive_tsne_plot
+from graditudelib import heatmap
 
 __author__ = "Silvia Di Giorgio <silvia.digiorgio@uni-wuerzburg.de>, " \
              "Konrad Foerstner <konrad@foerstner.org>"
@@ -120,6 +122,16 @@ def main():
                                              required=True, type=int)
     selecting_specific_features.add_argument('--features', '-f', nargs='+', required=True)
     selecting_specific_features.add_argument('--output_file', '-o', required=True)
+
+    p_heatmap = subparsers.add_parser("heatmap",
+                                      help="correlation all against all ")
+    p_heatmap.set_defaults(func=plot_heatmap)
+    p_heatmap.add_argument('--feature_count_table', '-f', required=True,
+                           help="Filtered gene quantification table")
+    p_heatmap.add_argument('--feature_count_start_column', '-fc', type=int,
+                           help="number of the column with the first fraction")
+    p_heatmap.add_argument("--y_label", "-label", required=True)
+    p_heatmap.add_argument("--output_file", "-o", required=True)
 
     # For each fraction generate/write--output_format/
     # - Histogram 
@@ -290,6 +302,14 @@ def main():
     correlation_specific_gene_parser.add_argument("--name", "-name", required=True)
     correlation_specific_gene_parser.add_argument("--output_file", '-o')
 
+    interactive_tsne_plot_parser = subparsers.add_parser("interactive_tsne_plot",
+                                                         help="compare the ERCC concentration in mix "
+                                                              "with the ERCC reads and take it out the outliers")
+    interactive_tsne_plot_parser.set_defaults(func=run_interactive_tsne_plot)
+    interactive_tsne_plot_parser.add_argument('--table_with_clusters', '-t', required=True)
+    interactive_tsne_plot_parser.add_argument("--start_column", "-sc", required=True)
+    interactive_tsne_plot_parser.add_argument("--output_file", '-o')
+
     # version_parser = subparsers.add_parser("version")
     # version_parser.set_defaults(func=show_version)
 
@@ -434,6 +454,15 @@ def run_correlation_specific_gene(args):
                                                                     args.feature_count_end_column,
                                                                     args.name_column_with_genes_name,
                                                                     args.name, args.output_file)
+
+
+def run_interactive_tsne_plot(args):
+    interactive_tsne_plot.interactive_plot(args.table_with_clusters, args.start_column, args.output_file)
+
+
+def plot_heatmap(args):
+    heatmap.plot_heatmap(args.feature_count_table, args.feature_count_start_column,
+                         args.y_label, args.output_file)
 
 
 main()
