@@ -25,8 +25,12 @@ def _plot_gene_html(counting_value_list, gene_name):
     output_file(gene_name + '.html')
     plot_html = figure(title=gene_name,
                        x_axis_label='Fraction number',
-                       y_axis_label='Normalized read counts', tools=[BoxZoomTool(), ResetTool(), PanTool(),
-                                                                    WheelZoomTool()])
+                       y_axis_label='Normalized and scaled to max read counts',
+                       tools=[BoxZoomTool(), ResetTool(), PanTool(),
+                              WheelZoomTool()])
+    plot_html.yaxis.axis_label_text_font_size = "15pt"
+    plot_html.xaxis.axis_label_text_font_size = "15pt"
+    plot_html.title.text_font_size = '15pt'
     plot_html.toolbar.logo = None
     y_axis = range(1, 22)
     plot_html.line(y_axis, counting_value_list)
