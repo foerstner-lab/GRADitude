@@ -81,10 +81,10 @@ def regression(read_grad_value, read_concentration_value, gradient_file,
         y_values = concentration_log10.reshape(len(key), 1)
         clt_ransac = linear_model.RANSACRegressor(linear_model.LinearRegression())
         clt_ransac = clt_ransac.fit(x_values, y_values)
-        fig, axes = plt.subplots(ncols=2)
+        fig, axes = plt.subplots(ncols=2, figsize=(15, 10))
         axes[0].scatter(x_values, y_values, c='g')
-        axes[0].set_xlabel('Reads')
-        axes[0].set_ylabel('Concentration')
+        axes[0].set_xlabel('Reads', fontsize=18)
+        axes[0].set_ylabel('Concentration', fontsize=18)
         """Plot the robust regression, including inliers and outliers"""
         plt.plot(x_values, clt_ransac.predict(x_values), color='blue')
         robust_estimator = RANSACRegressor(random_state=0)
@@ -93,10 +93,10 @@ def regression(read_grad_value, read_concentration_value, gradient_file,
         mean_squared_error = (y_values - distance_pred) ** 2
         index = np.argsort(mean_squared_error.ravel())
         axes[1].scatter(x_values[index[:-number_of_outliers]],
-                        y_values[index[:-number_of_outliers]], c='b', label='inliers', alpha=0.2)
+                        y_values[index[:-number_of_outliers]], c='b', label='inliers',  alpha=0.5)
         axes[1].scatter(x_values[index[-number_of_outliers:]],
-                        y_values[index[-number_of_outliers:]], c='r', label='outliers')
-        axes[1].set_xlabel('Reads')
+                        y_values[index[-number_of_outliers:]], c='r', label='outliers', alpha=0.5)
+        axes[1].set_xlabel('Reads', fontsize=18)
         axes[1].legend(loc=2)
         plt.title(gradient + '\n'
                              "The intercept values is " +
@@ -104,7 +104,7 @@ def regression(read_grad_value, read_concentration_value, gradient_file,
                   + '\n' +
                   "The slope values is " +
                   str(clt_ransac.estimator_.coef_),
-                  fontsize=10)
+                  fontsize=15)
         plt.savefig(gradient)
         plt.close()
         """Find the outliers using the number that you defined as parameter"""
