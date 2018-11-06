@@ -386,11 +386,11 @@ def run_pca(args):
 
 
 def run_scaling(args):
-    scaling.scaling(args.feature_count_table,
-                    args.feature_count_start_column,
-                    args.pseudo_count,
-                    args.scaling_method,
-                    args.scaled_table)
+    scaling.scaling_(args.feature_count_table,
+                     args.feature_count_start_column,
+                     args.pseudo_count,
+                     args.scaling_method,
+                     args.scaled_table)
 
 
 def run_robust_regression(args):

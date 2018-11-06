@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 
 
-def scaling(feature_count_table, feature_count_start_column,
-            pseudo_count, scaling_method, output_file):
+def scaling_(feature_count_table, feature_count_start_column,
+             pseudo_count, scaling_method, output_file):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
@@ -16,7 +16,7 @@ def scaling(feature_count_table, feature_count_start_column,
 
 def _extract_value_matrix(feature_count_table_df,
                           feature_count_start_column):
-    return feature_count_table_df.iloc[:, int(feature_count_start_column):]
+    return feature_count_table_df.iloc[:, int(feature_count_start_column):-1]
 
 
 def _extract_attributes(feature_count_table_df,

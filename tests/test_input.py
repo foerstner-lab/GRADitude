@@ -1,13 +1,9 @@
 from graditudelib import normalize
 from graditudelib import visualizing_kinetics
-from graditudelib import k_means
 from graditudelib import elbow_curve
 from graditudelib import silhouette
-from graditudelib import hierarchical_clustering
-from graditudelib import DBSCAN_clustering
 from graditudelib import Nearest_Neighbors
 from graditudelib import PCA_analysis
-from graditudelib import tSNE
 from graditudelib import scaling
 from graditudelib import robust_regression
 from graditudelib import histograms_of_fractions
@@ -16,12 +12,11 @@ from graditudelib import min_row_sum
 from graditudelib import t_sne_colored_list_clustering_features
 from graditudelib import correlation_between_genes
 from graditudelib import modify_input
-from graditudelib import UMAP_analysis
 from graditudelib import selecting_ncRNAs
 from graditudelib import plot_network_graph
 from graditudelib import clustering_proteins
 from graditudelib import t_sne_proteins_data
-from graditudelib import t_SNE_colored_by_lists
+from graditudelib import interactive_tsne_plot
 
 
 def test_run_modify_input():
@@ -50,7 +45,7 @@ def test_run_normalize():
 
 def test_run_visualizing_kinetics():
     visualizing_kinetics.plot_kinetics(
-        "../tests/filtered_gene_wise_quantifications_combined_extended.csv",
+        "../data/k-means_Norm_MIN_ROW_SUM_100.csv_max_6cl.csv",
         'chiX',
         11)
 
@@ -67,16 +62,19 @@ def test_run_k_means_clustering():
 
 def test_run_elbow_method():
     elbow_curve.k_means_clustering_elbow(
-        "../data/gene_wise_quantifications_combined_extended_test.csv",
-        13,
+        "../data/gene_wise_quantifications_combined_extended.csv",
+        11,
+        32,
         2,
-        10)
+        10,
+        "output_1",
+        "output_2")
 
 
 def test_run_silhouette_analysis():
     silhouette.silhouette_analysis(
-        "../data/gene_wise_quantifications_combined_extended_test.csv",
-        13,
+        "../data/gene_wise_quantifications_combined_extended.csv",
+        11,
         2,
         10)
 
@@ -119,11 +117,11 @@ def test_run_t_sne_analysis():
 
 
 def test_run_scaling():
-    scaling.scaling('../data/gene_wise_quantifications_combined_extended.csv',
-                    12,
-                    1,
-                    'normalized_to_max',
-                    'test.csv')
+    scaling.scaling_('../data/gene_wise_quantifications_combined_extended.csv',
+                     12,
+                     1,
+                     'normalized_to_max',
+                     'test.csv')
 
 
 def test_run_robust_regression():
@@ -157,14 +155,14 @@ def test_run_min_row_sum():
 
 def test_run_t_sne_colored_list_clustering_features():
     t_sne_colored_list_clustering_features.t_sne(
-        "../data/k-means_clustering_Normalized_with_pellet_gene_wise_quanti_MIN_ROW_SUM_500_normalized_to_range_8_clusters.csv",
+        "/home/silvia/work/GRADitude/data/k-meansNorm_MIN_ROW_SUM_100_ncRNA.csv_max_3_cl.csv",
         11, 30,
         'output1.html',
         'output2.html')
 
 
 def test_run_umap_analysis():
-    UMAP_analysis.umap_("/home/silvia/work/GRADitude/tests/normalized_by_log10_with_clusters.csv",
+    UMAP_analysis.umap_("../data/k-meansNorm_MIN_ROW_SUM_100_ncRNA.csv_max_3_cl.csv",
                         11,
                         'output1_test',
                         'output2_test')
@@ -181,7 +179,8 @@ def test_run_selecting_ncRNAs():
 
 
 def test_run_ploth_graph():
-    plot_network_graph.plot_network_graph_rna_protein("../output/correlated_table_test.csv", float(0.4), 10, 'test')
+    plot_network_graph.plot_network_graph_rna_protein("../output/correlated_table_test.csv", float(0.4), 10,
+                                                      'test.html')
 
 
 def test_clustering_protein():
@@ -193,10 +192,9 @@ def test_t_sne_proteins():
     t_sne_proteins_data.t_sne_pr("../tests/test.csv", 24, 30, 'test.html')
 
 
-def test_t_sne_list():
-    t_SNE_colored_by_lists.t_sne_using_selected_rna_colors(
-        "../data/Normalized_with_pellet_gene_wise_quanti_MIN_ROW_SUM_100.csv",
-        11, 30, '../data/20180202_all_Hfq_sRNAs.txt', 'test.html')
+def test_interactive_plot():
+    interactive_tsne_plot.interactive_plot("../data/k-meansNorm_MIN_ROW_SUM_100_ncRNA.csv_max_3_cl.csv", 11,
+                                           "output.html")
 
 
 # test_run_modify_input()
@@ -210,7 +208,7 @@ def test_t_sne_list():
 # test_run_nearest_neighbors()
 # test_run_pca()
 # test_run_t_sne_analysis()
-# test_run_scaling()
+test_run_scaling()
 # test_run_robust_regression()
 # test_run_histograms_of_fractions()
 # test_clustering()
@@ -222,4 +220,5 @@ def test_t_sne_list():
 # test_run_ploth_graph()
 # test_clustering_protein()
 # test_t_sne_proteins()
-test_t_sne_list()
+# test_t_sne_list()
+# test_interactive_plot()
