@@ -47,13 +47,16 @@ def plot_pca_using_clustering(read_counting_table, pca_result, output_file_color
         len(read_counting_table["Cluster_label"].unique()))
     color = read_counting_table["Cluster_label"].apply(
         lambda lable: color_palette[lable])
+    label = read_counting_table.apply(
+        _label_clustering, axis=1)
 
     hower_data = dict(
         x=read_counting_table["PCA-component_1"],
         y=read_counting_table["PCA-component_2"],
         feature=read_counting_table["Feature"],
         cluster_label=read_counting_table["Cluster_label"],
-        color=color)
+        color=color,
+        label=label)
 
     for feature in ["gene", "product", "ID", "type", "ncrna_class",
                     "sRNA_type", "Name", "pseudo"]:
@@ -81,7 +84,7 @@ def plot_pca_using_clustering(read_counting_table, pca_result, output_file_color
                       WheelZoomTool(), "tap"],
                title="Grad-Seq PCA RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color='color')
+    p.circle("x", "y", source=source, size=5, alpha=0.7, color='color', legend= 'label')
 
     url = "http://www.uniprot.org/uniprot/@protein_id"
     taptool = p.select(type=TapTool)
@@ -92,6 +95,13 @@ def plot_pca_using_clustering(read_counting_table, pca_result, output_file_color
 
     output_file(output_file_colorized_by_clusters)
     save(p)
+
+
+def _label_clustering(row):
+    __label = {0: "cluster1", 1: "cluster2", 2: "cluster3",
+               3: "cluster4", 4: "cluster5", 5: "cluster6",
+               6: "cluster7", 7: "cluster8"}[row["Cluster_label"]]
+    return __label
 
 
 def plot_using_only_rna_colors(read_counting_table, pca_result, output_file_colorized_by_rna_class):
@@ -106,7 +116,7 @@ def plot_using_only_rna_colors(read_counting_table, pca_result, output_file_colo
 
     color = read_counting_table.apply(
         _color, axis=1)
-    label = read_counting_table.apply(_label1, axis=1)
+    label = read_counting_table.apply(_label, axis=1)
     hower_data = dict(
         x=read_counting_table["PCA-component_1"],
         y=read_counting_table["PCA-component_2"],
@@ -160,7 +170,7 @@ def _color(row):
     return color
 
 
-def _label1(row):
+def _label(row):
     label = {"CDS": "CDS", "ncRNA": "ncRNA", "tRNA": "tRNA",
              "rRNA": "rRNA", "tmRNA": "tmRNA", "5UTR": "5UTR",
              "3UTR": "3UTR"
