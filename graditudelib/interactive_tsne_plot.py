@@ -1,24 +1,19 @@
 import pandas as pd
 from sklearn.manifold import TSNE
 import numpy as np
-import argparse
-from bokeh.plotting import figure, ColumnDataSource, show
+
+from bokeh.plotting import figure, ColumnDataSource, show, output_file
 from bokeh.models import HoverTool, BoxZoomTool, ResetTool, PanTool, DataTable, TableColumn
 from bokeh.models import WheelZoomTool, CustomJS, Button
 from bokeh.layouts import row, column
 import bokeh.palettes
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("table_with_clusters")
-    parser.add_argument("start_column", type=int)
-    parser.add_argument('output_file')
-    args = parser.parse_args()
-    read_counting_table = pd.read_table(args.table_with_clusters, sep='\t')
-    value_matrix = _extract_value_matrix(args.table_with_clusters, args.start_column)
+def interactive_plot(table_with_clusters, start_column, output_file_):
+    read_counting_table = pd.read_table(table_with_clusters, sep='\t')
+    value_matrix = _extract_value_matrix(read_counting_table, start_column)
     t_sne_result = perform_t_sne(value_matrix, 30)
-    plot_t_sne_using_clustering(read_counting_table, t_sne_result, args.output_file)
+    plot_t_sne_using_clustering(read_counting_table, t_sne_result, output_file_)
 
 
 def _extract_value_matrix(feature_count_table_df,
@@ -33,7 +28,7 @@ def perform_t_sne(normalized_values, perplexity):
     return tsne_result
 
 
-def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file):
+def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file_):
     read_counting_table["t-SNE-component_1"] = [pos[0] for pos in tsne_result]
     read_counting_table["t-SNE-component_2"] = [pos[1] for pos in tsne_result]
 
@@ -106,9 +101,6 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file):
             document.body.removeChild(elem);
             """)
 
-    output_file(output_file + ".html", title="Grad-Seq t-SNE RNA-Seq")
+    output_file(output_file_ + ".html", title="Grad-Seq t-SNE RNA-Seq")
     layout = row(p, data_table, column(p2, button))
     show(layout)
-
-
-main()
