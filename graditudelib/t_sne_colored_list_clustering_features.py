@@ -52,10 +52,11 @@ def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_col
         x=read_counting_table["t-SNE-component_1"],
         y=read_counting_table["t-SNE-component_2"],
         feature=read_counting_table["Feature"],
+        gene=read_counting_table["Gene"],
         color=color,
         label=label)
 
-    for feature in ["gene", "product", "ID", "type", "ncrna_class",
+    for feature in ["product", "ID", "type", "ncrna_class",
                     "sRNA_type", "Name", "pseudo"]:
         read_counting_table[feature] = read_counting_table[
             "Attributes_split"].apply(
@@ -66,13 +67,7 @@ def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_col
 
     hover = HoverTool(tooltips=[
         ("Gene", "@gene"),
-        ("Product", "@product"),
         ("ID", "@ID"),
-        ("Type", "@type"),
-        ("Ncrna_class", "@ncrna_class"),
-        ("sRNA_type", "@sRNA_type"),
-        ("Name", "@Name"),
-        ("Pseudo", "@pseudo"),
         ("Feature", "@feature")])
 
     p = figure(plot_width=900, plot_height=900,
@@ -81,13 +76,16 @@ def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_col
                title="Grad-Seq t-SNE RNA-Seq", logo=None)
 
     p.circle("x", "y", source=source, size=5, alpha=2, color='color', legend='label')
+    p.yaxis.axis_label_text_font_size = "15pt"
+    p.xaxis.axis_label_text_font_size = "15pt"
+    p.title.text_font_size = '15pt'
 
     url = "http://www.uniprot.org/uniprot/@protein_id"
     taptool = p.select(type=TapTool)
     taptool.callback = OpenURL(url=url)
 
-    p.xaxis.axis_label = "Component 1"
-    p.yaxis.axis_label = "Component 2"
+    p.xaxis.axis_label = "Dimension 1"
+    p.yaxis.axis_label = "Dimension 2"
 
     output_file(output_file_colorized_by_rna_class)
     save(p)
@@ -104,7 +102,7 @@ def _color(row):
 def _label(row):
     label = {"CDS": "CDS", "ncRNA": "ncRNA", "tRNA": "tRNA",
              "rRNA": "rRNA", "tmRNA": "tmRNA", "5UTR": "5UTR",
-             "3UTR": "3UTR"
+             "3UTR": "3UTR", "sRNA": "sRNA"
              }[row["Feature"]]
     return label
 
@@ -144,9 +142,7 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file_co
 
     hover = HoverTool(tooltips=[
         ("Gene", "@gene"),
-        ("Product", "@product"),
         ("ID", "@ID"),
-        ("sRNA_type", "@sRNA_type"),
         ("Feature", "@feature")])
 
     p = figure(plot_width=900, plot_height=900,
@@ -205,10 +201,11 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
         x=read_counting_table["t-SNE-component_1"],
         y=read_counting_table["t-SNE-component_2"],
         feature=read_counting_table["Feature"],
+        gene=read_counting_table["Gene"],
         color=color,
         label=label)
 
-    for feature in ["gene", "product", "ID", "type", "ncrna_class",
+    for feature in ["product", "ID", "type", "ncrna_class",
                     "sRNA_type", "Name", "pseudo"]:
         read_counting_table[feature] = read_counting_table[
             "Attributes_split"].apply(
@@ -219,13 +216,7 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
 
     hover = HoverTool(tooltips=[
         ("Gene", "@gene"),
-        ("Product", "@product"),
         ("ID", "@ID"),
-        ("Type", "@type"),
-        ("Ncrna_class", "@ncrna_class"),
-        ("sRNA_type", "@sRNA_type"),
-        ("Name", "@Name"),
-        ("Pseudo", "@pseudo"),
         ("Feature", "@feature")])
 
     p = figure(plot_width=900, plot_height=900,
@@ -234,13 +225,16 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
                title="Grad-Seq t-SNE RNA-Seq", logo=None)
 
     p.circle("x", "y", source=source, size=5, alpha=2, color="color", legend='label')
+    p.yaxis.axis_label_text_font_size = "15pt"
+    p.xaxis.axis_label_text_font_size = "15pt"
+    p.title.text_font_size = '15pt'
 
     url = "http://www.uniprot.org/uniprot/@protein_id"
     taptool = p.select(type=TapTool)
     taptool.callback = OpenURL(url=url)
 
-    p.xaxis.axis_label = "Component 1"
-    p.yaxis.axis_label = "Component 2"
+    p.xaxis.axis_label = "Dimension 1"
+    p.yaxis.axis_label = "Dimension 2"
 
     output_file(output_file_list)
     save(p)
@@ -262,7 +256,7 @@ def _color_1(row, srnas_and_list_names):
 
 
 def _label_1(row, srnas_and_list_names):
-    label = {"ncRNA": "ncRNA"}[row["Feature"]]
+    label = {"ncRNA": "ncRNA", "sRNA": "sRNA"}[row["Feature"]]
     srna_cluster_label = {
         "sRNA_cluster_1": "cluster1",
         "sRNA_cluster_2": "cluster2",
