@@ -28,7 +28,7 @@ def _extract_value_matrix(feature_count_table_df,
 
 
 def perform_pca(normalized_values):
-    model = PCA(n_components=2, random_state=0)
+    model = PCA(n_components=3, random_state=0)
     np.set_printoptions(suppress=True)
     pca_result = model.fit_transform(normalized_values)
     return pca_result
@@ -54,11 +54,12 @@ def plot_pca_using_clustering(read_counting_table, pca_result, output_file_color
         x=read_counting_table["PCA-component_1"],
         y=read_counting_table["PCA-component_2"],
         feature=read_counting_table["Feature"],
+        gene=read_counting_table["Gene"],
         cluster_label=read_counting_table["Cluster_label"],
         color=color,
         label=label)
 
-    for feature in ["gene", "product", "ID", "type", "ncrna_class",
+    for feature in ["product", "ID", "type", "ncrna_class",
                     "sRNA_type", "Name", "pseudo"]:
         read_counting_table[feature] = \
             read_counting_table["Attributes_split"].apply(
@@ -69,22 +70,19 @@ def plot_pca_using_clustering(read_counting_table, pca_result, output_file_color
 
     hover = HoverTool(tooltips=[
         ("Gene", "@gene"),
-        ("Product", "@product"),
         ("ID", "@ID"),
-        ("Type", "@type"),
-        ("Ncrna_class", "@ncrna_class"),
-        ("sRNA_type", "@sRNA_type"),
-        ("Name", "@Name"),
-        ("Pseudo", "@pseudo"),
         ("Feature", "@feature"),
         ("Cluster label", "@cluster_label")])
 
-    p = figure(plot_width=700, plot_height=700,
+    p = figure(plot_width=900, plot_height=900,
                tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                       WheelZoomTool(), "tap"],
                title="Grad-Seq PCA RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color='color', legend= 'label')
+    p.circle("x", "y", source=source, size=5, alpha=0.7, color='color', legend='label')
+    p.yaxis.axis_label_text_font_size = "15pt"
+    p.xaxis.axis_label_text_font_size = "15pt"
+    p.title.text_font_size = '15pt'
 
     url = "http://www.uniprot.org/uniprot/@protein_id"
     taptool = p.select(type=TapTool)
@@ -121,6 +119,7 @@ def plot_using_only_rna_colors(read_counting_table, pca_result, output_file_colo
         x=read_counting_table["PCA-component_1"],
         y=read_counting_table["PCA-component_2"],
         feature=read_counting_table["Feature"],
+        gene=read_counting_table["Gene"],
         color=color,
         label=label)
 
@@ -135,21 +134,18 @@ def plot_using_only_rna_colors(read_counting_table, pca_result, output_file_colo
 
     hover = HoverTool(tooltips=[
         ("Gene", "@gene"),
-        ("Product", "@product"),
         ("ID", "@ID"),
-        ("Type", "@type"),
-        ("Ncrna_class", "@ncrna_class"),
-        ("sRNA_type", "@sRNA_type"),
-        ("Name", "@Name"),
-        ("Pseudo", "@pseudo"),
         ("Feature", "@feature")])
 
-    p = figure(plot_width=700, plot_height=700,
+    p = figure(plot_width=900, plot_height=900,
                tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                       WheelZoomTool(), "tap"],
                title="Grad-Seq PCA RNA-Seq", logo=None)
 
     p.circle("x", "y", source=source, size=5, alpha=0.7, color='color')
+    p.yaxis.axis_label_text_font_size = "15pt"
+    p.xaxis.axis_label_text_font_size = "15pt"
+    p.title.text_font_size = '15pt'
 
     url = "http://www.uniprot.org/uniprot/@protein_id"
     taptool = p.select(type=TapTool)
@@ -173,7 +169,7 @@ def _color(row):
 def _label(row):
     label = {"CDS": "CDS", "ncRNA": "ncRNA", "tRNA": "tRNA",
              "rRNA": "rRNA", "tmRNA": "tmRNA", "5UTR": "5UTR",
-             "3UTR": "3UTR"
+             "3UTR": "3UTR", "sRNA": "sRNA"
              }[row["Feature"]]
     return label
 
@@ -201,16 +197,17 @@ def plot_pca_colored_by_lists(read_counting_table, pca_result,
     color = read_counting_table.apply(
         _color_1, args=(srnas_and_list_names,), axis=1)
     label = read_counting_table.apply(
-        _label, args=(srnas_and_list_names,), axis=1)
+        _label_list, args=(srnas_and_list_names,), axis=1)
 
     hower_data = dict(
         x=read_counting_table["PCA-component_1"],
         y=read_counting_table["PCA-component_2"],
         feature=read_counting_table["Feature"],
+        gene=read_counting_table["Gene"],
         color=color,
         label=label)
 
-    for feature in ["gene", "product", "ID", "type", "ncrna_class",
+    for feature in ["product", "ID", "type", "ncrna_class",
                     "sRNA_type", "Name", "pseudo"]:
         read_counting_table[feature] = read_counting_table[
             "Attributes_split"].apply(
@@ -221,21 +218,18 @@ def plot_pca_colored_by_lists(read_counting_table, pca_result,
 
     hover = HoverTool(tooltips=[
         ("Gene", "@gene"),
-        ("Product", "@product"),
         ("ID", "@ID"),
-        ("Type", "@type"),
-        ("Ncrna_class", "@ncrna_class"),
-        ("sRNA_type", "@sRNA_type"),
-        ("Name", "@Name"),
-        ("Pseudo", "@pseudo"),
         ("Feature", "@feature")])
 
-    p = figure(plot_width=700, plot_height=700,
+    p = figure(plot_width=900, plot_height=900,
                tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                       WheelZoomTool(), "tap"],
                title="Grad-Seq PCA RNA-Seq", logo=None)
 
     p.circle("x", "y", source=source, size=5, alpha=0.7, color="color", legend="label")
+    p.yaxis.axis_label_text_font_size = "15pt"
+    p.xaxis.axis_label_text_font_size = "15pt"
+    p.title.text_font_size = '15pt'
 
     url = "http://www.uniprot.org/uniprot/@protein_id"
     taptool = p.select(type=TapTool)
@@ -262,8 +256,8 @@ def _color_1(row, srnas_and_list_names):
     return color
 
 
-def _label(row, srnas_and_list_names):
-    label = {"ncRNA": "ncRNA"}[row["Feature"]]
+def _label_list(row, srnas_and_list_names):
+    label = {"ncRNA": "ncRNA", "sRNA": "sRNA"}[row["Feature"]]
     srna_cluster_label = {
         "sRNA_cluster_1": "classic_CsrA",
         "sRNA_cluster_2": "unique_Hfq",

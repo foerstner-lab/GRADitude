@@ -15,7 +15,7 @@ def silhouette_analysis(feature_count_table, feature_count_start_column,
 
 def _extract_value_matrix(feature_count_table_df,
                           feature_count_start_column):
-    return feature_count_table_df.iloc[:, int(feature_count_start_column):]
+    return feature_count_table_df.iloc[:, int(feature_count_start_column):-1]
 
 
 def silhouette_plot(value_matrix, min_number_of_clusters,
