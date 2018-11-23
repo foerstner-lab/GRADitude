@@ -24,6 +24,7 @@ from graditudelib import clustering_proteins
 from graditudelib import correlation_specific_gene
 from graditudelib import interactive_tsne_plot
 from graditudelib import heatmap
+from graditudelib import correlation_replicates_sequencing_data
 
 __author__ = "Silvia Di Giorgio <silvia.digiorgio@uni-wuerzburg.de>, " \
              "Konrad Foerstner <konrad@foerstner.org>"
@@ -308,6 +309,14 @@ def main():
     interactive_tsne_plot_parser.add_argument("--start_column", "-sc", required=True)
     interactive_tsne_plot_parser.add_argument("--output_file", '-o')
 
+    correlation_replicates_sequencing_data_parser = subparsers.add_parser("replicates_correlation_sequencing", )
+    correlation_replicates_sequencing_data_parser.set_defaults(func=run_replicates_correlation_sequencing)
+    correlation_replicates_sequencing_data_parser.add_argument('--table_replicate1', '-r1', required=True)
+    correlation_replicates_sequencing_data_parser.add_argument("--table_replicate2", "-r2", required=True)
+    correlation_replicates_sequencing_data_parser.add_argument('--table_start_column' "-fc", required=True)
+    correlation_replicates_sequencing_data_parser.add_argument('--table_end_column' "-fe", required=True)
+    correlation_replicates_sequencing_data_parser.add_argument("--output_table", '-o')
+    correlation_replicates_sequencing_data_parser.add_argument("--output_figure", '-f')
     # version_parser = subparsers.add_parser("version")
     # version_parser.set_defaults(func=show_version)
 
@@ -463,4 +472,9 @@ def plot_heatmap(args):
                          args.y_label, args.output_file)
 
 
-main()
+def run_replicates_correlation_sequencing(args):
+    correlation_replicates_sequencing_data.correlation_replicates_sd(args.table_replicate1, args.table_replicate2,
+                                                                     args.table_start_column, args.table_end_column,
+                                                                     args.output_table, args.output_figure)
+
+    main()
