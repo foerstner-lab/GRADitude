@@ -256,7 +256,8 @@ def _color_1(row, srnas_and_list_names):
 
 
 def _label_1(row, srnas_and_list_names):
-    label = {"ncRNA": "ncRNA", "sRNA": "sRNA"}[row["Feature"]]
+    label = {"ncRNA": "other ncRNAs", "CDS": "CDS", "tRNA": "tRNA",
+             "rRNA": "rRNA"}[row["Feature"]]
     srna_cluster_label = {
         "sRNA_cluster_1": "cluster1",
         "sRNA_cluster_2": "cluster2",
