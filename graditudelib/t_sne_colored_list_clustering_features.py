@@ -102,9 +102,9 @@ def _label_clustering(row):
     return __label
 
 
-def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_colorized_by_rna_class):
-    read_counting_table["t-SNE-component_1"] = [pos[0] for pos in tsne_result]
-    read_counting_table["t-SNE-component_2"] = [pos[1] for pos in tsne_result]
+def plot_using_only_rna_colors(read_counting_table, t_sne_result, output_file_colorized_by_rna_class):
+    read_counting_table["t-SNE-component_1"] = [pos[0] for pos in t_sne_result]
+    read_counting_table["t-SNE-component_2"] = [pos[1] for pos in t_sne_result]
 
     read_counting_table["Attributes_split"] = read_counting_table[
         "Attributes"].apply(
@@ -112,8 +112,15 @@ def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_col
             [key_value_pair.split("=") for
              key_value_pair in attr.split(";")]))
 
-    color = read_counting_table.apply(
-        _color, axis=1)
+    feature_unique_values = read_counting_table["Feature"].unique()
+    color_palette = bokeh.palettes.viridis(len(feature_unique_values))
+    palette_map = {}
+    for index in range(0, len(feature_unique_values)):
+        palette_map[feature_unique_values[index]] = color_palette[index]
+    color = read_counting_table["Feature"].apply(
+        lambda lable: palette_map[lable])
+    # color = read_counting_table.apply(
+    #     color_palette, axis=1)
     label = read_counting_table.apply(
         _label, axis=1)
 
@@ -160,12 +167,13 @@ def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_col
     save(p)
 
 
-def _color(row):
-    color = {"CDS": "#BDBDBD", "ncRNA": "#0000AF", "tRNA": "#EBB000",
-             "rRNA": "#8080FF", "tmRNA": "#3D3D3D", "5'-UTR": "#9F000F",
-             "sRNA": "#0000AF"
-             }[row["Feature"]]
-    return color
+# def _color(row):
+#     color_palette = bokeh.palettes.d3['Category20'][8]
+#     color = {"CDS": color_palette[2], "ncRNA": color_palette[1], "tRNA": color_palette[7],
+#              "rRNA": color_palette[3], "tmRNA": color_palette[4], "5'-UTR": color_palette[5],
+#              "sRNA": color_palette[6], "3'-UTR": color_palette[0]
+#              }[row["Feature"]]
+#     return color
 
 
 def _label(row):
@@ -245,8 +253,8 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
 
 
 def _color_1(row, srnas_and_list_names):
-    color = {"CDS": "#BDBDBD", "ncRNA": "#E01F25", "tRNA": "#EBB000",
-             "rRNA": "#8080FF", "sRNA": "#E01F25"
+    color = {"CDS": "#f5f5f5", "ncRNA": "#c7eae5", "tRNA": "#80cdc1",
+             "rRNA": "#35978f", "sRNA": "#bf812d"
              }[row["Feature"]]
     srna_cluster_color = {"sRNA_cluster_1": "#FF4D4D",
                           "sRNA_cluster_2": "#EBB000",
