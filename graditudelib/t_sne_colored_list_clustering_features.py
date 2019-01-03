@@ -11,14 +11,16 @@ def t_sne(feature_count_table, feature_count_start_column,
           perplexity, srna_list_files, output_file_colorized_by_clusters, output_file_colorized_by_rna_class,
           output_colored_by_lists):
     feature_count_table_df = pd.read_table(feature_count_table)
-    srnas_and_list_names = read_srna_lists(srna_list_files)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
     t_sne_results = perform_t_sne(value_matrix, perplexity)
     plot_t_sne_using_clustering(feature_count_table_df, t_sne_results,
                                 output_file_colorized_by_clusters)
     plot_using_only_rna_colors(feature_count_table_df, t_sne_results, output_file_colorized_by_rna_class)
-    plot_t_sne_colored_by_lists(feature_count_table_df, t_sne_results, output_colored_by_lists, srnas_and_list_names)
+
+    if srna_list_files:
+        srnas_and_list_names = read_srna_lists(srna_list_files)
+        plot_t_sne_colored_by_lists(feature_count_table_df, t_sne_results, output_colored_by_lists, srnas_and_list_names)
 
 
 def _extract_value_matrix(feature_count_table_df,
