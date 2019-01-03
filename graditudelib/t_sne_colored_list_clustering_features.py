@@ -20,7 +20,8 @@ def t_sne(feature_count_table, feature_count_start_column,
 
     if srna_list_files:
         srnas_and_list_names = read_srna_lists(srna_list_files)
-        plot_t_sne_colored_by_lists(feature_count_table_df, t_sne_results, output_colored_by_lists, srnas_and_list_names)
+        plot_t_sne_colored_by_lists(feature_count_table_df, t_sne_results, output_colored_by_lists,
+                                    srnas_and_list_names)
 
 
 def _extract_value_matrix(feature_count_table_df,
@@ -33,6 +34,71 @@ def perform_t_sne(normalized_values, perplexity):
     np.set_printoptions(suppress=True)
     tsne_result = model.fit_transform(normalized_values)
     return tsne_result
+
+
+def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file_colorized_by_clusters):
+    read_counting_table["t-SNE-component_1"] = [pos[0] for pos in tsne_result]
+    read_counting_table["t-SNE-component_2"] = [pos[1] for pos in tsne_result]
+
+    read_counting_table["Attributes_split"] = \
+        read_counting_table["Attributes"].apply(lambda attr: dict(
+            [key_value_pair.split("=")
+             for key_value_pair in attr.split(";")]))
+
+    color_palette = bokeh.palettes.viridis(
+        len(read_counting_table["Cluster_label"].unique()))
+    color = read_counting_table["Cluster_label"].apply(
+        lambda lable: color_palette[lable])
+    label = read_counting_table.apply(
+        _label_clustering, axis=1)
+
+    hower_data = dict(
+        x=read_counting_table["t-SNE-component_1"],
+        y=read_counting_table["t-SNE-component_2"],
+        feature=read_counting_table["Feature"],
+        gene=read_counting_table['Gene'],
+        color=color,
+        label=label)
+
+    for feature in ["ID", "Parent", "Dbxref", "Note", "function",
+                    "gbkey", "product", "sRNA_type"]:
+        read_counting_table[feature] = read_counting_table[
+            "Attributes_split"].apply(
+            lambda attributes: attributes.get(feature, "-"))
+        hower_data[feature] = read_counting_table[feature]
+
+    source = ColumnDataSource(hower_data)
+
+    hover = HoverTool(tooltips=[
+        ("Gene", "@gene"),
+        ("ID", "@ID"),
+        ("Feature", "@feature")])
+
+    p = figure(plot_width=900, plot_height=900,
+               tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
+                      WheelZoomTool(), "tap"],
+               title="Grad-Seq t-SNE RNA-Seq", logo=None)
+
+    p.circle("x", "y", source=source, size=5, alpha=0.8, color='color', legend="label")
+    p.yaxis.axis_label_text_font_size = "15pt"
+    p.xaxis.axis_label_text_font_size = "15pt"
+    p.title.text_font_size = '15pt'
+    url = "https://ecocyc.org/ECOLI/search-query?type=GENE&gname=@gene"
+    taptool = p.select(type=TapTool)
+    taptool.callback = OpenURL(url=url)
+
+    p.xaxis.axis_label = "Dimension 1"
+    p.yaxis.axis_label = "Dimension 2"
+
+    output_file(output_file_colorized_by_clusters)
+    save(p)
+
+
+def _label_clustering(row):
+    __label = {0: "cluster1", 1: "cluster2", 2: "cluster3",
+               3: "cluster4", 4: "cluster5", 5: "cluster6",
+               6: "cluster7", 7: "cluster8"}[row["Cluster_label"]]
+    return __label
 
 
 def plot_using_only_rna_colors(read_counting_table, tsne_result, output_file_colorized_by_rna_class):
@@ -109,71 +175,6 @@ def _label(row):
     return label
 
 
-def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file_colorized_by_clusters):
-    read_counting_table["t-SNE-component_1"] = [pos[0] for pos in tsne_result]
-    read_counting_table["t-SNE-component_2"] = [pos[1] for pos in tsne_result]
-
-    read_counting_table["Attributes_split"] = \
-        read_counting_table["Attributes"].apply(lambda attr: dict(
-            [key_value_pair.split("=")
-             for key_value_pair in attr.split(";")]))
-
-    color_palette = bokeh.palettes.viridis(
-        len(read_counting_table["Cluster_label"].unique()))
-    color = read_counting_table["Cluster_label"].apply(
-        lambda lable: color_palette[lable])
-    label = read_counting_table.apply(
-        _label_clustering, axis=1)
-
-    hower_data = dict(
-        x=read_counting_table["t-SNE-component_1"],
-        y=read_counting_table["t-SNE-component_2"],
-        feature=read_counting_table["Feature"],
-        gene=read_counting_table['Gene'],
-        color=color,
-        label=label)
-
-    for feature in ["ID", "Parent", "Dbxref", "Note", "function",
-                    "gbkey", "product", "sRNA_type"]:
-        read_counting_table[feature] = read_counting_table[
-            "Attributes_split"].apply(
-            lambda attributes: attributes.get(feature, "-"))
-        hower_data[feature] = read_counting_table[feature]
-
-    source = ColumnDataSource(hower_data)
-
-    hover = HoverTool(tooltips=[
-        ("Gene", "@gene"),
-        ("ID", "@ID"),
-        ("Feature", "@feature")])
-
-    p = figure(plot_width=900, plot_height=900,
-               tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
-                      WheelZoomTool(), "tap"],
-               title="Grad-Seq t-SNE RNA-Seq", logo=None)
-
-    p.circle("x", "y", source=source, size=5, alpha=0.8, color='color', legend="label")
-    p.yaxis.axis_label_text_font_size = "15pt"
-    p.xaxis.axis_label_text_font_size = "15pt"
-    p.title.text_font_size = '15pt'
-    url = "https://ecocyc.org/ECOLI/search-query?type=GENE&gname=@gene"
-    taptool = p.select(type=TapTool)
-    taptool.callback = OpenURL(url=url)
-
-    p.xaxis.axis_label = "Dimension 1"
-    p.yaxis.axis_label = "Dimension 2"
-
-    output_file(output_file_colorized_by_clusters)
-    save(p)
-
-
-def _label_clustering(row):
-    __label = {0: "cluster1", 1: "cluster2", 2: "cluster3",
-               3: "cluster4", 4: "cluster5", 5: "cluster6",
-               6: "cluster7", 7: "cluster8"}[row["Cluster_label"]]
-    return __label
-
-
 def read_srna_lists(srna_list_files):
     srnas_and_list_names = {}
     for index, srna_list_file in enumerate(srna_list_files):
@@ -244,21 +245,21 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
 
 def _color_1(row, srnas_and_list_names):
     color = {"CDS": "#BDBDBD", "ncRNA": "#E01F25", "tRNA": "#EBB000",
-             "rRNA": "#8080FF"
+             "rRNA": "#8080FF", "sRNA": "#E01F25"
              }[row["Feature"]]
-    sRNA_cluster_color = {"sRNA_cluster_1": "#FF4D4D",
+    srna_cluster_color = {"sRNA_cluster_1": "#FF4D4D",
                           "sRNA_cluster_2": "#EBB000",
                           "sRNA_cluster_3": "#8080FF",
                           "sRNA_cluster_4": "#3D3D3D"}
     for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
-            color = sRNA_cluster_color[
+            color = srna_cluster_color[
                 srnas_and_list_names[row[feature]]]
     return color
 
 
 def _label_1(row, srnas_and_list_names):
-    label = {"ncRNA": "other ncRNAs", "CDS": "CDS", "tRNA": "tRNA",
+    label = {"ncRNA": "other ncRNAs", "sRNA": "other ncRNAs", "CDS": "CDS", "tRNA": "tRNA",
              "rRNA": "rRNA"}[row["Feature"]]
     srna_cluster_label = {
         "sRNA_cluster_1": "cluster1",
