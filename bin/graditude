@@ -477,4 +477,5 @@ def run_replicates_correlation_sequencing(args):
                                                                      args.table_start_column, args.table_end_column,
                                                                      args.output_table, args.output_figure)
 
-    main()
+
+main()
