@@ -8,8 +8,8 @@ import bokeh.palettes
 
 
 def t_sne(feature_count_table, feature_count_start_column,
-          perplexity, output_file_colorized_by_clusters, output_file_colorized_by_rna_class,
-          srna_list_files, output_colored_by_lists):
+          perplexity, srna_list_files, output_file_colorized_by_clusters, output_file_colorized_by_rna_class,
+          output_colored_by_lists):
     feature_count_table_df = pd.read_table(feature_count_table)
     srnas_and_list_names = read_srna_lists(srna_list_files)
     value_matrix = _extract_value_matrix(feature_count_table_df,
