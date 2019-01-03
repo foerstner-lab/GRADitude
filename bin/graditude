@@ -224,6 +224,7 @@ def main():
                                                                type=int)
     t_sne_colored_list_clustering_features_parser.add_argument("--perplexity", "-pp", required=True, type=int)
     t_sne_colored_list_clustering_features_parser.add_argument("--srna_list", "-list", nargs="+", default=False)
+    t_sne_colored_list_clustering_features_parser.add_argument("--cluster_names", "-names", nargs="+", default=False)
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file1", "-o1", default=False,
                                                                help="output colorized using clusters information")
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file2", "-o2", default=False,
@@ -382,6 +383,7 @@ def run_t_sne_colored_using_different_methods(args):
     t_sne_colored_list_clustering_features.t_sne(args.feature_count_table, args.feature_count_start_column,
                                                  args.perplexity,
                                                  args.srna_list,
+                                                 args.cluster_names,
                                                  args.output_file1,
                                                  args.output_file2,
                                                  args.output_file3)

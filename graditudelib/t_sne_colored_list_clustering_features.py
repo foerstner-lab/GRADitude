@@ -8,7 +8,8 @@ import bokeh.palettes
 
 
 def t_sne(feature_count_table, feature_count_start_column,
-          perplexity, srna_list_files, output_file_colorized_by_clusters, output_file_colorized_by_rna_class,
+          perplexity, srna_list_files, cluster_names, output_file_colorized_by_clusters,
+          output_file_colorized_by_rna_class,
           output_colored_by_lists):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
@@ -21,7 +22,7 @@ def t_sne(feature_count_table, feature_count_start_column,
     if srna_list_files:
         srnas_and_list_names = read_srna_lists(srna_list_files)
         plot_t_sne_colored_by_lists(feature_count_table_df, t_sne_results, output_colored_by_lists,
-                                    srnas_and_list_names)
+                                    srnas_and_list_names, cluster_names)
 
 
 def _extract_value_matrix(feature_count_table_df,
@@ -185,7 +186,7 @@ def read_srna_lists(srna_list_files):
 
 
 def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
-                                output_file_list, srnas_and_list_names):
+                                output_file_list, srnas_and_list_names, cluster_names):
     read_counting_table["t-SNE-component_1"] = [pos[0] for pos in tsne_result]
     read_counting_table["t-SNE-component_2"] = [pos[1] for pos in tsne_result]
 
@@ -198,7 +199,7 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
     color = read_counting_table.apply(
         _color_1, args=(srnas_and_list_names,), axis=1)
     label = read_counting_table.apply(
-        _label_1, args=(srnas_and_list_names,), axis=1)
+        _label_1, args=(srnas_and_list_names, cluster_names), axis=1)
 
     hower_data = dict(
         x=read_counting_table["t-SNE-component_1"],
@@ -258,14 +259,13 @@ def _color_1(row, srnas_and_list_names):
     return color
 
 
-def _label_1(row, srnas_and_list_names):
+def _label_1(row, srnas_and_list_names, cluster_names):
     label = {"ncRNA": "other ncRNAs", "sRNA": "other ncRNAs", "CDS": "CDS", "tRNA": "tRNA",
              "rRNA": "rRNA"}[row["Feature"]]
-    srna_cluster_label = {
-        "sRNA_cluster_1": "cluster1",
-        "sRNA_cluster_2": "cluster2",
-        "sRNA_cluster_3": "cluster3",
-        "sRNA_cluster_4": "cluster4"}
+    srna_cluster_label = {}
+    for index in range(0, len(cluster_names)):
+        srna_cluster_label["sRNA_cluster_" + str(index + 1)] = cluster_names[index]
+
     for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
             label = srna_cluster_label[
