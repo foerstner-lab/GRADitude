@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.manifold import TSNE
 import numpy as np
+from graditudelib import projectcreator
 from bokeh.plotting import figure, output_file, save, ColumnDataSource
 from bokeh.models import HoverTool, BoxZoomTool, ResetTool, PanTool
 from bokeh.models import WheelZoomTool, TapTool, OpenURL
@@ -10,6 +11,7 @@ def t_sne(feature_count_table, feature_count_start_column,
           perplexity, srna_list_files, cluster_names, color_set, url_link, output_file_colorized_by_clusters,
           output_file_colorized_by_rna_class,
           output_colored_by_lists):
+    initialize()
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
@@ -274,3 +276,7 @@ def _label_1(row, srnas_and_list_names, cluster_names):
             label = srna_cluster_label[
                 srnas_and_list_names[row[feature]]]
     return label
+
+
+def initialize():
+    projectcreator.create_subfolders("GRADitude/output/", ["t-sne"])
