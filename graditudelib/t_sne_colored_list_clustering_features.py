@@ -46,8 +46,8 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file_co
             [key_value_pair.split("=")
              for key_value_pair in attr.split(";")]))
 
-    color_palette = bokeh.palettes.viridis(
-        len(read_counting_table["Cluster_label"].unique()))
+    color_palette = bokeh.palettes.Set2[(
+        len(read_counting_table["Cluster_label"].unique()))]
     color = read_counting_table["Cluster_label"].apply(
         lambda lable: color_palette[lable])
     label = read_counting_table.apply(
@@ -80,7 +80,7 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file_co
                       WheelZoomTool(), "tap"],
                title="Grad-Seq t-SNE RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=0.8, color='color', legend="label")
+    p.circle("x", "y", source=source, size=7, alpha=1, color='color', legend="label", line_color="grey")
     p.yaxis.axis_label_text_font_size = "15pt"
     p.xaxis.axis_label_text_font_size = "15pt"
     p.title.text_font_size = '15pt'
@@ -113,7 +113,7 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result, output_file_co
              key_value_pair in attr.split(";")]))
 
     feature_unique_values = read_counting_table["Feature"].unique()
-    color_palette = bokeh.palettes.viridis(len(feature_unique_values))
+    color_palette = bokeh.palettes.Set2[(len(feature_unique_values))]
     palette_map = {}
     for index in range(0, len(feature_unique_values)):
         palette_map[feature_unique_values[index]] = color_palette[index]
@@ -151,7 +151,7 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result, output_file_co
                       WheelZoomTool(), "tap"],
                title="Grad-Seq t-SNE RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=2, color='color', legend='label')
+    p.circle("x", "y", source=source, size=7, alpha=1, color='color', legend='label', line_color="grey")
     p.yaxis.axis_label_text_font_size = "15pt"
     p.xaxis.axis_label_text_font_size = "15pt"
     p.title.text_font_size = '15pt'
@@ -165,15 +165,6 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result, output_file_co
 
     output_file(output_file_colorized_by_rna_class)
     save(p)
-
-
-# def _color(row):
-#     color_palette = bokeh.palettes.d3['Category20'][8]
-#     color = {"CDS": color_palette[2], "ncRNA": color_palette[1], "tRNA": color_palette[7],
-#              "rRNA": color_palette[3], "tmRNA": color_palette[4], "5'-UTR": color_palette[5],
-#              "sRNA": color_palette[6], "3'-UTR": color_palette[0]
-#              }[row["Feature"]]
-#     return color
 
 
 def _label(row):
