@@ -12,7 +12,7 @@ setup(
     author='Silvia Di Giorgio, Konrad U. Förstner',
     author1_email='silvia.digiorgio@uni-wuerzburg.de',
     author2_email='konrad.foerstner@uni-wuerzburg.de',
-    description='',
+    description='A tool for the analysis of GRAD-seq data',
     url='https://github.com/konrad/GRADitude',
     install_requires=[
         "matplotlib == 2.0.2",
