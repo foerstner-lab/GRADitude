@@ -3,6 +3,7 @@
 """GRADitude: a computational tool for the analysis of GRAD-seq data"""
 
 import argparse
+import bokeh.palettes
 from graditudelib import normalize
 from graditudelib import visualizing_kinetics
 from graditudelib import elbow_curve
@@ -225,6 +226,10 @@ def main():
     t_sne_colored_list_clustering_features_parser.add_argument("--perplexity", "-pp", required=True, type=int)
     t_sne_colored_list_clustering_features_parser.add_argument("--srna_list", "-list", nargs="+", default=False)
     t_sne_colored_list_clustering_features_parser.add_argument("--cluster_names", "-names", nargs="+", default=False)
+    t_sne_colored_list_clustering_features_parser.add_argument("--color_set", "-set_colors",
+                                                               default=bokeh.palettes.Set2)
+    t_sne_colored_list_clustering_features_parser.add_argument("--url_link", "-url", required=False,
+                                                               default="https://www.ncbi.nlm.nih.gov/gene/?term=@gene")
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file1", "-o1", default=False,
                                                                help="output colorized using clusters information")
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file2", "-o2", default=False,
@@ -384,6 +389,8 @@ def run_t_sne_colored_using_different_methods(args):
                                                  args.perplexity,
                                                  args.srna_list,
                                                  args.cluster_names,
+                                                 args.color_set,
+                                                 args.url_link,
                                                  args.output_file1,
                                                  args.output_file2,
                                                  args.output_file3)

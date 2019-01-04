@@ -4,11 +4,10 @@ import numpy as np
 from bokeh.plotting import figure, output_file, save, ColumnDataSource
 from bokeh.models import HoverTool, BoxZoomTool, ResetTool, PanTool
 from bokeh.models import WheelZoomTool, TapTool, OpenURL
-import bokeh.palettes
 
 
 def t_sne(feature_count_table, feature_count_start_column,
-          perplexity, srna_list_files, cluster_names, output_file_colorized_by_clusters,
+          perplexity, srna_list_files, cluster_names, color_set, url_link, output_file_colorized_by_clusters,
           output_file_colorized_by_rna_class,
           output_colored_by_lists):
     feature_count_table_df = pd.read_table(feature_count_table)
@@ -16,13 +15,14 @@ def t_sne(feature_count_table, feature_count_start_column,
                                          feature_count_start_column)
     t_sne_results = perform_t_sne(value_matrix, perplexity)
     plot_t_sne_using_clustering(feature_count_table_df, t_sne_results,
-                                output_file_colorized_by_clusters)
-    plot_using_only_rna_colors(feature_count_table_df, t_sne_results, output_file_colorized_by_rna_class)
+                                output_file_colorized_by_clusters, color_set, url_link)
+    plot_using_only_rna_colors(feature_count_table_df, t_sne_results, output_file_colorized_by_rna_class,
+                               color_set, url_link)
 
     if srna_list_files:
         srnas_and_list_names = read_srna_lists(srna_list_files)
         plot_t_sne_colored_by_lists(feature_count_table_df, t_sne_results, output_colored_by_lists,
-                                    srnas_and_list_names, cluster_names)
+                                    srnas_and_list_names, cluster_names, color_set, url_link)
 
 
 def _extract_value_matrix(feature_count_table_df,
@@ -37,7 +37,8 @@ def perform_t_sne(normalized_values, perplexity):
     return tsne_result
 
 
-def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file_colorized_by_clusters):
+def plot_t_sne_using_clustering(read_counting_table, tsne_result,
+                                output_file_colorized_by_clusters, color_set, url_link):
     read_counting_table["t-SNE-component_1"] = [pos[0] for pos in tsne_result]
     read_counting_table["t-SNE-component_2"] = [pos[1] for pos in tsne_result]
 
@@ -46,7 +47,7 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file_co
             [key_value_pair.split("=")
              for key_value_pair in attr.split(";")]))
 
-    color_palette = bokeh.palettes.Set2[(
+    color_palette = color_set[(
         len(read_counting_table["Cluster_label"].unique()))]
     color = read_counting_table["Cluster_label"].apply(
         lambda lable: color_palette[lable])
@@ -84,7 +85,7 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result, output_file_co
     p.yaxis.axis_label_text_font_size = "15pt"
     p.xaxis.axis_label_text_font_size = "15pt"
     p.title.text_font_size = '15pt'
-    url = "https://ecocyc.org/ECOLI/search-query?type=GENE&gname=@gene"
+    url = url_link
     taptool = p.select(type=TapTool)
     taptool.callback = OpenURL(url=url)
 
@@ -102,16 +103,17 @@ def _label_clustering(row):
     return __label
 
 
-def create_palette_map(read_counting_table):
+def create_palette_map(read_counting_table, color_set):
     feature_unique_values = read_counting_table["Feature"].unique()
-    color_palette = bokeh.palettes.Set2[(len(feature_unique_values))]
+    color_palette = color_set[(len(feature_unique_values))]
     palette_map = {}
     for index in range(0, len(feature_unique_values)):
         palette_map[feature_unique_values[index]] = color_palette[index]
     return palette_map
 
 
-def plot_using_only_rna_colors(read_counting_table, t_sne_result, output_file_colorized_by_rna_class):
+def plot_using_only_rna_colors(read_counting_table, t_sne_result,
+                               output_file_colorized_by_rna_class, color_set, url_link):
     read_counting_table["t-SNE-component_1"] = [pos[0] for pos in t_sne_result]
     read_counting_table["t-SNE-component_2"] = [pos[1] for pos in t_sne_result]
 
@@ -121,7 +123,7 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result, output_file_co
             [key_value_pair.split("=") for
              key_value_pair in attr.split(";")]))
 
-    palette_map = create_palette_map(read_counting_table)
+    palette_map = create_palette_map(read_counting_table, color_set)
     color = read_counting_table["Feature"].apply(
         lambda lable: palette_map[lable])
     label = read_counting_table.apply(
@@ -159,7 +161,7 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result, output_file_co
     p.xaxis.axis_label_text_font_size = "15pt"
     p.title.text_font_size = '15pt'
 
-    url = "http://www.uniprot.org/uniprot/@protein_id"
+    url = url_link
     taptool = p.select(type=TapTool)
     taptool.callback = OpenURL(url=url)
 
@@ -188,7 +190,7 @@ def read_srna_lists(srna_list_files):
 
 
 def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
-                                output_file_list, srnas_and_list_names, cluster_names):
+                                output_file_list, srnas_and_list_names, cluster_names, color_set, url_link):
     read_counting_table["t-SNE-component_1"] = [pos[0] for pos in tsne_result]
     read_counting_table["t-SNE-component_2"] = [pos[1] for pos in tsne_result]
 
@@ -198,7 +200,7 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
             [key_value_pair.split("=") for
              key_value_pair in attr.split(";")]))
 
-    palette_map = create_palette_map(read_counting_table)
+    palette_map = create_palette_map(read_counting_table, color_set)
     color = read_counting_table.apply(
         _color_1, args=(srnas_and_list_names, palette_map), axis=1)
     label = read_counting_table.apply(
@@ -236,7 +238,7 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
     p.xaxis.axis_label_text_font_size = "15pt"
     p.title.text_font_size = '15pt'
 
-    url = "http://www.uniprot.org/uniprot/@protein_id"
+    url = url_link
     taptool = p.select(type=TapTool)
     taptool.callback = OpenURL(url=url)
 
