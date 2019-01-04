@@ -26,11 +26,12 @@ from graditudelib import correlation_specific_gene
 from graditudelib import interactive_tsne_plot
 from graditudelib import heatmap
 from graditudelib import correlation_replicates_sequencing_data
+from graditudelib import projectcreator
 
-__author__ = "Silvia Di Giorgio <silvia.digiorgio@uni-wuerzburg.de>, " \
+__author__ = "Silvia Di Giorgio <digiorgio@zbmed.de>, " \
              "Konrad Foerstner <konrad@foerstner.org>"
 __license__ = "ISC license"
-__email__ = "silvia.digiorgio@uni-wuerzburg.de"
+__email__ = "digiorgio@zbmed.de"
 
 
 def main():
@@ -39,6 +40,12 @@ def main():
         "--version", "-v", default=False, action="store_true",
         help="show version")
     subparsers = parser.add_subparsers(help="commands")
+
+    create_parser = subparsers.add_parser("create")
+    create_parser.set_defaults(func=create_project)
+    create_parser.add_argument('--create_graditude_folder',
+                               required=False,
+                               default="GRADitude")
 
     modify_input_parser = subparsers.add_parser("filtering_tables",
                                                 help="filter ERCC table based on the min row sum and"
@@ -323,20 +330,20 @@ def main():
     correlation_replicates_sequencing_data_parser.add_argument('--table_end_column' "-fe", required=True)
     correlation_replicates_sequencing_data_parser.add_argument("--output_table", '-o')
     correlation_replicates_sequencing_data_parser.add_argument("--output_figure", '-f')
-    # version_parser = subparsers.add_parser("version")
-    # version_parser.set_defaults(func=show_version)
-
-    # This is nice-to-have but not essential!
-    # This subcommand will help to select rows and columns to build a
-    # defined count table. It will also help to translate attribute
-    # column into other columns (e.g. with gene names)
-    # rearrange_count_table_parser = subparsers.add_parser("rearrange_count_table")
 
     args = parser.parse_args()
     if "func" in dir(args):
         args.func(args)
     else:
         parser.print_help()
+
+
+def create_project(args):
+    projectcreator.create_root_folder("GRADitude")
+    projectcreator.create_subfolders("GRADitude", ["input", "output"])
+    projectcreator.create_version_file("GRADitude/version.txt", "1.0.0")
+    projectcreator.create_root_folder("GRADitude/subCommand")
+    projectcreator.create_subfolders("GRADitude/subCommand", ["input", "output"])
 
 
 def filtering_tables(args):
