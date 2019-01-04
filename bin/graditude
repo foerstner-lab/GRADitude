@@ -98,22 +98,30 @@ def main():
                                   help="number of the column with the first fraction")
     normalize_parser.add_argument("--feature_count_end_column", "-fe", type=int,
                                   help="number of the column with the last fraction")
-    normalize_parser.add_argument("--ref_feature_count_table", "-r", required=True)
-    normalize_parser.add_argument("--ref_feature_count_start_column", "-rc", default=1, type=int)
-    normalize_parser.add_argument("--ref_feature_count_end_column", "-re", default=-1, type=int)
-    normalize_parser.add_argument("--normalized_table", "-o", required=True)
-    normalize_parser.add_argument("--size_factor_table", "-s", default=None)
+    normalize_parser.add_argument("--ref_feature_count_table", "-r", required=True,
+                                  help="ERCC table with the ERCC read -counts")
+    normalize_parser.add_argument("--ref_feature_count_start_column", "-rc", default=1, type=int,
+                                  help="number of the column with the first fraction")
+    normalize_parser.add_argument("--ref_feature_count_end_column", "-re", default=-1, type=int,
+                                  help="number of the column with the last fraction")
+    normalize_parser.add_argument("--normalized_table", "-o", required=True, help="normalized table")
+    normalize_parser.add_argument("--size_factor_table", "-s", default=None, help="size_factor_table")
 
     scaling_parser = subparsers.add_parser("scaling", help="scaling the table "
                                                            "based on different scaling methods")
     scaling_parser.set_defaults(func=run_scaling)
-    scaling_parser.add_argument('--feature_count_table', '-f', required=True)
-    scaling_parser.add_argument('--feature_count_start_column', '-fc', required=True)
-    scaling_parser.add_argument("--pseudo_count", '-p', type=int, default=1)
+    scaling_parser.add_argument('--feature_count_table', '-f', required=True,
+                                help="normalized gene quantification table")
+    scaling_parser.add_argument('--feature_count_start_column', '-fc', required=True,
+                                help="number of the column with the first fraction")
+    scaling_parser.add_argument("--pseudo_count", '-p', type=int, default=1,
+                                help="the pseudocount is a number that will always be added to each value; "
+                                     "Adding this number avoid to have mathematical operation with zeros ")
     scaling_parser.add_argument(
         "--scaling_method", '-sm', required=True,
-        choices=["no_normalization", "normalized_to_max", "normalized_to_range", "log10", "log2"])
-    scaling_parser.add_argument("--scaled_table", "-o", required=True)
+        choices=["no_normalization", "normalized_to_max", "normalized_to_range", "log10", "log2"],
+        help="the scaling methods we would like to apply ")
+    scaling_parser.add_argument("--scaled_table", "-o", required=True, help= "scaled table")
 
     correlation_gene_gene_parser = subparsers.add_parser("correlation_gene_gene",
                                                          help="correlation all against all ")
@@ -157,14 +165,19 @@ def main():
     # histogram_of_fraction_parser.add_argument("--feature_count_table", "-c", required=True)
     # histogram_of_fraction_parser.add_argument('--feature_count_start_column', default=1)
     #
-    modify_input_with_min_row_sum = subparsers.add_parser("find_min_rows",
+    modify_input_with_min_row_sum = subparsers.add_parser("min_row_sum",
                                                           help='select the rows with '
                                                                'a certain reads number ')
     modify_input_with_min_row_sum.set_defaults(func=find_min_rows)
-    modify_input_with_min_row_sum.add_argument("--feature_count_table", "-f", required=True)
-    modify_input_with_min_row_sum.add_argument('--feature_count_start_column', "-fc", required=True, type=int)
-    modify_input_with_min_row_sum.add_argument("--min_row", '-m', required=True, type=int)
-    modify_input_with_min_row_sum.add_argument("--output_file", "-o", required=True)
+    modify_input_with_min_row_sum.add_argument("--feature_count_table", "-f", required=True,
+                                               help="gene quantification table")
+    modify_input_with_min_row_sum.add_argument('--feature_count_start_column', "-fc", required=True, type=int,
+                                               help="number of the column with the first fraction")
+    modify_input_with_min_row_sum.add_argument("--min_row", '-m', required=True, type=int, default=100,
+                                               help="it calculates the sum of "
+                                                    "the reads for each gene and discard the rows "
+                                                    "with less then the sum")
+    modify_input_with_min_row_sum.add_argument("--output_file", "-o", required=True, help="Filtered table")
 
     plot_kinetics_parser = subparsers.add_parser("plot_kinetics", help='plot the kinetics')
     plot_kinetics_parser.set_defaults(func=plot_kinetics)
