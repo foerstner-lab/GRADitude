@@ -27,6 +27,7 @@ from graditudelib import interactive_tsne_plot
 from graditudelib import heatmap
 from graditudelib import correlation_replicates_sequencing_data
 from graditudelib import projectcreator
+from graditudelib import dropping_specific_columns
 
 __author__ = "Silvia Di Giorgio <digiorgio@zbmed.de>, " \
              "Konrad Foerstner <konrad@foerstner.org>"
@@ -60,6 +61,37 @@ def main():
                                                                  "to apply")
     min_row_sum_ercc_table_parser.add_argument("--filtered_ref_feature_count_table", "-fr",
                                                required=True, help="Filtered ERCC reads table as output")
+
+    modify_input_with_min_row_sum_parser = subparsers.add_parser("min_row_sum",
+                                                                 help="Filter the gene quantification table based on "
+                                                                      "the min row sum. It "
+                                                                      "calculates the sum row_wise "
+                                                                      "and discard the rows")
+    modify_input_with_min_row_sum_parser.set_defaults(func=find_min_rows)
+    modify_input_with_min_row_sum_parser.add_argument("--feature_count_table", "-f", required=True,
+                                                      help="Gene quantification table")
+    modify_input_with_min_row_sum_parser.add_argument('--feature_count_start_column', "-fc", required=True, type=int,
+                                                      help="This parameter specified the number of "
+                                                           "the column with the first fraction")
+    modify_input_with_min_row_sum_parser.add_argument("--min_row", '-m', required=True, type=int, default=100,
+                                                      help="This parameter specifies the threshold we would like"
+                                                           "to apply")
+    modify_input_with_min_row_sum_parser.add_argument("--output_file", "-o", required=True,
+                                                      help="Filtered table as output")
+
+    dropping_specific_columns_parser = subparsers.add_parser("drop_column",
+                                                             help="It filters a table dropping a specific column."
+                                                                  "It is usually used to drop the lysate column"
+                                                                  "that is not required for the downstream analysis "
+                                                             )
+    dropping_specific_columns_parser.set_defaults(func=drop_column)
+    dropping_specific_columns_parser.add_argument("--feature_count_table", "-f", required=True,
+                                                  help="Gene quantification table or ERCC-reads table")
+    dropping_specific_columns_parser.add_argument("--column_to_drop", '-c', required=True,
+                                                  help="This parameter is needed to specify the name of the column"
+                                                       "I would like to drop")
+    dropping_specific_columns_parser.add_argument("--output_file", "-o", required=True,
+                                                  help="Filtered table as output")
 
     robust_regression_parser = subparsers.add_parser("robust_regression",
                                                      help="compare the ERCC concentration in mix "
@@ -160,19 +192,6 @@ def main():
     # histogram_of_fraction_parser.add_argument("--feature_count_table", "-c", required=True)
     # histogram_of_fraction_parser.add_argument('--feature_count_start_column', default=1)
     #
-    modify_input_with_min_row_sum = subparsers.add_parser("min_row_sum",
-                                                          help='select the rows with '
-                                                               'a certain reads number ')
-    modify_input_with_min_row_sum.set_defaults(func=find_min_rows)
-    modify_input_with_min_row_sum.add_argument("--feature_count_table", "-f", required=True,
-                                               help="gene quantification table")
-    modify_input_with_min_row_sum.add_argument('--feature_count_start_column', "-fc", required=True, type=int,
-                                               help="number of the column with the first fraction")
-    modify_input_with_min_row_sum.add_argument("--min_row", '-m', required=True, type=int, default=100,
-                                               help="it calculates the sum of "
-                                                    "the reads for each gene and discard the rows "
-                                                    "with less then the sum")
-    modify_input_with_min_row_sum.add_argument("--output_file", "-o", required=True, help="Filtered table")
 
     plot_kinetics_parser = subparsers.add_parser("plot_kinetics", help='plot the kinetics')
     plot_kinetics_parser.set_defaults(func=plot_kinetics)
@@ -409,9 +428,14 @@ def create_project(args):
 
 def filtering_tables(args):
     min_row_sum_ercc_table.filtering_ercc_table(
-                                 args.ref_feature_count_table,
-                                 args.min_row_sum,
-                                 args.filtered_ref_feature_count_table,)
+        args.ref_feature_count_table,
+        args.min_row_sum,
+        args.filtered_ref_feature_count_table)
+
+
+def drop_column(args):
+    dropping_specific_columns.dropping_column(args.feature_count_table, args.column_to_drop,
+                                              args.output_file)
 
 
 def normalize_table(args):
