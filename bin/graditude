@@ -57,8 +57,8 @@ def main():
                                                required=True,
                                                help="ERCC reads table")
     min_row_sum_ercc_table_parser.add_argument("--min_row_sum", "-m", type=int,
-                                               default=100, help="This parameter specifies the threshold we would like"
-                                                                 "to apply")
+                                               default=100, help="Specify the threshold we would like"
+                                                                 " to apply")
     min_row_sum_ercc_table_parser.add_argument("--filtered_ref_feature_count_table", "-fr",
                                                required=True, help="Filtered ERCC reads table as output")
 
@@ -66,16 +66,21 @@ def main():
                                                                  help="Filter the gene quantification table based on "
                                                                       "the min row sum. It "
                                                                       "calculates the sum row_wise "
-                                                                      "and discard the rows")
+                                                                      "and discard the rows with "
+                                                                      "a sum below the threshold specified")
     modify_input_with_min_row_sum_parser.set_defaults(func=find_min_rows)
     modify_input_with_min_row_sum_parser.add_argument("--feature_count_table", "-f", required=True,
                                                       help="Gene quantification table")
     modify_input_with_min_row_sum_parser.add_argument('--feature_count_start_column', "-fc", required=True, type=int,
-                                                      help="This parameter specified the number of "
+                                                      help="Specify the number of "
                                                            "the column with the first fraction")
+    modify_input_with_min_row_sum_parser.add_argument('--feature_count_end_column', "-fe", required=True, type=int,
+                                                      help="Specify the number of "
+                                                           "the last fraction we would like to consider in the"
+                                                           " analysis", default=False)
     modify_input_with_min_row_sum_parser.add_argument("--min_row", '-m', required=True, type=int, default=100,
-                                                      help="This parameter specifies the threshold we would like"
-                                                           "to apply")
+                                                      help="Specify the threshold we would like"
+                                                           " to apply")
     modify_input_with_min_row_sum_parser.add_argument("--output_file", "-o", required=True,
                                                       help="Filtered table as output")
 
@@ -88,8 +93,8 @@ def main():
     dropping_specific_columns_parser.add_argument("--feature_count_table", "-f", required=True,
                                                   help="Gene quantification table or ERCC-reads table")
     dropping_specific_columns_parser.add_argument("--column_to_drop", '-c', required=True,
-                                                  help="This parameter is needed to specify the name of the column"
-                                                       "I would like to drop")
+                                                  help="This parameter specify the name of the column you "
+                                                       "would like to drop")
     dropping_specific_columns_parser.add_argument("--output_file", "-o", required=True,
                                                   help="Filtered table as output")
 
@@ -518,7 +523,8 @@ def clustering(args):
 
 
 def find_min_rows(args):
-    min_row_sum.exclude_the_min_row_sum(args.feature_count_table, args.feature_count_start_column, args.min_row,
+    min_row_sum.exclude_the_min_row_sum(args.feature_count_table, args.feature_count_start_column,
+                                        args.feature_count_end_column, args.min_row,
                                         args.output_file)
 
 

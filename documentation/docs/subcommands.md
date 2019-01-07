@@ -16,47 +16,41 @@ After the mapping two tables are relevant to proceed with the usage of GRADitude
 <code>$ create</code> generates the GRADItude folder including the subfolders input and output.
 Once created, please move the required files into the input folders.
 
-##filtering_tables
-<code>$ filtering_tables</code> 
+##min_row_sum_ercc (filter the table)
+<code>$ min_row_sum_ercc</code> 
 
 A subcommand, specific for the sequencing data, that filters the ERCC-reads table 
-based on the minimum row sum and the gene quantification table based on the column we would like to drop (specifically the lysate 
-column that does not have to be included in the analysis).
+based on the minimum row sum. It calculates the sum of all the ERCC row-wise and discard the ones that they don't reach 
+the specified threshold.
 
 ```text
-usage: graditude filtering_tables [-h] --feature_count_table FEATURE_COUNT_TABLE
-                                --ref_feature_count_table REF_FEATURE_COUNT_TABLE
+usage: graditude min_row_sum_ercc [-h] --ref_feature_count_table
+                                  REF_FEATURE_COUNT_TABLE
                                   [--min_row_sum MIN_ROW_SUM]
-                                  --filtered_feature_count_table FILTERED_FEATURE_COUNT_TABLE
-                                  --filtered_ref_feature_count_table FILTERED_REF_FEATURE_COUNT_TABLE
-                                  [--dropping_lisate DROPPING_LISATE]
-                                  
-                                  
+                                  --filtered_ref_feature_count_table
+                                  FILTERED_REF_FEATURE_COUNT_TABLE
+
 optional arguments:
   -h, --help            show this help message and exit
   
 basic arguments:
-
-  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
-                        gene quantification table
   --ref_feature_count_table REF_FEATURE_COUNT_TABLE, -r REF_FEATURE_COUNT_TABLE
                         ERCC reads table
   --min_row_sum MIN_ROW_SUM, -m MIN_ROW_SUM
-                        it calculates the sum of the reads for each gene and
-                        discard the rows with less then the sum
-  --filtered_feature_count_table FILTERED_FEATURE_COUNT_TABLE, -ff FILTERED_FEATURE_COUNT_TABLE
-                        Filtered gene quantification table
+                        Specify the threshold we would like to apply
   --filtered_ref_feature_count_table FILTERED_REF_FEATURE_COUNT_TABLE, -fr FILTERED_REF_FEATURE_COUNT_TABLE
-                        Filtered ERCC reads table
-  --dropping_lisate DROPPING_LISATE, -l DROPPING_LISATE
-                        name of the lysate column
+                        Filtered ERCC reads table as output
+
+
+
 
 ```
-spo#min_row_sum
+##min_row_sum (filter the table)
 <code>$ min_row_sum</code> 
 
 A subcommand, specific for the sequencing data that filters 
-the gene quantification table based on the minimum row sum. 
+the gene quantification table based on the minimum row sum.  It calculates the sum of all the ERCC row-wise and discard the ones that they don't reach 
+the specified threshold.
 
 ```text
 usage: graditude min_row_sum [-h] --feature_count_table FEATURE_COUNT_TABLE
@@ -68,18 +62,44 @@ optional arguments:
   -h, --help            show this help message and exit
  
 basic arguments:
-
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
-                        gene quantification table
+                        Gene quantification table
   --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
-                        number of the column with the first fraction
+                        Specify the number of the column with the first
+                        fraction
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
   --min_row MIN_ROW, -m MIN_ROW
-                        it calculates the sum of the reads for each gene and
-                        discard the rows with less then the sum
+                        Specify the threshold we would like to apply
   --output_file OUTPUT_FILE, -o OUTPUT_FILE
-                        Filtered table
+                        Filtered table as output
+
 
 ```
+
+
+##drop_column (filter the table)
+<code>$ drop_column</code>
+
+This subcommand is specific for the sequencing data and it can be use to drop a specific column we would not
+like to don't consider in the downstream analysis. For example it can be used to drop the Lysate column.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  
+basic arguments:
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        Gene quantification table or ERCC-reads table
+  --column_to_drop COLUMN_TO_DROP, -c COLUMN_TO_DROP
+                        This parameter specify the name of the column you
+                        would like to drop
+  --output_file OUTPUT_FILE, -o OUTPUT_FILE
+                        Filtered table as output
+
+```
+
+
 #robust_regression
 <code>$ robust_regression</code>
 
