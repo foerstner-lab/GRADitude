@@ -52,7 +52,7 @@ basic arguments:
                         name of the lysate column
 
 ```
-#min_row_sum
+spo#min_row_sum
 <code>$ min_row_sum</code> 
 
 A subcommand, specific for the sequencing data that filters 
@@ -163,7 +163,7 @@ optional arguments:
 
 ```
 
-#scaling
+#scaling (scale the data)
 <code>$ scaling</code>
 
 This subcommand can be used for the protein and the sequencing data. It takes a table, that can be
@@ -196,4 +196,168 @@ optional arguments:
   --scaled_table SCALED_TABLE, -o SCALED_TABLE
                         scaled table
                         
+ ```
+ 
+#k_means_clustering_elbow (find number of clusters)
+<code>$ k_means_clustering_elbow</code>
+
+This subcommand implements a method designed to find the appropriate number of clusters in a data
+set. For several clustering algorithms, such as k-means or hierarchical clustering, the user has to
+specifies the number of expected clusters as a parameter.
+In the elbow method the user gives a range of clusters, usually from 0 to 10, and plots the reduction in
+variance. The resulting curve contains an elbow that indicates the optimal number of clusters.
+
+```text
+usage: graditude k_means_clustering_elbow [-h] --feature_count_table
+                                          FEATURE_COUNT_TABLE
+                                          --feature_count_start_column
+                                          FEATURE_COUNT_START_COLUMN
+                                          --feature_count_end_column
+                                          FEATURE_COUNT_END_COLUMN
+                                          --min_number_of_clusters
+                                          MIN_NUMBER_OF_CLUSTERS
+                                          --max_number_of_clusters
+                                          MAX_NUMBER_OF_CLUSTERS
+                                          --output_plots1 OUTPUT_PLOTS1
+                                          --output_plots2 OUTPUT_PLOTS2
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        Filtered gene quantification table
+  --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
+                        number of the column with the first fraction
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        number of the column with the first fraction
+  --min_number_of_clusters MIN_NUMBER_OF_CLUSTERS, -min MIN_NUMBER_OF_CLUSTERS
+                        minimum number of clusters that you want to represent
+                        in the plot
+  --max_number_of_clusters MAX_NUMBER_OF_CLUSTERS, -max MAX_NUMBER_OF_CLUSTERS
+                        maximum number of clusters that you want to represent
+                        in the plot
+  --output_plots1 OUTPUT_PLOTS1, -o1 OUTPUT_PLOTS1
+                        plot the average within cluster sum of squares against
+                        the number of clusters
+  --output_plots2 OUTPUT_PLOTS2, -o2 OUTPUT_PLOTS2
+                        plot the percentage of variance explained versus the
+                        number of clusters
+
+ ```
+
+#clustering (cluster the data)
+<code>$ clustering</code>
+
+The subcommands can be used for the sequencing data. It takes the
+normalized gene quantification table or the raw one as input and return a table with a new column
+that declares the number of clusters as output. It needs the number of cluster and the algorithm to
+apply as parameter. So far the k-means, the hierarchical and the DBSCAN clustering algorithms have
+been included.
+
+* Basic arguments
+
+```text
+usage: graditude clustering [-h] --feature_count_table FEATURE_COUNT_TABLE
+                            --feature_count_start_column
+                            FEATURE_COUNT_START_COLUMN --number_of_clusters
+                            NUMBER_OF_CLUSTERS [--pseudo_count PSEUDO_COUNT]
+                            --clustering_methods
+                            {k-means,DBSCAN,hierarchical_clustering}
+                            [--epsilon EPSILON] [--min_samples MIN_SAMPLES]
+                            --scaling_method
+                            {no_normalization,normalized_to_max,normalized_to_range,log10,log2}
+                            --output_file OUTPUT_FILE
+
+basic arguments:
+  -h, --help            show this help message and exit
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        This parameter specified the table we would like to
+                        use. It can be the normalized or the raw table
+  --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
+                        This parameter specified the number of the column with
+                        the first fraction
+  --number_of_clusters NUMBER_OF_CLUSTERS, -nc NUMBER_OF_CLUSTERS
+                        This parameter specify the number of clusters, k
+  --pseudo_count PSEUDO_COUNT, -p PSEUDO_COUNT
+                        The pseudocount represent a number that will always be
+                        added to each value; Adding this number avoid to have
+                        mathematical operation with zero
+  --clustering_methods {k-means,DBSCAN,hierarchical_clustering}, 
+   -cm {k-means,DBSCAN,hierarchical_clustering}
+                        The user can choose between 3 clustering algorithm,
+                        k-means clustering, hierarchical clustering and DB-
+                        SCAN clustering
+  --epsilon EPSILON, -e EPSILON
+                        This parameter is specific for the DBSCAN clustering
+                        algorithm. It defines how close points should be in
+                        order to be considered part of a cluster. only for
+                        DBSCAN clustering.
+  --min_samples MIN_SAMPLES, -ms MIN_SAMPLES
+                        This parameter is specific for the DBSCAN clustering
+                        algorithm and represent the minimum number of points
+                        necessary to form a dense region
+  --scaling_method {no_normalization,normalized_to_max,normalized_to_range,log10,log2}, 
+                   -sm {no_normalization,normalized_to_max,normalized_to_range,log10,log2}
+                        Define the scaling methods you would like to apply.
+                        The user can choose between a normalization to the
+                        maximum value, to a range, a log10 and log 2
+                        normalization. Alternatively the user can decide to
+                        not use any kind of normalization
+  --output_file OUTPUT_FILE, -o OUTPUT_FILE
+                        Output table with a new column containing the number
+                        of clusters
+
+
+ ```
+ 
+#t-sne (dimension reduction)
+<code>$ t_sne</code>
+
+To identify biochemically similar transcripts the t-SNE dimension reduction algorithm has been implemented.
+The t-SNE also known as t-distributed stochastic neighbor embedding, help us to visualize the data. In order to visualize interactlivi the data-sets we used the python library 
+Bokeh and the JavaScript Callbacks one to navigate t the data-set.
+
+```text
+usage: graditude t_sne [-h] --feature_count_table FEATURE_COUNT_TABLE
+                       --feature_count_start_column FEATURE_COUNT_START_COLUMN
+                       --perplexity PERPLEXITY
+                       [--srna_list SRNA_LIST [SRNA_LIST ...]]
+                       [--cluster_names CLUSTER_NAMES [CLUSTER_NAMES ...]]
+                       [--color_set COLOR_SET] [--url_link URL_LINK]
+                       [--output_file1 OUTPUT_FILE1]
+                       [--output_file2 OUTPUT_FILE2]
+                       [--output_file3 OUTPUT_FILE3]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        This parameter specified the table we would like to
+                        use. It can be the normalized or the raw table
+  --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
+                        This parameter specified the number of the column with
+                        the first fraction
+  --perplexity PERPLEXITY, -pp PERPLEXITY
+                        This parameter help the user to balance the attention
+                        between the global and the local aspects of data
+  --srna_list SRNA_LIST [SRNA_LIST ...], -list SRNA_LIST [SRNA_LIST ...]
+                        This parameter allow the user to specify a list of
+                        features or genes we would like to highlight in the
+                        plot
+  --cluster_names CLUSTER_NAMES [CLUSTER_NAMES ...], -names CLUSTER_NAMES [CLUSTER_NAMES ...]
+                        This parameter is required only if you provide a
+                        specific list. It allows the user to specify the label
+                        on the third plot
+  --color_set COLOR_SET, -set_colors COLOR_SET
+                        This parameter can be changed if you are looking for a
+                        specific color combination for your output plot
+  --url_link URL_LINK, -url URL_LINK
+                        This parameter allowed to choose the websiteyou would
+                        like to open when clicking on a specific point in the
+                        html plot
+  --output_file1 OUTPUT_FILE1, -o1 OUTPUT_FILE1
+                        Output plot colorized using clusters information
+  --output_file2 OUTPUT_FILE2, -o2 OUTPUT_FILE2
+                        Output plot colorized using attributes information
+  --output_file3 OUTPUT_FILE3, -o3 OUTPUT_FILE3
+                        Output plot colorized using a specific list
+
  ```

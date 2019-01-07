@@ -120,8 +120,10 @@ def main():
     scaling_parser.add_argument(
         "--scaling_method", '-sm', required=True,
         choices=["no_normalization", "normalized_to_max", "normalized_to_range", "log10", "log2"],
-        help="the scaling methods we would like to apply ")
-    scaling_parser.add_argument("--scaled_table", "-o", required=True, help= "scaled table")
+        help="Define the scaling methods you would like to apply. The user can choose between a normalization "
+             "to the maximum value, to a range, a log10 and log 2 normalization. Alternatively the user can decide "
+             "to not use any kind of normalization ")
+    scaling_parser.add_argument("--scaled_table", "-o", required=True, help="scaled table")
 
     correlation_gene_gene_parser = subparsers.add_parser("correlation_gene_gene",
                                                          help="correlation all against all ")
@@ -191,34 +193,65 @@ def main():
     clustering_parser = subparsers.add_parser("clustering", help="unsupervised clustering "
                                                                  "using different methods")
     clustering_parser.set_defaults(func=clustering)
-    clustering_parser.add_argument("--feature_count_table", "-f", required=True)
-    clustering_parser.add_argument("--feature_count_start_column", "-fc", required=True, type=int)
-    clustering_parser.add_argument("--number_of_clusters", '-nc', required=True, type=int)
+    clustering_parser.add_argument("--feature_count_table", "-f", required=True,
+                                   help="This parameter specified the table we would like to use."
+                                        " It can be the normalized or the raw table")
+    clustering_parser.add_argument("--feature_count_start_column", "-fc", required=True,
+                                   help="This parameter specified the number of the column with the first fraction",
+                                   type=int, )
+    clustering_parser.add_argument("--number_of_clusters", '-nc', required=True, type=int,
+                                   help="This parameter specify the number of clusters, k")
     clustering_parser.add_argument("--pseudo_count", "-p", type=int,
-                                   default=1)
+                                   default=1,
+                                   help="The pseudocount represent a number that will always be added to each value; "
+                                        "Adding this number avoid to have mathematical operation with zero")
     clustering_parser.add_argument("--clustering_methods", "-cm", required=True,
-                                   choices=["k-means", "DBSCAN", 'hierarchical_clustering'])
+                                   choices=["k-means", "DBSCAN", 'hierarchical_clustering'],
+                                   help="The user can choose between 3 clustering  algorithm, k-means clustering, "
+                                        "hierarchical clustering and DB-SCAN clustering ")
     clustering_parser.add_argument("--epsilon", "-e", default=False,
-                                   help='only for DBSCAN clustering', type=float)
+                                   help='This parameter is specific for the DBSCAN clustering algorithm. '
+                                        'It defines how close points should be '
+                                        'in order to be considered part of a cluster. only for DBSCAN clustering.'
+                                   , type=float)
     clustering_parser.add_argument("--min_samples", '-ms', default=False,
-                                   help='only for DBSCAN clustering', type=int)
+                                   help="This parameter is specific for the DBSCAN clustering algorithm and "
+                                        "represent the minimum number of points necessary to form a dense region",
+                                   type=int)
     clustering_parser.add_argument(
         "--scaling_method", '-sm', required=True,
-        choices=["no_normalization", "normalized_to_max", "normalized_to_range", "log10", "log2"])
-    clustering_parser.add_argument("--output_file", "-o", required=True)
+        choices=["no_normalization", "normalized_to_max", "normalized_to_range", "log10", "log2"],
+        help="Define the scaling methods you would like to apply. The user can choose between a normalization "
+             "to the maximum value, to a range, a log10 and log 2 normalization. Alternatively the user can decide "
+             "to not use any kind of normalization"
+    )
+    clustering_parser.add_argument("--output_file", "-o", required=True,
+                                   help=
+                                   "Output table with a new column containing the number of clusters")
 
     k_means_clustering_elbow_parser = subparsers.add_parser("k_means_clustering_elbow",
                                                             help="plot the elbow graph to choose"
                                                                  "the ideal number of clusters necessary for "
                                                                  "the k-means and the hierarchical clustering ")
     k_means_clustering_elbow_parser.set_defaults(func=generate_k_means_clustering_elbow)
-    k_means_clustering_elbow_parser.add_argument("--feature_count_table", "-f", required=True)
-    k_means_clustering_elbow_parser.add_argument("--feature_count_start_column", "-fc", required=True)
-    k_means_clustering_elbow_parser.add_argument("--feature_count_end_column", "-fe", required=True)
-    k_means_clustering_elbow_parser.add_argument("--min_number_of_clusters", '-min', required=True, type=int)
-    k_means_clustering_elbow_parser.add_argument("--max_number_of_clusters", '-max', required=True, type=int)
-    k_means_clustering_elbow_parser.add_argument("--output_plots1", '-o1', required=True)
-    k_means_clustering_elbow_parser.add_argument("--output_plots2", '-o2', required=True)
+    k_means_clustering_elbow_parser.add_argument("--feature_count_table", "-f", required=True,
+                                                 help="Filtered gene quantification table")
+    k_means_clustering_elbow_parser.add_argument("--feature_count_start_column", "-fc", required=True,
+                                                 help="number of the column with the first fraction")
+    k_means_clustering_elbow_parser.add_argument("--feature_count_end_column", "-fe", required=True,
+                                                 help=" number of the column with the first fraction")
+    k_means_clustering_elbow_parser.add_argument("--min_number_of_clusters", '-min', required=True, type=int,
+                                                 help="minimum number of clusters that you want to represent "
+                                                      "in the plot ")
+    k_means_clustering_elbow_parser.add_argument("--max_number_of_clusters", '-max', required=True, type=int,
+                                                 help="maximum number of clusters that you want to represent "
+                                                      "in the plot")
+    k_means_clustering_elbow_parser.add_argument("--output_plots1", '-o1', required=True,
+                                                 help="plot the average within cluster sum "
+                                                      "of squares against the number of clusters")
+    k_means_clustering_elbow_parser.add_argument("--output_plots2", '-o2', required=True,
+                                                 help="plot the percentage of variance explained versus "
+                                                      "the number of clusters")
 
     silhouette_parser = subparsers.add_parser("silhouette_analysis",
                                               help="used to study the "
@@ -240,22 +273,44 @@ def main():
 
     t_sne_colored_list_clustering_features_parser = subparsers.add_parser("t_sne", help="t-sne analysis")
     t_sne_colored_list_clustering_features_parser.set_defaults(func=run_t_sne_colored_using_different_methods)
-    t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_table", "-f", required=True)
+    t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_table", "-f", required=True,
+                                                               help="This parameter specified the table we "
+                                                                    "would like to use."
+                                                                    " It can be the normalized or the raw table")
     t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_start_column", "-fc", required=True,
-                                                               type=int)
-    t_sne_colored_list_clustering_features_parser.add_argument("--perplexity", "-pp", required=True, type=int)
-    t_sne_colored_list_clustering_features_parser.add_argument("--srna_list", "-list", nargs="+", default=False)
-    t_sne_colored_list_clustering_features_parser.add_argument("--cluster_names", "-names", nargs="+", default=False)
+                                                               type=int,
+                                                               help="This parameter specified the number "
+                                                                    "of the column with the first fraction")
+    t_sne_colored_list_clustering_features_parser.add_argument("--perplexity", "-pp", required=True, type=int,
+                                                               help="This parameter help the user "
+                                                                    "to balance the attention between "
+                                                                    "the global and the  "
+                                                                    "local aspects of data")
+    t_sne_colored_list_clustering_features_parser.add_argument("--srna_list", "-list", nargs="+", default=False,
+                                                               help="This parameter allow the user to "
+                                                                    "specify a list of features or "
+                                                                    "genes we would like to highlight in the plot")
+    t_sne_colored_list_clustering_features_parser.add_argument("--cluster_names", "-names", nargs="+", default=False,
+                                                               help="This parameter is required only if you provide "
+                                                                    "a specific list. It allows the user to "
+                                                                    "specify the label on the third plot")
     t_sne_colored_list_clustering_features_parser.add_argument("--color_set", "-set_colors",
-                                                               default=bokeh.palettes.Set2)
+                                                               default=bokeh.palettes.Set2,
+                                                               help="This parameter can be changed if you are looking "
+                                                                    "for a specific color combination "
+                                                                    "for your output plot")
     t_sne_colored_list_clustering_features_parser.add_argument("--url_link", "-url", required=False,
-                                                               default="https://www.ncbi.nlm.nih.gov/gene/?term=@gene")
+                                                               default="https://www.ncbi.nlm.nih.gov/gene/?term=@gene",
+                                                               help="This parameter allowed to choose the website"
+                                                                    "you would like to open when clicking on a "
+                                                                    "specific point in the html plot ")
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file1", "-o1", default=False,
-                                                               help="output colorized using clusters information")
+                                                               help="Output plot colorized using clusters information")
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file2", "-o2", default=False,
-                                                               help="output colorized using attributes information")
+                                                               help="Output plot colorized using attributes "
+                                                                    "information")
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file3", "-o3", default=False,
-                                                               help="output colorized using a specific list")
+                                                               help="Output plot colorized using a specific list")
 
     correlation_rna_protein_parser = subparsers.add_parser("correlation_rnas_protein",
                                                            help="spearman correlation sequencing "
