@@ -16,7 +16,7 @@ from graditudelib import min_row_sum
 from graditudelib import t_sne_colored_list_clustering_features
 from graditudelib import correlation_between_genes
 from graditudelib import selecting_ncRNAs
-from graditudelib import modify_input
+from graditudelib import min_row_sum_ercc_table
 from graditudelib import correlation_rna_protein
 from graditudelib import plot_network_graph
 from graditudelib import distribution_correlation
@@ -47,26 +47,19 @@ def main():
                                required=False,
                                default="GRADitude")
 
-    modify_input_parser = subparsers.add_parser("filtering_tables",
-                                                help="filter ERCC table based on the min row sum and"
-                                                     "the gene quantification table based on "
-                                                     "the column that we would like to drop")
-    modify_input_parser.set_defaults(func=filtering_tables)
-    modify_input_parser.add_argument('--feature_count_table', '-f',
-                                     required=True,
-                                     help="gene quantification table")
-    modify_input_parser.add_argument("--ref_feature_count_table", "-r",
-                                     required=True,
-                                     help="ERCC reads table")
-    modify_input_parser.add_argument("--min_row_sum", "-m", type=int,
-                                     default=100, help="it calculates the sum of "
-                                                       "the reads for each gene and discard the rows "
-                                                       "with less then the sum")
-    modify_input_parser.add_argument("--filtered_feature_count_table", "-ff",
-                                     required=True, help="Filtered gene quantification table")
-    modify_input_parser.add_argument("--filtered_ref_feature_count_table", "-fr",
-                                     required=True, help="Filtered ERCC reads table")
-    modify_input_parser.add_argument("--dropping_lisate", '-l', required=False, help='name of the lysate column')
+    min_row_sum_ercc_table_parser = subparsers.add_parser("min_row_sum_ercc",
+                                                          help="Filter the ERCC table based on the min row sum. "
+                                                               "It calculates the sum row_wise and discard the rows "
+                                                               "with a sum below the threshold specified")
+    min_row_sum_ercc_table_parser.set_defaults(func=filtering_tables)
+    min_row_sum_ercc_table_parser.add_argument("--ref_feature_count_table", "-r",
+                                               required=True,
+                                               help="ERCC reads table")
+    min_row_sum_ercc_table_parser.add_argument("--min_row_sum", "-m", type=int,
+                                               default=100, help="This parameter specifies the threshold we would like"
+                                                                 "to apply")
+    min_row_sum_ercc_table_parser.add_argument("--filtered_ref_feature_count_table", "-fr",
+                                               required=True, help="Filtered ERCC reads table as output")
 
     robust_regression_parser = subparsers.add_parser("robust_regression",
                                                      help="compare the ERCC concentration in mix "
@@ -415,11 +408,10 @@ def create_project(args):
 
 
 def filtering_tables(args):
-    modify_input.filtering_input(args.feature_count_table,
+    min_row_sum_ercc_table.filtering_ercc_table(
                                  args.ref_feature_count_table,
                                  args.min_row_sum,
-                                 args.filtered_feature_count_table,
-                                 args.filtered_ref_feature_count_table, args.dropping_lisate)
+                                 args.filtered_ref_feature_count_table,)
 
 
 def normalize_table(args):
