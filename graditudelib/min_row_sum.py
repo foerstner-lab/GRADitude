@@ -2,18 +2,18 @@ import pandas as pd
 
 
 def exclude_the_min_row_sum(feature_count_table,
-                            feature_count_start_column, min_row, output_file):
+                            feature_count_start_column, feature_count_end_column, min_row, output_file):
     feature_count_table_df = pd.read_table(feature_count_table)
     matrix_value = _extract_value_matrix(feature_count_table_df,
-                                         feature_count_start_column)
+                                         feature_count_start_column, feature_count_end_column)
     colum_with_gene_name = _extract_gene_matrix(feature_count_table_df)
     attribute_matrix = _extract_attributes(feature_count_table_df, feature_count_start_column)
     min_row_sum(matrix_value, attribute_matrix, colum_with_gene_name, min_row, output_file)
 
 
 def _extract_value_matrix(feature_count_table_df,
-                          feature_count_start_column):
-    return feature_count_table_df.iloc[:, int(feature_count_start_column):]
+                          feature_count_start_column, feature_count_end_column):
+    return feature_count_table_df.iloc[:, int(feature_count_start_column):, int(feature_count_end_column)]
 
 
 def _extract_gene_matrix(feature_count_table_df):
