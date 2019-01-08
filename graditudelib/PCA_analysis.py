@@ -8,12 +8,13 @@ from graditudelib import projectcreator
 import numpy as np
 
 
-def pca_(feature_count_table, feature_count_start_column, srna_list_files, cluster_names, color_set, url_link,
+def pca_(feature_count_table, feature_count_start_column, feature_count_end_column, srna_list_files, cluster_names,
+         color_set, url_link,
          output_file_colorized_by_clusters, output_file_colorized_by_rna_class, output_file_colorized_by_lists):
     initialize()
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
-                                         feature_count_start_column)
+                                         feature_count_start_column, feature_count_end_column)
     pca_result = perform_pca(value_matrix)
     plot_pca_using_clustering(feature_count_table_df, pca_result,
                               output_file_colorized_by_clusters, color_set, url_link)
@@ -26,8 +27,8 @@ def pca_(feature_count_table, feature_count_start_column, srna_list_files, clust
 
 
 def _extract_value_matrix(feature_count_table_df,
-                          feature_count_start_column):
-    return feature_count_table_df.iloc[:, int(feature_count_start_column):-1]
+                          feature_count_start_column, feature_count_end_column):
+    return feature_count_table_df.iloc[:, int(feature_count_start_column):feature_count_end_column]
 
 
 def perform_pca(normalized_values):

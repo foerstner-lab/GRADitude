@@ -7,14 +7,14 @@ from bokeh.models import HoverTool, BoxZoomTool, ResetTool, PanTool
 from bokeh.models import WheelZoomTool, TapTool, OpenURL
 
 
-def t_sne(feature_count_table, feature_count_start_column,
+def t_sne(feature_count_table, feature_count_start_column, feature_count_end_column,
           perplexity, srna_list_files, cluster_names, color_set, url_link, output_file_colorized_by_clusters,
           output_file_colorized_by_rna_class,
           output_colored_by_lists):
     initialize()
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
-                                         feature_count_start_column)
+                                         feature_count_start_column, feature_count_end_column)
     t_sne_results = perform_t_sne(value_matrix, perplexity)
     plot_t_sne_using_clustering(feature_count_table_df, t_sne_results,
                                 output_file_colorized_by_clusters, color_set, url_link)
@@ -28,8 +28,8 @@ def t_sne(feature_count_table, feature_count_start_column,
 
 
 def _extract_value_matrix(feature_count_table_df,
-                          feature_count_start_column):
-    return feature_count_table_df.iloc[:, int(feature_count_start_column):-1]
+                          feature_count_start_column, feature_count_end_column):
+    return feature_count_table_df.iloc[:, int(feature_count_start_column):feature_count_end_column]
 
 
 def perform_t_sne(normalized_values, perplexity):

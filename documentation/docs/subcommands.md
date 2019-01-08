@@ -55,9 +55,6 @@ usage: graditude min_row_sum [-h] --feature_count_table FEATURE_COUNT_TABLE
                              FEATURE_COUNT_START_COLUMN --min_row MIN_ROW
                              --output_file OUTPUT_FILE
 
-optional arguments:
-  -h, --help            show this help message and exit
- 
 basic arguments:
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
                         Gene quantification table
@@ -82,9 +79,11 @@ This subcommand is specific for the sequencing data and it can be use to drop a 
 like to don't consider in the downstream analysis. For example it can be used to drop the Lysate column.
 
 ```text
-optional arguments:
-  -h, --help            show this help message and exit
-  
+
+usage: graditude drop_column [-h] --feature_count_table FEATURE_COUNT_TABLE
+                             --column_to_drop COLUMN_TO_DROP --output_file
+                             OUTPUT_FILE
+
 basic arguments:
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
                         Gene quantification table or ERCC-reads table
@@ -93,6 +92,7 @@ basic arguments:
                         would like to drop
   --output_file OUTPUT_FILE, -o OUTPUT_FILE
                         Filtered table as output
+
 
 ```
 
@@ -118,9 +118,6 @@ usage: graditude robust_regression [-h] --ref_feature_count_table
                                    --used_mix USED_MIX --output_table
                                    OUTPUT_TABLE
                                    
-optional arguments:
-  -h, --help            show this help message and exit
-  
 basic arguments:
   --ref_feature_count_table REF_FEATURE_COUNT_TABLE, -r REF_FEATURE_COUNT_TABLE
                         Filtered ERCC reads table
@@ -161,9 +158,6 @@ usage: graditude normalize [-h] --feature_count_table FEATURE_COUNT_TABLE
                            --normalized_table NORMALIZED_TABLE
                            [--size_factor_table SIZE_FACTOR_TABLE]
 
-optional arguments:
-  -h, --help            show this help message and exit
-  
 basic arguments:
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
                         Filtered gene quantification table
@@ -206,9 +200,6 @@ usage: graditude scaling [-h] --feature_count_table FEATURE_COUNT_TABLE
                          {no_normalization,normalized_to_max,normalized_to_range,log10,log2}
                          --scaled_table SCALED_TABLE
 
-optional arguments:
-  -h, --help            show this help message and exit
-  
 basic arguments:
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
                         Normalized gene quantification table or raw tables
@@ -257,9 +248,6 @@ usage: graditude clustering_elbow [-h] --feature_count_table
                                   MAX_NUMBER_OF_CLUSTERS --output_plots1
                                   OUTPUT_PLOTS1 --output_plots2 OUTPUT_PLOTS2
 
-optional arguments:
-  -h, --help            show this help message and exit
-  
 basic arguments:
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
                         Filtered gene quantification table
@@ -307,7 +295,6 @@ usage: graditude clustering [-h] --feature_count_table FEATURE_COUNT_TABLE
                             --output_file OUTPUT_FILE
 
 basic arguments:
-  -h, --help            show this help message and exit
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
                         This parameter specified the table we would like to
                         use. It can be the normalized or the raw table
@@ -333,9 +320,9 @@ basic arguments:
   --output_file OUTPUT_FILE, -o OUTPUT_FILE
                         Output table with a new column containing the number
                         of clusters
+```
 
 
- ```
 * Additional arguments
 
 ```text
@@ -351,14 +338,19 @@ additional arguments:
                         necessary to form a dense region
   --number_of_clusters NUMBER_OF_CLUSTERS, -nc NUMBER_OF_CLUSTERS
                         This parameter specify the number of clusters, k                        
- ```
+```
  
 #t-sne (dimension reduction)
 <code>$ t_sne</code>
 
-To identify biochemically similar transcripts the t-SNE dimension reduction algorithm has been implemented.
-The t-SNE also known as t-distributed stochastic neighbor embedding, help us to visualize the data. In order to visualize interactlivi the data-sets we used the python library 
+To identify biochemically similar transcripts the t-SNE dimension
+ reduction algorithm has been implemented.
+The t-SNE also known as t-distributed stochastic neighbor embedding, 
+help us to visualize the data. In order to visualize interactlivi the 
+data-sets we used the python library 
 Bokeh and the JavaScript Callbacks one to navigate t the data-set.
+
+* Basic arguments
 
 ```text
 usage: graditude t_sne [-h] --feature_count_table FEATURE_COUNT_TABLE
@@ -371,17 +363,33 @@ usage: graditude t_sne [-h] --feature_count_table FEATURE_COUNT_TABLE
                        [--output_file2 OUTPUT_FILE2]
                        [--output_file3 OUTPUT_FILE3]
 
-optional arguments:
-  -h, --help            show this help message and exit
+basic arguments:
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
                         This parameter specified the table we would like to
                         use. It can be the normalized or the raw table
   --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
                         This parameter specified the number of the column with
                         the first fraction
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
   --perplexity PERPLEXITY, -pp PERPLEXITY
-                        This parameter help the user to balance the attention
-                        between the global and the local aspects of data
+                        The perplexity is useful tobalance the attention
+                        between the global and the local aspects of data. It
+                        is better to select a value between 5 and 50
+  --output_file1 OUTPUT_FILE1, -o1 OUTPUT_FILE1
+                        Output plot colorized using clusters information
+  --output_file2 OUTPUT_FILE2, -o2 OUTPUT_FILE2
+                        Output plot colorized using attributes information
+  --output_file3 OUTPUT_FILE3, -o3 OUTPUT_FILE3
+                        Output plot colorized using a specific list
+```
+
+
+* Additional arguments
+
+```text
+additional arguments:
   --srna_list SRNA_LIST [SRNA_LIST ...], -list SRNA_LIST [SRNA_LIST ...]
                         This parameter allow the user to specify a list of
                         features or genes we would like to highlight in the
@@ -394,14 +402,74 @@ optional arguments:
                         This parameter can be changed if you are looking for a
                         specific color combination for your output plot
   --url_link URL_LINK, -url URL_LINK
-                        This parameter allowed to choose the websiteyou would
+                        This parameter allowed to choose the website you would
                         like to open when clicking on a specific point in the
                         html plot
-  --output_file1 OUTPUT_FILE1, -o1 OUTPUT_FILE1
-                        Output plot colorized using clusters information
-  --output_file2 OUTPUT_FILE2, -o2 OUTPUT_FILE2
-                        Output plot colorized using attributes information
-  --output_file3 OUTPUT_FILE3, -o3 OUTPUT_FILE3
-                        Output plot colorized using a specific list
+                        
+```
+#pca (dimension reduction)
+<code>$ pca</code>
 
- ```
+To identify biochemically similar transcripts the PCA dimension
+reduction algorithm has been implemented.
+The PCA also known as principal component analysis, 
+help us to visualize the data. In order to visualize interactively the 
+data sets we used the python library 
+Bokeh and the JavaScript Callbacks one to navigate the data-set.
+
+* Basic arguments
+
+```text
+usage: graditude pca [-h] --feature_count_table FEATURE_COUNT_TABLE
+                     --feature_count_start_column FEATURE_COUNT_START_COLUMN
+                     --feature_count_end_column FEATURE_COUNT_END_COLUMN
+                     [--srna_list_files SRNA_LIST_FILES [SRNA_LIST_FILES ...]]
+                     [--cluster_names CLUSTER_NAMES [CLUSTER_NAMES ...]]
+                     [--color_set COLOR_SET] [--url_link URL_LINK]
+                     --output_file_colorized_by_clusters
+                     OUTPUT_FILE_COLORIZED_BY_CLUSTERS
+                     --output_file_colorized_by_rna_class
+                     OUTPUT_FILE_COLORIZED_BY_RNA_CLASS
+                     --output_file_colorized_by_lists
+                     OUTPUT_FILE_COLORIZED_BY_LISTS
+
+basic arguments:
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        This parameter specified the table we would like to
+                        use. It can be the normalized or the raw table
+  --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
+                        This parameter specified the number of the column with
+                        the first fraction
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
+
+  --output_file_colorized_by_clusters OUTPUT_FILE_COLORIZED_BY_CLUSTERS, -o1 OUTPUT_FILE_COLORIZED_BY_CLUSTERS
+                        Output plot colorized using clusters information
+  --output_file_colorized_by_rna_class OUTPUT_FILE_COLORIZED_BY_RNA_CLASS, -o2 OUTPUT_FILE_COLORIZED_BY_RNA_CLASS
+                        Output plot colorized using attributes information
+  --output_file_colorized_by_lists OUTPUT_FILE_COLORIZED_BY_LISTS, -o3 OUTPUT_FILE_COLORIZED_BY_LISTS
+                        Output plot colorized using a specific list
+```
+
+* Additional arguments
+
+```text
+additional arguments:
+  --srna_list_files SRNA_LIST_FILES [SRNA_LIST_FILES ...], -list SRNA_LIST_FILES [SRNA_LIST_FILES ...]
+                        This parameter allow the user to specify a list of
+                        features or genes we would like to highlight in the
+                        plot
+  --cluster_names CLUSTER_NAMES [CLUSTER_NAMES ...], -names CLUSTER_NAMES [CLUSTER_NAMES ...]
+                        This parameter is required only if you provide a
+                        specific list. It allows the user to specify the label
+                        on the third plot
+  --color_set COLOR_SET, -set_colors COLOR_SET
+                        This parameter can be changed if you are looking for a
+                        specific color combination for your output plot
+  --url_link URL_LINK, -url URL_LINK
+                        This parameter allowed to choose the website you would
+                        like to open when clicking on a specific point in the
+                        html plot
+```
+

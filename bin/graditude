@@ -304,14 +304,46 @@ def main():
     silhouette_parser.add_argument("--min_number_of_clusters", "-min", required=True, type=int)
     silhouette_parser.add_argument("--max_number_of_clusters", "-max", required=True, type=int)
 
-    pca_parser = subparsers.add_parser("pca", help="principal component analysis")
+    pca_parser = subparsers.add_parser("pca", help="This subcommand "
+                                                   "performs the PCA-principal component dimension"
+                                                   "reduction")
     pca_parser.set_defaults(func=run_pca)
-    pca_parser.add_argument("--feature_count_table", "-f", required=True)
-    pca_parser.add_argument("--feature_count_start_column", "-fc", required=True, type=int)
-    pca_parser.add_argument("--srna_list_files", "-list", nargs="+")
-    pca_parser.add_argument("--output_file_colorized_by_clusters", "-o1", required=True)
-    pca_parser.add_argument("--output_file_colorized_by_rna_class", "-o2", required=True)
-    pca_parser.add_argument("--output_file_colorized_by_lists", "-o3", required=True)
+    pca_parser.add_argument("--feature_count_table", "-f", required=True, help="This parameter specified the table we "
+                                                                               "would like to use."
+                                                                               " It can be the normalized "
+                                                                               "or the raw table")
+    pca_parser.add_argument("--feature_count_start_column", "-fc", required=True, type=int,
+                            help="This parameter specified the number "
+                                 "of the column with the first fraction")
+    pca_parser.add_argument("--feature_count_end_column", "-fe", required=True, type=int,
+                            help="Specify the number of "
+                                 "the last fraction we would like to consider in the"
+                                 " analysis")
+    pca_parser.add_argument("--srna_list_files", "-list", nargs="+", help="This parameter allow the user to "
+                                                                          "specify a list of features or "
+                                                                          "genes we would like to highlight in"
+                                                                          " the plot")
+    pca_parser.add_argument("--cluster_names", "-names", nargs="+", default=False,
+                            help="This parameter is required only if you provide "
+                                 "a specific list. It allows the user to "
+                                 "specify the label on the third plot")
+    pca_parser.add_argument("--color_set", "-set_colors",
+                            default=bokeh.palettes.Set2,
+                            help="This parameter can be changed if you are looking "
+                                 "for a specific color combination "
+                                 "for your output plot")
+    pca_parser.add_argument("--url_link", "-url", required=False,
+                            default="https://www.ncbi.nlm.nih.gov/gene/?term=@gene",
+                            help="This parameter allowed to choose the website"
+                                 " you would like to open when clicking on a "
+                                 "specific point in the html plot ")
+    pca_parser.add_argument("--output_file_colorized_by_clusters", "-o1", required=True,
+                            help="Output plot colorized using clusters information")
+    pca_parser.add_argument("--output_file_colorized_by_rna_class", "-o2", required=True,
+                            help="Output plot colorized using attributes "
+                                 "information")
+    pca_parser.add_argument("--output_file_colorized_by_lists", "-o3", required=True,
+                            help="Output plot colorized using a specific list")
 
     t_sne_colored_list_clustering_features_parser = subparsers.add_parser("t_sne", help="This subcommand "
                                                                                         "performs the t-sne dimension"
@@ -325,6 +357,11 @@ def main():
                                                                type=int,
                                                                help="This parameter specified the number "
                                                                     "of the column with the first fraction")
+    t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_end_column", "-fe", required=True,
+                                                               type=int,
+                                                               help="Specify the number of "
+                                                                    "the last fraction we would like to consider in the"
+                                                                    " analysis")
     t_sne_colored_list_clustering_features_parser.add_argument("--perplexity", "-pp", required=True, type=int,
                                                                default=30,
                                                                help="The perplexity is useful to"
@@ -511,6 +548,7 @@ def silhouette_analysis(args):
 
 def run_t_sne_colored_using_different_methods(args):
     t_sne_colored_list_clustering_features.t_sne(args.feature_count_table, args.feature_count_start_column,
+                                                 args.feature_count_end_column,
                                                  args.perplexity,
                                                  args.srna_list,
                                                  args.cluster_names,
@@ -523,7 +561,9 @@ def run_t_sne_colored_using_different_methods(args):
 
 def run_pca(args):
     PCA_analysis.pca_(args.feature_count_table,
-                      args.feature_count_start_column, args.srna_list_files,
+                      args.feature_count_start_column, args.feature_count_end_column, args.srna_list_files,
+                      args.cluster_names, args.color_set,
+                      args.url_link,
                       args.output_file_colorized_by_clusters, args.output_file_colorized_by_rna_class,
                       args.output_file_colorized_by_lists)
 
