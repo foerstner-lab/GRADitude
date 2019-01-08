@@ -41,9 +41,6 @@ basic arguments:
   --filtered_ref_feature_count_table FILTERED_REF_FEATURE_COUNT_TABLE, -fr FILTERED_REF_FEATURE_COUNT_TABLE
                         Filtered ERCC reads table as output
 
-
-
-
 ```
 ##min_row_sum (filter the table)
 <code>$ min_row_sum</code> 
@@ -75,7 +72,6 @@ basic arguments:
   --output_file OUTPUT_FILE, -o OUTPUT_FILE
                         Filtered table as output
 
-
 ```
 
 
@@ -85,6 +81,7 @@ basic arguments:
 This subcommand is specific for the sequencing data and it can be use to drop a specific column we would not
 like to don't consider in the downstream analysis. For example it can be used to drop the Lysate column.
 
+```text
 optional arguments:
   -h, --help            show this help message and exit
   
@@ -125,19 +122,21 @@ optional arguments:
   -h, --help            show this help message and exit
   
 basic arguments:
-
   --ref_feature_count_table REF_FEATURE_COUNT_TABLE, -r REF_FEATURE_COUNT_TABLE
                         Filtered ERCC reads table
   --concentration_table CONCENTRATION_TABLE, -c CONCENTRATION_TABLE
                         ERCC concentration table
   --number_of_outliers NUMBER_OF_OUTLIERS, -n NUMBER_OF_OUTLIERS
-                        number of outliers
+                        Number of outliers
   --number_of_ercc_in_common NUMBER_OF_ERCC_IN_COMMON, -nc NUMBER_OF_ERCC_IN_COMMON
+                        Number of ERCC considered outliers in common within
+                        the different fractions
   --used_mix USED_MIX, -mix USED_MIX
-                        define the ERCC mix used in the experiment,in case of
-                        mix1 and mix2 the --mix is either 3 or 4
+                        This parameter as to be used to define which ERCC mix
+                        have been used in the experiment, in case of mix1 and
+                        mix2 the --mix is either 3 or 4
   --output_table OUTPUT_TABLE, -o OUTPUT_TABLE
-                        output table with ercc in common
+                        Output table with the inliers ERCC
 
 ```
 #normalize
@@ -164,22 +163,28 @@ usage: graditude normalize [-h] --feature_count_table FEATURE_COUNT_TABLE
 
 optional arguments:
   -h, --help            show this help message and exit
+  
+basic arguments:
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
                         Filtered gene quantification table
   --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
-                        number of the column with the first fraction
+                        Specify the number of the column with the first
+                        fraction
   --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
-                        number of the column with the last fraction
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
   --ref_feature_count_table REF_FEATURE_COUNT_TABLE, -r REF_FEATURE_COUNT_TABLE
-                        ERCC table with the ERCC read -counts
+                        ERCC table with the ERCC read-counts
   --ref_feature_count_start_column REF_FEATURE_COUNT_START_COLUMN, -rc REF_FEATURE_COUNT_START_COLUMN
-                        number of the column with the first fraction
+                        Specify the number of the column with the first
+                        fraction for the ERCC table
   --ref_feature_count_end_column REF_FEATURE_COUNT_END_COLUMN, -re REF_FEATURE_COUNT_END_COLUMN
-                        number of the column with the last fraction
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis for the ERCC table
   --normalized_table NORMALIZED_TABLE, -o NORMALIZED_TABLE
-                        normalized table
+                        Table normalized
   --size_factor_table SIZE_FACTOR_TABLE, -s SIZE_FACTOR_TABLE
-                        size_factor_table
+                        Table with all the size factor
 
 ```
 
@@ -203,66 +208,80 @@ usage: graditude scaling [-h] --feature_count_table FEATURE_COUNT_TABLE
 
 optional arguments:
   -h, --help            show this help message and exit
+  
+basic arguments:
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
-                        normalized gene quantification table
+                        Normalized gene quantification table or raw tables
   --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
-                        number of the column with the first fraction
+                        Specify the number of the column with the first
+                        fraction
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
   --pseudo_count PSEUDO_COUNT, -p PSEUDO_COUNT
                         the pseudocount is a number that will always be added
                         to each value; Adding this number avoid to have
                         mathematical operation with zeros
   --scaling_method {no_normalization,normalized_to_max,normalized_to_range,log10,log2}, -sm {no_normalization,normalized_to_max,normalized_to_range,log10,log2}
-                        the scaling methods we would like to apply
+                        Define the scaling methods you would like to apply.
+                        The user can choose between a normalization to the
+                        maximum value, to a range, a log10 and log 2
+                        normalization. Alternatively the user can decide to
+                        not use any kind of normalization
   --scaled_table SCALED_TABLE, -o SCALED_TABLE
-                        scaled table
-                        
- ```
- 
-#k_means_clustering_elbow (find number of clusters)
-<code>$ k_means_clustering_elbow</code>
+                        Scaled table as output
 
-This subcommand implements a method designed to find the appropriate number of clusters in a data
-set. For several clustering algorithms, such as k-means or hierarchical clustering, the user has to
+```
+#clustering_elbow (find number of clusters)
+<code>$ clustering_elbow</code>
+
+This subcommand implements a method designed to find the appropriate number 
+of clusters in a data set. For several clustering algorithms, 
+such as k-means or hierarchical clustering, the user has to
 specifies the number of expected clusters as a parameter.
-In the elbow method the user gives a range of clusters, usually from 0 to 10, and plots the reduction in
-variance. The resulting curve contains an elbow that indicates the optimal number of clusters.
+In the elbow method the user gives a range of clusters, 
+usually from 0 to 10, and plots the reduction in
+variance. The resulting curve contains an elbow that 
+indicates the optimal number of clusters.
 
 ```text
-usage: graditude k_means_clustering_elbow [-h] --feature_count_table
-                                          FEATURE_COUNT_TABLE
-                                          --feature_count_start_column
-                                          FEATURE_COUNT_START_COLUMN
-                                          --feature_count_end_column
-                                          FEATURE_COUNT_END_COLUMN
-                                          --min_number_of_clusters
-                                          MIN_NUMBER_OF_CLUSTERS
-                                          --max_number_of_clusters
-                                          MAX_NUMBER_OF_CLUSTERS
-                                          --output_plots1 OUTPUT_PLOTS1
-                                          --output_plots2 OUTPUT_PLOTS2
+usage: graditude clustering_elbow [-h] --feature_count_table
+                                  FEATURE_COUNT_TABLE
+                                  --feature_count_start_column
+                                  FEATURE_COUNT_START_COLUMN
+                                  --feature_count_end_column
+                                  FEATURE_COUNT_END_COLUMN
+                                  --min_number_of_clusters
+                                  MIN_NUMBER_OF_CLUSTERS
+                                  --max_number_of_clusters
+                                  MAX_NUMBER_OF_CLUSTERS --output_plots1
+                                  OUTPUT_PLOTS1 --output_plots2 OUTPUT_PLOTS2
 
 optional arguments:
   -h, --help            show this help message and exit
+  
+basic arguments:
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
                         Filtered gene quantification table
   --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
-                        number of the column with the first fraction
+                        This parameter specified the number of the column with
+                        the first fraction
   --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
-                        number of the column with the first fraction
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
   --min_number_of_clusters MIN_NUMBER_OF_CLUSTERS, -min MIN_NUMBER_OF_CLUSTERS
-                        minimum number of clusters that you want to represent
+                        Minimum number of clusters that you want to represent
                         in the plot
   --max_number_of_clusters MAX_NUMBER_OF_CLUSTERS, -max MAX_NUMBER_OF_CLUSTERS
-                        maximum number of clusters that you want to represent
+                        Maximum number of clusters that you want to represent
                         in the plot
   --output_plots1 OUTPUT_PLOTS1, -o1 OUTPUT_PLOTS1
-                        plot the average within cluster sum of squares against
-                        the number of clusters
+                        Plot showing the average within cluster sum of squares
+                        against the number of clusters
   --output_plots2 OUTPUT_PLOTS2, -o2 OUTPUT_PLOTS2
-                        plot the percentage of variance explained versus the
-                        number of clusters
-
- ```
+                        Plot showing the percentage of variance explained
+                        versus the number of clusters
+```
 
 #clustering (cluster the data)
 <code>$ clustering</code>
@@ -295,8 +314,6 @@ basic arguments:
   --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
                         This parameter specified the number of the column with
                         the first fraction
-  --number_of_clusters NUMBER_OF_CLUSTERS, -nc NUMBER_OF_CLUSTERS
-                        This parameter specify the number of clusters, k
   --pseudo_count PSEUDO_COUNT, -p PSEUDO_COUNT
                         The pseudocount represent a number that will always be
                         added to each value; Adding this number avoid to have
@@ -306,15 +323,6 @@ basic arguments:
                         The user can choose between 3 clustering algorithm,
                         k-means clustering, hierarchical clustering and DB-
                         SCAN clustering
-  --epsilon EPSILON, -e EPSILON
-                        This parameter is specific for the DBSCAN clustering
-                        algorithm. It defines how close points should be in
-                        order to be considered part of a cluster. only for
-                        DBSCAN clustering.
-  --min_samples MIN_SAMPLES, -ms MIN_SAMPLES
-                        This parameter is specific for the DBSCAN clustering
-                        algorithm and represent the minimum number of points
-                        necessary to form a dense region
   --scaling_method {no_normalization,normalized_to_max,normalized_to_range,log10,log2}, 
                    -sm {no_normalization,normalized_to_max,normalized_to_range,log10,log2}
                         Define the scaling methods you would like to apply.
@@ -327,6 +335,22 @@ basic arguments:
                         of clusters
 
 
+ ```
+* Additional arguments
+
+```text
+additional arguments:
+  --epsilon EPSILON, -e EPSILON
+                        This parameter is specific for the DBSCAN clustering
+                        algorithm. It defines how close points should be in
+                        order to be considered part of a cluster. only for
+                        DBSCAN clustering
+  --min_samples MIN_SAMPLES, -ms MIN_SAMPLES
+                        This parameter is specific for the DBSCAN clustering
+                        algorithm and represent the minimum number of points
+                        necessary to form a dense region
+  --number_of_clusters NUMBER_OF_CLUSTERS, -nc NUMBER_OF_CLUSTERS
+                        This parameter specify the number of clusters, k                        
  ```
  
 #t-sne (dimension reduction)

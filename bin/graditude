@@ -99,7 +99,7 @@ def main():
                                                   help="Filtered table as output")
 
     robust_regression_parser = subparsers.add_parser("robust_regression",
-                                                     help="compare the ERCC concentration in mix "
+                                                     help="It compares the ERCC concentration in mix "
                                                           "with the ERCC reads and take it out the outliers")
     robust_regression_parser.set_defaults(func=run_robust_regression)
     robust_regression_parser.add_argument('--ref_feature_count_table', '-r',
@@ -107,43 +107,58 @@ def main():
     robust_regression_parser.add_argument('--concentration_table', '-c',
                                           required=True, help="ERCC concentration table")
     robust_regression_parser.add_argument("--number_of_outliers", "-n",
-                                          required=True, type=int, help="number of outliers")
+                                          required=True, type=int, help="Number of outliers")
     robust_regression_parser.add_argument('--number_of_ercc_in_common', '-nc',
-                                          type=int)
+                                          type=int, default=18,
+                                          help="Number of ERCC considered outliers "
+                                               "in common within the different fractions")
     robust_regression_parser.add_argument("--used_mix", "-mix",
-                                          required=True, type=int, help="define the ERCC mix used in the experiment,"
-                                                                        "in case of mix1 and mix2 the "
+                                          required=True, type=int, help="This parameter as to be used "
+                                                                        "to define which ERCC mix have been"
+                                                                        " used in the experiment,"
+                                                                        " in case of mix1 and mix2 the "
                                                                         "--mix is either 3 or 4 ")
     robust_regression_parser.add_argument("--output_table", '-o',
-                                          required=True, help="output table with ercc in common")
+                                          required=True, help="Output table with the inliers ERCC")
 
-    # Currently done with DESeq2's approach - maybe add further options
-    normalize_parser = subparsers.add_parser("normalize", help='calculate the ERCC size factor and '
+    normalize_parser = subparsers.add_parser("normalize", help='This subcommand calculates the ERCC size factor and '
                                                                'normalize the gene quantification '
                                                                'table based on that')
     normalize_parser.set_defaults(func=normalize_table)
     normalize_parser.add_argument('--feature_count_table', '-f', required=True,
                                   help="Filtered gene quantification table")
     normalize_parser.add_argument('--feature_count_start_column', '-fc', type=int,
-                                  help="number of the column with the first fraction")
+                                  help="Specify the number of "
+                                       "the column with the first fraction")
     normalize_parser.add_argument("--feature_count_end_column", "-fe", type=int,
-                                  help="number of the column with the last fraction")
+                                  help="Specify the number of "
+                                       "the last fraction we would like to consider in the"
+                                       " analysis")
     normalize_parser.add_argument("--ref_feature_count_table", "-r", required=True,
-                                  help="ERCC table with the ERCC read -counts")
+                                  help="ERCC table with the ERCC read-counts")
     normalize_parser.add_argument("--ref_feature_count_start_column", "-rc", default=1, type=int,
-                                  help="number of the column with the first fraction")
+                                  help="Specify the number of "
+                                       "the column with the first fraction for the ERCC table")
     normalize_parser.add_argument("--ref_feature_count_end_column", "-re", default=-1, type=int,
-                                  help="number of the column with the last fraction")
-    normalize_parser.add_argument("--normalized_table", "-o", required=True, help="normalized table")
-    normalize_parser.add_argument("--size_factor_table", "-s", default=None, help="size_factor_table")
+                                  help="Specify the number of "
+                                       "the last fraction we would like to consider in the"
+                                       " analysis for the ERCC table")
+    normalize_parser.add_argument("--normalized_table", "-o", required=True, help="Table normalized"
+                                  )
+    normalize_parser.add_argument("--size_factor_table", "-s", default=None, help="Table with all the size factor")
 
-    scaling_parser = subparsers.add_parser("scaling", help="scaling the table "
-                                                           "based on different scaling methods")
+    scaling_parser = subparsers.add_parser("scaling", help="This subcommand scales tables "
+                                                           "using different scaling methods")
     scaling_parser.set_defaults(func=run_scaling)
     scaling_parser.add_argument('--feature_count_table', '-f', required=True,
-                                help="normalized gene quantification table")
+                                help="Normalized gene quantification table or raw tables")
     scaling_parser.add_argument('--feature_count_start_column', '-fc', required=True,
-                                help="number of the column with the first fraction")
+                                help="Specify the number of "
+                                     "the column with the first fraction")
+    scaling_parser.add_argument('--feature_count_end_column', '-fe', required=True,
+                                help="Specify the number of "
+                                     "the last fraction we would like to consider in the"
+                                     " analysis")
     scaling_parser.add_argument("--pseudo_count", '-p', type=int, default=1,
                                 help="the pseudocount is a number that will always be added to each value; "
                                      "Adding this number avoid to have mathematical operation with zeros ")
@@ -153,7 +168,7 @@ def main():
         help="Define the scaling methods you would like to apply. The user can choose between a normalization "
              "to the maximum value, to a range, a log10 and log 2 normalization. Alternatively the user can decide "
              "to not use any kind of normalization ")
-    scaling_parser.add_argument("--scaled_table", "-o", required=True, help="scaled table")
+    scaling_parser.add_argument("--scaled_table", "-o", required=True, help="Scaled table as output")
 
     correlation_gene_gene_parser = subparsers.add_parser("correlation_gene_gene",
                                                          help="correlation all against all ")
@@ -207,8 +222,8 @@ def main():
     plot_kinetics_parser.add_argument("--output_format", '-format', choices=["html", "pdf"],
                                       default="html")
 
-    clustering_parser = subparsers.add_parser("clustering", help="unsupervised clustering "
-                                                                 "using different methods")
+    clustering_parser = subparsers.add_parser("clustering", help="This subcommand performs unsupervised clustering "
+                                                                 "using different algorithm")
     clustering_parser.set_defaults(func=clustering)
     clustering_parser.add_argument("--feature_count_table", "-f", required=True,
                                    help="This parameter specified the table we would like to use."
@@ -216,8 +231,14 @@ def main():
     clustering_parser.add_argument("--feature_count_start_column", "-fc", required=True,
                                    help="This parameter specified the number of the column with the first fraction",
                                    type=int, )
-    clustering_parser.add_argument("--number_of_clusters", '-nc', required=True, type=int,
-                                   help="This parameter specify the number of clusters, k")
+    clustering_parser.add_argument("--feature_count_end_column", "-fe", required=True,
+                                   help="Specify the number of "
+                                        "the last fraction we would like to consider in the"
+                                        " analysis",
+                                   type=int, )
+    clustering_parser.add_argument("--number_of_clusters", '-nc', default=False, type=int,
+                                   help="This parameter specify the number of clusters, k. It is required only "
+                                        "when using k-means and hierarchical clustering algorithm ")
     clustering_parser.add_argument("--pseudo_count", "-p", type=int,
                                    default=1,
                                    help="The pseudocount represent a number that will always be added to each value; "
@@ -229,7 +250,7 @@ def main():
     clustering_parser.add_argument("--epsilon", "-e", default=False,
                                    help='This parameter is specific for the DBSCAN clustering algorithm. '
                                         'It defines how close points should be '
-                                        'in order to be considered part of a cluster. only for DBSCAN clustering.'
+                                        'in order to be considered part of a cluster. only for DBSCAN clustering'
                                    , type=float)
     clustering_parser.add_argument("--min_samples", '-ms', default=False,
                                    help="This parameter is specific for the DBSCAN clustering algorithm and "
@@ -246,28 +267,32 @@ def main():
                                    help=
                                    "Output table with a new column containing the number of clusters")
 
-    k_means_clustering_elbow_parser = subparsers.add_parser("k_means_clustering_elbow",
-                                                            help="plot the elbow graph to choose"
+    k_means_clustering_elbow_parser = subparsers.add_parser("clustering_elbow",
+                                                            help="This subcommands plot the elbow graph in order "
+                                                                 "to choose"
                                                                  "the ideal number of clusters necessary for "
                                                                  "the k-means and the hierarchical clustering ")
     k_means_clustering_elbow_parser.set_defaults(func=generate_k_means_clustering_elbow)
     k_means_clustering_elbow_parser.add_argument("--feature_count_table", "-f", required=True,
                                                  help="Filtered gene quantification table")
     k_means_clustering_elbow_parser.add_argument("--feature_count_start_column", "-fc", required=True,
-                                                 help="number of the column with the first fraction")
+                                                 help="This parameter specified the number of the column "
+                                                      "with the first fraction")
     k_means_clustering_elbow_parser.add_argument("--feature_count_end_column", "-fe", required=True,
-                                                 help=" number of the column with the first fraction")
+                                                 help=" Specify the number of "
+                                                      "the last fraction we would like to consider in the"
+                                                      " analysis")
     k_means_clustering_elbow_parser.add_argument("--min_number_of_clusters", '-min', required=True, type=int,
-                                                 help="minimum number of clusters that you want to represent "
+                                                 help="Minimum number of clusters that you want to represent "
                                                       "in the plot ")
     k_means_clustering_elbow_parser.add_argument("--max_number_of_clusters", '-max', required=True, type=int,
-                                                 help="maximum number of clusters that you want to represent "
+                                                 help="Maximum number of clusters that you want to represent "
                                                       "in the plot")
     k_means_clustering_elbow_parser.add_argument("--output_plots1", '-o1', required=True,
-                                                 help="plot the average within cluster sum "
+                                                 help="Plot showing the average within cluster sum "
                                                       "of squares against the number of clusters")
     k_means_clustering_elbow_parser.add_argument("--output_plots2", '-o2', required=True,
-                                                 help="plot the percentage of variance explained versus "
+                                                 help="Plot showing the percentage of variance explained versus "
                                                       "the number of clusters")
 
     silhouette_parser = subparsers.add_parser("silhouette_analysis",
@@ -501,7 +526,7 @@ def run_pca(args):
 
 def run_scaling(args):
     scaling.scaling_(args.feature_count_table,
-                     args.feature_count_start_column,
+                     args.feature_count_start_column, args.feature_count_end_column,
                      args.pseudo_count,
                      args.scaling_method,
                      args.scaled_table)
