@@ -4,22 +4,25 @@ import pandas as pd
 from bokeh.plotting import figure, output_file, save, ColumnDataSource
 from bokeh.models import HoverTool, BoxZoomTool, ResetTool, PanTool
 from bokeh.models import WheelZoomTool, TapTool, OpenURL
+from graditudelib import projectcreator
 import numpy as np
-import bokeh.palettes
 
 
-def pca_(feature_count_table, feature_count_start_column, srna_list_files,
+def pca_(feature_count_table, feature_count_start_column, srna_list_files, cluster_names, color_set, url_link,
          output_file_colorized_by_clusters, output_file_colorized_by_rna_class, output_file_colorized_by_lists):
+    initialize()
     feature_count_table_df = pd.read_table(feature_count_table)
-    srnas_and_list_names = read_srna_lists(srna_list_files)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column)
     pca_result = perform_pca(value_matrix)
     plot_pca_using_clustering(feature_count_table_df, pca_result,
-                              output_file_colorized_by_clusters)
-    plot_using_only_rna_colors(feature_count_table_df, pca_result, output_file_colorized_by_rna_class)
-    plot_pca_colored_by_lists(feature_count_table_df, pca_result, output_file_colorized_by_lists,
-                              srnas_and_list_names)
+                              output_file_colorized_by_clusters, color_set, url_link)
+    plot_using_only_rna_colors(feature_count_table_df, pca_result, output_file_colorized_by_rna_class, color_set,
+                               url_link)
+    if srna_list_files:
+        srnas_and_list_names = read_srna_lists(srna_list_files)
+        plot_pca_colored_by_lists(feature_count_table_df, pca_result, output_file_colorized_by_lists,
+                                  srnas_and_list_names, cluster_names, color_set, url_link)
 
 
 def _extract_value_matrix(feature_count_table_df,
@@ -34,7 +37,7 @@ def perform_pca(normalized_values):
     return pca_result
 
 
-def plot_pca_using_clustering(read_counting_table, pca_result, output_file_colorized_by_clusters):
+def plot_pca_using_clustering(read_counting_table, pca_result, output_file_colorized_by_clusters, color_set, url_link):
     read_counting_table["PCA-component_1"] = [pos[0] for pos in pca_result]
     read_counting_table["PCA-component_2"] = [pos[1] for pos in pca_result]
 
@@ -43,7 +46,7 @@ def plot_pca_using_clustering(read_counting_table, pca_result, output_file_color
             [key_value_pair.split("=")
              for key_value_pair in attr.split(";")]))
 
-    color_palette = bokeh.palettes.viridis(
+    color_palette = color_set(
         len(read_counting_table["Cluster_label"].unique()))
     color = read_counting_table["Cluster_label"].apply(
         lambda lable: color_palette[lable])
@@ -79,12 +82,12 @@ def plot_pca_using_clustering(read_counting_table, pca_result, output_file_color
                       WheelZoomTool(), "tap"],
                title="Grad-Seq PCA RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color='color', legend='label')
+    p.circle("x", "y", source=source, size=7, alpha=3, color='color', legend="label", line_color="grey")
     p.yaxis.axis_label_text_font_size = "15pt"
     p.xaxis.axis_label_text_font_size = "15pt"
     p.title.text_font_size = '15pt'
 
-    url = "http://www.uniprot.org/uniprot/@protein_id"
+    url = url_link
     taptool = p.select(type=TapTool)
     taptool.callback = OpenURL(url=url)
 
@@ -102,7 +105,17 @@ def _label_clustering(row):
     return __label
 
 
-def plot_using_only_rna_colors(read_counting_table, pca_result, output_file_colorized_by_rna_class):
+def create_palette_map(read_counting_table, color_set):
+    feature_unique_values = read_counting_table["Feature"].unique()
+    color_palette = color_set[(len(feature_unique_values))]
+    palette_map = {}
+    for index in range(0, len(feature_unique_values)):
+        palette_map[feature_unique_values[index]] = color_palette[index]
+    return palette_map
+
+
+def plot_using_only_rna_colors(read_counting_table, pca_result, output_file_colorized_by_rna_class, color_set,
+                               url_link):
     read_counting_table["PCA-component_1"] = [pos[0] for pos in pca_result]
     read_counting_table["PCA-component_2"] = [pos[1] for pos in pca_result]
 
@@ -112,9 +125,12 @@ def plot_using_only_rna_colors(read_counting_table, pca_result, output_file_colo
             [key_value_pair.split("=") for
              key_value_pair in attr.split(";")]))
 
-    color = read_counting_table.apply(
-        _color, axis=1)
-    label = read_counting_table.apply(_label, axis=1)
+    palette_map = create_palette_map(read_counting_table, color_set)
+    color = read_counting_table["Feature"].apply(
+        lambda lable: palette_map[lable])
+    label = read_counting_table.apply(
+        _label, axis=1)
+
     hower_data = dict(
         x=read_counting_table["PCA-component_1"],
         y=read_counting_table["PCA-component_2"],
@@ -142,12 +158,12 @@ def plot_using_only_rna_colors(read_counting_table, pca_result, output_file_colo
                       WheelZoomTool(), "tap"],
                title="Grad-Seq PCA RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color='color')
+    p.circle("x", "y", source=source, size=7, alpha=3, color='color', legend='label', line_color="grey")
     p.yaxis.axis_label_text_font_size = "15pt"
     p.xaxis.axis_label_text_font_size = "15pt"
     p.title.text_font_size = '15pt'
 
-    url = "http://www.uniprot.org/uniprot/@protein_id"
+    url = url_link
     taptool = p.select(type=TapTool)
     taptool.callback = OpenURL(url=url)
 
@@ -156,14 +172,6 @@ def plot_using_only_rna_colors(read_counting_table, pca_result, output_file_colo
 
     output_file(output_file_colorized_by_rna_class)
     save(p)
-
-
-def _color(row):
-    color = {"CDS": "#BDBDBD", "ncRNA": "#0000AF", "tRNA": "#EBB000",
-             "rRNA": "#8080FF", "tmRNA": "#3D3D3D", "5'-UTR": "#9F000F",
-             "sRNA": "#0000AF"
-             }[row["Feature"]]
-    return color
 
 
 def _label(row):
@@ -184,7 +192,7 @@ def read_srna_lists(srna_list_files):
 
 
 def plot_pca_colored_by_lists(read_counting_table, pca_result,
-                              output_file_list, srnas_and_list_names):
+                              output_file_list, srnas_and_list_names, cluster_names, color_set, url_link):
     read_counting_table["PCA-component_1"] = [pos[0] for pos in pca_result]
     read_counting_table["PCA- component_2"] = [pos[1] for pos in pca_result]
 
@@ -194,10 +202,11 @@ def plot_pca_colored_by_lists(read_counting_table, pca_result,
             [key_value_pair.split("=") for
              key_value_pair in attr.split(";")]))
 
+    palette_map = create_palette_map(read_counting_table, color_set)
     color = read_counting_table.apply(
-        _color_1, args=(srnas_and_list_names,), axis=1)
+        _color_1, args=(srnas_and_list_names, palette_map), axis=1)
     label = read_counting_table.apply(
-        _label_list, args=(srnas_and_list_names,), axis=1)
+        _label_1, args=(srnas_and_list_names, cluster_names), axis=1)
 
     hower_data = dict(
         x=read_counting_table["PCA-component_1"],
@@ -226,12 +235,12 @@ def plot_pca_colored_by_lists(read_counting_table, pca_result,
                       WheelZoomTool(), "tap"],
                title="Grad-Seq PCA RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color="color", legend="label")
+    p.circle("x", "y", source=source, size=7, alpha=3, color="color", legend='label', line_color="grey")
     p.yaxis.axis_label_text_font_size = "15pt"
     p.xaxis.axis_label_text_font_size = "15pt"
     p.title.text_font_size = '15pt'
 
-    url = "http://www.uniprot.org/uniprot/@protein_id"
+    url = url_link
     taptool = p.select(type=TapTool)
     taptool.callback = OpenURL(url=url)
 
@@ -242,29 +251,32 @@ def plot_pca_colored_by_lists(read_counting_table, pca_result,
     save(p)
 
 
-def _color_1(row, srnas_and_list_names):
-    color = {"CDS": "#BDBDBD", "ncRNA": "#a6cee3", "tRNA": "#EBB000",
-             "rRNA": "#8080FF", "tmRNA": "#3D3D3D"}[row["Feature"]]
-    sRNA_cluster_color = {"sRNA_cluster_1": "#1f78b4",
-                          "sRNA_cluster_2": "#b2df8a",
-                          "sRNA_cluster_3": "#33a02c",
-                          "sRNA_cluster_4": "#fb9a99"}
+def _color_1(row, srnas_and_list_names, palette_map):
+    color = palette_map[row["Feature"]]
+    srna_cluster_color = {"sRNA_cluster_1": "#FF4D4D",
+                          "sRNA_cluster_2": "#0000ff",
+                          "sRNA_cluster_3": "#000000",
+                          "sRNA_cluster_4": "#FFFF00"}
     for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
-            color = sRNA_cluster_color[
+            color = srna_cluster_color[
                 srnas_and_list_names[row[feature]]]
     return color
 
 
-def _label_list(row, srnas_and_list_names):
-    label = {"ncRNA": "ncRNA", "sRNA": "sRNA"}[row["Feature"]]
-    srna_cluster_label = {
-        "sRNA_cluster_1": "classic_CsrA",
-        "sRNA_cluster_2": "unique_Hfq",
-        "sRNA_cluster_3": "unique_ProQ",
-        "sRNA_cluster_4": "Hfq_and_ProQ"}
+def _label_1(row, srnas_and_list_names, cluster_names):
+    label = {"ncRNA": "other ncRNAs", "sRNA": "other ncRNAs", "CDS": "CDS", "tRNA": "tRNA",
+             "rRNA": "rRNA", "5'-UTR": "5'-UTR", "3'-UTR": "3'-UTR"}[row["Feature"]]
+    srna_cluster_label = {}
+    for index in range(0, len(cluster_names)):
+        srna_cluster_label["sRNA_cluster_" + str(index + 1)] = cluster_names[index]
+
     for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
             label = srna_cluster_label[
                 srnas_and_list_names[row[feature]]]
     return label
+
+
+def initialize():
+    projectcreator.create_subfolders("GRADitude/output/", ["PCA"])

@@ -313,7 +313,9 @@ def main():
     pca_parser.add_argument("--output_file_colorized_by_rna_class", "-o2", required=True)
     pca_parser.add_argument("--output_file_colorized_by_lists", "-o3", required=True)
 
-    t_sne_colored_list_clustering_features_parser = subparsers.add_parser("t_sne", help="t-sne analysis")
+    t_sne_colored_list_clustering_features_parser = subparsers.add_parser("t_sne", help="This subcommand "
+                                                                                        "performs the t-sne dimension"
+                                                                                        "reduction")
     t_sne_colored_list_clustering_features_parser.set_defaults(func=run_t_sne_colored_using_different_methods)
     t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_table", "-f", required=True,
                                                                help="This parameter specified the table we "
@@ -324,10 +326,12 @@ def main():
                                                                help="This parameter specified the number "
                                                                     "of the column with the first fraction")
     t_sne_colored_list_clustering_features_parser.add_argument("--perplexity", "-pp", required=True, type=int,
-                                                               help="This parameter help the user "
-                                                                    "to balance the attention between "
+                                                               default=30,
+                                                               help="The perplexity is useful to"
+                                                                    "balance the attention between "
                                                                     "the global and the  "
-                                                                    "local aspects of data")
+                                                                    "local aspects of data. It is better to select "
+                                                                    " a value between 5 and 50")
     t_sne_colored_list_clustering_features_parser.add_argument("--srna_list", "-list", nargs="+", default=False,
                                                                help="This parameter allow the user to "
                                                                     "specify a list of features or "
@@ -344,7 +348,7 @@ def main():
     t_sne_colored_list_clustering_features_parser.add_argument("--url_link", "-url", required=False,
                                                                default="https://www.ncbi.nlm.nih.gov/gene/?term=@gene",
                                                                help="This parameter allowed to choose the website"
-                                                                    "you would like to open when clicking on a "
+                                                                    " you would like to open when clicking on a "
                                                                     "specific point in the html plot ")
     t_sne_colored_list_clustering_features_parser.add_argument("--output_file1", "-o1", default=False,
                                                                help="Output plot colorized using clusters information")
