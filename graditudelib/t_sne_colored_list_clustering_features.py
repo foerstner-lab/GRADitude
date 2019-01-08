@@ -61,6 +61,7 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result,
         y=read_counting_table["t-SNE-component_2"],
         feature=read_counting_table["Feature"],
         gene=read_counting_table['Gene'],
+        cluster_label=read_counting_table["Cluster_label"],
         color=color,
         label=label)
 
@@ -76,7 +77,8 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result,
     hover = HoverTool(tooltips=[
         ("Gene", "@gene"),
         ("ID", "@ID"),
-        ("Feature", "@feature")])
+        ("Feature", "@feature"),
+        ("Cluster label", "@cluster_label")])
 
     p = figure(plot_width=900, plot_height=900,
                tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
