@@ -188,14 +188,23 @@ def main():
     selecting_specific_features.add_argument('--output_file', '-o', required=True)
 
     p_heatmap = subparsers.add_parser("heatmap",
-                                      help="correlation all against all ")
+                                      help="This subcommand is useful "
+                                           "to visualize the in-gradient behavior of a larger group of"
+                                           "transcripts or proteins ")
     p_heatmap.set_defaults(func=plot_heatmap)
     p_heatmap.add_argument('--feature_count_table', '-f', required=True,
-                           help="Filtered gene quantification table")
+                           help="Gene quantification table or protein table  ")
     p_heatmap.add_argument('--feature_count_start_column', '-fc', type=int,
-                           help="number of the column with the first fraction")
-    p_heatmap.add_argument("--y_label", "-label", required=True)
-    p_heatmap.add_argument("--output_file", "-o", required=True)
+                           help="Specify the number of "
+                                "the column with the first fraction")
+    p_heatmap.add_argument('--feature_count_end_column', '-fe', type=int,
+                           help="Specify the number of "
+                                "the last fraction we would like to consider in the"
+                                " analysis")
+    p_heatmap.add_argument("--y_label", "-label", required=True,
+                           help="This parameter allow you to specify the"
+                                " label you would like to visualize on the y-axis")
+    p_heatmap.add_argument("--output_file", "-o", required=True, help="Plot as output")
 
     # For each fraction generate/write--output_format/
     # - Histogram 
@@ -213,14 +222,27 @@ def main():
     # histogram_of_fraction_parser.add_argument('--feature_count_start_column', default=1)
     #
 
-    plot_kinetics_parser = subparsers.add_parser("plot_kinetics", help='plot the kinetics')
+    plot_kinetics_parser = subparsers.add_parser("plot_kinetics", help="This subcommand plot the kinetics of "
+                                                                       "a specific transcript or protein to better "
+                                                                       "visualize their behavior within the gradient")
     plot_kinetics_parser.set_defaults(func=plot_kinetics)
-    plot_kinetics_parser.add_argument("--feature_count_table", "-f", required=True)
-    plot_kinetics_parser.add_argument("--gene_name", "-gene", required=True)
-    plot_kinetics_parser.add_argument('--feature_count_start_column', "-fc", required=True, type=int)
-    plot_kinetics_parser.add_argument("--output_plot", "-o", required=True)
+    plot_kinetics_parser.add_argument("--feature_count_table", "-f", required=True,
+                                      help="This parameter specified the table we would like to use."
+                                           " It can be the normalized or the raw table")
+    plot_kinetics_parser.add_argument('--feature_count_start_column', '-fc', required=True, type=int,
+                                      help="Specify the number of "
+                                           "the column with the first fraction")
+    plot_kinetics_parser.add_argument('--feature_count_end_column', '-fe', required=True, type=int,
+                                      help="Specify the number of "
+                                           "the last fraction we would like to consider in the"
+                                           " analysis")
+    plot_kinetics_parser.add_argument("--gene_name", "-gene", required=True,
+                                      help="With this parameter you can specify the name of the gene or the protein"
+                                           "you would like to explore")
     plot_kinetics_parser.add_argument("--output_format", '-format', choices=["html", "pdf"],
-                                      default="html")
+                                      default="html", help="You can use this parameter to"
+                                                           "specify in which format you would like to"
+                                                           "save your plot")
 
     clustering_parser = subparsers.add_parser("clustering", help="This subcommand performs unsupervised clustering "
                                                                  "using different algorithm")
@@ -396,7 +418,8 @@ def main():
                                                                help="Output plot colorized using a specific list")
 
     correlation_rna_protein_parser = subparsers.add_parser("correlation_rnas_protein",
-                                                           help="spearman correlation sequencing "
+                                                           help="This subcommand "
+                                                                "Spearman correlation sequencing "
                                                                 "data against proteins data")
     correlation_rna_protein_parser.set_defaults(func=correlation_rnas_protein)
     correlation_rna_protein_parser.add_argument("--feature_count_table", "-f", required=True)
@@ -473,7 +496,8 @@ def main():
     interactive_tsne_plot_parser.add_argument("--start_column", "-sc", required=True)
     interactive_tsne_plot_parser.add_argument("--output_file", '-o')
 
-    correlation_replicates_sequencing_data_parser = subparsers.add_parser("replicates_correlation_sequencing", )
+    correlation_replicates_sequencing_data_parser = subparsers.add_parser("This parameter "
+                                                                          "replicates_correlation_sequencing", )
     correlation_replicates_sequencing_data_parser.set_defaults(func=run_replicates_correlation_sequencing)
     correlation_replicates_sequencing_data_parser.add_argument('--table_replicate1', '-r1', required=True)
     correlation_replicates_sequencing_data_parser.add_argument("--table_replicate2", "-r2", required=True)
@@ -522,7 +546,8 @@ def run_correlation_gene_gene(args):
 
 def plot_kinetics(args):
     visualizing_kinetics.plot_kinetics(
-        args.feature_count_table, args.gene_name, args.feature_count_start_column)
+        args.feature_count_table, args.feature_count_start_column, args.feature_count_end_column, args.gene_name,
+        args.output_format)
 
 
 def select_specific_features(args):
@@ -644,6 +669,7 @@ def run_interactive_tsne_plot(args):
 
 def plot_heatmap(args):
     heatmap.plot_heatmap(args.feature_count_table, args.feature_count_start_column,
+                         args.feature_count_end_column,
                          args.y_label, args.output_file)
 
 
