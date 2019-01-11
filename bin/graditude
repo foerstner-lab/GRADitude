@@ -493,18 +493,57 @@ def main():
                                                               "with the ERCC reads and take it out the outliers")
     interactive_tsne_plot_parser.set_defaults(func=run_interactive_tsne_plot)
     interactive_tsne_plot_parser.add_argument('--table_with_clusters', '-t', required=True)
-    interactive_tsne_plot_parser.add_argument("--start_column", "-sc", required=True)
+    interactive_tsne_plot_parser.add_argument("--feature_count_start_column", "-fc", required=True)
+    interactive_tsne_plot_parser.add_argument("--feature_count_end_column", "-fe", required=True,
+                                              type=int,
+                                              help="Specify the number of "
+                                                   "the last fraction we would like to consider in the"
+                                                   " analysis")
+    interactive_tsne_plot_parser.add_argument("--dimension_reduction_algorithm", "-dm", required=True,
+                                              help="Specify the dimension reduction algorithm. The user can choose "
+                                                   "between t-SNE and PCA ", choices=["t-SNE", "PCA"], default="t-SNE"
+                                              )
+    interactive_tsne_plot_parser.add_argument("--perplexity", "-pp", required=False, type=int,
+                                              default=30,
+                                              help="The perplexity is useful to"
+                                                   "balance the attention between "
+                                                   "the global and the  "
+                                                   "local aspects of data. It is better to select "
+                                                   " a value between 5 and 50")
+    interactive_tsne_plot_parser.add_argument("--url_link", "-url", required=False,
+                                              default="https://www.ncbi.nlm.nih.gov/gene/?term=@gene",
+                                              help="This parameter allowed to choose the website"
+                                                   " you would like to open when clicking on a "
+                                                   "specific point in the html plot ")
     interactive_tsne_plot_parser.add_argument("--output_file", '-o')
 
-    correlation_replicates_sequencing_data_parser = subparsers.add_parser("This parameter "
-                                                                          "replicates_correlation_sequencing", )
+    correlation_replicates_sequencing_data_parser = subparsers.add_parser("This parameter allows to see the "
+                                                                          "distribution of the correlation "
+                                                                          "coefficient between two "
+                                                                          "biological replicates")
     correlation_replicates_sequencing_data_parser.set_defaults(func=run_replicates_correlation_sequencing)
-    correlation_replicates_sequencing_data_parser.add_argument('--table_replicate1', '-r1', required=True)
-    correlation_replicates_sequencing_data_parser.add_argument("--table_replicate2", "-r2", required=True)
-    correlation_replicates_sequencing_data_parser.add_argument('--table_start_column' "-fc", required=True)
-    correlation_replicates_sequencing_data_parser.add_argument('--table_end_column' "-fe", required=True)
-    correlation_replicates_sequencing_data_parser.add_argument("--output_table", '-o')
-    correlation_replicates_sequencing_data_parser.add_argument("--output_figure", '-f')
+    correlation_replicates_sequencing_data_parser.add_argument('--table_replicate1', '-r1', required=True,
+                                                               help="Sequencing table first replicate ")
+    correlation_replicates_sequencing_data_parser.add_argument("--table_replicate2", "-r2", required=True,
+                                                               help="Sequencing table second replicate ")
+    correlation_replicates_sequencing_data_parser.add_argument('--table_start_column' "-fc", required=True,
+                                                               help="This parameter specified the number "
+                                                                    "of the column with the first fraction")
+    correlation_replicates_sequencing_data_parser.add_argument('--table_end_column' "-fe", required=True,
+                                                               help="Specify the number of "
+                                                                    "the last fraction we would like to "
+                                                                    "consider in the"
+                                                                    " analysis")
+    correlation_replicates_sequencing_data_parser.add_argument("--output_table", '-o',
+                                                               help="Output table "
+                                                                    "containing"
+                                                                    "both the replicates and the  ")
+    correlation_replicates_sequencing_data_parser.add_argument("--output_figure", '-f',
+                                                               help="Plot that show"
+                                                                    "a histogram with the"
+                                                                    "distribution of"
+                                                                    "the correlation "
+                                                                    "coefficient")
 
     args = parser.parse_args()
     if "func" in dir(args):
@@ -664,7 +703,11 @@ def run_correlation_specific_gene(args):
 
 
 def run_interactive_tsne_plot(args):
-    interactive_tsne_plot.interactive_plot(args.table_with_clusters, args.start_column, args.output_file)
+    interactive_tsne_plot.interactive_plot(args.table_with_clusters, args.feature_count_start_column,
+                                           args.feature_count_end_column,
+                                           args.dimension_reduction_algorithm, args.perplexity,
+                                           args.url_link,
+                                           args.output_file)
 
 
 def plot_heatmap(args):
