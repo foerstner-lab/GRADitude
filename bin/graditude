@@ -23,7 +23,7 @@ from graditudelib import distribution_correlation
 from graditudelib import t_sne_proteins_data
 from graditudelib import clustering_proteins
 from graditudelib import correlation_specific_gene
-from graditudelib import interactive_tsne_plot
+from graditudelib import interactive_plots
 from graditudelib import heatmap
 from graditudelib import correlation_replicates_sequencing_data
 from graditudelib import projectcreator
@@ -318,13 +318,25 @@ def main():
                                                       "the number of clusters")
 
     silhouette_parser = subparsers.add_parser("silhouette_analysis",
-                                              help="used to study the "
-                                                   "separation distance between the resulting clusters")
+                                              help="This subcommand can be used to"
+                                                   "interpret the distance between clusters")
     silhouette_parser.set_defaults(func=silhouette_analysis)
-    silhouette_parser.add_argument("--feature_count_table", "-c", required=True)
-    silhouette_parser.add_argument("--feature_count_start_column", required=True)
-    silhouette_parser.add_argument("--min_number_of_clusters", "-min", required=True, type=int)
-    silhouette_parser.add_argument("--max_number_of_clusters", "-max", required=True, type=int)
+    silhouette_parser.add_argument("--feature_count_table", "-c", required=True, help="Gene quantification table or "
+                                                                                      "Protein table")
+    silhouette_parser.add_argument("--feature_count_start_column", "-fc", required=True,
+                                   help="This parameter specified the number of the column "
+                                        "with the first fraction")
+    silhouette_parser.add_argument("--feature_count_end_column", "-fe", required=True,
+                                   help="Specify the number of "
+                                        "the last fraction we would like to consider in the"
+                                        " analysis")
+    silhouette_parser.add_argument("--min_number_of_clusters", "-min", required=True, type=int,
+                                   help="Minimum number of clusters that you want to represent "
+                                        "in the plot")
+    silhouette_parser.add_argument("--max_number_of_clusters", "-max", required=True, type=int,
+                                   help="Maximum number of clusters that you want to represent "
+                                        "in the plot"
+                                   )
 
     pca_parser = subparsers.add_parser("pca", help="This subcommand "
                                                    "performs the PCA-principal component dimension"
@@ -478,15 +490,26 @@ def main():
                                             help="output colorized using clusters information")
 
     correlation_specific_gene_parser = subparsers.add_parser("correlation_specific_gene",
-                                                             help="spearman correlation of a "
-                                                                  "specific feature against all")
+                                                             help="This subcommand calculate the Spearman "
+                                                                  "correlation of a "
+                                                                  "specific gene or protein against all")
     correlation_specific_gene_parser.set_defaults(func=run_correlation_specific_gene)
-    correlation_specific_gene_parser.add_argument('--feature_count_table', '-f', required=True)
-    correlation_specific_gene_parser.add_argument("--feature_count_start_column", "-fc", required=True)
-    correlation_specific_gene_parser.add_argument("--feature_count_end_column", "-fe", type=int, default=0)
-    correlation_specific_gene_parser.add_argument("--name_column_with_genes_name", "-nc", required=True)
-    correlation_specific_gene_parser.add_argument("--name", "-name", required=True)
-    correlation_specific_gene_parser.add_argument("--output_file", '-o')
+    correlation_specific_gene_parser.add_argument('--feature_count_table', '-f', required=True,
+                                                  help="Gene quantification table or Protein table")
+    correlation_specific_gene_parser.add_argument("--feature_count_start_column", "-fc", required=True,
+                                                  help="This parameter specified the number "
+                                                       "of the column with the first fraction")
+    correlation_specific_gene_parser.add_argument("--feature_count_end_column", "-fe", type=int,
+                                                  help="Specify the number of "
+                                                       "the last fraction we would like to consider in the"
+                                                       " analysis")
+    correlation_specific_gene_parser.add_argument("--name_column_with_genes_name", "-nc", required=True,
+                                                  help="This parameter allows the user to specify the name of the "
+                                                       "column where we want to search the gene or the proteins")
+    correlation_specific_gene_parser.add_argument("--name", "-name", required=True,
+                                                  help="Name of the gene or protein "
+                                                       "of your interest")
+    correlation_specific_gene_parser.add_argument("--output_file", '-o', help="Table with correlation coefficient")
 
     interactive_tsne_plot_parser = subparsers.add_parser("interactive_tsne_plot",
                                                          help="compare the ERCC concentration in mix "
@@ -606,6 +629,7 @@ def generate_k_means_clustering_elbow(args):
 def silhouette_analysis(args):
     silhouette.silhouette_analysis(args.feature_count_table,
                                    args.feature_count_start_column,
+                                   args.feature_count_end_column,
                                    args.min_number_of_clusters,
                                    args.max_number_of_clusters)
 
@@ -703,11 +727,11 @@ def run_correlation_specific_gene(args):
 
 
 def run_interactive_tsne_plot(args):
-    interactive_tsne_plot.interactive_plot(args.table_with_clusters, args.feature_count_start_column,
-                                           args.feature_count_end_column,
-                                           args.dimension_reduction_algorithm, args.perplexity,
-                                           args.url_link,
-                                           args.output_file)
+    interactive_plots.interactive_plot(args.table_with_clusters, args.feature_count_start_column,
+                                       args.feature_count_end_column,
+                                       args.dimension_reduction_algorithm, args.perplexity,
+                                       args.url_link,
+                                       args.output_file)
 
 
 def plot_heatmap(args):

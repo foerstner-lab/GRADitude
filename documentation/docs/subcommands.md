@@ -473,3 +473,100 @@ additional arguments:
                         html plot
 ```
 
+#plot_kinetics (plot the in-gradient behavior)
+<code>$ plot_kinetics</code>
+
+This subcommand is useful to better visualize the behavior of a specific transcript or protein within the gradient. 
+One foundation of the Grad-seq analysis is that the kinetic of molecule in the fractionations allows the reconstruction of 
+the sedimentation profiles of all detectable RNA and proteins.
+
+```text
+usage: graditude plot_kinetics [-h] --feature_count_table FEATURE_COUNT_TABLE
+                               --feature_count_start_column
+                               FEATURE_COUNT_START_COLUMN
+                               --feature_count_end_column
+                               FEATURE_COUNT_END_COLUMN --gene_name GENE_NAME
+                               [--output_format {html,pdf}]
+
+basic arguments:
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        This parameter specified the table we would like to
+                        use. It can be the normalized or the raw table
+  --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
+                        Specify the number of the column with the first
+                        fraction
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
+  --gene_name GENE_NAME, -gene GENE_NAME
+                        With this parameter you can specify the name of the
+                        gene or the proteinyou would like to explore
+  --output_format {html,pdf}, -format {html,pdf}
+                        You can use this parameter tospecify in which format
+                        you would like tosave your plot
+                        
+```
+
+#heatmap (plot the heatmap)
+<code>$ heatmap</code>
+
+This subcommand is useful to better visualize the in-gradient behavior of a
+ larger group of transcripts or proteins.
+
+
+```text
+usage: graditude heatmap [-h] --feature_count_table FEATURE_COUNT_TABLE
+                         [--feature_count_start_column FEATURE_COUNT_START_COLUMN]
+                         [--feature_count_end_column FEATURE_COUNT_END_COLUMN]
+                         --y_label Y_LABEL --output_file OUTPUT_FILE
+
+basic arguments:
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        Gene quantification table or protein table
+  --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
+                        Specify the number of the column with the first
+                        fraction
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
+  --y_label Y_LABEL, -label Y_LABEL
+                        This parameter allow you to specify the label you
+                        would like to visualize on the y-axis
+  --output_file OUTPUT_FILE, -o OUTPUT_FILE
+                        Plot as output
+```
+
+#silhouette_analysis (clustering)
+<code>$ silhouette_analysis</code>
+
+This subcommand can be used to interpret the distance between clusters. It is useful to see if the number of clusters (k)
+you have chosen is correct for the data set.
+
+```text
+usage: graditude silhouette_analysis [-h] --feature_count_table
+                                     FEATURE_COUNT_TABLE
+                                     --feature_count_start_column
+                                     FEATURE_COUNT_START_COLUMN
+                                     --feature_count_end_column
+                                     FEATURE_COUNT_END_COLUMN
+                                     --min_number_of_clusters
+                                     MIN_NUMBER_OF_CLUSTERS
+                                     --max_number_of_clusters
+                                     MAX_NUMBER_OF_CLUSTERS
+
+basic arguments:
+  --feature_count_table FEATURE_COUNT_TABLE, -c FEATURE_COUNT_TABLE
+                        Gene quantification table or Protein table
+  --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
+                        This parameter specified the number of the column with
+                        the first fraction
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
+  --min_number_of_clusters MIN_NUMBER_OF_CLUSTERS, -min MIN_NUMBER_OF_CLUSTERS
+                        Minimum number of clusters that you want to represent
+                        in the plot
+  --max_number_of_clusters MAX_NUMBER_OF_CLUSTERS, -max MAX_NUMBER_OF_CLUSTERS
+                        Maximum number of clusters that you want to represent
+                        in the plot
+```
