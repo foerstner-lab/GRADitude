@@ -9,10 +9,17 @@ from bokeh.palettes import Spectral4
 from bokeh.plotting import figure
 
 
-def plot_network_graph_rna_protein(feature_count_table, threshold, max_size, output_plot):
+def plot_network_graph_rna_protein(feature_count_table, percentile, max_size, output_plot):
     correlated_table = pd.read_table(feature_count_table)
     correlated_table.set_index('Protein.IDs', inplace=True)
+    threshold = calculate_threshold_from_percentile(correlated_table, percentile)
     plot_graph(correlated_table, threshold, max_size, output_plot)
+
+
+def calculate_threshold_from_percentile(correlated_table, percentile):
+    correlated_series = correlated_table.values.flatten()
+    threshold = np.percentile(correlated_series, 100 - percentile)
+    return threshold
 
 
 def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
@@ -23,7 +30,7 @@ def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
     hover = HoverTool(tooltips=[
         ("name", "@index")])
 
-    plot = figure(plot_width=400, plot_height=400, x_range=Range1d(-1.1, 1.1), y_range=Range1d(-1.1, 1.1),
+    plot = figure(plot_width=900, plot_height=900, x_range=Range1d(-1.1, 1.1), y_range=Range1d(-1.1, 1.1),
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
                   title=output_plot, logo=None)
