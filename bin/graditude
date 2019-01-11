@@ -509,6 +509,9 @@ def main():
     correlation_specific_gene_parser.add_argument("--name", "-name", required=True,
                                                   help="Name of the gene or protein "
                                                        "of your interest")
+    correlation_specific_gene_parser.add_argument("--correlation", "-corr", required=True,
+                                                  help="Choose if applying the Pearson or Spearman correlation",
+                                                  choices=["Pearson", "Spearman"])
     correlation_specific_gene_parser.add_argument("--output_file", '-o', help="Table with correlation coefficient")
 
     interactive_tsne_plot_parser = subparsers.add_parser("interactive_tsne_plot",
@@ -723,7 +726,7 @@ def run_correlation_specific_gene(args):
                                                                     args.feature_count_start_column,
                                                                     args.feature_count_end_column,
                                                                     args.name_column_with_genes_name,
-                                                                    args.name, args.output_file)
+                                                                    args.name, args.correlation, args.output_file)
 
 
 def run_interactive_tsne_plot(args):
