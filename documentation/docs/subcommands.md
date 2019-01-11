@@ -558,7 +558,7 @@ basic arguments:
   --feature_count_table FEATURE_COUNT_TABLE, -c FEATURE_COUNT_TABLE
                         Gene quantification table or Protein table
   --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
-                        This parameter specified the number of the column with
+                        This parameter specify the number of the column with
                         the first fraction
   --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
                         Specify the number of the last fraction we would like
@@ -569,4 +569,44 @@ basic arguments:
   --max_number_of_clusters MAX_NUMBER_OF_CLUSTERS, -max MAX_NUMBER_OF_CLUSTERS
                         Maximum number of clusters that you want to represent
                         in the plot
+```
+#correlation_specific_gene (correlation coefficient)
+<code>$ correlation_specific_gene</code>
+
+This subcommand is useful if you have a gene or a protein of interest and you would like to predict new interactions.
+The assumption is that proteins or genes with an high correlation coefficients might interact.
+
+
+```text
+usage: graditude correlation_specific_gene [-h] --feature_count_table
+                                           FEATURE_COUNT_TABLE
+                                           --feature_count_start_column
+                                           FEATURE_COUNT_START_COLUMN
+                                           [--feature_count_end_column FEATURE_COUNT_END_COLUMN]
+                                           --name_column_with_genes_name
+                                           NAME_COLUMN_WITH_GENES_NAME --name
+                                           NAME --correlation
+                                           {Pearson,Spearman}
+                                           [--output_file OUTPUT_FILE]
+
+basic arguments:
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        Gene quantification table or Protein table
+  --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
+                        This parameter specify the number of the column with
+                        the first fraction
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
+  --name_column_with_genes_name NAME_COLUMN_WITH_GENES_NAME, -nc NAME_COLUMN_WITH_GENES_NAME
+                        This parameter allows the user to specify the name of
+                        the column where we want to search the gene or the
+                        proteins
+  --name NAME, -name NAME
+                        Name of the gene or protein of your interest
+  --correlation {Pearson,Spearman}, -corr {Pearson,Spearman}
+                        Choose if applying the Pearson or Spearman correlation
+  --output_file OUTPUT_FILE, -o OUTPUT_FILE
+                        Table with correlation coefficients and p-values
+
 ```

@@ -454,9 +454,10 @@ def main():
                                                        type=int)
     correlation_distribution_graph_parser.add_argument("--output_plot", "-o", required=True)
 
-    plot_network_graph_parser = subparsers.add_parser("plot_network_graph_parser",
-                                                      help="network plot sequencing data "
-                                                           "vs proteins data")
+    plot_network_graph_parser = subparsers.add_parser("plot_network_graph",
+                                                      help="This subcommand plots the network plot. You can plot "
+                                                           "for example sequencing data vs protein data or "
+                                                           "ncRNAs vs protein data etc.")
     plot_network_graph_parser.set_defaults(func=plot_network_graph_parser_rna_protein)
     plot_network_graph_parser.add_argument("--feature_count_table", "-f", required=True)
     plot_network_graph_parser.add_argument("--threshold", "-t", required=True, type=float)
@@ -490,14 +491,15 @@ def main():
                                             help="output colorized using clusters information")
 
     correlation_specific_gene_parser = subparsers.add_parser("correlation_specific_gene",
-                                                             help="This subcommand calculate the Spearman "
+                                                             help="This subcommand calculate the Spearman or "
+                                                                  "Pearson "
                                                                   "correlation of a "
                                                                   "specific gene or protein against all")
     correlation_specific_gene_parser.set_defaults(func=run_correlation_specific_gene)
     correlation_specific_gene_parser.add_argument('--feature_count_table', '-f', required=True,
                                                   help="Gene quantification table or Protein table")
     correlation_specific_gene_parser.add_argument("--feature_count_start_column", "-fc", required=True,
-                                                  help="This parameter specified the number "
+                                                  help="This parameter specify the number "
                                                        "of the column with the first fraction")
     correlation_specific_gene_parser.add_argument("--feature_count_end_column", "-fe", type=int,
                                                   help="Specify the number of "
@@ -512,7 +514,8 @@ def main():
     correlation_specific_gene_parser.add_argument("--correlation", "-corr", required=True,
                                                   help="Choose if applying the Pearson or Spearman correlation",
                                                   choices=["Pearson", "Spearman"])
-    correlation_specific_gene_parser.add_argument("--output_file", '-o', help="Table with correlation coefficient")
+    correlation_specific_gene_parser.add_argument("--output_file", '-o', help="Table with correlation coefficients "
+                                                                              "and p-values")
 
     interactive_tsne_plot_parser = subparsers.add_parser("interactive_tsne_plot",
                                                          help="compare the ERCC concentration in mix "
