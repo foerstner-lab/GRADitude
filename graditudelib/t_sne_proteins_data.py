@@ -8,18 +8,19 @@ import bokeh.palettes
 
 
 def t_sne_pr(feature_count_table, feature_count_start_column,
+             feature_count_end_column,
              perplexity, output_file_colorized_by_clusters):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
-                                         feature_count_start_column)
+                                         feature_count_start_column, feature_count_end_column)
     t_sne_results = perform_t_sne(value_matrix, perplexity)
     plot_t_sne_using_clustering(feature_count_table_df, t_sne_results,
                                 output_file_colorized_by_clusters)
 
 
 def _extract_value_matrix(feature_count_table_df,
-                          feature_count_start_column):
-    return feature_count_table_df.iloc[:, int(feature_count_start_column):-1]
+                          feature_count_start_column, feature_count_end_column):
+    return feature_count_table_df.iloc[:, int(feature_count_start_column):feature_count_end_column]
 
 
 def perform_t_sne(normalized_values, perplexity):
