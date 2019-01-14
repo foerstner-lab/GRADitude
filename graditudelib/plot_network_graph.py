@@ -36,7 +36,7 @@ def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
                   title=output_plot, logo=None)
     plot.title.text = description
 
-    url_protein = "http://www.uniprot.org/uniprot/@index"
+    url_protein = "https://www.ncbi.nlm.nih.gov/gene/?term=@index"
     taptool = plot.select(type=TapTool)
     taptool.callback = OpenURL(url=url_protein)
 
