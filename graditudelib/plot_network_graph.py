@@ -9,17 +9,10 @@ from bokeh.palettes import Spectral4
 from bokeh.plotting import figure
 
 
-def plot_network_graph_rna_protein(feature_count_table, percentile, max_size, output_plot):
+def plot_network_graph_rna_protein(feature_count_table, threshold, max_size, output_plot):
     correlated_table = pd.read_table(feature_count_table)
     correlated_table.set_index('Protein.IDs', inplace=True)
-    threshold = calculate_threshold_from_percentile(correlated_table, percentile)
     plot_graph(correlated_table, threshold, max_size, output_plot)
-
-
-def calculate_threshold_from_percentile(correlated_table, percentile):
-    correlated_series = correlated_table.values.flatten()
-    threshold = np.percentile(correlated_series, percentile)
-    return threshold
 
 
 def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
