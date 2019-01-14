@@ -478,15 +478,22 @@ def main():
                                                                            "distribution ")
 
     plot_network_graph_parser = subparsers.add_parser("plot_network_graph",
-                                                      help="This subcommand plots the network plot. You can plot "
+                                                      help="This subcommand plots the network plot. It can be used "
+                                                           "to plot  "
                                                            "for example sequencing data vs protein data or "
-                                                           "ncRNAs vs protein data etc.")
+                                                           "ncRNAs vs proteins etc.")
     plot_network_graph_parser.set_defaults(func=plot_network_graph_parser_rna_protein)
-    plot_network_graph_parser.add_argument("--feature_count_table", "-f", required=True)
-    plot_network_graph_parser.add_argument("--threshold", "-t", required=True, type=int)
+    plot_network_graph_parser.add_argument("--feature_count_table", "-f", required=True,
+                                           help="Table with correlation coefficients values")
+    plot_network_graph_parser.add_argument("--threshold", "-t", required=True, type=float,
+                                           help="Cut-off necessary to plot the genes or proteins with an "
+                                                "high correlation coefficients")
     plot_network_graph_parser.add_argument("--max_size", "-max", required=True,
-                                           type=int)
-    plot_network_graph_parser.add_argument("--output_plot", "-o")
+                                           type=float, help="This parameter is useful to set the maximum area "
+                                                            "of each point. All the points are then scaled based "
+                                                            "on that")
+    plot_network_graph_parser.add_argument("--output_plot", "-o",
+                                           help="Network plot")
 
     clustering_parser_proteins = subparsers.add_parser("clustering_proteins",
                                                        help="unsupervised clustering of Mass spectrometry data")
@@ -728,7 +735,8 @@ def correlation_distribution_graph(args):
 
 
 def plot_network_graph_parser_rna_protein(args):
-    plot_network_graph.plot_network_graph_rna_protein(args.feature_count_table, args.threshold, args.max_size,
+    plot_network_graph.plot_network_graph_rna_protein(args.feature_count_table, args.threshold,
+                                                      args.max_size,
                                                       args.output_plot)
 
 
