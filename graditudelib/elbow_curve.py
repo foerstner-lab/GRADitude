@@ -24,6 +24,7 @@ def elbow_methods(value_matrix, min_number_of_clusters,
     dist = [np.min(D, axis=1) for D in d_k]
     w_css = [sum(d ** 2) for d in dist]
     tss = sum(pdist(value_matrix) ** 2) / value_matrix.shape[0]
+
     bss = tss - w_css
     fig = plt.figure()
     ax = fig.add_subplot(111)

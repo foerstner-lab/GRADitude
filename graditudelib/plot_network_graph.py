@@ -18,7 +18,7 @@ def plot_network_graph_rna_protein(feature_count_table, percentile, max_size, ou
 
 def calculate_threshold_from_percentile(correlated_table, percentile):
     correlated_series = correlated_table.values.flatten()
-    threshold = np.percentile(correlated_series, 100 - percentile)
+    threshold = np.percentile(correlated_series, percentile)
     return threshold
 
 
