@@ -1,6 +1,6 @@
-#GRADitude's subcommands
+# GRADitude's subcommands
 
-##Pre-process sequencing data
+## Pre-process sequencing data
 
 After the sequencing the resulting reads they have to be mapped against the reference genome. 
 The users can use all the mapping tools available. However we recommend the use of READemption tool (Förstner et al., 2014, Bioinformatics). 
@@ -11,12 +11,12 @@ After the mapping two tables are relevant to proceed with the usage of GRADitude
 1) gene quantification table generated counting the number of overlapped reads for each of the gene
 2) read alignment stats table that lists many statistics including the ERCC read counts.
 
-##create
+## create
 
 <code>$ create</code> generates the GRADItude folder including the subfolders input and output.
 Once created, please move the required files into the input folders.
 
-##min_row_sum_ercc (filter the table)
+## min_row_sum_ercc (filter the table)
 <code>$ min_row_sum_ercc</code> 
 
 A subcommand, specific for the sequencing data, that filters the ERCC-reads table 
@@ -44,7 +44,7 @@ basic arguments:
                         Filtered ERCC reads table as output
 
 ```
-##min_row_sum (filter the table)
+## min_row_sum (filter the table)
 <code>$ min_row_sum</code> 
 
 A subcommand, specific for the sequencing data that filters 
@@ -76,7 +76,7 @@ basic arguments:
 ```
 
 
-##drop_column (filter the table)
+## drop_column (filter the table)
 <code>$ drop_column</code>
 
 This subcommand is specific for the sequencing data and it can be use to drop a specific column we would not
@@ -100,8 +100,43 @@ basic arguments:
 
 ```
 
+## selecting_specific_features (filter the table)
+<code>$ selecting_specific_features</code>
 
-#robust_regression
+This subcommand extract from a table specific feature, such as sRNAs or mRNAs. 
+
+```text
+usage: graditude selecting_specific_features [-h] --normalized_table
+                                             NORMALIZED_TABLE
+                                             --feature_count_start_column
+                                             FEATURE_COUNT_START_COLUMN
+                                             --feature_count_end_column
+                                             FEATURE_COUNT_END_COLUMN
+                                             --features FEATURES
+                                             [FEATURES ...] --output_file
+                                             OUTPUT_FILE
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --normalized_table NORMALIZED_TABLE, -n NORMALIZED_TABLE
+                        Normalized table
+  --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
+                        Specify the number of the column with the first
+                        fraction
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
+  --features FEATURES [FEATURES ...], -f FEATURES [FEATURES ...]
+                        This parameter specify the features we would like to
+                        filter of. It can be a single one or a list
+  --output_file OUTPUT_FILE, -o OUTPUT_FILE
+                        Filtered table
+                        
+```
+
+
+
+## robust_regression
 <code>$ robust_regression</code>
 
 This subcommand, specific for the sequencing data, compares the ERCC concentration in mix (it
@@ -142,7 +177,7 @@ basic arguments:
                         Output table with the inliers ERCC
 
 ```
-#normalize
+## normalize
 <code>$ normalize</code>
 
 This normalization is specific for the sequencing data.
@@ -191,7 +226,7 @@ basic arguments:
 
 ```
 
-#scaling (scale the data)
+## scaling (scale the data)
 <code>$ scaling</code>
 
 This subcommand can be used for the protein and the sequencing data. It takes a table, that can be
@@ -234,7 +269,7 @@ basic arguments:
                         Scaled table as output
 
 ```
-#clustering_elbow (find number of clusters)
+## clustering_elbow (find number of clusters)
 <code>$ clustering_elbow</code>
 
 This subcommand implements a method designed to find the appropriate number 
@@ -285,7 +320,7 @@ basic arguments:
                         versus the number of clusters
 ```
 
-#clustering (cluster the data)
+## clustering (cluster the data)
 <code>$ clustering</code>
 
 The subcommands can be used for the sequencing data. It takes the
@@ -354,7 +389,7 @@ additional arguments:
                         This parameter specify the number of clusters, k                        
 ```
  
-#t-sne (dimension reduction)
+## t-sne (dimension reduction)
 <code>$ t_sne</code>
 
 To identify biochemically similar transcripts the t-SNE dimension
@@ -421,7 +456,7 @@ additional arguments:
                         html plot
                         
 ```
-#pca (dimension reduction)
+## pca (dimension reduction)
 <code>$ pca</code>
 
 To identify biochemically similar transcripts the PCA dimension
@@ -487,7 +522,7 @@ additional arguments:
                         html plot
 ```
 
-#plot_kinetics (plot the in-gradient behavior)
+## plot_kinetics (plot the in-gradient behavior)
 <code>$ plot_kinetics</code>
 
 This subcommand is useful to better visualize the behavior of a specific transcript or protein within the gradient. 
@@ -523,7 +558,7 @@ basic arguments:
                         
 ```
 
-#heatmap (plot the heatmap)
+## heatmap (plot the heatmap)
 <code>$ heatmap</code>
 
 This subcommand is useful to better visualize the in-gradient behavior of a
@@ -553,7 +588,7 @@ basic arguments:
                         Plot as output
 ```
 
-#silhouette_analysis (clustering)
+## silhouette_analysis (clustering)
 <code>$ silhouette_analysis</code>
 
 This subcommand can be used to interpret the distance between clusters. It is useful to see if the number of clusters (k)
@@ -589,7 +624,7 @@ basic arguments:
                         Maximum number of clusters that you want to represent
                         in the plot
 ```
-#correlation_specific_gene (correlation coefficient)
+## correlation_specific_gene (correlation coefficient)
 <code>$ correlation_specific_gene</code>
 
 This subcommand is useful if you have a gene or a protein of interest and you would like to predict new interactions.
@@ -631,7 +666,7 @@ basic arguments:
 
 ```
 
-#correlation_distribution_graph (histogram of correlation coefficients distribution)
+## correlation_distribution_graph (histogram of correlation coefficients distribution)
 <code>$ correlation_distribution_graph</code>
 
 This subcommand creates a histogram to identify the distribution of the
@@ -659,7 +694,7 @@ basic arguments:
 
 ```
 
-#correlation_rnas_protein (correlation coefficient)
+## correlation_rnas_protein (correlation coefficient)
 <code>$ correlation_rnas_protein</code>
 
 This subcommand find the correlation coefficient of two different tables. It can be used for example for combining 
@@ -706,7 +741,7 @@ basic arguments:
 
 ```
 
-#plot_network_graph (correlation coefficient)
+## plot_network_graph (network plot)
 <code>$ plot_network_graph</code>
  
 This subcommand plots the network plot. 

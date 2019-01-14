@@ -178,14 +178,26 @@ def main():
     correlation_gene_gene_parser.add_argument('--output_file', '-o', required=True)
 
     selecting_specific_features = subparsers.add_parser("selecting_specific_features",
-                                                        help="select specific features in the "
-                                                             "normalized table (ncRNAs, CDS, etc.)")
+                                                        help="This subcommand allows to "
+                                                             "select specific features in a normalized "
+                                                             "table (ncRNAs, CDS, etc.)")
     selecting_specific_features.set_defaults(func=select_specific_features)
-    selecting_specific_features.add_argument('--normalized_table', '-n', required=True)
+    selecting_specific_features.add_argument('--normalized_table', '-n', required=True,
+                                             help="Normalized table")
     selecting_specific_features.add_argument('--feature_count_start_column', '-fc',
-                                             required=True, type=int)
-    selecting_specific_features.add_argument('--features', '-f', nargs='+', required=True)
-    selecting_specific_features.add_argument('--output_file', '-o', required=True)
+                                             required=True, type=int, help="Specify the number of "
+                                                                           "the column with the first fraction")
+    selecting_specific_features.add_argument('--feature_count_end_column', '-fe',
+                                             required=True, type=int,
+                                             help="Specify the number of "
+                                                  "the last fraction we would like to consider in the"
+                                                  " analysis")
+    selecting_specific_features.add_argument('--features', '-f', nargs='+', required=True,
+                                             help="This parameter specify "
+                                                  "the features we would like to filter of. It can be a single one"
+                                                  " or a list")
+    selecting_specific_features.add_argument('--output_file', '-o', required=True,
+                                             help="Filtered table")
 
     p_heatmap = subparsers.add_parser("heatmap",
                                       help="This subcommand is useful "
@@ -516,6 +528,8 @@ def main():
     t_sne_proteins_data_parser.add_argument("--feature_count_table", "-f", required=True)
     t_sne_proteins_data_parser.add_argument("--feature_count_start_column", "-fc", required=True,
                                             type=int)
+    t_sne_proteins_data_parser.add_argument("--feature_count_end_column", "-fc", required=True,
+                                            type=int)
     t_sne_proteins_data_parser.add_argument("--perplexity", "-pp", required=True, type=int)
     t_sne_proteins_data_parser.add_argument("--output_file_colorized_by_clusters", "-o", required=True,
                                             help="output colorized using clusters information")
@@ -548,8 +562,7 @@ def main():
                                                                               "and p-values")
 
     interactive_tsne_plot_parser = subparsers.add_parser("interactive_tsne_plot",
-                                                         help="compare the ERCC concentration in mix "
-                                                              "with the ERCC reads and take it out the outliers")
+                                                         help="This subcommand ")
     interactive_tsne_plot_parser.set_defaults(func=run_interactive_tsne_plot)
     interactive_tsne_plot_parser.add_argument('--table_with_clusters', '-t', required=True)
     interactive_tsne_plot_parser.add_argument("--feature_count_start_column", "-fc", required=True)
@@ -650,7 +663,8 @@ def plot_kinetics(args):
 
 def select_specific_features(args):
     selecting_ncRNAs.selecting_specific_features(args.normalized_table,
-                                                 args.feature_count_start_column, args.features, args.output_file)
+                                                 args.feature_count_start_column,
+                                                 args.feature_count_end_column, args.features, args.output_file)
 
 
 def generate_k_means_clustering_elbow(args):
