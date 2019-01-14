@@ -389,7 +389,7 @@ def main():
                                                                     " It can be the normalized or the raw table")
     t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_start_column", "-fc", required=True,
                                                                type=int,
-                                                               help="This parameter specified the number "
+                                                               help="This parameter specify the number "
                                                                     "of the column with the first fraction")
     t_sne_colored_list_clustering_features_parser.add_argument("--feature_count_end_column", "-fe", required=True,
                                                                type=int,
@@ -430,29 +430,52 @@ def main():
                                                                help="Output plot colorized using a specific list")
 
     correlation_rna_protein_parser = subparsers.add_parser("correlation_rnas_protein",
-                                                           help="This subcommand "
-                                                                "Spearman correlation sequencing "
-                                                                "data against proteins data")
+                                                           help="This subcommand performs the "
+                                                                "Spearman or Pearson correlation coefficients of two"
+                                                                "tables. ")
     correlation_rna_protein_parser.set_defaults(func=correlation_rnas_protein)
-    correlation_rna_protein_parser.add_argument("--feature_count_table", "-f", required=True)
+    correlation_rna_protein_parser.add_argument("--feature_count_table", "-f",
+                                                required=True, help="This parameter "
+                                                                    "specify the number "
+                                                                    "of the column with the first fraction"
+                                                                    " in the first table")
     correlation_rna_protein_parser.add_argument("--feature_count_start_column", "-fc", required=True,
-                                                type=int)
-    correlation_rna_protein_parser.add_argument("--feature_count_end_column", "-fe", type=int)
-    correlation_rna_protein_parser.add_argument("--protein_table", "-p", required=True)
+                                                type=int, help="First table, for example"
+                                                               "the sequencing table")
+    correlation_rna_protein_parser.add_argument("--feature_count_end_column", "-fe", type=int,
+                                                help="Specify the number of "
+                                                     "the last fraction we would like to consider in the"
+                                                     " analysis in the first table")
+    correlation_rna_protein_parser.add_argument("--protein_table", "-p", required=True,
+                                                help="Second table, for example"
+                                                     "the protein table")
     correlation_rna_protein_parser.add_argument("--protein_count_start_column", "-pc", required=True,
-                                                type=int)
-    correlation_rna_protein_parser.add_argument("--protein_count_end_column", "-pe", type=int)
+                                                type=int, help="This parameter "
+                                                               "specify the number "
+                                                               "of the column with the first fraction"
+                                                               " in the second table")
+    correlation_rna_protein_parser.add_argument("--protein_count_end_column", "-pe", type=int,
+                                                help="Specify the number of "
+                                                     "the last fraction we would like to consider in the"
+                                                     " analysis in the first table")
+    correlation_rna_protein_parser.add_argument("--correlation_type", "-corr", choices=["Pearson", "Spearman"],
+                                                help="Choose if applying the Pearson or Spearman correlation")
     correlation_rna_protein_parser.add_argument("--output_file", "-o", default=False,
-                                                help="output table")
+                                                help="Output table containing the correlation coefficients")
 
     correlation_distribution_graph_parser = subparsers.add_parser("correlation_distribution_graph",
-                                                                  help="distribution of the "
-                                                                       "correlation coefficients")
+                                                                  help="This subcommand plots the distribution of the "
+                                                                       "correlation coefficients as histogram")
     correlation_distribution_graph_parser.set_defaults(func=correlation_distribution_graph)
-    correlation_distribution_graph_parser.add_argument("--table_with_correlation_coefficient", "-c", required=True)
+    correlation_distribution_graph_parser.add_argument("--table_with_correlation_coefficient", "-c", required=True,
+                                                       help="Table with a column containing the correlation "
+                                                            "coefficients")
     correlation_distribution_graph_parser.add_argument("--percentile", "-p", required=True,
-                                                       type=int)
-    correlation_distribution_graph_parser.add_argument("--output_plot", "-o", required=True)
+                                                       type=int, help="Define the percentile value", default=95)
+    correlation_distribution_graph_parser.add_argument("--output_plot", "-o",
+                                                       required=True, help="Histogram with the correlation "
+                                                                           "coefficients "
+                                                                           "distribution ")
 
     plot_network_graph_parser = subparsers.add_parser("plot_network_graph",
                                                       help="This subcommand plots the network plot. You can plot "
@@ -460,7 +483,7 @@ def main():
                                                            "ncRNAs vs protein data etc.")
     plot_network_graph_parser.set_defaults(func=plot_network_graph_parser_rna_protein)
     plot_network_graph_parser.add_argument("--feature_count_table", "-f", required=True)
-    plot_network_graph_parser.add_argument("--threshold", "-t", required=True, type=float)
+    plot_network_graph_parser.add_argument("--threshold", "-t", required=True, type=int)
     plot_network_graph_parser.add_argument("--max_size", "-max", required=True,
                                            type=int)
     plot_network_graph_parser.add_argument("--output_plot", "-o")
@@ -695,7 +718,7 @@ def correlation_rnas_protein(args):
     correlation_rna_protein.rna_protein_correlation(args.feature_count_table,
                                                     args.feature_count_start_column, args.feature_count_end_column,
                                                     args.protein_table, args.protein_count_start_column,
-                                                    args.protein_count_end_column,
+                                                    args.protein_count_end_column, args.correlation_type,
                                                     args.output_file)
 
 

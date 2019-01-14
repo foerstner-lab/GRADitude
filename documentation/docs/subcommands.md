@@ -610,3 +610,76 @@ basic arguments:
                         Table with correlation coefficients and p-values
 
 ```
+
+#correlation_distribution_graph (correlation coefficient)
+<code>$ correlation_distribution_graph</code>
+
+This subcommand creates a histogram to identify the distribution of the
+correlation coefficients, to better visualize the generated data and to create a comprehensible plot.
+The plot shows the percentile that might be used as cut-off in the network plot or in further analysis.
+
+
+```text
+usage: graditude correlation_distribution_graph [-h]
+                                                --table_with_correlation_coefficient
+                                                TABLE_WITH_CORRELATION_COEFFICIENT
+                                                --percentile PERCENTILE
+                                                --output_plot OUTPUT_PLOT
+
+basic arguments:
+  --table_with_correlation_coefficient TABLE_WITH_CORRELATION_COEFFICIENT, -c TABLE_WITH_CORRELATION_COEFFICIENT
+                        Table with a column containing the correlation
+                        coefficients
+  --percentile PERCENTILE, -p PERCENTILE
+                        Define the percentile value
+  --output_plot OUTPUT_PLOT, -o OUTPUT_PLOT
+                        Histogram with the correlation coefficients
+                        distribution
+
+```
+
+#correlation_distribution_graph (correlation coefficient)
+<code>$ correlation_rnas_protein</code>
+
+This subcommand find the correlation coefficient of two different tables. It can be used for example for combining 
+RNA-sequencing and Mass-spectrometry data set. In this way we can predict RNA-protein interactions.
+In the implemented approach an all-against-Spearman or Pearson correlation of the protein and the gene
+quantification tables are generated.
+
+```text
+usage: graditude correlation_rnas_protein [-h] --feature_count_table
+                                          FEATURE_COUNT_TABLE
+                                          --feature_count_start_column
+                                          FEATURE_COUNT_START_COLUMN
+                                          [--feature_count_end_column FEATURE_COUNT_END_COLUMN]
+                                          --protein_table PROTEIN_TABLE
+                                          --protein_count_start_column
+                                          PROTEIN_COUNT_START_COLUMN
+                                          [--protein_count_end_column PROTEIN_COUNT_END_COLUMN]
+                                          [--correlation_type {Pearson,Spearman}]
+                                          [--output_file OUTPUT_FILE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        This parameter specify the number of the column with
+                        the first fraction in the first table
+  --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
+                        First table, for examplethe sequencing table
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis in the first table
+  --protein_table PROTEIN_TABLE, -p PROTEIN_TABLE
+                        Second table, for examplethe protein table
+  --protein_count_start_column PROTEIN_COUNT_START_COLUMN, -pc PROTEIN_COUNT_START_COLUMN
+                        This parameter specify the number of the column with
+                        the first fraction in the second table
+  --protein_count_end_column PROTEIN_COUNT_END_COLUMN, -pe PROTEIN_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis in the first table
+  --correlation_type {Pearson,Spearman}, -corr {Pearson,Spearman}
+                        Choose if applying the Pearson or Spearman correlation
+  --output_file OUTPUT_FILE, -o OUTPUT_FILE
+                        Output table containing the correlation coefficients
+
+```
