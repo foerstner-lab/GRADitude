@@ -388,7 +388,65 @@ additional arguments:
   --number_of_clusters NUMBER_OF_CLUSTERS, -nc NUMBER_OF_CLUSTERS
                         This parameter specify the number of clusters, k                        
 ```
+
+## clustering_proteins (cluster the data)
+<code>$ clustering_proteins</code>
+
+This subcommand is specific for the protein data.
+
+* Basic arguments
+
+```text
+usage: graditude clustering_proteins [-h] --feature_count_table
+                                     FEATURE_COUNT_TABLE
+                                     --feature_count_start_column
+                                     FEATURE_COUNT_START_COLUMN
+                                     --feature_count_end_column
+                                     FEATURE_COUNT_END_COLUMN
+                                     --number_of_clusters NUMBER_OF_CLUSTERS
+                                     --clustering_methods
+                                     {k-means,DBSCAN,hierarchical_clustering}
+                                     [--epsilon EPSILON]
+                                     [--min_samples MIN_SAMPLES] --output_file
+                                     OUTPUT_FILE
+
+basic arguments:
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        Protein table
+  --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
+                        This parameter specify the number of the column with
+                        the first fraction
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
+  --clustering_methods {k-means,DBSCAN,hierarchical_clustering}, -cm {k-means,DBSCAN,hierarchical_clustering}
+                        The user can choose between 3 clustering algorithm,
+                        k-means clustering, hierarchical clustering and DB-
+                        SCAN clustering
+  --output_file OUTPUT_FILE, -o OUTPUT_FILE
+                        Table with a cluster column
+```
+
+* Additional arguments
+
+```text
+  --epsilon EPSILON, -e EPSILON
+                        This parameter is specific for the DBSCAN clustering
+                        algorithm. It defines how close points should be in
+                        order to be considered part of a cluster
+  --min_samples MIN_SAMPLES, -ms MIN_SAMPLES
+                        This parameter is specific for the DBSCANclustering
+                        algorithm and represent the minimum number of points
+                        necessary to form a dense region
+                     
+  --number_of_clusters NUMBER_OF_CLUSTERS, -nc NUMBER_OF_CLUSTERS
+                        This parameter specify the number of clusters, k. It
+                        is required only when using k-means and hierarchical
+                        clustering algorithm
  
+```
+
+
 ## t-sne (dimension reduction)
 <code>$ t_sne</code>
 
@@ -770,4 +828,58 @@ optional arguments:
   --output_plot OUTPUT_PLOT, -o OUTPUT_PLOT
                         Network plot
 
+```
+## interactive_plots (network plot)
+<code>$ interactive_plots</code>
+ 
+This subcommand shows the results of a dimension reduction and makes the plot more explorable.
+The lass select has been implemented and this allows the selection of a specific region in the plot generated.
+The selection will be showed in a separate plot and a table containing only the genes or proteins of interest
+will be generated.
+
+
+* Basic arguments
+
+```text
+usage: graditude interactive_plots [-h] --feature_count_table
+                                   FEATURE_COUNT_TABLE
+                                   --feature_count_start_column
+                                   FEATURE_COUNT_START_COLUMN
+                                   --feature_count_end_column
+                                   FEATURE_COUNT_END_COLUMN
+                                   --dimension_reduction_algorithm {t-SNE,PCA}
+                                   [--perplexity PERPLEXITY]
+                                   [--url_link URL_LINK]
+                                   [--output_file OUTPUT_FILE]
+
+basic arguments:
+  --feature_count_table FEATURE_COUNT_TABLE, -t FEATURE_COUNT_TABLE
+                        Gene quantification table or Protein table
+  --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
+                        This parameter specify the number of the column with
+                        the first fraction
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
+  --dimension_reduction_algorithm {t-SNE,PCA}, -dm {t-SNE,PCA}
+                        Specify the dimension reduction algorithm. The user
+                        can choose between t-SNE and PCA
+  --perplexity PERPLEXITY, -pp PERPLEXITY
+                        The perplexity is useful tobalance the attention
+                        between the global and the local aspects of data. It
+                        is better to select a value between 5 and 50. This parameter is necessary
+                        only if you are plotting the t-SNE dimension reduction
+  --output_file OUTPUT_FILE, -o OUTPUT_FILE
+                        Output plot
+
+```
+
+* Additional arguments
+
+
+```text
+  --url_link URL_LINK, -url URL_LINK
+                        This parameter allows to choose the website you would
+                        like to open when clicking on a specific point in the
+                        html plot
 ```

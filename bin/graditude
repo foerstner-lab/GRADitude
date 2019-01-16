@@ -171,11 +171,16 @@ def main():
     scaling_parser.add_argument("--scaled_table", "-o", required=True, help="Scaled table as output")
 
     correlation_gene_gene_parser = subparsers.add_parser("correlation_gene_gene",
-                                                         help="correlation all against all ")
+                                                         help="This subcommand "
+                                                              "calculate the correlation coefficientsall against all ")
     correlation_gene_gene_parser.set_defaults(func=run_correlation_gene_gene)
     correlation_gene_gene_parser.add_argument('--feature_count_table', '-f', required=True)
-    correlation_gene_gene_parser.add_argument('--feature_count_start_column', '-fc', required=True)
-    correlation_gene_gene_parser.add_argument('--output_file', '-o', required=True)
+    correlation_gene_gene_parser.add_argument('--feature_count_start_column', '-fc', required=True,
+                                              type=int)
+    correlation_gene_gene_parser.add_argument('--feature_count_end_column', '-fe', required=True, type=int)
+    correlation_gene_gene_parser.add_argument('--correlation_type', '-corr', required=True)
+    correlation_gene_gene_parser.add_argument('--output_plot', '-plot', required=True)
+    correlation_gene_gene_parser.add_argument('--output_table', '-o', required=True)
 
     selecting_specific_features = subparsers.add_parser("selecting_specific_features",
                                                         help="This subcommand allows to "
@@ -508,19 +513,41 @@ def main():
                                            help="Network plot")
 
     clustering_parser_proteins = subparsers.add_parser("clustering_proteins",
-                                                       help="unsupervised clustering of Mass spectrometry data")
+                                                       help="This subcommand"
+                                                            "performs the unsupervised "
+                                                            "clustering of protein data")
     clustering_parser_proteins.set_defaults(func=clustering_proteins_data)
-    clustering_parser_proteins.add_argument("--feature_count_table", "-f", required=True)
-    clustering_parser_proteins.add_argument("--feature_count_start_column", "-fc", required=True, type=int)
-    clustering_parser_proteins.add_argument("--feature_count_end_column", "-fe", required=True, type=int)
-    clustering_parser_proteins.add_argument("--number_of_clusters", '-nc', required=True, type=int)
+    clustering_parser_proteins.add_argument("--feature_count_table", "-f", required=True,
+                                            help="Protein table")
+    clustering_parser_proteins.add_argument("--feature_count_start_column", "-fc", required=True, type=int,
+                                            help="This parameter specify the number "
+                                                 "of the column with the first fraction")
+    clustering_parser_proteins.add_argument("--feature_count_end_column", "-fe", required=True, type=int,
+                                            help="Specify the number of "
+                                                 "the last fraction we would like to consider in the"
+                                                 " analysis")
+    clustering_parser_proteins.add_argument("--number_of_clusters", '-nc', required=True, type=int,
+                                            help="This parameter specify the number of clusters, k."
+                                                 " It is required only "
+                                                 "when using k-means and hierarchical clustering algorithm")
     clustering_parser_proteins.add_argument("--clustering_methods", "-cm", required=True,
-                                            choices=["k-means", "DBSCAN", 'hierarchical_clustering'])
+                                            choices=["k-means", "DBSCAN", 'hierarchical_clustering'],
+                                            help="The user can choose between 3 clustering  algorithm, "
+                                                 "k-means clustering, "
+                                                 "hierarchical clustering and DB-SCAN clustering ")
     clustering_parser_proteins.add_argument("--epsilon", "-e", default=False,
-                                            help='only for DBSCAN clustering', type=float)
+                                            help="This parameter is specific for the DBSCAN clustering algorithm. "
+                                                 "It defines how close points should be "
+                                                 "in order to be considered part of a cluster",
+                                            type=float,
+                                            )
     clustering_parser_proteins.add_argument("--min_samples", '-ms', default=False,
-                                            help='only for DBSCAN clustering', type=int)
-    clustering_parser_proteins.add_argument("--output_file", "-o", required=True)
+                                            help="This parameter is specific for the DBSCAN"
+                                                 "clustering algorithm and represent the"
+                                                 " minimum number of points necessary to form a dense region",
+                                            type=int)
+    clustering_parser_proteins.add_argument("--output_file", "-o", required=True,
+                                            help="Table with a cluster column")
 
     t_sne_proteins_data_parser = subparsers.add_parser("t_sne_proteins",
                                                        help='t-sne analysis of Mass spectrometry data')
@@ -528,7 +555,7 @@ def main():
     t_sne_proteins_data_parser.add_argument("--feature_count_table", "-f", required=True)
     t_sne_proteins_data_parser.add_argument("--feature_count_start_column", "-fc", required=True,
                                             type=int)
-    t_sne_proteins_data_parser.add_argument("--feature_count_end_column", "-fc", required=True,
+    t_sne_proteins_data_parser.add_argument("--feature_count_end_column", "-fe", required=True,
                                             type=int)
     t_sne_proteins_data_parser.add_argument("--perplexity", "-pp", required=True, type=int)
     t_sne_proteins_data_parser.add_argument("--output_file_colorized_by_clusters", "-o", required=True,
@@ -561,11 +588,17 @@ def main():
     correlation_specific_gene_parser.add_argument("--output_file", '-o', help="Table with correlation coefficients "
                                                                               "and p-values")
 
-    interactive_tsne_plot_parser = subparsers.add_parser("interactive_tsne_plot",
-                                                         help="This subcommand ")
+    interactive_tsne_plot_parser = subparsers.add_parser("interactive_plots",
+                                                         help="This subcommand is useful to visualize"
+                                                              "interactive a plot after "
+                                                              "a dimension reduction algorithm has "
+                                                              "been applied.")
     interactive_tsne_plot_parser.set_defaults(func=run_interactive_tsne_plot)
-    interactive_tsne_plot_parser.add_argument('--table_with_clusters', '-t', required=True)
-    interactive_tsne_plot_parser.add_argument("--feature_count_start_column", "-fc", required=True)
+    interactive_tsne_plot_parser.add_argument('--feature_count_table', '-t', required=True,
+                                              help="Gene quantification table or Protein table")
+    interactive_tsne_plot_parser.add_argument("--feature_count_start_column", "-fc", required=True,
+                                              help="This parameter specify the number "
+                                                   "of the column with the first fraction")
     interactive_tsne_plot_parser.add_argument("--feature_count_end_column", "-fe", required=True,
                                               type=int,
                                               help="Specify the number of "
@@ -581,15 +614,19 @@ def main():
                                                    "balance the attention between "
                                                    "the global and the  "
                                                    "local aspects of data. It is better to select "
-                                                   " a value between 5 and 50")
+                                                   " a value between 5 and 50."
+                                                   "This parameter is necessary "
+                                                   "only if you are plotting the t-SNE "
+                                                   "dimension reduction")
     interactive_tsne_plot_parser.add_argument("--url_link", "-url", required=False,
                                               default="https://www.ncbi.nlm.nih.gov/gene/?term=@gene",
-                                              help="This parameter allowed to choose the website"
+                                              help="This parameter allows to choose the website"
                                                    " you would like to open when clicking on a "
                                                    "specific point in the html plot ")
-    interactive_tsne_plot_parser.add_argument("--output_file", '-o')
+    interactive_tsne_plot_parser.add_argument("--output_file", '-o',
+                                              help="Output plot")
 
-    correlation_replicates_sequencing_data_parser = subparsers.add_parser("This parameter allows to see the "
+    correlation_replicates_sequencing_data_parser = subparsers.add_parser("This subcommand allows to see the "
                                                                           "distribution of the correlation "
                                                                           "coefficient between two "
                                                                           "biological replicates")
@@ -652,7 +689,10 @@ def normalize_table(args):
 
 
 def run_correlation_gene_gene(args):
-    correlation_between_genes.correlation(args.feature_count_table, args.feature_count_start_column, args.output_file)
+    correlation_between_genes.correlation(args.feature_count_table,
+                                          args.feature_count_start_column, args.feature_count_end_column,
+                                          args.correlation_type, args.output_plot,
+                                          args.output_table)
 
 
 def plot_kinetics(args):
