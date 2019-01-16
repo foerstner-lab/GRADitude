@@ -799,6 +799,41 @@ basic arguments:
 
 ```
 
+
+## correlation_all_against_all (correlation coefficient)
+<code>$ correlation_all_against_all</code>
+
+This subcommand calculates the correlation coefficients all agaist all. It can be used in the sequencing table or with 
+the protein data.
+
+* Basic arguments
+
+```text
+usage: graditude correlation_all_against_all [-h] --feature_count_table
+                                             FEATURE_COUNT_TABLE
+                                             --feature_count_start_column
+                                             FEATURE_COUNT_START_COLUMN
+                                             --feature_count_end_column
+                                             FEATURE_COUNT_END_COLUMN
+                                             --correlation_type
+                                             {Pearson,Spearman} --output_table
+                                             OUTPUT_TABLE
+
+basic arguments:
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        Gene quantification or protein table
+  --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
+                        Specify the number of the column with the first
+                        fraction
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
+  --correlation_type {Pearson,Spearman}, -corr {Pearson,Spearman}
+                        Choose if applying the Pearson or Spearman correlation
+  --output_table OUTPUT_TABLE, -o OUTPUT_TABLE
+                        Table with correlation coefficients
+```
+
 ## plot_network_graph (network plot)
 <code>$ plot_network_graph</code>
  

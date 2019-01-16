@@ -170,17 +170,24 @@ def main():
              "to not use any kind of normalization ")
     scaling_parser.add_argument("--scaled_table", "-o", required=True, help="Scaled table as output")
 
-    correlation_gene_gene_parser = subparsers.add_parser("correlation_gene_gene",
+    correlation_gene_gene_parser = subparsers.add_parser("correlation_all_against_all",
                                                          help="This subcommand "
                                                               "calculate the correlation coefficientsall against all ")
     correlation_gene_gene_parser.set_defaults(func=run_correlation_gene_gene)
-    correlation_gene_gene_parser.add_argument('--feature_count_table', '-f', required=True)
+    correlation_gene_gene_parser.add_argument('--feature_count_table', '-f', required=True,
+                                              help="Gene quantification or protein table")
     correlation_gene_gene_parser.add_argument('--feature_count_start_column', '-fc', required=True,
-                                              type=int)
-    correlation_gene_gene_parser.add_argument('--feature_count_end_column', '-fe', required=True, type=int)
-    correlation_gene_gene_parser.add_argument('--correlation_type', '-corr', required=True)
-    correlation_gene_gene_parser.add_argument('--output_plot', '-plot', required=True)
-    correlation_gene_gene_parser.add_argument('--output_table', '-o', required=True)
+                                              type=int, help="Specify the number of "
+                                                             "the column with the first fraction")
+    correlation_gene_gene_parser.add_argument('--feature_count_end_column', '-fe', required=True, type=int,
+                                              help="Specify the number of "
+                                                   "the last fraction we would like to consider in the"
+                                                   " analysis")
+    correlation_gene_gene_parser.add_argument('--correlation_type', '-corr', required=True,
+                                              choices=["Pearson", "Spearman"],
+                                              help="Choose if applying the Pearson or Spearman correlation")
+    correlation_gene_gene_parser.add_argument('--output_table', '-o', required=True,
+                                              help="Table with correlation coefficients")
 
     selecting_specific_features = subparsers.add_parser("selecting_specific_features",
                                                         help="This subcommand allows to "
