@@ -580,6 +580,79 @@ additional arguments:
                         html plot
 ```
 
+
+## umap (dimension reduction)
+<code>umap</code>
+
+To identify biochemically similar transcripts the PCA dimension
+reduction algorithm has been implemented.
+The PCA also known as principal component analysis, 
+help us to visualize the data. In order to visualize interactively the 
+data sets we used the python library 
+Bokeh and the JavaScript Callbacks one to navigate the data-set.
+
+* Basic arguments
+
+```text
+usage: graditude umap [-h] --feature_count_table FEATURE_COUNT_TABLE
+                      --feature_count_start_column FEATURE_COUNT_START_COLUMN
+                      --feature_count_end_column FEATURE_COUNT_END_COLUMN
+                      [--srna_list SRNA_LIST [SRNA_LIST ...]]
+                      [--cluster_names CLUSTER_NAMES [CLUSTER_NAMES ...]]
+                      [--n_neighbors N_NEIGHBORS] [--nmin_dist NMIN_DIST]
+                      [--color_set COLOR_SET] [--url_link URL_LINK]
+                      [--output_file1 OUTPUT_FILE1]
+                      [--output_file2 OUTPUT_FILE2]
+                      [--output_file3 OUTPUT_FILE3]
+
+basic arguments:
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        This parameter specified the table we would like to
+                        use. It can be the normalized or the raw table
+  --feature_count_start_column FEATURE_COUNT_START_COLUMN, -fc FEATURE_COUNT_START_COLUMN
+                        This parameter specify the number of the column with
+                        the first fraction
+  --feature_count_end_column FEATURE_COUNT_END_COLUMN, -fe FEATURE_COUNT_END_COLUMN
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
+  --n_neighbors N_NEIGHBORS, -n_neighbors N_NEIGHBORS
+                        This parameter helps to balances local vs global
+                        structure in the data.
+  --nmin_dist NMIN_DIST, -nmin_dist NMIN_DIST
+                        This parameter controls how close are the points
+                        together.Smaller values are useful if you want to use
+                        the UMAP to cluster data and larger values are good to
+                        preserve the overall structure
+  --output_file1 OUTPUT_FILE1, -o1 OUTPUT_FILE1
+                        Output plot colorized using clusters information
+  --output_file2 OUTPUT_FILE2, -o2 OUTPUT_FILE2
+                        Output plot colorized using attributes information
+  --output_file3 OUTPUT_FILE3, -o3 OUTPUT_FILE3
+                        Output plot colorized using a specific list
+
+```
+
+* Additional arguments
+
+```text
+additional arguments:
+  --srna_list_files SRNA_LIST_FILES [SRNA_LIST_FILES ...], -list SRNA_LIST_FILES [SRNA_LIST_FILES ...]
+                        This parameter allow the user to specify a list of
+                        features or genes we would like to highlight in the
+                        plot
+  --cluster_names CLUSTER_NAMES [CLUSTER_NAMES ...], -names CLUSTER_NAMES [CLUSTER_NAMES ...]
+                        This parameter is required only if you provide a
+                        specific list. It allows the user to specify the label
+                        on the third plot
+  --color_set COLOR_SET, -set_colors COLOR_SET
+                        This parameter can be changed if you are looking for a
+                        specific color combination for your output plot
+  --url_link URL_LINK, -url URL_LINK
+                        This parameter allowed to choose the website you would
+                        like to open when clicking on a specific point in the
+                        html plot
+```
+
 ## plot_kinetics (plot the in-gradient behavior)
 <code>$ plot_kinetics</code>
 
