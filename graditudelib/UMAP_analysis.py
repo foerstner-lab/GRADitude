@@ -6,13 +6,14 @@ from bokeh.models import WheelZoomTool, TapTool, OpenURL
 
 
 def umap_(feature_count_table, feature_count_start_column, feature_count_end_column, srna_list_files, cluster_names,
+          n_neighbors, nmin_dist,
           color_set, url_link, output_file_colorized_by_clusters,
           output_file_colorized_by_rna_class,
           output_colored_by_lists):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column, feature_count_end_column)
-    umap_results = perform_umap(value_matrix)
+    umap_results = perform_umap(value_matrix, n_neighbors, nmin_dist)
     plot_t_sne_using_clustering(feature_count_table_df, umap_results,
                                 output_file_colorized_by_clusters, color_set, url_link)
     plot_using_only_rna_colors(feature_count_table_df, umap_results, output_file_colorized_by_rna_class,
@@ -29,16 +30,16 @@ def _extract_value_matrix(feature_count_table_df,
     return feature_count_table_df.iloc[:, int(feature_count_start_column):feature_count_end_column]
 
 
-def perform_umap(normalized_values):
-    reducer = umap.UMAP()
-    embedding = reducer.fit_transform(normalized_values)
-    return embedding
+def perform_umap(normalized_values, n_neighbors, nmin_dist):
+    reducer = umap.UMAP(n_neighbors=n_neighbors, min_dist=nmin_dist)
+    umap_results = reducer.fit_transform(normalized_values)
+    return umap_results
 
 
 def plot_t_sne_using_clustering(read_counting_table, umap_results,
                                 output_file_colorized_by_clusters, color_set, url_link):
-    read_counting_table["t-SNE-component_1"] = [pos[0] for pos in umap_results]
-    read_counting_table["t-SNE-component_2"] = [pos[1] for pos in umap_results]
+    read_counting_table["UMAP-component_1"] = [pos[0] for pos in umap_results]
+    read_counting_table["UMAP-component_2"] = [pos[1] for pos in umap_results]
 
     read_counting_table["Attributes_split"] = \
         read_counting_table["Attributes"].apply(lambda attr: dict(
@@ -53,8 +54,8 @@ def plot_t_sne_using_clustering(read_counting_table, umap_results,
         _label_clustering, axis=1)
 
     hower_data = dict(
-        x=read_counting_table["t-SNE-component_1"],
-        y=read_counting_table["t-SNE-component_2"],
+        x=read_counting_table["UMAP-component_1"],
+        y=read_counting_table["UMAP-component_2"],
         feature=read_counting_table["Feature"],
         gene=read_counting_table['Gene'],
         cluster_label=read_counting_table["Cluster_label"],
@@ -79,7 +80,7 @@ def plot_t_sne_using_clustering(read_counting_table, umap_results,
     p = figure(plot_width=900, plot_height=900,
                tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                       WheelZoomTool(), "tap"],
-               title="Grad-Seq t-SNE RNA-Seq", logo=None)
+               title="Grad-Seq UMAP-RNA-Seq", logo=None)
 
     p.circle("x", "y", source=source, size=7, alpha=3, color='color', legend="label", line_color="grey")
     p.yaxis.axis_label_text_font_size = "15pt"
@@ -114,8 +115,8 @@ def create_palette_map(read_counting_table, color_set):
 
 def plot_using_only_rna_colors(read_counting_table, umap_results,
                                output_file_colorized_by_rna_class, color_set, url_link):
-    read_counting_table["t-SNE-component_1"] = [pos[0] for pos in umap_results]
-    read_counting_table["t-SNE-component_2"] = [pos[1] for pos in umap_results]
+    read_counting_table["UMAP-component_1"] = [pos[0] for pos in umap_results]
+    read_counting_table["UMAP-component_2"] = [pos[1] for pos in umap_results]
 
     read_counting_table["Attributes_split"] = read_counting_table[
         "Attributes"].apply(
@@ -130,8 +131,8 @@ def plot_using_only_rna_colors(read_counting_table, umap_results,
         _label, axis=1)
 
     hower_data = dict(
-        x=read_counting_table["t-SNE-component_1"],
-        y=read_counting_table["t-SNE-component_2"],
+        x=read_counting_table["UMAP-component_1"],
+        y=read_counting_table["UMAP-component_2"],
         feature=read_counting_table["Feature"],
         gene=read_counting_table["Gene"],
         color=color,
@@ -154,7 +155,7 @@ def plot_using_only_rna_colors(read_counting_table, umap_results,
     p = figure(plot_width=900, plot_height=900,
                tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                       WheelZoomTool(), "tap"],
-               title="Grad-Seq t-SNE RNA-Seq", logo=None)
+               title="Grad-Seq UMAP-RNA-Seq", logo=None)
 
     p.circle("x", "y", source=source, size=7, alpha=3, color='color', legend='label', line_color="grey")
     p.yaxis.axis_label_text_font_size = "15pt"
@@ -191,8 +192,8 @@ def read_srna_lists(srna_list_files):
 
 def plot_t_sne_colored_by_lists(read_counting_table, umap_results,
                                 output_file_list, srnas_and_list_names, cluster_names, color_set, url_link):
-    read_counting_table["t-SNE-component_1"] = [pos[0] for pos in umap_results]
-    read_counting_table["t-SNE-component_2"] = [pos[1] for pos in umap_results]
+    read_counting_table["UMAP-component_1"] = [pos[0] for pos in umap_results]
+    read_counting_table["UMAP-component_2"] = [pos[1] for pos in umap_results]
 
     read_counting_table["Attributes_split"] = read_counting_table[
         "Attributes"].apply(
@@ -207,8 +208,8 @@ def plot_t_sne_colored_by_lists(read_counting_table, umap_results,
         _label_1, args=(srnas_and_list_names, cluster_names), axis=1)
 
     hower_data = dict(
-        x=read_counting_table["t-SNE-component_1"],
-        y=read_counting_table["t-SNE-component_2"],
+        x=read_counting_table["UMAP-component_1"],
+        y=read_counting_table["UMAP-component_2"],
         feature=read_counting_table["Feature"],
         gene=read_counting_table["Gene"],
         color=color,
@@ -231,7 +232,7 @@ def plot_t_sne_colored_by_lists(read_counting_table, umap_results,
     p = figure(plot_width=900, plot_height=900,
                tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                       WheelZoomTool(), "tap"],
-               title="Grad-Seq t-SNE RNA-Seq", logo=None)
+               title="Grad-Seq UMAP-RNA-Seq", logo=None)
 
     p.circle("x", "y", source=source, size=7, alpha=3, color="color", legend='label', line_color="grey")
     p.yaxis.axis_label_text_font_size = "15pt"

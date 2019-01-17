@@ -455,7 +455,7 @@ def main():
                                                                help="Output plot colorized using a specific list")
 
     umap_parser = subparsers.add_parser("umap", help="This subcommand "
-                                                     "performs the t-sne dimension"
+                                                     "performs the umap dimension"
                                                      "reduction")
     umap_parser.set_defaults(func=run_umap)
     umap_parser.add_argument("--feature_count_table", "-f", required=True,
@@ -479,6 +479,15 @@ def main():
                              help="This parameter is required only if you provide "
                                   "a specific list. It allows the user to "
                                   "specify the label on the third plot")
+    umap_parser.add_argument("--n_neighbors", "-n_neighbors", required=False, type=float,
+                             help="This parameter helps to balances local vs global "
+                                  "structure in the data.",
+                             default=15)
+    umap_parser.add_argument("--nmin_dist", "-nmin_dist", required=False, type=float,
+                             help="This parameter controls how close are the points together."
+                                  "Smaller values are useful if you want to use the UMAP to cluster data and larger "
+                                  "values are good to preserve the overall structure",
+                             default=0.1)
     umap_parser.add_argument("--color_set", "-set_colors",
                              default=bokeh.palettes.Set2,
                              help="This parameter can be changed if you are looking "
