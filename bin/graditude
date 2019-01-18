@@ -20,7 +20,7 @@ from graditudelib import min_row_sum_ercc_table
 from graditudelib import correlation_rna_protein
 from graditudelib import plot_network_graph
 from graditudelib import distribution_correlation
-from graditudelib import t_sne_proteins_data
+from graditudelib import dimension_reduction_proteins
 from graditudelib import clustering_proteins
 from graditudelib import correlation_specific_gene
 from graditudelib import interactive_plots
@@ -610,17 +610,31 @@ def main():
     clustering_parser_proteins.add_argument("--output_file", "-o", required=True,
                                             help="Table with a cluster column")
 
-    t_sne_proteins_data_parser = subparsers.add_parser("t_sne_proteins",
-                                                       help='t-sne analysis of Mass spectrometry data')
-    t_sne_proteins_data_parser.set_defaults(func=t_sne_proteins_f)
-    t_sne_proteins_data_parser.add_argument("--feature_count_table", "-f", required=True)
-    t_sne_proteins_data_parser.add_argument("--feature_count_start_column", "-fc", required=True,
-                                            type=int)
-    t_sne_proteins_data_parser.add_argument("--feature_count_end_column", "-fe", required=True,
-                                            type=int)
-    t_sne_proteins_data_parser.add_argument("--perplexity", "-pp", required=True, type=int)
-    t_sne_proteins_data_parser.add_argument("--output_file_colorized_by_clusters", "-o", required=True,
-                                            help="output colorized using clusters information")
+    dr_protein_parser = subparsers.add_parser("dimension_reduction_proteins",
+                                              help='t-sne analysis of Mass spectrometry data')
+    dr_protein_parser.set_defaults(func=run_dr_proteins)
+    dr_protein_parser.add_argument("--feature_count_table", "-f", required=True)
+    dr_protein_parser.add_argument("--feature_count_start_column", "-fc", required=True,
+                                   type=int)
+    dr_protein_parser.add_argument("--feature_count_end_column", "-fe", required=True,
+                                   type=int)
+    dr_protein_parser.add_argument("--dimension_reduction_algorithm", "-dm", required=True,
+                                   help="Specify the dimension reduction algorithm. The user can choose "
+                                        "between t-SNE and PCA ", choices=["t-SNE", "PCA", "UMAP"], default="t-SNE"
+                                   )
+    dr_protein_parser.add_argument("--perplexity", "-pp", required=True, type=int)
+    dr_protein_parser.add_argument("--n_neighbors", "-n_neighbors", required=False, type=float,
+                                   help="This parameter helps to balances local vs global "
+                                        "structure in the data.",
+                                   default=15)
+    dr_protein_parser.add_argument("--min_dist", "-min_dist", required=False, type=float,
+                                   help="This parameter controls how close are the points together."
+                                        "Smaller values are useful if you want to use the UMAP to "
+                                        "cluster data and larger "
+                                        "values are good to preserve the overall structure",
+                                   default=0.1)
+    dr_protein_parser.add_argument("--output_colored_clusters", "-o", required=True,
+                                   help="output colorized using clusters information")
 
     correlation_specific_gene_parser = subparsers.add_parser("correlation_specific_gene",
                                                              help="This subcommand calculate the Spearman or "
@@ -914,11 +928,11 @@ def clustering_proteins_data(args):
                                    args.output_file)
 
 
-def t_sne_proteins_f(args):
-    t_sne_proteins_data.t_sne_pr(args.feature_count_table, args.feature_count_start_column,
-                                 args.feature_count_end_column,
-                                 args.perplexity,
-                                 args.output_file_colorized_by_clusters)
+def run_dr_proteins(args):
+    dimension_reduction_proteins.dr_proteins(args.feature_count_table, args.feature_count_start_column,
+                                             args.feature_count_end_column, args.dimension_reduction_algorithm,
+                                             args.perplexity, args.n_neighbors, args.min_dist,
+                                             args.output_colored_clusters)
 
 
 def run_correlation_specific_gene(args):
