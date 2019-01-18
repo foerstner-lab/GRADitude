@@ -3,10 +3,10 @@ from scipy.stats import spearmanr
 from scipy.stats import pearsonr
 
 
-def correlation_specific_gene_against_all(feature_count_table, feature_count_start_column,
-                                          feature_count_end_column,
-                                          name_column_with_genes_name,
-                                          name, correlation, output_file):
+def corr_specific_gene_vs_all(feature_count_table, feature_count_start_column,
+                              feature_count_end_column,
+                              name_column_with_genes_name,
+                              name, correlation, output_file):
     table_protein = pd.read_table(feature_count_table)
     matrix = _extract_value_matrix(table_protein, feature_count_start_column,
                                    feature_count_end_column)
