@@ -289,7 +289,7 @@ def main():
                                         "when using k-means and hierarchical clustering algorithm ")
     clustering_parser.add_argument("--pseudo_count", "-p", type=int,
                                    default=1,
-                                   help="The pseudocount represent a number that will always be added to each value; "
+                                   help="The pseudo count represent a number that will always be added to each value; "
                                         "Adding this number avoid to have mathematical operation with zero")
     clustering_parser.add_argument("--clustering_methods", "-cm", required=True,
                                    choices=["k-means", "DBSCAN", 'hierarchical_clustering'],
@@ -298,7 +298,8 @@ def main():
     clustering_parser.add_argument("--epsilon", "-e", default=False,
                                    help='This parameter is specific for the DBSCAN clustering algorithm. '
                                         'It defines how close points should be '
-                                        'in order to be considered part of a cluster. only for DBSCAN clustering'
+                                        'in order to be considered part of a cluster. It is necessary'
+                                        'only for DBSCAN clustering'
                                    , type=float)
     clustering_parser.add_argument("--min_samples", '-ms', default=False,
                                    help="This parameter is specific for the DBSCAN clustering algorithm and "
@@ -312,8 +313,7 @@ def main():
              "to not use any kind of normalization"
     )
     clustering_parser.add_argument("--output_file", "-o", required=True,
-                                   help=
-                                   "Output table with a new column containing the number of clusters")
+                                   help="Output table with a new column containing the number of clusters")
 
     k_means_clustering_elbow_parser = subparsers.add_parser("clustering_elbow",
                                                             help="This subcommands plot the elbow graph in order "
@@ -484,7 +484,7 @@ def main():
                              help="This parameter helps to balances local vs global "
                                   "structure in the data.",
                              default=15)
-    umap_parser.add_argument("--nmin_dist", "-nmin_dist", required=False, type=float,
+    umap_parser.add_argument("--min_dist", "-min_dist", required=False, type=float,
                              help="This parameter controls how close are the points together."
                                   "Smaller values are useful if you want to use the UMAP to cluster data and larger "
                                   "values are good to preserve the overall structure",
@@ -688,8 +688,7 @@ def main():
                                               help="Output plot")
 
     correlation_replicates_sequencing_data_parser = subparsers.add_parser("correlation_replicates",
-                                                                          help=
-                                                                          "This subcommand allows to see the "
+                                                                          help="This subcommand allows to see the "
                                                                           "distribution of the correlation "
                                                                           "coefficient between two "
                                                                           "biological replicates")
@@ -830,6 +829,8 @@ def run_umap(args):
                         args.feature_count_end_column,
                         args.srna_list,
                         args.cluster_names,
+                        args.n_neighbors,
+                        args.min_dist,
                         args.color_set,
                         args.url_link,
                         args.output_file1,
@@ -905,6 +906,7 @@ def clustering_proteins_data(args):
 
 def t_sne_proteins_f(args):
     t_sne_proteins_data.t_sne_pr(args.feature_count_table, args.feature_count_start_column,
+                                 args.feature_count_end_column,
                                  args.perplexity,
                                  args.output_file_colorized_by_clusters)
 

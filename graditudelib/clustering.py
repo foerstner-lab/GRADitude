@@ -6,7 +6,8 @@ from sklearn.cluster import DBSCAN
 
 
 def clustering(feature_count_table, feature_count_start_column,
-               number_of_clusters, pseudo_count, clustering_methods,  epsilon, min_samples, scaling_method,
+               number_of_clusters, pseudo_count, clustering_methods,
+               epsilon, min_samples, scaling_method,
                output_file):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,

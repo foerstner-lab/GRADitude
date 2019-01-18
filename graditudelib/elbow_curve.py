@@ -5,12 +5,16 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
 
-def k_means_clustering_elbow(feature_count_table, feature_count_start_column, feature_count_end_column,
-                             min_number_of_clusters, max_number_of_clusters, output_plots1, output_plot2):
+def k_means_clustering_elbow(feature_count_table, feature_count_start_column,
+                             feature_count_end_column,
+                             min_number_of_clusters, max_number_of_clusters, output_plots1,
+                             output_plot2):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
-                                         feature_count_start_column, feature_count_end_column)
-    elbow_methods(value_matrix, min_number_of_clusters, max_number_of_clusters, output_plots1)
+                                         feature_count_start_column,
+                                         feature_count_end_column)
+    elbow_methods(value_matrix, min_number_of_clusters, max_number_of_clusters,
+                  output_plots1)
     elbow_methods1(value_matrix, min_number_of_clusters,
                    max_number_of_clusters, output_plot2)
 
@@ -27,8 +31,8 @@ def elbow_methods(value_matrix, min_number_of_clusters,
 
     bss = tss - w_css
     fig = plt.figure()
-    ax = fig.add_subplot(111)
-    ax.plot(range_k, bss / tss * 100, 'b*-')
+    axes_x = fig.add_subplot(111)
+    axes_x.plot(range_k, bss / tss * 100, 'b*-')
     plt.grid(True)
     plt.xlabel('Number of clusters', fontsize=15)
     plt.ylabel('Percentage of variance explained', fontsize=15)
@@ -45,8 +49,8 @@ def elbow_methods1(value_matrix, min_number_of_clusters,
     dist = [np.min(D, axis=1) for D in d_k]
     avg_within_sum_of_squares = [sum(d) / value_matrix.shape[0] for d in dist]
     fig = plt.figure()
-    ax = fig.add_subplot(111)
-    ax.plot(range_k, avg_within_sum_of_squares, 'b*-')
+    axes_x = fig.add_subplot(111)
+    axes_x.plot(range_k, avg_within_sum_of_squares, 'b*-')
     plt.grid(True)
     plt.xlabel('Number of clusters', fontsize=15)
     plt.ylabel('Average within-cluster sum of squares', fontsize=15)
@@ -56,4 +60,5 @@ def elbow_methods1(value_matrix, min_number_of_clusters,
 
 def _extract_value_matrix(feature_count_table_df,
                           feature_count_start_column, feature_count_end_column):
-    return feature_count_table_df.iloc[:, int(feature_count_start_column):int(feature_count_end_column)]
+    return feature_count_table_df.iloc[:, int(feature_count_start_column):int(
+        feature_count_end_column)]

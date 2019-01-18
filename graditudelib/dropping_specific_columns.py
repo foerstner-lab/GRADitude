@@ -14,5 +14,3 @@ def create_gene_quanti_table_modified(gene_quanti_table, column_to_drop):
     gene_quanti_table_with_gene_column_modified.drop(column_to_drop, axis=1,
                                                      inplace=True)
     return gene_quanti_table_with_gene_column_modified
-
-

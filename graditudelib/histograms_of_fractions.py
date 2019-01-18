@@ -5,7 +5,8 @@ import pandas as pd
 def plot_histograms(feature_count_table,
                     feature_count_start_column):
     feature_count_table_df = pd.read_table(feature_count_table)
-    feature_count_table_df_value = _extract_value_matrix(feature_count_table_df, feature_count_start_column)
+    feature_count_table_df_value = _extract_value_matrix(feature_count_table_df,
+                                                         feature_count_start_column)
     _plot_histogram_pdf(feature_count_table_df_value)
 
 

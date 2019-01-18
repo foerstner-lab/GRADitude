@@ -6,14 +6,17 @@ import numpy as np
 def find_complexes(tables_containing_list_complexes, protein_table,
                    feature_count_start_column, feature_count_end_column,
                    output_table):
-    selected_complexes = get_into_excel_complexes_table(tables_containing_list_complexes, protein_table,
-                                                        feature_count_start_column, feature_count_end_column)
+    selected_complexes = get_into_excel_complexes_table(tables_containing_list_complexes,
+                                                        protein_table,
+                                                        feature_count_start_column,
+                                                        feature_count_end_column)
     table_with_selected_complexes = modifying_first_letter(selected_complexes)
     table_with_complete_complexes = correlation(table_with_selected_complexes, output_table)
     finding_number_of_complexes(table_with_complete_complexes)
 
 
-def get_into_excel_complexes_table(tables_containing_list_complexes, protein_table, feature_count_start_column,
+def get_into_excel_complexes_table(tables_containing_list_complexes, protein_table,
+                                   feature_count_start_column,
                                    feature_count_end_column):
     output_df = pd.DataFrame()
     for column_idx in tables_containing_list_complexes:
@@ -28,7 +31,8 @@ def get_into_excel_complexes_table(tables_containing_list_complexes, protein_tab
             cols = list(selected_df)
             if selected_df.empty:
                 print("empty")
-                selected_df = pd.DataFrame().append({'complex_name': complex_name, "gene": gene_name},
+                selected_df = pd.DataFrame().append({'complex_name': complex_name,
+                                                     "gene": gene_name},
                                                     ignore_index=True)
             else:
                 selected_df['complex_name'] = complex_name
@@ -42,7 +46,9 @@ def get_into_excel_complexes_table(tables_containing_list_complexes, protein_tab
 
 def modifying_first_letter(table_with_complexes):
     table_capitalized = table_with_complexes.gene.str.capitalize()
-    table_capitalized_last = table_capitalized.apply(lambda s: (s[:1].upper() + s[1:-1] + s[-1:].upper())[:len(s)])
+    table_capitalized_last = \
+        table_capitalized.apply(lambda s: (s[:1].upper()
+                                           + s[1:-1] + s[-1:].upper())[:len(s)])
     table_capitalized_df = pd.Series.to_frame(table_capitalized_last)
     table_concat = pd.concat([table_capitalized_df, table_with_complexes], axis=1)
     return table_concat
@@ -67,7 +73,7 @@ def correlation(table_with_selected_complexes, output_table):
         if series_df.empty:
             continue
 
-        rho, pval = spearmanr_corrected(series_df, axis=1)
+        rho = spearmanr_corrected(series_df, axis=1)
         standard_deviation = series_df.stack().std()
         rho_median = calculate_median_upper_triangle(rho)
         rho_mean = calculate_mean_upper_triaglie(rho)
@@ -89,7 +95,7 @@ def correlation(table_with_selected_complexes, output_table):
 def finding_number_of_complexes(table_with_selected_complexes):
     table_with_complexes_df_grouped = table_with_selected_complexes.groupby(
         'complex_name').agg(
-        lambda x: set(x)).reset_index()
+            lambda x: set(x)).reset_index()
     print(len(table_with_complexes_df_grouped.index))
 
 
@@ -109,5 +115,3 @@ def spearmanr_corrected(a, b=None, axis=0, nan_policy='propagate'):
         rho = np.array([[1, rho], [rho, 1]])
 
     return rho, pval
-
-

@@ -2,7 +2,8 @@ import pandas as pd
 from scipy import stats
 
 
-def rna_protein_correlation(feature_count_table, feature_count_start_column, feature_count_end_column, protein_table,
+def rna_protein_correlation(feature_count_table, feature_count_start_column,
+                            feature_count_end_column, protein_table,
                             protein_count_start_column, protein_count_end_column, correlation,
                             output_file):
     sequencing_table = pd.read_table(feature_count_table)
@@ -11,19 +12,23 @@ def rna_protein_correlation(feature_count_table, feature_count_start_column, fea
     protein_table.set_index('Protein.IDs', inplace=True)
     value_matrix_sequencing = _extract_value_matrix(sequencing_table, feature_count_start_column,
                                                     feature_count_end_column)
-    value_matrix_protein = _extract_value_matrix(protein_table, protein_count_start_column, protein_count_end_column)
+    value_matrix_protein = _extract_value_matrix(protein_table, protein_count_start_column,
+                                                 protein_count_end_column)
     if correlation == "Spearman":
         correlation_spearman(value_matrix_sequencing, value_matrix_protein, output_file)
     else:
         correlation_pearson(value_matrix_sequencing, value_matrix_protein, output_file)
 
 
-def _extract_value_matrix(feature_count_table_df, feature_count_start_column, feature_count_end_column):
-    return feature_count_table_df.iloc[:, int(feature_count_start_column):int(feature_count_end_column)]
+def _extract_value_matrix(feature_count_table_df, feature_count_start_column,
+                          feature_count_end_column):
+    return feature_count_table_df.iloc[:, int(feature_count_start_column):int(
+        feature_count_end_column)]
 
 
 def correlation_spearman(value_matrix_sequencing, value_matrix_protein, output_file):
-    correlation_dataframe = pd.DataFrame(0, columns=value_matrix_sequencing.index, index=value_matrix_protein.index)
+    correlation_dataframe = pd.DataFrame(0, columns=value_matrix_sequencing.index,
+                                         index=value_matrix_protein.index)
 
     for index_gene, row_gene in value_matrix_sequencing.iterrows():
 
@@ -35,7 +40,8 @@ def correlation_spearman(value_matrix_sequencing, value_matrix_protein, output_f
 
 
 def correlation_pearson(value_matrix_sequencing, value_matrix_protein, output_file):
-    correlation_dataframe = pd.DataFrame(0, columns=value_matrix_sequencing.index, index=value_matrix_protein.index)
+    correlation_dataframe = pd.DataFrame(0, columns=value_matrix_sequencing.index,
+                                         index=value_matrix_protein.index)
 
     for index_gene, row_gene in value_matrix_sequencing.iterrows():
 

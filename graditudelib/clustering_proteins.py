@@ -60,4 +60,3 @@ def dbscan_clustering(values_matrix, epsilon, min_samples):
     pd.DataFrame(data=labels, columns=['cluster'])
     values_matrix["Cluster_label"] = pd.Series(dbscan.labels_).astype(int)
     return values_matrix
-

@@ -3,11 +3,13 @@ from scipy.stats import spearmanr
 from scipy.stats import pearsonr
 
 
-def correlation_specific_gene_against_all(feature_count_table, feature_count_start_column, feature_count_end_column,
+def correlation_specific_gene_against_all(feature_count_table, feature_count_start_column,
+                                          feature_count_end_column,
                                           name_column_with_genes_name,
                                           name, correlation, output_file):
     table_protein = pd.read_table(feature_count_table)
-    matrix = _extract_value_matrix(table_protein, feature_count_start_column, feature_count_end_column)
+    matrix = _extract_value_matrix(table_protein, feature_count_start_column,
+                                   feature_count_end_column)
     gene_column = _exctract_gene_column(table_protein, name_column_with_genes_name)
     table_with_genes = pd.concat([gene_column, matrix], axis=1)
     table_with_genes_new_index = table_with_genes.set_index(name_column_with_genes_name)
@@ -22,8 +24,10 @@ def _extract_gene_row(feature_count_table_df, gene_name):
     return feature_count_table_df.loc[feature_count_table_df.index == gene_name]
 
 
-def _extract_value_matrix(feature_count_table_df, feature_count_start_column, feature_count_end_column):
-    return feature_count_table_df.iloc[:, int(feature_count_start_column):int(feature_count_end_column)]
+def _extract_value_matrix(feature_count_table_df, feature_count_start_column,
+                          feature_count_end_column):
+    return feature_count_table_df.iloc[:, int(feature_count_start_column):int(
+        feature_count_end_column)]
 
 
 def _exctract_gene_column(feature_count_table_df, name_column_with_genes_name):

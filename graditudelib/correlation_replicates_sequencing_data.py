@@ -3,7 +3,8 @@ from scipy.stats import spearmanr
 import matplotlib.pyplot as plt
 
 
-def correlation_replicates_sd(table_replicate1, table_replicate2, table_start_column, table_end_column, output_table,
+def correlation_replicates_sd(table_replicate1, table_replicate2, table_start_column,
+                              table_end_column, output_table,
                               output_figure):
     table_1r = pd.read_csv(table_replicate1, sep="\t")
     table_2r = pd.read_csv(table_replicate2, sep="\t")
@@ -28,8 +29,10 @@ def correlation_replicates_sd(table_replicate1, table_replicate2, table_start_co
               axis=1).to_csv(output_table, sep='\t')
 
 
-def _extract_value_matrix(feature_count_table_df, feature_count_start_column, feature_count_end_column):
-    return feature_count_table_df.iloc[:, int(feature_count_start_column):int(feature_count_end_column)]
+def _extract_value_matrix(feature_count_table_df, feature_count_start_column,
+                          feature_count_end_column):
+    return feature_count_table_df.iloc[:, int(feature_count_start_column):int(
+        feature_count_end_column)]
 
 
 def attribute_matrix(feature_count_table_df, feature_count_start_column):
@@ -53,8 +56,8 @@ def correlation(value_matrix_1r, value_matrix_2r):
 def plot(concat_df, output_figure):
     plt.style.use('ggplot')
     fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
-    ax.set_xlim(concat_df["rho"].min(), 1)
+    axes_x = fig.add_subplot(1, 1, 1)
+    axes_x.set_xlim(concat_df["rho"].min(), 1)
     plt.hist(concat_df["rho"], bins=50)
     plt.title("Spearman correlation coefficient between replicates (RNA-Seq)", fontsize=13)
     plt.xlabel("Spearman correlation coefficient", fontsize=15)
