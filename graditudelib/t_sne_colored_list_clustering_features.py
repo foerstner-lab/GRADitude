@@ -1,24 +1,26 @@
 import pandas as pd
 from sklearn.manifold import TSNE
 import numpy as np
-from graditudelib import projectcreator
 from bokeh.plotting import figure, output_file, save, ColumnDataSource
 from bokeh.models import HoverTool, BoxZoomTool, ResetTool, PanTool
 from bokeh.models import WheelZoomTool, TapTool, OpenURL
 
 
-def t_sne(feature_count_table, feature_count_start_column, feature_count_end_column,
-          perplexity, srna_list_files, cluster_names, color_set, url_link, output_file_colorized_by_clusters,
+def t_sne(feature_count_table, feature_count_start_column,
+          feature_count_end_column,
+          perplexity, srna_list_files, cluster_names, color_set, url_link,
+          output_file_colorized_by_clusters,
           output_file_colorized_by_rna_class,
           output_colored_by_lists):
-    initialize()
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
-                                         feature_count_start_column, feature_count_end_column)
+                                         feature_count_start_column,
+                                         feature_count_end_column)
     t_sne_results = perform_t_sne(value_matrix, perplexity)
     plot_t_sne_using_clustering(feature_count_table_df, t_sne_results,
                                 output_file_colorized_by_clusters, color_set, url_link)
-    plot_using_only_rna_colors(feature_count_table_df, t_sne_results, output_file_colorized_by_rna_class,
+    plot_using_only_rna_colors(feature_count_table_df, t_sne_results,
+                               output_file_colorized_by_rna_class,
                                color_set, url_link)
 
     if srna_list_files:
@@ -69,7 +71,7 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result,
                     "gbkey", "product", "sRNA_type"]:
         read_counting_table[feature] = read_counting_table[
             "Attributes_split"].apply(
-            lambda attributes: attributes.get(feature, "-"))
+                lambda attributes: attributes.get(feature, "-"))
         hower_data[feature] = read_counting_table[feature]
 
     source = ColumnDataSource(hower_data)
@@ -80,24 +82,25 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result,
         ("Feature", "@feature"),
         ("Cluster label", "@cluster_label")])
 
-    p = figure(plot_width=900, plot_height=900,
-               tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
-                      WheelZoomTool(), "tap"],
-               title="Grad-Seq t-SNE RNA-Seq", logo=None)
+    plot = figure(plot_width=900, plot_height=900,
+                  tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
+                         WheelZoomTool(), "tap"],
+                  title="Grad-Seq t-SNE RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=7, alpha=3, color='color', legend="label", line_color="grey")
-    p.yaxis.axis_label_text_font_size = "15pt"
-    p.xaxis.axis_label_text_font_size = "15pt"
-    p.title.text_font_size = '15pt'
+    plot.circle("x", "y", source=source, size=7, alpha=3, color='color',
+                legend="label", line_color="grey")
+    plot.yaxis.axis_label_text_font_size = "15pt"
+    plot.xaxis.axis_label_text_font_size = "15pt"
+    plot.title.text_font_size = '15pt'
     url = url_link
-    taptool = p.select(type=TapTool)
+    taptool = plot.select(type=TapTool)
     taptool.callback = OpenURL(url=url)
 
-    p.xaxis.axis_label = "Dimension 1"
-    p.yaxis.axis_label = "Dimension 2"
+    plot.xaxis.axis_label = "Dimension 1"
+    plot.yaxis.axis_label = "Dimension 2"
 
     output_file(output_file_colorized_by_clusters)
-    save(p)
+    save(plot)
 
 
 def _label_clustering(row):
@@ -123,9 +126,9 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result,
 
     read_counting_table["Attributes_split"] = read_counting_table[
         "Attributes"].apply(
-        lambda attr: dict(
-            [key_value_pair.split("=") for
-             key_value_pair in attr.split(";")]))
+            lambda attr: dict(
+                [key_value_pair.split("=") for
+                 key_value_pair in attr.split(";")]))
 
     palette_map = create_palette_map(read_counting_table, color_set)
     color = read_counting_table["Feature"].apply(
@@ -145,7 +148,7 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result,
                     "sRNA_type", "Name", "pseudo"]:
         read_counting_table[feature] = read_counting_table[
             "Attributes_split"].apply(
-            lambda attributes: attributes.get(feature, "-"))
+                lambda attributes: attributes.get(feature, "-"))
         hower_data[feature] = read_counting_table[feature]
 
     source = ColumnDataSource(hower_data)
@@ -155,25 +158,26 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result,
         ("ID", "@ID"),
         ("Feature", "@feature")])
 
-    p = figure(plot_width=900, plot_height=900,
-               tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
-                      WheelZoomTool(), "tap"],
-               title="Grad-Seq t-SNE RNA-Seq", logo=None)
+    plot = figure(plot_width=900, plot_height=900,
+                  tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
+                         WheelZoomTool(), "tap"],
+                  title="Grad-Seq t-SNE RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=7, alpha=3, color='color', legend='label', line_color="grey")
-    p.yaxis.axis_label_text_font_size = "15pt"
-    p.xaxis.axis_label_text_font_size = "15pt"
-    p.title.text_font_size = '15pt'
+    plot.circle("x", "y", source=source, size=7, alpha=3, color='color',
+                legend='label', line_color="grey")
+    plot.yaxis.axis_label_text_font_size = "15pt"
+    plot.xaxis.axis_label_text_font_size = "15pt"
+    plot.title.text_font_size = '15pt'
 
     url = url_link
-    taptool = p.select(type=TapTool)
+    taptool = plot.select(type=TapTool)
     taptool.callback = OpenURL(url=url)
 
-    p.xaxis.axis_label = "Dimension 1"
-    p.yaxis.axis_label = "Dimension 2"
+    plot.xaxis.axis_label = "Dimension 1"
+    plot.yaxis.axis_label = "Dimension 2"
 
     output_file(output_file_colorized_by_rna_class)
-    save(p)
+    save(plot)
 
 
 def _label(row):
@@ -194,15 +198,16 @@ def read_srna_lists(srna_list_files):
 
 
 def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
-                                output_file_list, srnas_and_list_names, cluster_names, color_set, url_link):
+                                output_file_list, srnas_and_list_names,
+                                cluster_names, color_set, url_link):
     read_counting_table["t-SNE-component_1"] = [pos[0] for pos in tsne_result]
     read_counting_table["t-SNE-component_2"] = [pos[1] for pos in tsne_result]
 
     read_counting_table["Attributes_split"] = read_counting_table[
         "Attributes"].apply(
-        lambda attr: dict(
-            [key_value_pair.split("=") for
-             key_value_pair in attr.split(";")]))
+            lambda attr: dict(
+                [key_value_pair.split("=") for
+                 key_value_pair in attr.split(";")]))
 
     palette_map = create_palette_map(read_counting_table, color_set)
     color = read_counting_table.apply(
@@ -222,7 +227,7 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
                     "sRNA_type", "Name", "pseudo"]:
         read_counting_table[feature] = read_counting_table[
             "Attributes_split"].apply(
-            lambda attributes: attributes.get(feature, "-"))
+                lambda attributes: attributes.get(feature, "-"))
         hower_data[feature] = read_counting_table[feature]
 
     source = ColumnDataSource(hower_data)
@@ -232,25 +237,26 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
         ("ID", "@ID"),
         ("Feature", "@feature")])
 
-    p = figure(plot_width=900, plot_height=900,
-               tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
-                      WheelZoomTool(), "tap"],
-               title="Grad-Seq t-SNE RNA-Seq", logo=None)
+    plot = figure(plot_width=900, plot_height=900,
+                  tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
+                         WheelZoomTool(), "tap"],
+                  title="Grad-Seq t-SNE RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=7, alpha=3, color="color", legend='label', line_color="grey")
-    p.yaxis.axis_label_text_font_size = "15pt"
-    p.xaxis.axis_label_text_font_size = "15pt"
-    p.title.text_font_size = '15pt'
+    plot.circle("x", "y", source=source, size=7, alpha=3, color="color",
+                legend='label', line_color="grey")
+    plot.yaxis.axis_label_text_font_size = "15pt"
+    plot.xaxis.axis_label_text_font_size = "15pt"
+    plot.title.text_font_size = '15pt'
 
     url = url_link
-    taptool = p.select(type=TapTool)
+    taptool = plot.select(type=TapTool)
     taptool.callback = OpenURL(url=url)
 
-    p.xaxis.axis_label = "Dimension 1"
-    p.yaxis.axis_label = "Dimension 2"
+    plot.xaxis.axis_label = "Dimension 1"
+    plot.yaxis.axis_label = "Dimension 2"
 
     output_file(output_file_list)
-    save(p)
+    save(plot)
 
 
 def _color_1(row, srnas_and_list_names, palette_map):
@@ -267,18 +273,17 @@ def _color_1(row, srnas_and_list_names, palette_map):
 
 
 def _label_1(row, srnas_and_list_names, cluster_names):
-    label = {"ncRNA": "other ncRNAs", "sRNA": "other ncRNAs", "CDS": "CDS", "tRNA": "tRNA",
-             "rRNA": "rRNA", "5'-UTR": "5'-UTR", "3'-UTR": "3'-UTR"}[row["Feature"]]
+    label = {"ncRNA": "other ncRNAs", "sRNA": "other ncRNAs",
+             "CDS": "CDS", "tRNA": "tRNA",
+             "rRNA": "rRNA", "5'-UTR": "5'-UTR", "3'-UTR":
+                 "3'-UTR"}[row["Feature"]]
     srna_cluster_label = {}
     for index in range(0, len(cluster_names)):
-        srna_cluster_label["sRNA_cluster_" + str(index + 1)] = cluster_names[index]
+        srna_cluster_label["sRNA_cluster_" + str(index + 1)] = \
+            cluster_names[index]
 
     for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
             label = srna_cluster_label[
                 srnas_and_list_names[row[feature]]]
     return label
-
-
-def initialize():
-    projectcreator.create_subfolders("GRADitude/output/", ["t-sne"])

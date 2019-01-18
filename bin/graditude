@@ -11,7 +11,7 @@ from graditudelib import silhouette
 from graditudelib import PCA_analysis
 from graditudelib import scaling
 from graditudelib import robust_regression
-from graditudelib import Clustering
+from graditudelib import clustering
 from graditudelib import min_row_sum
 from graditudelib import t_sne_colored_list_clustering_features
 from graditudelib import correlation_between_genes
@@ -272,7 +272,7 @@ def main():
 
     clustering_parser = subparsers.add_parser("clustering", help="This subcommand performs unsupervised clustering "
                                                                  "using different algorithm")
-    clustering_parser.set_defaults(func=clustering)
+    clustering_parser.set_defaults(func=run_clustering)
     clustering_parser.add_argument("--feature_count_table", "-f", required=True,
                                    help="This parameter specified the table we would like to use."
                                         " It can be the normalized or the raw table")
@@ -872,8 +872,8 @@ def run_robust_regression(args):
                                         args.output_table)
 
 
-def clustering(args):
-    Clustering.clustering(args.feature_count_table, args.feature_count_start_column, args.number_of_clusters,
+def run_clustering(args):
+    clustering.clustering(args.feature_count_table, args.feature_count_start_column, args.number_of_clusters,
                           args.pseudo_count, args.clustering_methods,
                           args.epsilon, args.min_samples,
                           args.scaling_method,
@@ -933,6 +933,8 @@ def run_interactive_tsne_plot(args):
     interactive_plots.interactive_plot(args.table_with_clusters, args.feature_count_start_column,
                                        args.feature_count_end_column,
                                        args.dimension_reduction_algorithm, args.perplexity,
+                                       args.n_neighbors,
+                                       args.min_dist,
                                        args.url_link,
                                        args.output_file)
 
