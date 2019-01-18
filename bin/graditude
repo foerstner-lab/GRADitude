@@ -679,6 +679,16 @@ def main():
                                                    "This parameter is necessary "
                                                    "only if you are plotting the t-SNE "
                                                    "dimension reduction")
+    interactive_tsne_plot_parser.add_argument("--n_neighbors", "-n_neighbors", required=False, type=float,
+                                              help="This parameter helps to balances local vs global "
+                                                   "structure in the data.",
+                                              default=15)
+    interactive_tsne_plot_parser.add_argument("--min_dist", "-min_dist", required=False, type=float,
+                                              help="This parameter controls how close are the points together."
+                                                   "Smaller values are useful if you want to use the UMAP to "
+                                                   "cluster data and larger "
+                                                   "values are good to preserve the overall structure",
+                                              default=0.1)
     interactive_tsne_plot_parser.add_argument("--url_link", "-url", required=False,
                                               default="https://www.ncbi.nlm.nih.gov/gene/?term=@gene",
                                               help="This parameter allows to choose the website"
@@ -689,9 +699,9 @@ def main():
 
     correlation_replicates_sequencing_data_parser = subparsers.add_parser("correlation_replicates",
                                                                           help="This subcommand allows to see the "
-                                                                          "distribution of the correlation "
-                                                                          "coefficient between two "
-                                                                          "biological replicates")
+                                                                               "distribution of the correlation "
+                                                                               "coefficient between two "
+                                                                               "biological replicates")
     correlation_replicates_sequencing_data_parser.set_defaults(func=run_replicates_correlation_sequencing)
     correlation_replicates_sequencing_data_parser.add_argument('--table_replicate1', '-r1', required=True,
                                                                help="Sequencing table first replicate ")
