@@ -31,7 +31,8 @@ def _calc_size_factors(ref_feature_count_table_df,
                        ref_feature_count_start_column, ref_feature_count_end_column):
     # TODO: Documentation the calculation with formula
     counting_value_matrix = _extract_value_matrix(
-        ref_feature_count_table_df, ref_feature_count_start_column, int(ref_feature_count_end_column))
+        ref_feature_count_table_df, ref_feature_count_start_column,
+        int(ref_feature_count_end_column))
     geometric_means = _geometric_means(counting_value_matrix)
     scaled_counting_value_matrix = _multiply_geometric_means_with_value_matrix(
         counting_value_matrix, geometric_means)
@@ -53,10 +54,11 @@ def _geometric_means(counting_value_matrix):
 
 
 def _normalize_by_size_factor(feature_counting_table_df,
-                              feature_count_start_column, feature_count_end_column, size_factor):
+                              feature_count_start_column,
+                              feature_count_end_column, size_factor):
     df = feature_counting_table_df.copy()
-    value_columns = df.iloc[:, int(feature_count_start_column):int(feature_count_end_column)].columns
+    value_columns = df.iloc[:, int(feature_count_start_column
+                                   ):int(feature_count_end_column)].columns
     """Divide the gene quantification table for the size factor to normalize the data"""
     df[value_columns] = df[value_columns].divide(list(size_factor), axis=1)
     return df
-
