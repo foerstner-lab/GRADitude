@@ -699,7 +699,7 @@ def main():
     correlation_replicates_sequencing_data_parser.add_argument("--table_replicate2", "-r2", required=True,
                                                                help="Sequencing table second replicate ")
     correlation_replicates_sequencing_data_parser.add_argument('--table_start_column' "-fc", required=True,
-                                                               help="This parameter specified the number "
+                                                               help="This parameter specify the number "
                                                                     "of the column with the first fraction")
     correlation_replicates_sequencing_data_parser.add_argument('--table_end_column' "-fe", required=True,
                                                                help="Specify the number of "
@@ -709,10 +709,10 @@ def main():
     correlation_replicates_sequencing_data_parser.add_argument("--output_table", '-o',
                                                                help="Output table "
                                                                     "containing"
-                                                                    "both the replicates and the  ")
+                                                                    " both the replicates and the  ")
     correlation_replicates_sequencing_data_parser.add_argument("--output_figure", '-f',
                                                                help="Plot that show"
-                                                                    "a histogram with the"
+                                                                    " a histogram with the"
                                                                     "distribution of"
                                                                     "the correlation "
                                                                     "coefficient")

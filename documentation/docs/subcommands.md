@@ -17,7 +17,7 @@ After the mapping two tables are relevant to proceed with the usage of GRADitude
 Once created, please move the required files into the input folders.
 
 ## min_row_sum_ercc (filter the table)
-<code>$ min_row_sum_ercc</code> 
+<code>min_row_sum_ercc</code> 
 
 A subcommand, specific for the sequencing data, that filters the ERCC-reads table 
 based on the minimum row sum. It calculates the sum of all the ERCC row-wise and discard the ones that they don't reach 
@@ -45,7 +45,7 @@ basic arguments:
 
 ```
 ## min_row_sum (filter the table)
-<code>$ min_row_sum</code> 
+<code>min_row_sum</code> 
 
 A subcommand, specific for the sequencing data that filters 
 the gene quantification table based on the minimum row sum.  It calculates the sum of all the ERCC row-wise and discard the ones that they don't reach 
@@ -77,7 +77,7 @@ basic arguments:
 
 
 ## drop_column (filter the table)
-<code>$ drop_column</code>
+<code>drop_column</code>
 
 This subcommand is specific for the sequencing data and it can be use to drop a specific column we would not
 like to don't consider in the downstream analysis. For example it can be used to drop the Lysate column.
@@ -101,7 +101,7 @@ basic arguments:
 ```
 
 ## selecting_specific_features (filter the table)
-<code>$ selecting_specific_features</code>
+<code>selecting_specific_features</code>
 
 This subcommand extract from a table specific feature, such as sRNAs or mRNAs. 
 
@@ -137,7 +137,7 @@ optional arguments:
 
 
 ## robust_regression
-<code>$ robust_regression</code>
+<code>robust_regression</code>
 
 This subcommand, specific for the sequencing data, compares the ERCC concentration in mix (it
 could be one or two, depending on the experiment) with the ERCC read counts.
@@ -178,7 +178,7 @@ basic arguments:
 
 ```
 ## normalize
-<code>$ normalize</code>
+<code>normalize</code>
 
 This normalization is specific for the sequencing data.
 It normalizes the gene quantification table, that contains all the detectable transcripts using the ERCC
@@ -227,7 +227,7 @@ basic arguments:
 ```
 
 ## scaling (scale the data)
-<code>$ scaling</code>
+<code>scaling</code>
 
 This subcommand can be used for the protein and the sequencing data. It takes a table, that can be
 the normalized or the raw one, as input and scales them using different methods. The default is
@@ -270,7 +270,7 @@ basic arguments:
 
 ```
 ## clustering_elbow (find number of clusters)
-<code>$ clustering_elbow</code>
+<code>clustering_elbow</code>
 
 This subcommand implements a method designed to find the appropriate number 
 of clusters in a data set. For several clustering algorithms, 
@@ -321,7 +321,7 @@ basic arguments:
 ```
 
 ## clustering (cluster the data)
-<code>$ clustering</code>
+<code>clustering</code>
 
 The subcommands can be used for the sequencing data. It takes the
 normalized gene quantification table or the raw one as input and return a table with a new column
@@ -390,7 +390,7 @@ additional arguments:
 ```
 
 ## clustering_proteins (cluster the data)
-<code>$ clustering_proteins</code>
+<code>clustering_proteins</code>
 
 This subcommand is specific for the protein data.
 
@@ -448,7 +448,7 @@ basic arguments:
 
 
 ## t-sne (dimension reduction)
-<code>$ t_sne</code>
+<code>t_sne</code>
 
 To identify biochemically similar transcripts the t-SNE dimension
  reduction algorithm has been implemented.
@@ -515,7 +515,7 @@ additional arguments:
                         
 ```
 ## pca (dimension reduction)
-<code>$ pca</code>
+<code>pca</code>
 
 To identify biochemically similar transcripts the PCA dimension
 reduction algorithm has been implemented.
@@ -654,7 +654,7 @@ additional arguments:
 ```
 
 ## plot_kinetics (plot the in-gradient behavior)
-<code>$ plot_kinetics</code>
+<code>plot_kinetics</code>
 
 This subcommand is useful to better visualize the behavior of a specific transcript or protein within the gradient. 
 One foundation of the Grad-seq analysis is that the kinetic of molecule in the fractionations allows the reconstruction of 
@@ -690,7 +690,7 @@ basic arguments:
 ```
 
 ## heatmap (plot the heatmap)
-<code>$ heatmap</code>
+<code>heatmap</code>
 
 This subcommand is useful to better visualize the in-gradient behavior of a
  larger group of transcripts or proteins.
@@ -720,7 +720,7 @@ basic arguments:
 ```
 
 ## silhouette_analysis (clustering)
-<code>$ silhouette_analysis</code>
+<code>silhouette_analysis</code>
 
 This subcommand can be used to interpret the distance between clusters. It is useful to see if the number of clusters (k)
 you have chosen is correct for the data set.
@@ -756,7 +756,7 @@ basic arguments:
                         in the plot
 ```
 ## correlation_specific_gene (correlation coefficient)
-<code>$ correlation_specific_gene</code>
+<code>correlation_specific_gene</code>
 
 This subcommand is useful if you have a gene or a protein of interest and you would like to predict new interactions.
 The assumption is that proteins or genes with an high correlation coefficients might interact.
@@ -798,7 +798,7 @@ basic arguments:
 ```
 
 ## correlation_distribution_graph (histogram of correlation coefficients distribution)
-<code>$ correlation_distribution_graph</code>
+<code>correlation_distribution_graph</code>
 
 This subcommand creates a histogram to identify the distribution of the
 correlation coefficients, to better visualize the generated data and to create a comprehensible plot.
@@ -826,7 +826,7 @@ basic arguments:
 ```
 
 ## correlation_rnas_protein (correlation coefficient)
-<code>$ correlation_rnas_protein</code>
+<code>correlation_rnas_protein</code>
 
 This subcommand find the correlation coefficient of two different tables. It can be used for example for combining 
 RNA-sequencing and Mass-spectrometry data set. In this way we can predict RNA-protein interactions.
@@ -874,7 +874,7 @@ basic arguments:
 
 
 ## correlation_all_against_all (correlation coefficient)
-<code>$ correlation_all_against_all</code>
+<code>correlation_all_against_all</code>
 
 This subcommand calculates the correlation coefficients all agaist all. It can be used in the sequencing table or with 
 the protein data.
@@ -907,8 +907,48 @@ basic arguments:
                         Table with correlation coefficients
 ```
 
+
+## correlation_replicates (correlation coefficient)
+<code>correlation_replicates</code>
+
+This subcommand allows to see the distribution of the
+                        correlation coefficient between two biological
+                        replicates
+
+* Basic arguments
+```text
+usage: graditude correlation_replicates [-h] --table_replicate1
+                                        TABLE_REPLICATE1 --table_replicate2
+                                        TABLE_REPLICATE2
+                                        --table_start_column-fc
+                                        TABLE_START_COLUMN_FC
+                                        --table_end_column-fe
+                                        TABLE_END_COLUMN_FE
+                                        [--output_table OUTPUT_TABLE]
+                                        [--output_figure OUTPUT_FIGURE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --table_replicate1 TABLE_REPLICATE1, -r1 TABLE_REPLICATE1
+                        Sequencing table first replicate
+  --table_replicate2 TABLE_REPLICATE2, -r2 TABLE_REPLICATE2
+                        Sequencing table second replicate
+  --table_start_column-fc TABLE_START_COLUMN_FC
+                        This parameter specify the number of the column with
+                        the first fraction
+  --table_end_column-fe TABLE_END_COLUMN_FE
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis
+  --output_table OUTPUT_TABLE, -o OUTPUT_TABLE
+                        Output table containing both the replicates and the
+  --output_figure OUTPUT_FIGURE, -f OUTPUT_FIGURE
+                        Plot that show a histogram with thedistribution ofthe
+                        correlation coefficient
+```
+
+
 ## plot_network_graph (network plot)
-<code>$ plot_network_graph</code>
+<code>plot_network_graph</code>
  
 This subcommand plots the network plot. 
 The subcommand identifies two kind of nodes: transcripts and proteins. The edges are the correlation coefficients. The graph has
@@ -937,8 +977,8 @@ optional arguments:
                         Network plot
 
 ```
-## interactive_plots (network plot)
-<code>$ interactive_plots</code>
+## interactive_plots (explore the plot)
+<code>interactive_plots</code>
  
 This subcommand shows the results of a dimension reduction and makes the plot more explorable.
 The lass select has been implemented and this allows the selection of a specific region in the plot generated.
@@ -990,4 +1030,38 @@ basic arguments:
                         This parameter allows to choose the website you would
                         like to open when clicking on a specific point in the
                         html plot
+```
+
+## find_complexes (quality control of protein data)
+<code>find_complexes</code>
+
+As a general quality control for the protein data, we look at how many of the know protein
+complexes are actually present in our specific data sets. This subcommand detects if
+all the subunit of that specific complexes are present and calculate the correlation.
+
+* Basic arguments
+
+```text
+usage: graditude find_complexes [-h] --tables_containing_list_complexes
+                                TABLES_CONTAINING_LIST_COMPLEXES
+                                --protein_table PROTEIN_TABLE
+                                --table_start_column-pc TABLE_START_COLUMN_PC
+                                --table_end_column-pe TABLE_END_COLUMN_PE
+                                [--output_table OUTPUT_TABLE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --tables_containing_list_complexes TABLES_CONTAINING_LIST_COMPLEXES, -complexes TABLES_CONTAINING_LIST_COMPLEXES
+                        Table containing the list of known complexes
+  --protein_table PROTEIN_TABLE, -p PROTEIN_TABLE
+                        Protein table
+  --table_start_column-pc TABLE_START_COLUMN_PC
+                        This parameter specified the number of the column with
+                        the first fraction in the protein table
+  --table_end_column-pe TABLE_END_COLUMN_PE
+                        Specify the number of the last fraction we would like
+                        to consider in the analysis in the protein table
+  --output_table OUTPUT_TABLE, -o OUTPUT_TABLE
+                        Output table containing the complete complexeswith all
+                        the complex subunits and correlation coefficients
 ```
