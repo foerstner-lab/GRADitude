@@ -8,7 +8,7 @@ from graditudelib import normalize
 from graditudelib import visualizing_kinetics
 from graditudelib import elbow_curve
 from graditudelib import silhouette
-from graditudelib import PCA_analysis
+from graditudelib import pca_analysis
 from graditudelib import scaling
 from graditudelib import robust_regression
 from graditudelib import clustering
@@ -28,7 +28,7 @@ from graditudelib import heatmap
 from graditudelib import correlation_replicates_sequencing_data
 from graditudelib import projectcreator
 from graditudelib import dropping_specific_columns
-from graditudelib import UMAP_analysis
+from graditudelib import umap_analysis
 from graditudelib import finding_complexes_complete
 
 __author__ = "Silvia Di Giorgio <digiorgio@zbmed.de>, " \
@@ -1033,7 +1033,7 @@ def run_t_sne_colored_using_different_methods(args):
 
 
 def run_umap(args):
-    UMAP_analysis.umap_(args.feature_count_table,
+    umap_analysis.umap_(args.feature_count_table,
                         args.feature_count_start_column,
                         args.feature_count_end_column,
                         args.srna_list,
@@ -1048,7 +1048,7 @@ def run_umap(args):
 
 
 def run_pca(args):
-    PCA_analysis.pca_(args.feature_count_table,
+    pca_analysis.pca_(args.feature_count_table,
                       args.feature_count_start_column,
                       args.feature_count_end_column,
                       args.srna_list_files,
