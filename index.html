@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="None">
+  
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>Home - GRADitude</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Home";
+    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> GRADitude</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href=".">Home</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#graditude-a-computational-tool-for-grad-seq-data-analysis">GRADitude: a computational tool for Grad-seq data analysis</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#introduction">Introduction</a></li>
+        
+            <li><a class="toctree-l3" href="#download">Download</a></li>
+        
+            <li><a class="toctree-l3" href="#source-code">Source code</a></li>
+        
+            <li><a class="toctree-l3" href="#license">License</a></li>
+        
+            <li><a class="toctree-l3" href="#contact">Contact</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="installation/">Installation</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="subcommands/">GRADitude's subcommands</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="license/">License</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">GRADitude</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Home</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="graditude-a-computational-tool-for-grad-seq-data-analysis">GRADitude: a computational tool for Grad-seq data analysis</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Grad-seq is a high-throughput profiling approach for the organism-wide detection of RNA-RNA and
+RNA-protein interactions in which molecular complexes are separated in a gradient by shape and size
+(Smirnov et al., 2016, PNAS). Grad-seq separates native cellular lysates including complexes,
+according to their molecular weight and shape in a glycerol gradient, independent of charge and
+sequence. After this fractionation, RNA-seq and MS-analysis of each of the fractions generated
+allows the reconstruction of the sedimentation profiles of all detectable RNAs and protein in a single
+experiment. Further analysis can reveal possible interactions between the individual molecules.
+So far, Grad-seq has been used to globally study RNA-RNA and RNA-protein interactions in
+Salmonella Typhimurium and that allowed us to identify ProQ as a new global RNA-binding protein</p>
+<pre><code class="text">usage: graditude [-h] [--version]
+                 {create,min_row_sum_ercc,min_row_sum,drop_column,robust_regression,normalize,scaling,correlation_all_against_all,selecting_specific_features,heatmap,plot_kinetics,clustering,clustering_elbow,silhouette_analysis,pca,t_sne,umap,correlation_rnas_protein,correlation_distribution_graph,plot_network_graph,clustering_proteins,dimension_reduction_proteins,correlation_specific_gene,interactive_plots,correlation_replicates,find_complexes}
+                 ...
+
+positional arguments:
+  {create,min_row_sum_ercc,min_row_sum,drop_column,robust_regression,normalize,scaling,correlation_all_against_all,selecting_specific_features,heatmap,plot_kinetics,clustering,clustering_elbow,silhouette_analysis,pca,t_sne,umap,correlation_rnas_protein,correlation_distribution_graph,plot_network_graph,clustering_proteins,dimension_reduction_proteins,correlation_specific_gene,interactive_plots,correlation_replicates,find_complexes}
+                        commands
+    min_row_sum_ercc    Filter the ERCC table based on the min row sum. It
+                        calculates the sum row_wise and discard the rows with
+                        a sum below the threshold specified
+    min_row_sum         Filter the gene quantification table based on the min
+                        row sum. It calculates the sum row_wise and discard
+                        the rows with a sum below the threshold specified
+    drop_column         It filters a table dropping a specific column.It is
+                        usually used to drop the Lysate column that is not
+                        required for the downstream analysis
+    robust_regression   It compares the ERCC concentration in mix with the
+                        ERCC reads and take it out the outliers
+    normalize           This subcommand calculates the ERCC size factor and
+                        normalize the gene quantification table based on that
+    scaling             This subcommand scales tables using different scaling
+                        methods
+    correlation_all_against_all
+                        This subcommand calculate the correlation coefficients
+                        all against all
+    selecting_specific_features
+                        This subcommand allows to select specific features in
+                        a normalized table (ncRNAs, CDS, etc.)
+    heatmap             This subcommand is useful to visualize the in-gradient
+                        behavior of a larger group of transcripts or proteins
+    plot_kinetics       This subcommand plot the kinetics of a specific
+                        transcript or protein to better visualize their
+                        behavior within the gradient
+    clustering          This subcommand performs unsupervised clustering using
+                        different algorithm
+    clustering_elbow    This subcommands plot the elbow graph in order to
+                        choose the ideal number of clusters necessary for the
+                        k-means and the hierarchical clustering
+    silhouette_analysis
+                        This subcommand can be used tointerpret the distance
+                        between clusters
+    pca                 This subcommand performs the PCA-principal component
+                        dimension reduction
+    t_sne               This subcommand performs the t-sne dimension reduction
+    umap                This subcommand performs the umap dimension reduction
+    correlation_rnas_protein
+                        This subcommand performs the Spearman or Pearson
+                        correlation coefficients of two tables.
+    correlation_distribution_graph
+                        This subcommand plots the distribution of the
+                        correlation coefficients as histogram
+    plot_network_graph  This subcommand plots the network plot. It can be used
+                        to plot for example sequencing data vs protein data or
+                        ncRNAs vs proteins etc.
+    clustering_proteins
+                        This subcommand performs the unsupervised clustering of
+                        protein data
+    dimension_reduction_proteins
+                        t-sne analysis of Mass spectrometry data
+    correlation_specific_gene
+                        This subcommand calculate the Spearman or Pearson
+                        correlation of a specific gene or protein against all
+    interactive_plots   This subcommand is useful to visualize interactive a
+                        plot after a dimension reduction algorithm has been
+                        applied.
+    correlation_replicates
+                        This subcommand allows to see the distribution of the
+                        correlation coefficient between two biological
+                        replicates
+    find_complexes      With this subcommand we look at how many of the know
+                        protein complexes are actually present in our specific
+                        data sets.It finds if all the subunit of that specific
+                        complexes are present and calculate the correlation
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --version, -v         show version
+
+</code></pre>
+
+<h2 id="download">Download</h2>
+<h2 id="source-code">Source code</h2>
+<p>The source code of GRADitude can be found at <a href="https://github.com/foerstner-lab/GRADitude">Github</a></p>
+<h2 id="license">License</h2>
+<p>ISC (Internet Systems Consortium license ~ simplified BSD license)
+ - see <a href="license/">LICENSE</a></p>
+<h2 id="contact">Contact</h2>
+<p>For question and requests feel free to contact 
+Silvia Di Giorgio</p>
+<p><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#105;&#103;&#105;&#111;&#114;&#103;&#105;&#111;&#64;&#122;&#98;&#109;&#101;&#100;&#46;&#100;&#101;">&#100;&#105;&#103;&#105;&#111;&#114;&#103;&#105;&#111;&#64;&#122;&#98;&#109;&#101;&#100;&#46;&#100;&#101;</a></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="installation/" class="btn btn-neutral float-right" title="Installation">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+        <span style="margin-left: 15px"><a href="installation/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-01-21 13:16:29
+-->
