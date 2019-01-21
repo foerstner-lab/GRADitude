@@ -2,5 +2,6 @@ site_name: GRADitude
 nav:
     - Home: index.md
     - Installation: installation.md
-    - GRADitude's subcommands: subcommands
+    - GRADitude's subcommands: subcommands.md
+    - License: license.md
 theme: readthedocs

@@ -1,5 +1,5 @@
 # License
-ANNOgesic is open source software and available under the ISC license.
+GRADitude is open source software and available under the ISC license.
 
 Copyright (c) 2013-2017, Silvia Di Giorgio <digiorgio@zbmed.de>
 
