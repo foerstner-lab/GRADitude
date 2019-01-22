@@ -4,11 +4,12 @@
 
 Grad-seq is a high-throughput profiling approach for the organism-wide detection of RNA-RNA and
 RNA-protein interactions in which molecular complexes are separated in a gradient by shape and size
-(Smirnov et al., 2016, PNAS). Grad-seq separates native cellular lysates including complexes,
+(Smirnov *et* *al*., 2016, PNAS). Grad-seq separates native cellular lysates including complexes,
 according to their molecular weight and shape in a glycerol gradient, independent of charge and
 sequence. After this fractionation, RNA-seq and MS-analysis of each of the fractions generated
 allows the reconstruction of the sedimentation profiles of all detectable RNAs and protein in a single
 experiment. Further analysis can reveal possible interactions between the individual molecules.
+
 So far, Grad-seq has been used to globally study RNA-RNA and RNA-protein interactions in
 Salmonella Typhimurium and that allowed us to identify ProQ as a new global RNA-binding protein
 
@@ -28,7 +29,7 @@ positional arguments:
                         row sum. It calculates the sum row_wise and discard
                         the rows with a sum below the threshold specified
     drop_column         It filters a table dropping a specific column.It is
-                        usually used to drop the Lysate column that is not
+                        usually used to drop the lysate column that is not
                         required for the downstream analysis
     robust_regression   It compares the ERCC concentration in mix with the
                         ERCC reads and take it out the outliers
@@ -53,7 +54,7 @@ positional arguments:
                         choose the ideal number of clusters necessary for the
                         k-means and the hierarchical clustering
     silhouette_analysis
-                        This subcommand can be used tointerpret the distance
+                        This subcommand can be used to interpret the distance
                         between clusters
     pca                 This subcommand performs the PCA-principal component
                         dimension reduction
@@ -61,7 +62,7 @@ positional arguments:
     umap                This subcommand performs the umap dimension reduction
     correlation_rnas_protein
                         This subcommand performs the Spearman or Pearson
-                        correlation coefficients of two tables.
+                        correlation coefficients of twotables.
     correlation_distribution_graph
                         This subcommand plots the distribution of the
                         correlation coefficients as histogram
@@ -69,8 +70,8 @@ positional arguments:
                         to plot for example sequencing data vs protein data or
                         ncRNAs vs proteins etc.
     clustering_proteins
-                        This subcommand performs the unsupervised clustering of
-                        protein data
+                        This subcommand performs the unsupervised clustering
+                        of protein data
     dimension_reduction_proteins
                         t-sne analysis of Mass spectrometry data
     correlation_specific_gene
@@ -91,6 +92,7 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   --version, -v         show version
+
 
 ```
 

@@ -100,7 +100,7 @@ def main():
                                                      "dropping a specific column."
                                                      "It is usually used to drop the "
                                                      "lysate column"
-                                                     "that is not required for the "
+                                                     " that is not required for the "
                                                      "downstream analysis "
                                                 )
     drop_columns_parser.set_defaults(func=drop_column)
@@ -268,7 +268,7 @@ def main():
     p_heatmap = subparsers.add_parser("heatmap",
                                       help="This subcommand is useful "
                                            "to visualize the in-gradient"
-                                           " behavior of a larger group of"
+                                           " behavior of a larger group of "
                                            "transcripts or proteins ")
     p_heatmap.set_defaults(func=plot_heatmap)
     p_heatmap.add_argument('--feature_count_table', '-f', required=True,
@@ -615,7 +615,7 @@ def main():
                                                     help="This subcommand performs the "
                                                          "Spearman or Pearson correlation "
                                                          "coefficients of two"
-                                                         "tables. ")
+                                                         " tables. ")
     corr_rna_protein_parser.set_defaults(func=correlation_rnas_protein)
     corr_rna_protein_parser.add_argument("--feature_count_table", "-f",
                                          required=True, help="First table, for example"
@@ -938,7 +938,7 @@ def main():
                                             " analysis in the protein table")
     find_complexes_parser.add_argument("--output_table", '-o',
                                        help="Output table containing the "
-                                            "complete complexes"
+                                            "complete complexes "
                                             "with all the complex subunits "
                                             "and correlation coefficients")
 
