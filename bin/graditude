@@ -197,7 +197,7 @@ def main():
                                      " analysis")
     scaling_parser.add_argument("--pseudo_count", '-p',
                                 type=int, default=1,
-                                help="the pseudo count is "
+                                help="The pseudo count is "
                                      "a number that will always be "
                                      "added to each value; "
                                      "Adding this number avoid "
@@ -318,7 +318,7 @@ def main():
                                       default="html",
                                       help="You can use this parameter to"
                                            "specify in which format you would like to"
-                                           "save your plot")
+                                           " save your plot")
 
     clustering_parser = subparsers.add_parser("clustering",
                                               help="This subcommand "
@@ -350,7 +350,7 @@ def main():
                                    default=1,
                                    help="The pseudo count represent "
                                         "a number that will always "
-                                        "be added to each value; "
+                                        "be added to each value. "
                                         "Adding this number avoid to "
                                         "have mathematical operation with zero")
     clustering_parser.add_argument("--clustering_methods", "-cm",
@@ -397,14 +397,14 @@ def main():
 
     elbow_parser = subparsers.add_parser("clustering_elbow",
                                          help="This subcommands plot the elbow graph in order "
-                                              "to choose"
+                                              "to choose "
                                               "the ideal number of clusters necessary for "
                                               "the k-means and the hierarchical clustering ")
     elbow_parser.set_defaults(func=generate_k_means_clustering_elbow)
     elbow_parser.add_argument("--feature_count_table", "-f", required=True,
                               help="Filtered gene quantification table")
     elbow_parser.add_argument("--feature_count_start_column", "-fc", required=True,
-                              help="This parameter specified the number of the column "
+                              help="This parameter specify the number of the column "
                                    "with the first fraction")
     elbow_parser.add_argument("--feature_count_end_column", "-fe", required=True,
                               help=" Specify the number of "
@@ -424,7 +424,7 @@ def main():
                                    "the number of clusters")
 
     silhouette_parser = subparsers.add_parser("silhouette_analysis",
-                                              help="This subcommand can be used to"
+                                              help="This subcommand can be used to "
                                                    "interpret the distance between clusters")
     silhouette_parser.set_defaults(func=silhouette_analysis)
     silhouette_parser.add_argument("--feature_count_table", "-c",
@@ -433,7 +433,7 @@ def main():
                                         "Protein table")
     silhouette_parser.add_argument("--feature_count_start_column",
                                    "-fc", required=True,
-                                   help="This parameter specified "
+                                   help="This parameter specify "
                                         "the number of the column "
                                         "with the first fraction")
     silhouette_parser.add_argument("--feature_count_end_column", "-fe",
@@ -457,17 +457,17 @@ def main():
     pca_parser = subparsers.add_parser("pca", help="This subcommand "
                                                    "performs the PCA-principal "
                                                    "component dimension"
-                                                   "reduction")
+                                                   " reduction")
     pca_parser.set_defaults(func=run_pca)
     pca_parser.add_argument("--feature_count_table", "-f",
                             required=True,
-                            help="This parameter specified the table we "
+                            help="This parameter specify the table we "
                                  "would like to use."
                                  " It can be the normalized "
                                  "or the raw table")
     pca_parser.add_argument("--feature_count_start_column", "-fc",
                             required=True, type=int,
-                            help="This parameter specified the number "
+                            help="This parameter specify the number "
                                  "of the column with the first fraction")
     pca_parser.add_argument("--feature_count_end_column", "-fe",
                             required=True, type=int,
@@ -491,7 +491,7 @@ def main():
     pca_parser.add_argument("--url_link", "-url",
                             required=False,
                             default="https://www.ncbi.nlm.nih.gov/gene/?term=@gene",
-                            help="This parameter allowed to choose the website"
+                            help="This parameter allows to choose the website"
                                  " you would like to open when clicking on a "
                                  "specific point in the html plot ")
     pca_parser.add_argument("--output_file_colorized_by_clusters", "-o1",
@@ -508,10 +508,10 @@ def main():
     t_sne__parser = subparsers.add_parser("t_sne",
                                           help="This subcommand "
                                                "performs the t-sne dimension"
-                                               "reduction")
+                                               " reduction")
     t_sne__parser.set_defaults(func=run_t_sne_colored_using_different_methods)
     t_sne__parser.add_argument("--feature_count_table", "-f", required=True,
-                               help="This parameter specified the table we "
+                               help="This parameter specify the table we "
                                     "would like to use."
                                     " It can be the normalized or the raw table")
     t_sne__parser.add_argument("--feature_count_start_column", "-fc", required=True,
@@ -531,7 +531,7 @@ def main():
                                     "local aspects of data. It is better to select "
                                     " a value between 5 and 50")
     t_sne__parser.add_argument("--srna_list", "-list", nargs="+", default=False,
-                               help="This parameter allow the user to "
+                               help="This parameter allows the user to "
                                     "specify a list of features or "
                                     "genes we would like to highlight in the plot")
     t_sne__parser.add_argument("--cluster_names", "-names", nargs="+", default=False,
@@ -545,7 +545,7 @@ def main():
                                     "for your output plot")
     t_sne__parser.add_argument("--url_link", "-url", required=False,
                                default="https://www.ncbi.nlm.nih.gov/gene/?term=@gene",
-                               help="This parameter allowed to choose the website"
+                               help="This parameter allows to choose the website"
                                     " you would like to open when clicking on a "
                                     "specific point in the html plot ")
     t_sne__parser.add_argument("--output_file1", "-o1", default=False,
@@ -558,10 +558,10 @@ def main():
 
     umap_parser = subparsers.add_parser("umap", help="This subcommand "
                                                      "performs the umap dimension"
-                                                     "reduction")
+                                                     " reduction")
     umap_parser.set_defaults(func=run_umap)
     umap_parser.add_argument("--feature_count_table", "-f", required=True,
-                             help="This parameter specified the table we "
+                             help="This parameter specify the table we "
                                   "would like to use."
                                   " It can be the normalized or the raw table")
     umap_parser.add_argument("--feature_count_start_column", "-fc", required=True,
@@ -574,7 +574,7 @@ def main():
                                   "the last fraction we would like to consider in the"
                                   " analysis")
     umap_parser.add_argument("--srna_list", "-list", nargs="+", default=False,
-                             help="This parameter allow the user to "
+                             help="This parameter allows the user to "
                                   "specify a list of features or "
                                   "genes we would like to highlight in the plot")
     umap_parser.add_argument("--cluster_names", "-names", nargs="+", default=False,
@@ -600,7 +600,7 @@ def main():
                                   "for your output plot")
     umap_parser.add_argument("--url_link", "-url", required=False,
                              default="https://www.ncbi.nlm.nih.gov/gene/?term=@gene",
-                             help="This parameter allowed to choose the website"
+                             help="This parameter allows to choose the website"
                                   " you would like to open when clicking on a "
                                   "specific point in the html plot ")
     umap_parser.add_argument("--output_file1", "-o1", default=False,
@@ -618,20 +618,20 @@ def main():
                                                          "tables. ")
     corr_rna_protein_parser.set_defaults(func=correlation_rnas_protein)
     corr_rna_protein_parser.add_argument("--feature_count_table", "-f",
-                                         required=True, help="This parameter "
-                                                             "specify the number "
-                                                             "of the column with the first fraction"
-                                                             " in the first table")
+                                         required=True, help="First table, for example"
+                                                             "the sequencing table")
     corr_rna_protein_parser.add_argument("--feature_count_start_column", "-fc",
                                          required=True,
-                                         type=int, help="First table, for example"
-                                                        "the sequencing table")
+                                         type=int, help="This parameter "
+                                                        "specify the number "
+                                                        "of the column with the first fraction"
+                                                        " in the first table")
     corr_rna_protein_parser.add_argument("--feature_count_end_column", "-fe", type=int,
                                          help="Specify the number of "
                                               "the last fraction we would like to consider in the"
                                               " analysis in the first table")
     corr_rna_protein_parser.add_argument("--protein_table", "-p", required=True,
-                                         help="Second table, for example"
+                                         help="Second table, for example "
                                               "the protein table")
     corr_rna_protein_parser.add_argument("--protein_count_start_column", "-pc",
                                          required=True,
@@ -645,7 +645,7 @@ def main():
                                               " analysis in the first table")
     corr_rna_protein_parser.add_argument("--correlation_type", "-corr",
                                          choices=["Pearson", "Spearman"],
-                                         help="Choose if applying the Pearson "
+                                         help="Choose if want to apply the Pearson "
                                               "or Spearman correlation")
     corr_rna_protein_parser.add_argument("--output_file", "-o", default=False,
                                          help="Output table containing "
@@ -685,7 +685,7 @@ def main():
                                       help="Table with correlation coefficients values")
     network_graph_parser.add_argument("--threshold", "-t", required=True,
                                       type=float,
-                                      help="Cut-off necessary to plot "
+                                      help="Cut-off necessary to plot only "
                                            "the genes or proteins with an "
                                            "high correlation coefficients")
     network_graph_parser.add_argument("--max_size", "-max", required=True,
@@ -698,7 +698,7 @@ def main():
                                       help="Network plot")
 
     clust_proteins_parser = subparsers.add_parser("clustering_proteins",
-                                                  help="This subcommand"
+                                                  help="This subcommand "
                                                        "performs the unsupervised "
                                                        "clustering of protein data")
     clust_proteins_parser.set_defaults(func=clustering_proteins_data)
@@ -821,7 +821,7 @@ def main():
                                                 "and p-values")
 
     inte_tsne_plot_parser = subparsers.add_parser("interactive_plots",
-                                                  help="This subcommand is useful to visualize"
+                                                  help="This subcommand is useful to visualize "
                                                        "interactive a plot after "
                                                        "a dimension reduction algorithm has "
                                                        "been applied.")
@@ -901,7 +901,7 @@ def main():
     corr_replicates_parser.add_argument("--output_table", '-o',
                                         help="Output table "
                                              "containing"
-                                             " both the replicates and the  ")
+                                             " both the replicates and correlation coefficients ")
     corr_replicates_parser.add_argument("--output_figure", '-f',
                                         help="Plot that show"
                                              " a histogram with the"
@@ -928,7 +928,7 @@ def main():
                                        help="Protein table ")
     find_complexes_parser.add_argument('--table_start_column' "-pc",
                                        required=True,
-                                       help="This parameter specified the number "
+                                       help="This parameter specify the number "
                                             "of the column with the first "
                                             "fraction in the protein table")
     find_complexes_parser.add_argument('--table_end_column' "-pe", required=True,
