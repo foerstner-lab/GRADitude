@@ -42,7 +42,7 @@ or
 In order to make GRADitude runnable, we have to  create a soft 
 link of graditudelib in bin.
 
-<code>$ $ cd GRADitude/bin</code>
+<code>$ cd GRADitude/bin</code>
 
 <code>$ ln -s ../graditudelib .</code>
 

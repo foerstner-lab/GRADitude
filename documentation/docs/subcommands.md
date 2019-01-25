@@ -25,7 +25,7 @@ the specified threshold.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude min_row_sum_ercc [-h] --ref_feature_count_table
                                   REF_FEATURE_COUNT_TABLE
                                   [--min_row_sum MIN_ROW_SUM]
@@ -53,7 +53,7 @@ the specified threshold.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude min_row_sum [-h] --feature_count_table FEATURE_COUNT_TABLE
                              --feature_count_start_column
                              FEATURE_COUNT_START_COLUMN --min_row MIN_ROW
@@ -82,7 +82,7 @@ basic arguments:
 This subcommand is specific for the sequencing data and it can be use to drop a specific column we would not
 like to don't consider in the downstream analysis. For example it can be used to drop the Lysate column.
 
-```text
+```bash
 
 usage: graditude drop_column [-h] --feature_count_table FEATURE_COUNT_TABLE
                              --column_to_drop COLUMN_TO_DROP --output_file
@@ -105,7 +105,7 @@ basic arguments:
 
 This subcommand extract from a table specific feature, such as sRNAs or mRNAs. 
 
-```text
+```bash
 usage: graditude selecting_specific_features [-h] --normalized_table
                                              NORMALIZED_TABLE
                                              --feature_count_start_column
@@ -150,7 +150,7 @@ only the inliers ERCCs.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude robust_regression [-h] --ref_feature_count_table
                                    REF_FEATURE_COUNT_TABLE
                                    --concentration_table CONCENTRATION_TABLE
@@ -192,7 +192,7 @@ considered as a reference sample obtained by taking the geometric mean across sa
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude normalize [-h] --feature_count_table FEATURE_COUNT_TABLE
                            [--feature_count_start_column FEATURE_COUNT_START_COLUMN]
                            [--feature_count_end_column FEATURE_COUNT_END_COLUMN]
@@ -238,7 +238,7 @@ of a transcript or a protein.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude scaling [-h] --feature_count_table FEATURE_COUNT_TABLE
                          --feature_count_start_column
                          FEATURE_COUNT_START_COLUMN
@@ -284,7 +284,7 @@ indicates the optimal number of clusters.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude clustering_elbow [-h] --feature_count_table
                                   FEATURE_COUNT_TABLE
                                   --feature_count_start_column
@@ -331,7 +331,7 @@ been included.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude clustering [-h] --feature_count_table FEATURE_COUNT_TABLE
                             --feature_count_start_column
                             FEATURE_COUNT_START_COLUMN --number_of_clusters
@@ -374,7 +374,7 @@ basic arguments:
 
 * Additional arguments
 
-```text
+```bash
 additional arguments:
   --epsilon EPSILON, -e EPSILON
                         This parameter is specific for the DBSCAN clustering
@@ -396,7 +396,7 @@ This subcommand is specific for the protein data.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude clustering_proteins [-h] --feature_count_table
                                      FEATURE_COUNT_TABLE
                                      --feature_count_start_column
@@ -429,7 +429,7 @@ basic arguments:
 
 * Additional arguments
 
-```text
+```bash
   --epsilon EPSILON, -e EPSILON
                         This parameter is specific for the DBSCAN clustering
                         algorithm. It defines how close points should be in
@@ -459,7 +459,7 @@ Bokeh and the JavaScript Callbacks one to navigate t the data-set.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude t_sne [-h] --feature_count_table FEATURE_COUNT_TABLE
                        --feature_count_start_column FEATURE_COUNT_START_COLUMN
                        --perplexity PERPLEXITY
@@ -495,7 +495,7 @@ basic arguments:
 
 * Additional arguments
 
-```text
+```bash
 additional arguments:
   --srna_list SRNA_LIST [SRNA_LIST ...], -list SRNA_LIST [SRNA_LIST ...]
                         This parameter allow the user to specify a list of
@@ -526,7 +526,7 @@ Bokeh and the JavaScript Callbacks one to navigate the data-set.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude pca [-h] --feature_count_table FEATURE_COUNT_TABLE
                      --feature_count_start_column FEATURE_COUNT_START_COLUMN
                      --feature_count_end_column FEATURE_COUNT_END_COLUMN
@@ -561,7 +561,7 @@ basic arguments:
 
 * Additional arguments
 
-```text
+```bash
 additional arguments:
   --srna_list_files SRNA_LIST_FILES [SRNA_LIST_FILES ...], -list SRNA_LIST_FILES [SRNA_LIST_FILES ...]
                         This parameter allow the user to specify a list of
@@ -593,7 +593,7 @@ Bokeh and the JavaScript Callbacks one to navigate the data-set.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude umap [-h] --feature_count_table FEATURE_COUNT_TABLE
                       --feature_count_start_column FEATURE_COUNT_START_COLUMN
                       --feature_count_end_column FEATURE_COUNT_END_COLUMN
@@ -634,7 +634,7 @@ basic arguments:
 
 * Additional arguments
 
-```text
+```bash
 additional arguments:
   --srna_list_files SRNA_LIST_FILES [SRNA_LIST_FILES ...], -list SRNA_LIST_FILES [SRNA_LIST_FILES ...]
                         This parameter allow the user to specify a list of
@@ -662,7 +662,7 @@ the sedimentation profiles of all detectable RNA and proteins.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude plot_kinetics [-h] --feature_count_table FEATURE_COUNT_TABLE
                                --feature_count_start_column
                                FEATURE_COUNT_START_COLUMN
@@ -697,7 +697,7 @@ This subcommand is useful to better visualize the in-gradient behavior of a
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude heatmap [-h] --feature_count_table FEATURE_COUNT_TABLE
                          [--feature_count_start_column FEATURE_COUNT_START_COLUMN]
                          [--feature_count_end_column FEATURE_COUNT_END_COLUMN]
@@ -727,7 +727,7 @@ you have chosen is correct for the data set.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude silhouette_analysis [-h] --feature_count_table
                                      FEATURE_COUNT_TABLE
                                      --feature_count_start_column
@@ -763,7 +763,7 @@ The assumption is that proteins or genes with an high correlation coefficients m
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude correlation_specific_gene [-h] --feature_count_table
                                            FEATURE_COUNT_TABLE
                                            --feature_count_start_column
@@ -806,7 +806,7 @@ The plot shows the percentile that might be used as cut-off in the network plot 
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude correlation_distribution_graph [-h]
                                                 --table_with_correlation_coefficient
                                                 TABLE_WITH_CORRELATION_COEFFICIENT
@@ -835,7 +835,7 @@ quantification tables are generated.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude correlation_rnas_protein [-h] --feature_count_table
                                           FEATURE_COUNT_TABLE
                                           --feature_count_start_column
@@ -881,7 +881,7 @@ the protein data.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude correlation_all_against_all [-h] --feature_count_table
                                              FEATURE_COUNT_TABLE
                                              --feature_count_start_column
@@ -916,7 +916,7 @@ This subcommand allows to see the distribution of the
                         replicates
 
 * Basic arguments
-```text
+```bash
 usage: graditude correlation_replicates [-h] --table_replicate1
                                         TABLE_REPLICATE1 --table_replicate2
                                         TABLE_REPLICATE2
@@ -957,7 +957,7 @@ been drawn using a force-directed layout, computed using the Fruchterman-Reingol
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude plot_network_graph [-h] --feature_count_table
                                     FEATURE_COUNT_TABLE --threshold THRESHOLD
                                     --max_size MAX_SIZE
@@ -988,7 +988,7 @@ will be generated.
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude interactive_plots [-h] --feature_count_table
                                    FEATURE_COUNT_TABLE
                                    --feature_count_start_column
@@ -1025,7 +1025,7 @@ basic arguments:
 * Additional arguments
 
 
-```text
+```bash
   --url_link URL_LINK, -url URL_LINK
                         This parameter allows to choose the website you would
                         like to open when clicking on a specific point in the
@@ -1041,7 +1041,7 @@ all the subunit of that specific complexes are present and calculate the correla
 
 * Basic arguments
 
-```text
+```bash
 usage: graditude find_complexes [-h] --tables_containing_list_complexes
                                 TABLES_CONTAINING_LIST_COMPLEXES
                                 --protein_table PROTEIN_TABLE
