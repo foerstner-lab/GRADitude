@@ -14,7 +14,7 @@ So far, Grad-seq has been used to globally study RNA-RNA and RNA-protein interac
 Salmonella Typhimurium and that allowed us to identify ProQ as a new global RNA-binding protein
 
 
-```text
+```bash
 usage: graditude [-h] [--version]
                  {create,min_row_sum_ercc,min_row_sum,drop_column,robust_regression,normalize,scaling,correlation_all_against_all,selecting_specific_features,heatmap,plot_kinetics,clustering,clustering_elbow,silhouette_analysis,pca,t_sne,umap,correlation_rnas_protein,correlation_distribution_graph,plot_network_graph,clustering_proteins,dimension_reduction_proteins,correlation_specific_gene,interactive_plots,correlation_replicates,find_complexes}
                  ...
