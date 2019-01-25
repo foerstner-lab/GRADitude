@@ -33,7 +33,7 @@ please install the pre-required libraries by yourself.
 All the source code of GRADitude can be retrieve 
 from our Git repository. Using the following commands can clone the source code easily.
 
-<code>$ git clone https://github.com/foerstner-lab/GRADitude.git
+<code>$ git clone https://github.com/foerstner-lab/GRADitude.git</code>
 
 or
 
@@ -128,5 +128,4 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   --version, -v         show version
-
 ```
