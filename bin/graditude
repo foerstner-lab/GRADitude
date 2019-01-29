@@ -1080,6 +1080,7 @@ def run_robust_regression(args):
 def run_clustering(args):
     clustering.clustering(args.feature_count_table,
                           args.feature_count_start_column,
+                          args.feature_count_end_column,
                           args.number_of_clusters,
                           args.pseudo_count, args.clustering_methods,
                           args.epsilon, args.min_samples,
