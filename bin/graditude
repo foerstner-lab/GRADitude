@@ -335,12 +335,12 @@ def main():
                                    required=True,
                                    help="This parameter specified the number"
                                         " of the column with the first fraction",
-                                   type=int, )
+                                   type=int)
     clustering_parser.add_argument("--feature_count_end_column", "-fe", required=True,
                                    help="Specify the number of "
                                         "the last fraction we would like to consider in the"
                                         " analysis",
-                                   type=int, )
+                                   type=int)
     clustering_parser.add_argument("--number_of_clusters", '-nc',
                                    default=False, type=int,
                                    help="This parameter specify the number of "
