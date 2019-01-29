@@ -205,8 +205,8 @@ def main():
     scaling_parser.add_argument(
         "--scaling_method", '-sm', required=True,
         choices=["no_normalization",
-                 "normalized_to_max",
-                 "normalized_to_range",
+                 "to_max",
+                 "to_range",
                  "log10", "log2"],
         help="Define the scaling methods you "
              "would like to apply. The user "
@@ -382,8 +382,8 @@ def main():
                                    type=int)
     clustering_parser.add_argument(
         "--scaling_method", '-sm', required=True,
-        choices=["no_normalization", "normalized_to_max",
-                 "normalized_to_range", "log10", "log2"],
+        choices=["no_normalization", "to_max",
+                 "to_range", "log10", "log2"],
         help="Define the scaling methods you would like to apply."
              " The user can choose between a normalization "
              "to the maximum value, to a range, a log10 and log 2 normalization."
