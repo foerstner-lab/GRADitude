@@ -14,14 +14,15 @@ def scaling_(feature_count_table, feature_count_start_column, feature_count_end_
               axis=1).to_csv(output_file, sep='\t', index=0)
 
 
-def _extract_value_matrix(feature_count_table_df,
-                          feature_count_start_column, feature_count_end_column):
-    return feature_count_table_df.iloc[:, int(feature_count_start_column):feature_count_end_column]
+def _extract_value_matrix(feature_count_table_df, feature_count_start_column,
+                          feature_count_end_column):
+    return feature_count_table_df.iloc[:, feature_count_start_column:(
+        feature_count_end_column)]
 
 
 def _extract_attributes(feature_count_table_df,
                         feature_count_start_column):
-    return feature_count_table_df.iloc[:, : int(feature_count_start_column)]
+    return feature_count_table_df.iloc[:, : feature_count_start_column]
 
 
 def normalize_values(values_matrix, scaling_method, pseudo_count):
@@ -33,13 +34,13 @@ def normalize_values(values_matrix, scaling_method, pseudo_count):
     elif scaling_method == "log10":
         normalized_values = values_matrix.applymap(
             lambda val: val + pseudo_count).applymap(np.log10)
-    elif scaling_method == "normalized_to_max":
+    elif scaling_method == "to_max":
         values_matrix = values_matrix.fillna(lambda x: 0)
         row_max_values = values_matrix.max(axis=1)
         normalized_values = values_matrix.divide(
             row_max_values, axis=0)
         normalized_values = pd.DataFrame(normalized_values).fillna(0)
-    elif scaling_method == "normalized_to_range":
+    elif scaling_method == "to_range":
         row_max_values = values_matrix.max(axis=1)
         row_min_values = values_matrix.min(axis=1)
         normalized_values = values_matrix.subtract(

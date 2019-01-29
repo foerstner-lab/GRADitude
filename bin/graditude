@@ -188,10 +188,11 @@ def main():
                                 help="Normalized gene quantification "
                                      "table or raw tables")
     scaling_parser.add_argument('--feature_count_start_column', '-fc',
-                                required=True,
+                                required=True, type=int,
                                 help="Specify the number of "
                                      "the column with the first fraction")
     scaling_parser.add_argument('--feature_count_end_column', '-fe', required=True,
+                                type=int,
                                 help="Specify the number of "
                                      "the last fraction we would like to consider in the"
                                      " analysis")
