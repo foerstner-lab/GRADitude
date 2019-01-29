@@ -77,7 +77,7 @@ def regression(read_grad_value, read_concentration_value, gradient_file,
         read_grad_value_log10 = np.log10(read_grad_value[gradient])
         read_grad_value_log10[read_grad_value_log10 == -inf] = 0
         concentration_log10[concentration_log10 == -inf] = 0
-        x_values = read_grad_value_log10.reshape(len(key), 1)
+        x_values = read_grad_value_log10.values.reshape(len(key), 1)
         y_values = concentration_log10.reshape(len(key), 1)
         clt_ransac = linear_model.RANSACRegressor(linear_model.LinearRegression())
         clt_ransac = clt_ransac.fit(x_values, y_values)
