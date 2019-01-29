@@ -485,7 +485,7 @@ def main():
                                  "a specific list. It allows the user to "
                                  "specify the label on the third plot")
     pca_parser.add_argument("--color_set", "-set_colors",
-                            default=bokeh.palettes.Set2,
+                            default=bokeh.palettes.Colorblind,
                             help="This parameter can be changed if you are looking "
                                  "for a specific color combination "
                                  "for your output plot")
@@ -540,7 +540,7 @@ def main():
                                     "a specific list. It allows the user to "
                                     "specify the label on the third plot")
     t_sne__parser.add_argument("--color_set", "-set_colors",
-                               default=bokeh.palettes.Set2,
+                               default=bokeh.palettes.Colorblind,
                                help="This parameter can be changed if you are looking "
                                     "for a specific color combination "
                                     "for your output plot")
@@ -595,7 +595,7 @@ def main():
                                   "values are good to preserve the overall structure",
                              default=0.1)
     umap_parser.add_argument("--color_set", "-set_colors",
-                             default=bokeh.palettes.Set2,
+                             default=bokeh.palettes.Colorblind,
                              help="This parameter can be changed if you are looking "
                                   "for a specific color combination "
                                   "for your output plot")
