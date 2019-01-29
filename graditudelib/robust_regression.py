@@ -4,6 +4,7 @@ from numpy import inf
 import matplotlib.pyplot as plt
 from sklearn import linear_model
 from sklearn.linear_model import RANSACRegressor
+plt.switch_backend('agg')
 
 
 def robust_regression(
