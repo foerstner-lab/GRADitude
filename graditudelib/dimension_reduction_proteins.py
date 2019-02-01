@@ -1,11 +1,11 @@
 import pandas as pd
 from sklearn.manifold import TSNE
+from sklearn.decomposition import PCA
 import numpy as np
 import umap
 from bokeh.plotting import figure, output_file, save, ColumnDataSource
 from bokeh.models import HoverTool, BoxZoomTool, ResetTool, PanTool
 from bokeh.models import WheelZoomTool, TapTool, OpenURL
-from sklearn.decomposition import PCA
 import bokeh.palettes
 
 
@@ -14,21 +14,28 @@ def dr_proteins(feature_count_table, feature_count_start_column,
                 perplexity, n_neighbors, min_dist, output_colored_clusters):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
-                                         feature_count_start_column, feature_count_end_column)
+                                         feature_count_start_column,
+                                         feature_count_end_column)
     if dimension_reduction_algorithm == "t-SNE":
-        t_sne_result = perform_t_sne(value_matrix, perplexity)
-        plot_t_sne(value_matrix, t_sne_result, output_colored_clusters)
+        t_sne_result = perform_t_sne(value_matrix,
+                                     perplexity)
+        plot_t_sne(value_matrix, t_sne_result,
+                   output_colored_clusters)
     elif dimension_reduction_algorithm == "PCA":
         pca_result = perform_pca(value_matrix)
-        plot_pca(value_matrix, pca_result, output_colored_clusters)
+        plot_pca(value_matrix, pca_result,
+                 output_colored_clusters)
     elif dimension_reduction_algorithm == "UMAP":
         umap_result = perform_umap(value_matrix, n_neighbors, min_dist)
-        plot_umap(value_matrix, umap_result, output_colored_clusters)
+        plot_umap(value_matrix, umap_result,
+                  output_colored_clusters)
 
 
 def _extract_value_matrix(feature_count_table_df,
-                          feature_count_start_column, feature_count_end_column):
-    return feature_count_table_df.iloc[:, int(feature_count_start_column):feature_count_end_column]
+                          feature_count_start_column,
+                          feature_count_end_column):
+    return feature_count_table_df.iloc[:,
+                                       feature_count_start_column:feature_count_end_column]
 
 
 def perform_t_sne(normalized_values, perplexity):
@@ -74,22 +81,22 @@ def plot_t_sne(read_counting_table, tsne_result, output_file_colorized_by_cluste
         ("Protein.names", "@feature"),
         ("Protein.IDs", "@id")])
 
-    p = figure(plot_width=700, plot_height=700,
-               tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
-                      WheelZoomTool(), "tap"],
-               title="Grad-Seq t-SNE RNA-Seq", logo=None)
+    plot = figure(plot_width=700, plot_height=700,
+                  tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
+                         WheelZoomTool(), "tap"],
+                  title="Grad-Seq t-SNE RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color='color')
+    plot.circle("x", "y", source=source, size=5, alpha=0.7, color='color')
 
     url = "http://www.uniprot.org/uniprot/@id"
-    taptool = p.select(type=TapTool)
+    taptool = plot.select(type=TapTool)
     taptool.callback = OpenURL(url=url)
 
-    p.xaxis.axis_label = "Dimension 1"
-    p.yaxis.axis_label = "Dimension 2"
+    plot.xaxis.axis_label = "Dimension 1"
+    plot.yaxis.axis_label = "Dimension 2"
 
     output_file(output_file_colorized_by_clusters)
-    save(p)
+    save(plot)
 
 
 def plot_pca(read_counting_table, pca_result, output_file_colorized_by_clusters):
@@ -115,22 +122,22 @@ def plot_pca(read_counting_table, pca_result, output_file_colorized_by_clusters)
         ("Protein.names", "@feature"),
         ("Protein.IDs", "@id")])
 
-    p = figure(plot_width=700, plot_height=700,
-               tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
-                      WheelZoomTool(), "tap"],
-               title="Grad-Seq PCA RNA-Seq", logo=None)
+    plot = figure(plot_width=700, plot_height=700,
+                  tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
+                         WheelZoomTool(), "tap"],
+                  title="Grad-Seq PCA RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color='color')
+    plot.circle("x", "y", source=source, size=5, alpha=0.7, color='color')
 
     url = "http://www.uniprot.org/uniprot/@id"
-    taptool = p.select(type=TapTool)
+    taptool = plot.select(type=TapTool)
     taptool.callback = OpenURL(url=url)
 
-    p.xaxis.axis_label = "Component 1"
-    p.yaxis.axis_label = "Component 2"
+    plot.xaxis.axis_label = "Component 1"
+    plot.yaxis.axis_label = "Component 2"
 
     output_file(output_file_colorized_by_clusters)
-    save(p)
+    save(plot)
 
 
 def plot_umap(read_counting_table, umap_result, output_file_colorized_by_clusters):
@@ -156,19 +163,19 @@ def plot_umap(read_counting_table, umap_result, output_file_colorized_by_cluster
         ("Protein.names", "@feature"),
         ("Protein.IDs", "@id")])
 
-    p = figure(plot_width=700, plot_height=700,
-               tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
-                      WheelZoomTool(), "tap"],
-               title="Grad-Seq t-SNE UMAP-Seq", logo=None)
+    plot = figure(plot_width=700, plot_height=700,
+                  tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
+                         WheelZoomTool(), "tap"],
+                  title="Grad-Seq t-SNE UMAP-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=5, alpha=0.7, color='color')
+    plot.circle("x", "y", source=source, size=5, alpha=0.7, color='color')
 
     url = "http://www.uniprot.org/uniprot/@id"
-    taptool = p.select(type=TapTool)
+    taptool = plot.select(type=TapTool)
     taptool.callback = OpenURL(url=url)
 
-    p.xaxis.axis_label = "Dimension 1"
-    p.yaxis.axis_label = "Dimension 2"
+    plot.xaxis.axis_label = "Dimension 1"
+    plot.yaxis.axis_label = "Dimension 2"
 
     output_file(output_file_colorized_by_clusters)
-    save(p)
+    save(plot)

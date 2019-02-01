@@ -11,7 +11,8 @@ import numpy as np
 def pca_(feature_count_table, feature_count_start_column,
          feature_count_end_column, srna_list_files, cluster_names,
          url_link,
-         output_file_colorized_by_clusters, output_file_colorized_by_rna_class,
+         output_file_colorized_by_clusters,
+         output_file_colorized_by_rna_class,
          output_file_colorized_by_lists):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
@@ -212,7 +213,7 @@ def plot_pca_colored_by_lists(read_counting_table, pca_result,
                               output_file_list, srnas_and_list_names,
                               cluster_names, url_link):
     read_counting_table["PCA-component_1"] = [pos[0] for pos in pca_result]
-    read_counting_table["PCA- component_2"] = [pos[1] for pos in pca_result]
+    read_counting_table["PCA-component_2"] = [pos[1] for pos in pca_result]
 
     read_counting_table["Attributes_split"] = read_counting_table[
         "Attributes"].apply(

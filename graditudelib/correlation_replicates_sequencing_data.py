@@ -59,7 +59,8 @@ def plot(concat_df, output_figure):
     axes_x = fig.add_subplot(1, 1, 1)
     axes_x.set_xlim(concat_df["rho"].min(), 1)
     plt.hist(concat_df["rho"], bins=50)
-    plt.title("Spearman correlation coefficient between replicates (RNA-Seq)", fontsize=13)
+    plt.title("Spearman correlation coefficient between replicates (RNA-Seq)",
+              fontsize=13)
     plt.xlabel("Spearman correlation coefficient", fontsize=15)
     plt.ylabel("Occurance", fontsize=15)
     plt.savefig(output_figure)
