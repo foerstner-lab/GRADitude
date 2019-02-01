@@ -54,8 +54,8 @@ def plot_pca_using_clustering(read_counting_table, pca_result,
             [key_value_pair.split("=")
              for key_value_pair in attr.split(";")]))
 
-    color_palette = bokeh.palettes.Colorblind(
-        len(read_counting_table["Cluster_label"].unique()))
+    color_palette = bokeh.palettes.Colorblind[(
+        len(read_counting_table["Cluster_label"].unique()))]
     color = read_counting_table["Cluster_label"].apply(
         lambda lable: color_palette[lable])
     label = read_counting_table.apply(
