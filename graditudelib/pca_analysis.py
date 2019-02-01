@@ -273,7 +273,7 @@ def plot_pca_colored_by_lists(read_counting_table, pca_result,
 def _color_1(row, srnas_and_list_names, palette_map):
     color = palette_map[row["Feature"]]
     srna_cluster_color = {"sRNA_cluster_1": "#FF4D4D",
-                          "sRNA_cluster_2": "#0000ff",
+                          "sRNA_cluster_2": "#F0F3F4",
                           "sRNA_cluster_3": "#000000",
                           "sRNA_cluster_4": "#FFFF00"}
     for feature in ["Gene"]:
