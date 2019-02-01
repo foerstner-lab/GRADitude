@@ -497,7 +497,7 @@ def main():
                             help="Output plot colorized using attributes "
                                  "information")
     pca_parser.add_argument("--output_file_colorized_by_lists", "-o3",
-                            required=True,
+                            default=False,
                             help="Output plot colorized using a specific list")
 
     t_sne__parser = subparsers.add_parser("t_sne",
