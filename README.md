@@ -19,7 +19,7 @@ Grad-seq experiment into a list of potential molecular complexes.
 
 # Documentation
 
-Documentation can be found on [here](https://silviadg87.github.io/GRADitude/).
+Documentation can be found on [here](https://foerstner-lab.github.io/GRADitude/).
 
 # Installation
 
