@@ -571,7 +571,7 @@ def main():
                              help="This parameter is required only if you provide "
                                   "a specific list. It allows the user to "
                                   "specify the label on the third plot")
-    umap_parser.add_argument("--n_neighbors", "-n_neighbors", required=False, type=float,
+    umap_parser.add_argument("--n_neighbors", "-n_neighbors", required=False, type=int,
                              help="This parameter helps to balances local vs global "
                                   "structure in the data.",
                              default=15)
