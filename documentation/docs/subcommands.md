@@ -465,7 +465,7 @@ usage: graditude t_sne [-h] --feature_count_table FEATURE_COUNT_TABLE
                        --perplexity PERPLEXITY
                        [--srna_list SRNA_LIST [SRNA_LIST ...]]
                        [--cluster_names CLUSTER_NAMES [CLUSTER_NAMES ...]]
-                       [--color_set COLOR_SET] [--url_link URL_LINK]
+                       [--url_link URL_LINK]
                        [--output_file1 OUTPUT_FILE1]
                        [--output_file2 OUTPUT_FILE2]
                        [--output_file3 OUTPUT_FILE3]
@@ -505,9 +505,6 @@ additional arguments:
                         This parameter is required only if you provide a
                         specific list. It allows the user to specify the label
                         on the third plot
-  --color_set COLOR_SET, -set_colors COLOR_SET
-                        This parameter can be changed if you are looking for a
-                        specific color combination for your output plot
   --url_link URL_LINK, -url URL_LINK
                         This parameter allowed to choose the website you would
                         like to open when clicking on a specific point in the
@@ -532,7 +529,7 @@ usage: graditude pca [-h] --feature_count_table FEATURE_COUNT_TABLE
                      --feature_count_end_column FEATURE_COUNT_END_COLUMN
                      [--srna_list_files SRNA_LIST_FILES [SRNA_LIST_FILES ...]]
                      [--cluster_names CLUSTER_NAMES [CLUSTER_NAMES ...]]
-                     [--color_set COLOR_SET] [--url_link URL_LINK]
+                     [--url_link URL_LINK]
                      --output_file_colorized_by_clusters
                      OUTPUT_FILE_COLORIZED_BY_CLUSTERS
                      --output_file_colorized_by_rna_class
@@ -571,9 +568,6 @@ additional arguments:
                         This parameter is required only if you provide a
                         specific list. It allows the user to specify the label
                         on the third plot
-  --color_set COLOR_SET, -set_colors COLOR_SET
-                        This parameter can be changed if you are looking for a
-                        specific color combination for your output plot
   --url_link URL_LINK, -url URL_LINK
                         This parameter allowed to choose the website you would
                         like to open when clicking on a specific point in the
@@ -600,12 +594,12 @@ usage: graditude umap [-h] --feature_count_table FEATURE_COUNT_TABLE
                       [--srna_list SRNA_LIST [SRNA_LIST ...]]
                       [--cluster_names CLUSTER_NAMES [CLUSTER_NAMES ...]]
                       [--n_neighbors N_NEIGHBORS] [--nmin_dist NMIN_DIST]
-                      [--color_set COLOR_SET] [--url_link URL_LINK]
+                      [--url_link URL_LINK]
                       [--output_file1 OUTPUT_FILE1]
                       [--output_file2 OUTPUT_FILE2]
                       [--output_file3 OUTPUT_FILE3]
 
-basic arguments:
+basic arguments:from sklearn.decomposition import PCA
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
                         This parameter specified the table we would like to
                         use. It can be the normalized or the raw table
@@ -644,9 +638,6 @@ additional arguments:
                         This parameter is required only if you provide a
                         specific list. It allows the user to specify the label
                         on the third plot
-  --color_set COLOR_SET, -set_colors COLOR_SET
-                        This parameter can be changed if you are looking for a
-                        specific color combination for your output plot
   --url_link URL_LINK, -url URL_LINK
                         This parameter allowed to choose the website you would
                         like to open when clicking on a specific point in the
