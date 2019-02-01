@@ -112,7 +112,13 @@ def _label_clustering(row):
 
 def create_palette_map(read_counting_table):
     feature_unique_values = read_counting_table["Feature"].unique()
-    color_palette = bokeh.palettes.Colorblind[(len(feature_unique_values))]
+    colors = len(feature_unique_values)
+
+    if colors < 3:
+        color_palette = ["#0000ff", "#ffff00"]
+    else:
+        color_palette = bokeh.palettes.Colorblind[colors]
+
     palette_map = {}
     for index in range(0, len(feature_unique_values)):
         palette_map[feature_unique_values[index]] = color_palette[index]
