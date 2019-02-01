@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.manifold import TSNE
 import numpy as np
+import bokeh.palettes
 from bokeh.plotting import figure, output_file, save, ColumnDataSource
 from bokeh.models import HoverTool, BoxZoomTool, ResetTool, PanTool
 from bokeh.models import WheelZoomTool, TapTool, OpenURL
@@ -8,7 +9,7 @@ from bokeh.models import WheelZoomTool, TapTool, OpenURL
 
 def t_sne(feature_count_table, feature_count_start_column,
           feature_count_end_column,
-          perplexity, srna_list_files, cluster_names, color_set, url_link,
+          perplexity, srna_list_files, cluster_names, url_link,
           output_file_colorized_by_clusters,
           output_file_colorized_by_rna_class,
           output_colored_by_lists):
@@ -18,15 +19,14 @@ def t_sne(feature_count_table, feature_count_start_column,
                                          feature_count_end_column)
     t_sne_results = perform_t_sne(value_matrix, perplexity)
     plot_t_sne_using_clustering(feature_count_table_df, t_sne_results,
-                                output_file_colorized_by_clusters, color_set, url_link)
+                                output_file_colorized_by_clusters, url_link)
     plot_using_only_rna_colors(feature_count_table_df, t_sne_results,
-                               output_file_colorized_by_rna_class,
-                               color_set, url_link)
+                               output_file_colorized_by_rna_class, url_link)
 
     if srna_list_files:
         srnas_and_list_names = read_srna_lists(srna_list_files)
         plot_t_sne_colored_by_lists(feature_count_table_df, t_sne_results, output_colored_by_lists,
-                                    srnas_and_list_names, cluster_names, color_set, url_link)
+                                    srnas_and_list_names, cluster_names, url_link)
 
 
 def _extract_value_matrix(feature_count_table_df,
@@ -42,7 +42,7 @@ def perform_t_sne(normalized_values, perplexity):
 
 
 def plot_t_sne_using_clustering(read_counting_table, tsne_result,
-                                output_file_colorized_by_clusters, color_set, url_link):
+                                output_file_colorized_by_clusters, url_link):
     read_counting_table["t-SNE-component_1"] = [pos[0] for pos in tsne_result]
     read_counting_table["t-SNE-component_2"] = [pos[1] for pos in tsne_result]
 
@@ -51,7 +51,7 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result,
             [key_value_pair.split("=")
              for key_value_pair in attr.split(";")]))
 
-    color_palette = color_set[(
+    color_palette = bokeh.palettes.Colorblind[(
         len(read_counting_table["Cluster_label"].unique()))]
     color = read_counting_table["Cluster_label"].apply(
         lambda lable: color_palette[lable])
@@ -110,9 +110,9 @@ def _label_clustering(row):
     return __label
 
 
-def create_palette_map(read_counting_table, color_set):
+def create_palette_map(read_counting_table):
     feature_unique_values = read_counting_table["Feature"].unique()
-    color_palette = color_set[(len(feature_unique_values))]
+    color_palette = bokeh.palettes.Colorblind[(len(feature_unique_values))]
     palette_map = {}
     for index in range(0, len(feature_unique_values)):
         palette_map[feature_unique_values[index]] = color_palette[index]
@@ -120,7 +120,7 @@ def create_palette_map(read_counting_table, color_set):
 
 
 def plot_using_only_rna_colors(read_counting_table, t_sne_result,
-                               output_file_colorized_by_rna_class, color_set, url_link):
+                               output_file_colorized_by_rna_class, url_link):
     read_counting_table["t-SNE-component_1"] = [pos[0] for pos in t_sne_result]
     read_counting_table["t-SNE-component_2"] = [pos[1] for pos in t_sne_result]
 
@@ -130,7 +130,7 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result,
                 [key_value_pair.split("=") for
                  key_value_pair in attr.split(";")]))
 
-    palette_map = create_palette_map(read_counting_table, color_set)
+    palette_map = create_palette_map(read_counting_table)
     color = read_counting_table["Feature"].apply(
         lambda lable: palette_map[lable])
     label = read_counting_table.apply(
@@ -199,7 +199,7 @@ def read_srna_lists(srna_list_files):
 
 def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
                                 output_file_list, srnas_and_list_names,
-                                cluster_names, color_set, url_link):
+                                cluster_names, url_link):
     read_counting_table["t-SNE-component_1"] = [pos[0] for pos in tsne_result]
     read_counting_table["t-SNE-component_2"] = [pos[1] for pos in tsne_result]
 
@@ -209,7 +209,7 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
                 [key_value_pair.split("=") for
                  key_value_pair in attr.split(";")]))
 
-    palette_map = create_palette_map(read_counting_table, color_set)
+    palette_map = create_palette_map(read_counting_table)
     color = read_counting_table.apply(
         _color_1, args=(srnas_and_list_names, palette_map), axis=1)
     label = read_counting_table.apply(
