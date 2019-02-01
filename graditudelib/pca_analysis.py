@@ -4,14 +4,12 @@ import pandas as pd
 from bokeh.plotting import figure, output_file, save, ColumnDataSource
 from bokeh.models import HoverTool, BoxZoomTool, ResetTool, PanTool
 from bokeh.models import WheelZoomTool, TapTool, OpenURL
-from graditudelib import projectcreator
 import numpy as np
 
 
 def pca_(feature_count_table, feature_count_start_column, feature_count_end_column, srna_list_files, cluster_names,
          color_set, url_link,
          output_file_colorized_by_clusters, output_file_colorized_by_rna_class, output_file_colorized_by_lists):
-    initialize()
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column, feature_count_end_column)
@@ -83,7 +81,7 @@ def plot_pca_using_clustering(read_counting_table, pca_result, output_file_color
                       WheelZoomTool(), "tap"],
                title="Grad-Seq PCA RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=7, alpha=3, color='color', legend="label", line_color="grey")
+    p.circle("x", "y", source=source, size=7, alpha=3, color='color', legend="label", line_color="black")
     p.yaxis.axis_label_text_font_size = "15pt"
     p.xaxis.axis_label_text_font_size = "15pt"
     p.title.text_font_size = '15pt'
@@ -159,7 +157,7 @@ def plot_using_only_rna_colors(read_counting_table, pca_result, output_file_colo
                       WheelZoomTool(), "tap"],
                title="Grad-Seq PCA RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=7, alpha=3, color='color', legend='label', line_color="grey")
+    p.circle("x", "y", source=source, size=7, alpha=3, color='color', legend='label', line_color="black")
     p.yaxis.axis_label_text_font_size = "15pt"
     p.xaxis.axis_label_text_font_size = "15pt"
     p.title.text_font_size = '15pt'
@@ -236,7 +234,7 @@ def plot_pca_colored_by_lists(read_counting_table, pca_result,
                       WheelZoomTool(), "tap"],
                title="Grad-Seq PCA RNA-Seq", logo=None)
 
-    p.circle("x", "y", source=source, size=7, alpha=3, color="color", legend='label', line_color="grey")
+    p.circle("x", "y", source=source, size=7, alpha=3, color="color", legend='label', line_color="black")
     p.yaxis.axis_label_text_font_size = "15pt"
     p.xaxis.axis_label_text_font_size = "15pt"
     p.title.text_font_size = '15pt'
@@ -279,5 +277,3 @@ def _label_1(row, srnas_and_list_names, cluster_names):
     return label
 
 
-def initialize():
-    projectcreator.create_subfolders("GRADitude/output/", ["PCA"])
