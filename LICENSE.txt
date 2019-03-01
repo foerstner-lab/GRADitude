@@ -1,4 +1,4 @@
-Copyright (c) 2017, Silvia Di Giorgio  <silvia.digiorgio@uni-wuerzburg.de>,
+Copyright (c) 2019, Silvia Di Giorgio  <silvia.digiorgio@uni-wuerzburg.de>,
                     Konrad Förstner <konrad.foerstner@uni-wuerzburg.de>
 
 Permission to use, copy, modify, and/or distribute this software for
