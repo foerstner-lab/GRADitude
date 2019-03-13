@@ -6,8 +6,10 @@ import numpy as np
 def find_complexes(tables_containing_list_complexes, protein_table,
                    feature_count_start_column, feature_count_end_column,
                    output_table):
-    selected_complexes = get_into_excel_complexes_table(tables_containing_list_complexes,
-                                                        protein_table,
+    tables_containing_list_complexes_df = pd.read_excel(tables_containing_list_complexes, sep='\t')
+    protein_table_df = pd.read_table(protein_table, sep='\t')
+    selected_complexes = get_into_excel_complexes_table(tables_containing_list_complexes_df,
+                                                        protein_table_df,
                                                         feature_count_start_column,
                                                         feature_count_end_column)
     table_with_selected_complexes = modifying_first_letter(selected_complexes)
@@ -24,16 +26,15 @@ def get_into_excel_complexes_table(tables_containing_list_complexes, protein_tab
         for row in range(0, col.size):
             complex_name = col.name
             gene_name = col[row]
-
-            selected_df = protein_table.loc[protein_table['Gene.names'] == gene_name]
-            selected_df = selected_df.iloc[:, feature_count_start_column: -feature_count_end_column]
+            protein_table["Uniprot_ID"] = protein_table["Protein.IDs"].apply(
+                lambda attr: attr.split("|")[1])
+            selected_df = protein_table.loc[protein_table['Uniprot_ID'] == gene_name]
+            selected_df = selected_df.iloc[:, int(feature_count_start_column): feature_count_end_column]
 
             cols = list(selected_df)
             if selected_df.empty:
-                print("empty")
-                selected_df = pd.DataFrame().append({'complex_name': complex_name,
-                                                     "gene": gene_name},
-                                                    ignore_index=True)
+                # print("empty")
+                selected_df = pd.DataFrame().append({'complex_name': complex_name, "gene": gene_name}, ignore_index=True)
             else:
                 selected_df['complex_name'] = complex_name
                 selected_df['gene'] = gene_name
@@ -46,9 +47,7 @@ def get_into_excel_complexes_table(tables_containing_list_complexes, protein_tab
 
 def modifying_first_letter(table_with_complexes):
     table_capitalized = table_with_complexes.gene.str.capitalize()
-    table_capitalized_last = \
-        table_capitalized.apply(lambda s: (s[:1].upper()
-                                           + s[1:-1] + s[-1:].upper())[:len(s)])
+    table_capitalized_last = table_capitalized.apply(lambda s: (s[:1].upper() + s[1:-1] + s[-1:].upper())[:len(s)])
     table_capitalized_df = pd.Series.to_frame(table_capitalized_last)
     table_concat = pd.concat([table_capitalized_df, table_with_complexes], axis=1)
     return table_concat
@@ -73,16 +72,19 @@ def correlation(table_with_selected_complexes, output_table):
         if series_df.empty:
             continue
 
-        rho = spearmanr_corrected(series_df, axis=1)
+        rho, pval = spearmanr_corrected(series_df, axis=1)
         standard_deviation = series_df.stack().std()
         rho_median = calculate_median_upper_triangle(rho)
         rho_mean = calculate_mean_upper_triaglie(rho)
         table_with_selected_complexes.loc[
-            table_with_selected_complexes.complex_name == key, 'rho_median'] = rho_median
+            table_with_selected_complexes.complex_name == key,
+            'rho_median'] = rho_median
         table_with_selected_complexes.loc[
-            table_with_selected_complexes.complex_name == key, 'rho_mean'] = rho_mean
+            table_with_selected_complexes.complex_name == key,
+            'rho_mean'] = rho_mean
         table_with_selected_complexes.loc[
-            table_with_selected_complexes.complex_name == key, 'standard_deviation'] = \
+            table_with_selected_complexes.complex_name == key,
+            'standard_deviation'] = \
             standard_deviation
 
     table_with_complete_complexes = table_with_selected_complexes.dropna(
@@ -95,7 +97,7 @@ def correlation(table_with_selected_complexes, output_table):
 def finding_number_of_complexes(table_with_selected_complexes):
     table_with_complexes_df_grouped = table_with_selected_complexes.groupby(
         'complex_name').agg(
-            lambda x: set(x)).reset_index()
+        lambda x: set(x)).reset_index()
     print(len(table_with_complexes_df_grouped.index))
 
 
@@ -107,8 +109,8 @@ def calculate_mean_upper_triaglie(matrix):
     return np.mean(matrix[np.triu_indices_from(matrix, 1)])
 
 
-def spearmanr_corrected(a, b=None, axis=0, nan_policy='propagate'):
-    rho, pval = spearmanr(a, b, axis=axis, nan_policy=nan_policy)
+def spearmanr_corrected(a, b=None, axis=0):
+    rho, pval = spearmanr(a, b, axis=axis)
 
     # handle edge case where rho is not a matrix (len(series_df) == 2)
     if np.isscalar(rho):

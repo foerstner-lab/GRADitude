@@ -911,12 +911,12 @@ def main():
     find_complexes_parser.add_argument("--protein_table", "-p",
                                        required=True,
                                        help="Protein table ")
-    find_complexes_parser.add_argument('--table_start_column' "-pc",
+    find_complexes_parser.add_argument('--table_start_column', "-pc", type=int,
                                        required=True,
                                        help="This parameter specify the number "
                                             "of the column with the first "
                                             "fraction in the protein table")
-    find_complexes_parser.add_argument('--table_end_column' "-pe", required=True,
+    find_complexes_parser.add_argument('--table_end_column', "-pe", required=True, type=int,
                                        help="Specify the number of "
                                             "the last fraction we would like to "
                                             "consider in the"
