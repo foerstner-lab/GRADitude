@@ -87,7 +87,7 @@ def plot_t_sne(read_counting_table, tsne_result, output_file_colorized_by_cluste
     plot = figure(plot_width=900, plot_height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
-                  title="Grad-Seq PCA RNA-Seq", logo=None)
+                  title="Grad-Seq t-SNE proteins", logo=None)
 
     plot.circle("x", "y", source=source, size=7, alpha=3,
                 color='color', legend="label", line_color="black")
@@ -135,7 +135,7 @@ def plot_pca(read_counting_table, pca_result, output_file_colorized_by_clusters)
     plot = figure(plot_width=900, plot_height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
-                  title="Grad-Seq PCA RNA-Seq", logo=None)
+                  title="Grad-Seq PCA proteins", logo=None)
 
     plot.circle("x", "y", source=source, size=7, alpha=3,
                 color='color', legend="label", line_color="black")
@@ -183,7 +183,7 @@ def plot_umap(read_counting_table, umap_result, output_file_colorized_by_cluster
     plot = figure(plot_width=900, plot_height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
-                  title="Grad-Seq PCA RNA-Seq", logo=None)
+                  title="Grad-Seq UMAP proteins", logo=None)
 
     plot.circle("x", "y", source=source, size=7, alpha=3,
                 color='color', legend="label", line_color="black")
