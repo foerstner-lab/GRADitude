@@ -1,6 +1,6 @@
 # About GRADitude 
 
-GRADitude - The GRAD-Seq data analysis tool
+GRADitude - The GRAD-seq data analysis tool
 
 Grad-seq is a high-throughput profiling approach for the organism-wide
 detection of RNA-RNA and RNA-protein interactions in which molecular
