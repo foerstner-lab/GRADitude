@@ -750,7 +750,7 @@ def main():
                                    choices=["t-SNE", "PCA", "UMAP"], default="t-SNE"
                                    )
     dr_protein_parser.add_argument("--perplexity", "-pp",
-                                   required=True, type=int)
+                                   required=False, type=int)
     dr_protein_parser.add_argument("--n_neighbors", "-n_neighbors",
                                    required=False, type=float,
                                    help="This parameter helps "
