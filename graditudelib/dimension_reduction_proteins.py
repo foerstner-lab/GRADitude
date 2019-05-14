@@ -35,7 +35,7 @@ def _extract_value_matrix(feature_count_table_df,
                           feature_count_start_column,
                           feature_count_end_column):
     return feature_count_table_df.iloc[:,
-           feature_count_start_column:feature_count_end_column]
+                                       feature_count_start_column:feature_count_end_column]
 
 
 def perform_t_sne(normalized_values, perplexity):
@@ -72,7 +72,8 @@ def plot_t_sne(read_counting_table, tsne_result, output_file_colorized_by_cluste
     hower_data = dict(
         x=read_counting_table["t-SNE-component_1"],
         y=read_counting_table["t-SNE-component_2"],
-        feature=read_counting_table["Gene"],
+        feature=read_counting_table["Protein.names"],
+        id=read_counting_table["Protein.IDs"],
         cluster_label=read_counting_table["Cluster_label"],
         color=color,
         label=label)
