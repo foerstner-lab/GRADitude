@@ -23,7 +23,7 @@ positional arguments:
   {create,min_row_sum_ercc,min_row_sum,drop_column,robust_regression,normalize,scaling,correlation_all_against_all,selecting_specific_features,heatmap,plot_kinetics,clustering,clustering_elbow,silhouette_analysis,pca,t_sne,umap,correlation_rnas_protein,correlation_distribution_graph,plot_network_graph,clustering_proteins,dimension_reduction_proteins,correlation_specific_gene,interactive_plots,correlation_replicates,find_complexes}
                         commands
     min_row_sum_ercc    Filter the ERCC table based on the min row sum. It
-                        calculates the sum row_wise and discard the rows with
+                        calculates the sum row wise and discard the rows with
                         a sum below the threshold specified
     min_row_sum         Filter the gene quantification table based on the min
                         row sum. It calculates the sum row_wise and discard
@@ -86,8 +86,8 @@ positional arguments:
                         replicates
     find_complexes      With this subcommand we look at how many of the know
                         protein complexes are actually present in our specific
-                        data sets.It finds if all the subunit of that specific
-                        complexes are present and calculate the correlation
+                        data set. It finds if all the subunit of that 
+                        complex are present and calculate the correlation among them
 
 optional arguments:
   -h, --help            show this help message and exit
