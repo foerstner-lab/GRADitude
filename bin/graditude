@@ -628,6 +628,8 @@ def main():
                                          help="Specify the number of "
                                               "the last fraction we would like to consider in the"
                                               " analysis in the first table")
+    corr_rna_protein_parser.add_argument("--index_sequencing", "-gene", type=str)
+    corr_rna_protein_parser.add_argument("--index_protein", "-protein", type=str)
     corr_rna_protein_parser.add_argument("--correlation_type", "-corr",
                                          choices=["Pearson", "Spearman"],
                                          help="Choose if want to apply the Pearson "
@@ -1085,6 +1087,8 @@ def correlation_rnas_protein(args):
                                                     args.protein_table,
                                                     args.protein_count_start_column,
                                                     args.protein_count_end_column,
+                                                    args.index_sequencing,
+                                                    args.index_protein,
                                                     args.correlation_type,
                                                     args.output_file)
 

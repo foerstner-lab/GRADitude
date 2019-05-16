@@ -4,12 +4,14 @@ from scipy import stats
 
 def rna_protein_correlation(feature_count_table, feature_count_start_column,
                             feature_count_end_column, protein_table,
-                            protein_count_start_column, protein_count_end_column, correlation,
+                            protein_count_start_column, protein_count_end_column,
+                            index_sequencing, index_protein,
+                            correlation,
                             output_file):
     sequencing_table = pd.read_table(feature_count_table)
     protein_table = pd.read_table(protein_table)
-    sequencing_table.set_index('Gene', inplace=True)
-    protein_table.set_index('Protein.IDs', inplace=True)
+    sequencing_table.set_index(index_sequencing, inplace=True)
+    protein_table.set_index(index_protein, inplace=True)
     value_matrix_sequencing = _extract_value_matrix(sequencing_table, feature_count_start_column,
                                                     feature_count_end_column)
     value_matrix_protein = _extract_value_matrix(protein_table, protein_count_start_column,
@@ -22,8 +24,8 @@ def rna_protein_correlation(feature_count_table, feature_count_start_column,
 
 def _extract_value_matrix(feature_count_table_df, feature_count_start_column,
                           feature_count_end_column):
-    return feature_count_table_df.iloc[:, int(feature_count_start_column):int(
-        feature_count_end_column)]
+    return feature_count_table_df.iloc[:, int(feature_count_start_column) - 1:int(
+        feature_count_end_column) - 1]
 
 
 def correlation_spearman(value_matrix_sequencing, value_matrix_protein, output_file):
