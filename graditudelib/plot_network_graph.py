@@ -9,9 +9,9 @@ from bokeh.palettes import Spectral4
 from bokeh.plotting import figure
 
 
-def plot_network_graph_rna_protein(feature_count_table, threshold, max_size, output_plot):
+def plot_network_graph_rna_protein(feature_count_table, index_table, threshold, max_size, output_plot):
     correlated_table = pd.read_table(feature_count_table)
-    correlated_table.set_index('Protein.IDs', inplace=True)
+    correlated_table.set_index(index_table, inplace=True)
     plot_graph(correlated_table, threshold, max_size, output_plot)
 
 
