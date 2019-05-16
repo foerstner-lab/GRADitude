@@ -8,10 +8,16 @@ def rna_protein_correlation(feature_count_table, feature_count_start_column,
                             index_sequencing, index_protein,
                             correlation,
                             output_file):
-    sequencing_table = pd.read_table(feature_count_table)
-    protein_table = pd.read_table(protein_table)
+    sequencing_table = pd.read_csv(feature_count_table, sep="\t")
+    protein_table = pd.read_csv(protein_table, sep="\t")
     sequencing_table.set_index(index_sequencing, inplace=True)
+    sequencing_table.index = \
+        sequencing_table.index + '_' + sequencing_table.groupby(
+            level=0).cumcount().astype(str)
     protein_table.set_index(index_protein, inplace=True)
+    protein_table.index = \
+        protein_table.index + '_' + protein_table.groupby(
+            level=0).cumcount().astype(str)
     value_matrix_sequencing = _extract_value_matrix(sequencing_table, feature_count_start_column,
                                                     feature_count_end_column)
     value_matrix_protein = _extract_value_matrix(protein_table, protein_count_start_column,
