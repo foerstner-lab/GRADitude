@@ -4,9 +4,10 @@ import seaborn as sns
 import numpy as np
 
 
-def d_c_graph(table_with_correlation_coefficient, percentile, output_plot):
+def d_c_graph(table_with_correlation_coefficient, percentile, index_table,
+              output_plot):
     correlation_df = pd.read_table(table_with_correlation_coefficient)
-    correlation_df.set_index("Protein.IDs", inplace=True)
+    correlation_df.set_index(index_table, inplace=True)
     data = correlation_df.apply(pd.Series).unstack().reset_index(drop=True)
     data.hist()
     axes_x = data[~np.isnan(data)]

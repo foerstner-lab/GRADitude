@@ -654,6 +654,9 @@ def main():
                                          type=int,
                                          help="Define the percentile value",
                                          default=95)
+    corr_distr_graph_parser.add_argument("--index_table", "-index",
+                                         required=True,
+                                         type=str)
     corr_distr_graph_parser.add_argument("--output_plot", "-o",
                                          required=True,
                                          help="Histogram with the correlation "
@@ -1095,7 +1098,7 @@ def correlation_rnas_protein(args):
 
 def correlation_distribution_graph(args):
     distribution_correlation.d_c_graph(args.table_with_correlation_coefficient,
-                                       args.percentile,
+                                       args.percentile, args.index_table,
                                        args.output_plot)
 
 
