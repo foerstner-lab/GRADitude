@@ -9,7 +9,7 @@ def k_means_clustering_elbow(feature_count_table, feature_count_start_column,
                              feature_count_end_column,
                              min_number_of_clusters, max_number_of_clusters, output_plots1,
                              output_plot2):
-    feature_count_table_df = pd.read_table(feature_count_table)
+    feature_count_table_df = pd.read_csv(feature_count_table, sep='\t')
     value_matrix = _extract_value_matrix(feature_count_table_df,
                                          feature_count_start_column,
                                          feature_count_end_column)

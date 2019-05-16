@@ -10,7 +10,7 @@ from bokeh.plotting import figure
 
 
 def plot_network_graph_rna_protein(feature_count_table, index_table, threshold, max_size, output_plot):
-    correlated_table = pd.read_table(feature_count_table)
+    correlated_table = pd.read_csv(feature_count_table, sep='\t')
     correlated_table.set_index(index_table, inplace=True)
     plot_graph(correlated_table, threshold, max_size, output_plot)
 
@@ -26,7 +26,9 @@ def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
     plot = figure(plot_width=900, plot_height=900, x_range=Range1d(-1.1, 1.1), y_range=Range1d(-1.1, 1.1),
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
-                  title=output_plot, logo=None)
+                  title=output_plot)
+    plot.toolbar.logo = None
+
     plot.title.text = description
 
     url_protein = "https://www.ncbi.nlm.nih.gov/gene/?term=@index"

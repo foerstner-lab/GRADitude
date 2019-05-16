@@ -680,11 +680,11 @@ def main():
                                            "the genes or proteins with an "
                                            "high correlation coefficients")
     network_graph_parser.add_argument("--max_size", "-max", required=True,
-                                      type=float, help="This parameter "
-                                                       "is useful to set the maximum area "
-                                                       "of each point. "
-                                                       "All the points are then scaled based "
-                                                       "on that")
+                                      type=int, help="This parameter "
+                                                     "is useful to set the maximum area "
+                                                     "of each point. "
+                                                     "All the points are then scaled based "
+                                                     "on that")
     network_graph_parser.add_argument("--output_plot", "-o",
                                       help="Network plot")
 
