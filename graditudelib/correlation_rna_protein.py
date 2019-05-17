@@ -44,7 +44,7 @@ def correlation_spearman(value_matrix_sequencing, value_matrix_protein, output_f
             rho = stats.spearmanr(row_gene, row_protein)[0]
             correlation_dataframe.loc[index_protein, index_gene] = rho
 
-    correlation_dataframe.to_csv(output_file, sep='\t')
+    correlation_dataframe.to_csv(output_file, sep='\t', index_label="Gene")
 
 
 def correlation_pearson(value_matrix_sequencing, value_matrix_protein, output_file):
@@ -57,4 +57,4 @@ def correlation_pearson(value_matrix_sequencing, value_matrix_protein, output_fi
             rho = stats.pearsonr(row_gene, row_protein)[0]
             correlation_dataframe.loc[index_protein, index_gene] = rho
 
-    correlation_dataframe.to_csv(output_file, sep='\t')
+    correlation_dataframe.to_csv(output_file, sep='\t', index_label="Gene")
