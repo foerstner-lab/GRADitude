@@ -52,16 +52,16 @@ def main():
     min_row_sum_ercc_parser = subparsers.add_parser("min_row_sum_ercc",
                                                     help="Filter the ERCC table "
                                                          "based on the min row sum. "
-                                                         "It calculates the sum row_wise "
+                                                         "It calculates the sum row wise "
                                                          "and discard the rows "
-                                                         "with a sum below the threshold specified")
+                                                         "with a sum below the specified threshold ")
     min_row_sum_ercc_parser.set_defaults(func=filtering_tables)
     min_row_sum_ercc_parser.add_argument("--ref_feature_count_table", "-r",
                                          required=True,
-                                         help="ERCC reads table")
+                                         help="ERCC reads count table")
     min_row_sum_ercc_parser.add_argument("--min_row_sum", "-m", type=int,
                                          default=100,
-                                         help="Specify the threshold we would like"
+                                         help="It specifies the threshold we want "
                                               " to apply")
     min_row_sum_ercc_parser.add_argument("--filtered_ref_feature_count_table", "-fr",
                                          required=True,
@@ -71,25 +71,25 @@ def main():
                                                   help="Filter the gene quantification "
                                                        "table based on "
                                                        "the min row sum. It "
-                                                       "calculates the sum row_wise "
+                                                       "calculates the sum row wise "
                                                        "and discard the rows with "
-                                                       "a sum below the threshold specified")
+                                                       "a sum below the specified threshold")
     modify_min_row_parser.set_defaults(func=find_min_rows)
     modify_min_row_parser.add_argument("--feature_count_table", "-f",
                                        required=True,
                                        help="Gene quantification table")
     modify_min_row_parser.add_argument('--feature_count_start_column', "-fc",
                                        required=True, type=int,
-                                       help="Specify the number of "
+                                       help="Number of "
                                             "the column with the first fraction")
     modify_min_row_parser.add_argument('--feature_count_end_column', "-fe",
                                        required=True, type=int,
-                                       help="Specify the number of "
+                                       help="Number of "
                                             "the last fraction we would like to consider in the"
                                             " analysis", default=False)
     modify_min_row_parser.add_argument("--min_row", '-m', required=True,
                                        type=int, default=100,
-                                       help="Specify the threshold we would like"
+                                       help="Threshold we want"
                                             " to apply")
     modify_min_row_parser.add_argument("--output_file", "-o", required=True,
                                        help="Filtered table as output")
@@ -111,7 +111,7 @@ def main():
                                      required=True,
                                      help="This parameter specify "
                                           "the name of the column you "
-                                          "would like to drop")
+                                          "want to drop")
     drop_columns_parser.add_argument("--output_file", "-o",
                                      required=True,
                                      help="Filtered table as output")
@@ -134,8 +134,8 @@ def main():
                                         "in common within the different fractions")
     regression_parser.add_argument("--used_mix", "-mix",
                                    required=True, type=int,
-                                   help="This parameter as to be used "
-                                        "to define which ERCC mix have been"
+                                   help="This parameter "
+                                        "defines which ERCC mix have been"
                                         " used in the experiment,"
                                         " in case of mix1 and mix2 the "
                                         "--mix is either 3 or 4 ")

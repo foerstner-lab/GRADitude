@@ -57,7 +57,6 @@ def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
     plot.renderers.append(graph_renderer)
 
     output_file(output_plot)
-    show(plot)
 
 
 def plot_graph(correlated_table, threshold, max_size, output_plot):
