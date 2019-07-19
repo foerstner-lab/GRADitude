@@ -1,8 +1,8 @@
 # License
 GRADitude is open source software and available under the ISC license.
 
-Copyright (c) 2019, Silvia Di Giorgio  <silvia.digiorgio@uni-wuerzburg.de>,
-                    Konrad Förstner <konrad.foerstner@uni-wuerzburg.de>
+Copyright (c) 2019, Silvia Di Giorgio  <digiorgio@zbmed.de>,
+                    Konrad Förstner <foerstner@zbmed.de>
 
 Permission to use, copy, modify, and/or distribute this software for
 any purpose with or without fee is hereby granted, provided that the
