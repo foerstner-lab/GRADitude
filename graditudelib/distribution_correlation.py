@@ -21,6 +21,7 @@ def d_c_graph(table_with_correlation_coefficient, percentile, index_table,
               str(plot),
               fontsize=10)
     plt.xlabel = "Correlation coefficients"
+
     plt.ylabel = "Number of entries"
     plt.savefig(output_plot)
     plt.show()

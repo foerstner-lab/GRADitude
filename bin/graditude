@@ -817,7 +817,7 @@ def main():
                                                        "a dimension reduction algorithm has "
                                                        "been applied.")
     inte_tsne_plot_parser.set_defaults(func=run_interactive_tsne_plot)
-    inte_tsne_plot_parser.add_argument('--feature_count_table', '-t', required=True,
+    inte_tsne_plot_parser.add_argument('--table_with_clusters', '-t', required=True,
                                        help="Gene quantification table or Protein table")
     inte_tsne_plot_parser.add_argument("--feature_count_start_column", "-fc", required=True,
                                        help="This parameter specify the number "

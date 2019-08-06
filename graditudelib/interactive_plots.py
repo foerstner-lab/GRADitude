@@ -13,7 +13,7 @@ from bokeh.layouts import row, column
 def interactive_plot(table_with_clusters, feature_count_start_column, feature_count_end_column,
                      dimension_reduction_algorithm, perplexity, n_neighbors, min_dist, url_link,
                      output_file_):
-    read_counting_table = pd.read_table(table_with_clusters, sep='\t')
+    read_counting_table = pd.read_csv(table_with_clusters, sep='\t')
     value_matrix = _extract_value_matrix(read_counting_table, feature_count_start_column,
                                          feature_count_end_column)
     if dimension_reduction_algorithm == "t-SNE":
