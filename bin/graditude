@@ -29,6 +29,7 @@ from graditudelib import projectcreator
 from graditudelib import dropping_specific_columns
 from graditudelib import umap_analysis
 from graditudelib import finding_complexes_complete
+from graditudelib import normalize_table
 
 __author__ = "Silvia Di Giorgio <digiorgio@zbmed.de>, " \
              "Konrad Foerstner <konrad@foerstner.org>"
@@ -177,6 +178,29 @@ def main():
     normalize_parser.add_argument("--size_factor_table", "-s",
                                   default=None,
                                   help="Table with all the size factor")
+
+    normalize_using_one_spike_in_parser = subparsers.add_parser("normalize_with_one_spikein",
+                                                                help='This subcommand calculates'
+                                                                     ' the ERCC size factor and '
+                                                                     'normalize the gene quantification '
+                                                                     'table based on that')
+    normalize_using_one_spike_in_parser.set_defaults(func=run_normalize_table_spikein)
+    normalize_using_one_spike_in_parser.add_argument('--feature_count_table', '-f',
+                                                     required=True,
+                                                     help="Filtered gene quantification table")
+    normalize_using_one_spike_in_parser.add_argument('--feature_count_start_column', '-fc', type=int,
+                                                     help="Specify the number of "
+                                                          "the column with the first fraction")
+    normalize_using_one_spike_in_parser.add_argument("--feature_count_end_column", "-fe", type=int,
+                                                     help="Specify the number of "
+                                                          "the last fraction we would like to consider in the"
+                                                          " analysis")
+    normalize_using_one_spike_in_parser.add_argument("--size_factors_table", "-s",
+                                                     required=True,
+                                                     help="ERCC table with the ERCC read-counts")
+    normalize_using_one_spike_in_parser.add_argument("--normalized_table", "-o", required=True,
+                                                     help="Table normalized"
+                                                     )
 
     scaling_parser = subparsers.add_parser("scaling",
                                            help="This subcommand scales tables "
@@ -1174,6 +1198,12 @@ def run_find_complexes(args):
                                               args.table_start_column,
                                               args.table_end_column,
                                               args.output_table)
+
+
+def run_normalize_table_spikein(args):
+    normalize_table.normalized_count_table(args.feature_count_table, args.feature_count_start_column,
+                                           args.feature_count_end_column, args.size_factors_table,
+                                           args.normalized_table)
 
 
 main()
