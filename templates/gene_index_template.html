@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <body>
+
+    <h1>Gene List</h1>
+
+    <ul>
+      {% for index, row in rna_seq_data.iterrows() %}
+      <li><a href='{{row["Gene"]}}.html'> {{row["Feature"]}}</a>
+	{{ row["Gene"] }}</li>
+      {% endfor %}
+    </ul>
+
+  </body>
+</html>

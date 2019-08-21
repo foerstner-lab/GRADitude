@@ -20,5 +20,3 @@ def _normalize_by_size_factor(feature_counting_table_df,
     """Divide the gene quantification table for the size factor to normalize the data"""
     df[value_columns] = df[value_columns].divide(list(series_column), axis=1)
     return df
-
-

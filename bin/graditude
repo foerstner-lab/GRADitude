@@ -30,6 +30,7 @@ from graditudelib import dropping_specific_columns
 from graditudelib import umap_analysis
 from graditudelib import finding_complexes_complete
 from graditudelib import normalize_table
+from graditudelib import generate_html
 
 __author__ = "Silvia Di Giorgio <digiorgio@zbmed.de>, " \
              "Konrad Foerstner <konrad@foerstner.org>"
@@ -957,6 +958,26 @@ def main():
                                             "with all the complex subunits "
                                             "and correlation coefficients")
 
+    generate_html_page_parser = subparsers.add_parser("generate_html",
+                                                      help="")
+    generate_html_page_parser.set_defaults(func=run_generate_html)
+    generate_html_page_parser.add_argument('--html_folder',
+                                           '-html_folder', required=True,
+                                           help="")
+    generate_html_page_parser.add_argument("--html_folder_gene", "-html_folder_gene",
+                                           required=False,
+                                           help=" ")
+    generate_html_page_parser.add_argument('--html_folder_protein', "-html_folder_protein",
+                                           required=False,
+                                           help="")
+    generate_html_page_parser.add_argument('--rna_seq_file', "-i", required=True,
+                                           help="")
+    generate_html_page_parser.add_argument("--protein_file", '-p',
+                                           help="")
+
+    # generate_html_page_parser.add_argument("--output_html", '-o',
+    #                                        help="")
+
     args = parser.parse_args()
     if "func" in dir(args):
         args.func(args)
@@ -1204,6 +1225,11 @@ def run_normalize_table_spikein(args):
     normalize_table.normalized_count_table(args.feature_count_table, args.feature_count_start_column,
                                            args.feature_count_end_column, args.size_factors_table,
                                            args.normalized_table)
+
+
+def run_generate_html(args):
+    generate_html.generate_html_page(args.html_folder, args.html_folder_gene,
+                                     args.html_folder_protein, args.rna_seq_file, args.protein_file)
 
 
 main()
