@@ -7,7 +7,10 @@ from bokeh.models import WheelZoomTool
 
 
 def generate_html_page(html_folder, html_folder_gene, html_folder_protein, rna_seq_file, name_column_rna,
-                       name_column_protein, protein_file):
+                       column_start_rna,
+                       column_end_rna,
+                       protein_file, name_column_protein,
+                       column_start_protein, column_end_protein):
     image_folder_gene = "{}/images".format(html_folder_gene)
     image_folder_protein = "{}/images".format(html_folder_protein)
     rna_seq_data = pd.read_csv(rna_seq_file, sep="\t")
@@ -16,8 +19,10 @@ def generate_html_page(html_folder, html_folder_gene, html_folder_protein, rna_s
         if not os.path.exists(folder):
             os.mkdir(folder)
     generate_index_pager(rna_seq_data, protein_data, html_folder)
-    generate_gene_pages(rna_seq_data, name_column_rna, html_folder_gene, image_folder_gene)
-    generate_protein_pages(protein_data, name_column_protein, html_folder_protein, image_folder_protein)
+    generate_gene_pages(rna_seq_data, name_column_rna, column_start_rna, column_end_rna, html_folder_gene,
+                        image_folder_gene)
+    generate_protein_pages(protein_data, name_column_protein, column_start_protein, column_end_protein,
+                           html_folder_protein, image_folder_protein)
 
 
 def generate_index_pager(rna_seq_data, protein_data, html_folder):
@@ -29,17 +34,20 @@ def generate_index_pager(rna_seq_data, protein_data, html_folder):
         output_fh.write(gene_index_html)
 
 
-def generate_gene_pages(rna_seq_data, name_column_rna, html_folder_gene, image_folder):
+def generate_gene_pages(rna_seq_data, name_column_rna, column_start_rna, column_end_rna, html_folder_gene,
+                        image_folder):
     for index, row in rna_seq_data.iterrows():
         generate_gene_page(row, name_column_rna, html_folder_gene, image_folder)
-        generate_gene_rna_distri_image(row, image_folder)
+        generate_gene_rna_distri_image(row, name_column_rna, column_start_rna, column_end_rna, image_folder)
         # exit(0)
 
 
-def generate_protein_pages(protein_data, name_column_protein, html_folder_protein, image_folder):
+def generate_protein_pages(protein_data, name_column_protein, column_start_protein, column_end_protein,
+                           html_folder_protein, image_folder):
     for index, row in protein_data.iterrows():
         generate_protein_page(row, name_column_protein, html_folder_protein, image_folder)
-        generate_protein_distri_image(row, image_folder)
+        generate_protein_distri_image(row, name_column_protein, column_start_protein, column_end_protein,
+                                      image_folder)
         # exit(0)
 
 
@@ -63,9 +71,9 @@ def generate_protein_page(row, name_column_protein, html_folder, image_folder):
         output_fh.write(gene_html.format(image_folder, locus_tag))
 
 
-def generate_gene_rna_distri_image(row, image_folder):
-    locus_tag = row["Gene"]
-    counting_value_list = row.iloc[12:]
+def generate_gene_rna_distri_image(row, name_column_rna, column_start_rna, column_end_rna, image_folder):
+    locus_tag = row[name_column_rna]
+    counting_value_list = row.iloc[column_start_rna:column_end_rna]
     plot_html = figure(title=locus_tag, plot_width=600, plot_height=600,
                        x_axis_label='Fraction number',
                        y_axis_label='Normalized and scaled to max read counts',
@@ -81,9 +89,9 @@ def generate_gene_rna_distri_image(row, image_folder):
     save(plot_html)
 
 
-def generate_protein_distri_image(row, image_folder):
-    locus_tag = row["Gene"]
-    counting_value_list = row.iloc[8:28]
+def generate_protein_distri_image(row, name_column_protein, column_start_protein, column_end_protein, image_folder):
+    locus_tag = row[name_column_protein]
+    counting_value_list = row.iloc[column_start_protein:column_end_protein]
     plot_html = figure(title=locus_tag, plot_width=600, plot_height=600,
                        x_axis_label='Fraction number',
                        y_axis_label='Normalized and scaled to max read counts',

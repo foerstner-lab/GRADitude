@@ -974,9 +974,18 @@ def main():
                                            help="")
     generate_html_page_parser.add_argument('--name_column_rna', "-name_rna", required=True,
                                            help="")
-    generate_html_page_parser.add_argument('--name_column_protein', "-name_protein", required=True,
+    generate_html_page_parser.add_argument('--column_start_rna', "-fc", required=True, type=int,
+                                           help="")
+    generate_html_page_parser.add_argument('--column_end_rna', "-fe", required=True, type=int,
                                            help="")
     generate_html_page_parser.add_argument("--protein_file", '-p',
+                                           help="")
+    generate_html_page_parser.add_argument('--name_column_protein', "-name_protein", required=True,
+                                           help="")
+
+    generate_html_page_parser.add_argument('--column_start_protein', "-pc", required=True, type=int,
+                                           help="")
+    generate_html_page_parser.add_argument('--column_end_protein', "-pe", required=True, type=int,
                                            help="")
 
     # generate_html_page_parser.add_argument("--output_html", '-o',
@@ -1234,8 +1243,10 @@ def run_normalize_table_spikein(args):
 def run_generate_html(args):
     generate_html.generate_html_page(args.html_folder, args.html_folder_gene,
                                      args.html_folder_protein, args.rna_seq_file, args.name_column_rna,
-                                     args.name_column_protein,
-                                     args.protein_file)
+                                     args.column_start_rna,
+                                     args.column_end_rna,
+                                     args.protein_file, args.name_column_protein, args.column_start_protein,
+                                     args.column_end_protein)
 
 
 main()
