@@ -960,48 +960,56 @@ def main():
                                             "and correlation coefficients")
 
     generate_html_page_parser = subparsers.add_parser("generate_html",
-                                                      help="")
+                                                      help="This subcommand give to the user the possibility"
+                                                           "of creating an html page containing"
+                                                           "all the RNAs and proteins kinetics."
+                                                           )
     generate_html_page_parser.set_defaults(func=run_generate_html)
     generate_html_page_parser.add_argument('--html_folder',
                                            '-html_folder', required=True,
-                                           help="")
+                                           help="This parameter is required and has to "
+                                                "be used to specify the output folder "
+                                                "path")
     generate_html_page_parser.add_argument("--html_folder_gene", "-html_folder_gene",
                                            required=False,
-                                           help=" ")
+                                           help="You need to specify the folder where you want to save the"
+                                                "RNAs plots")
     generate_html_page_parser.add_argument('--html_folder_protein', "-html_folder_protein",
                                            required=False,
-                                           help="")
+                                           help="You need to specify the folder where you want to save the"
+                                                "proteins plots")
     generate_html_page_parser.add_argument('--rna_seq_file', "-i", required=True,
-                                           help="")
+                                           help="input file containing the normalized genes ")
     generate_html_page_parser.add_argument('--name_column_rna', "-name_rna", required=True,
-                                           help="")
+                                           help="name with the column that contains the gene names")
     generate_html_page_parser.add_argument('--column_start_rna', "-fc", required=True, type=int,
-                                           help="")
+                                           help="Specify the number of the column with the first value")
     generate_html_page_parser.add_argument('--column_end_rna', "-fe", required=True, type=int,
-                                           help="")
+                                           help="Specify the number of the column with the last value")
     generate_html_page_parser.add_argument("--protein_file", '-p',
-                                           help="")
+                                           help="input file containing the normalized proteins")
     generate_html_page_parser.add_argument('--name_column_protein', "-name_protein", required=True,
                                            help="")
 
     generate_html_page_parser.add_argument('--column_start_protein', "-pc", required=True, type=int,
-                                           help="")
+                                           help="Specify the number of the column with the first value")
     generate_html_page_parser.add_argument('--column_end_protein', "-pe", required=True, type=int,
-                                           help="")
+                                           help="Specify the number of the column with the first value")
 
     extract_columns_parser = subparsers.add_parser("extract_gene_columns",
                                                    help="")
     extract_columns_parser.set_defaults(func=run_extract_gene_columns)
     extract_columns_parser.add_argument('--feature_count_table',
                                         '-f', required=True,
-                                        help="")
+                                        help="gene quantification table")
     extract_columns_parser.add_argument("--name_columns", "-names",
                                         nargs='+',
                                         required=True,
-                                        help=" ")
+                                        help="this parameter allows the user to specify the fields you would like to "
+                                             "extract from the attribute column")
     extract_columns_parser.add_argument('--output_table', "-o",
                                         required=True,
-                                        help="")
+                                        help="output table")
 
     args = parser.parse_args()
     if "func" in dir(args):
