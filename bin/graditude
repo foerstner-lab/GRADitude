@@ -1265,9 +1265,9 @@ def run_find_complexes(args):
 
 
 def run_normalize_table_spikein(args):
-    normalize_table.normalized_count_table(args.feature_count_table, args.feature_count_start_column,
-                                           args.feature_count_end_column, args.size_factors_table,
-                                           args.normalized_table)
+    normalize_table.normalized_count_table_spikein(args.feature_count_table, args.feature_count_start_column,
+                                                   args.feature_count_end_column, args.size_factors_table,
+                                                   args.normalized_table)
 
 
 def run_generate_html(args):
