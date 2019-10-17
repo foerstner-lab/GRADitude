@@ -191,16 +191,12 @@ def main():
     spike_in_finder_parser.add_argument('--size_factors_table', '-o',
                                         help="")
 
-    normalize_using_one_spike_in_parser = subparsers.add_parser("normalize_with_one_spikein",
-                                                                help='This subcommand calculates'
-                                                                     ' the ERCC size factor and '
-                                                                     'normalize the gene quantification '
-                                                                     'table based on that')
+    normalize_using_one_spike_in_parser = subparsers.add_parser("normalize_with_one_spikein")
     normalize_using_one_spike_in_parser.set_defaults(func=run_normalize_table_spikein)
-    normalize_using_one_spike_in_parser.add_argument('--feature_count_table', '-f',
+    normalize_using_one_spike_in_parser.add_argument('--feature_count_table', "-f",
                                                      required=True,
                                                      help="Filtered gene quantification table")
-    normalize_using_one_spike_in_parser.add_argument('--feature_count_start_column', '-fc', type=int,
+    normalize_using_one_spike_in_parser.add_argument('--feature_count_start_column', "-fc", type=int,
                                                      help="Specify the number of "
                                                           "the column with the first fraction")
     normalize_using_one_spike_in_parser.add_argument("--feature_count_end_column", "-fe", type=int,
