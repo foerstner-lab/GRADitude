@@ -191,8 +191,6 @@ def main():
     spike_in_finder_parser.add_argument('--size_factors_table', '-o',
                                         help="")
 
-    # -------------------------
-
     normalize_spike_in_parser = subparsers.add_parser("normalize_with_spikein",
                                                       help='This subcommand calculates'
                                                            ' the ERCC size factor and '
@@ -216,7 +214,6 @@ def main():
     normalize_spike_in_parser.add_argument("--normalized_table", "-o", required=True,
                                            help="Table normalized"
                                            )
-    # -----------------------
 
     scaling_parser = subparsers.add_parser("scaling",
                                            help="This subcommand scales tables "
