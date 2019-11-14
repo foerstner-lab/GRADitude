@@ -121,8 +121,6 @@ def main():
                                      required=True,
                                      help="Filtered table as output")
 
-    # --------
-
     move_columns_parser = subparsers.add_parser("move_columns",
                                                 help=""
                                                 )
@@ -132,7 +130,7 @@ def main():
                                      help="Gene quantification table "
                                           "or ERCC-reads table")
     move_columns_parser.add_argument("--number_of_columns", '-n',
-                                     required=True,
+                                     required=True, type=int,
                                      help="This parameter specify "
                                           "the number of the column you "
                                           "want to move")
