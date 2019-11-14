@@ -33,6 +33,7 @@ from graditudelib import normalize_table_spikein
 from graditudelib import generate_html
 from graditudelib import extract_attribute_column
 from graditudelib import size_factor
+from graditudelib import move_columns
 
 __author__ = "Silvia Di Giorgio <digiorgio@zbmed.de>, " \
              "Konrad Foerstner <konrad@foerstner.org>"
@@ -117,6 +118,25 @@ def main():
                                           "the name of the column you "
                                           "want to drop")
     drop_columns_parser.add_argument("--output_file", "-o",
+                                     required=True,
+                                     help="Filtered table as output")
+
+    # --------
+
+    move_columns_parser = subparsers.add_parser("move_columns",
+                                                help=""
+                                                )
+    move_columns_parser.set_defaults(func=run_move_columns)
+    move_columns_parser.add_argument("--feature_count_table", "-f",
+                                     required=True,
+                                     help="Gene quantification table "
+                                          "or ERCC-reads table")
+    move_columns_parser.add_argument("--number_of_columns", '-n',
+                                     required=True,
+                                     help="This parameter specify "
+                                          "the number of the column you "
+                                          "want to move")
+    move_columns_parser.add_argument("--output_file", "-o",
                                      required=True,
                                      help="Filtered table as output")
 
@@ -1143,6 +1163,11 @@ def run_scaling(args):
                      args.pseudo_count,
                      args.scaling_method,
                      args.scaled_table)
+
+
+def run_move_columns(args):
+    move_columns.move_columns_(args.feature_count_table,
+                               args.number_of_columns, args.output_file)
 
 
 def run_robust_regression(args):
