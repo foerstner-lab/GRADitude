@@ -34,6 +34,7 @@ from graditudelib import generate_html
 from graditudelib import extract_attribute_column
 from graditudelib import size_factor
 from graditudelib import move_columns
+from graditudelib import merge_features
 
 __author__ = "Silvia Di Giorgio <digiorgio@zbmed.de>, " \
              "Konrad Foerstner <konrad@foerstner.org>"
@@ -137,6 +138,18 @@ def main():
     move_columns_parser.add_argument("--output_file", "-o",
                                      required=True,
                                      help="Filtered table as output")
+
+    merge_features_parser = subparsers.add_parser("merge_features",
+                                                  help=""
+                                                  )
+    merge_features_parser.set_defaults(func=run_merge_features)
+    merge_features_parser.add_argument("--feature_count_table", "-f",
+                                       required=True,
+                                       help="Gene quantification table "
+                                            "or ERCC-reads table")
+    merge_features_parser.add_argument("--output_file", "-o",
+                                       required=True,
+                                       help="")
 
     regression_parser = subparsers.add_parser("robust_regression",
                                               help="It compares the ERCC "
@@ -1289,8 +1302,10 @@ def run_find_complexes(args):
 
 
 def normalize_table_with_one_spikein(args):
-    normalize_table_spikein.normalized_count_table_spike_in(args.feature_count_table, args.feature_count_start_column,
-                                                            args.feature_count_end_column, args.size_factors_table,
+    normalize_table_spikein.normalized_count_table_spike_in(args.feature_count_table,
+                                                            args.feature_count_start_column,
+                                                            args.feature_count_end_column,
+                                                            args.size_factors_table,
                                                             args.normalized_table)
 
 
@@ -1308,6 +1323,11 @@ def run_generate_html(args):
 def run_extract_gene_columns(args):
     extract_attribute_column.extract_columns(args.feature_count_table,
                                              args.name_columns, args.output_table)
+
+
+def run_merge_features(args):
+    merge_features.merge_features_(args.feature_count_table,
+                                   args.output_file)
 
 
 def run_finder_spikein(args):
