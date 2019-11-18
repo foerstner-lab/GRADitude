@@ -62,7 +62,7 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result,
         x=read_counting_table["t-SNE-component_1"],
         y=read_counting_table["t-SNE-component_2"],
         feature=read_counting_table["Feature"],
-        gene=read_counting_table['Gene'],
+        gene=read_counting_table['gene'],
         cluster_label=read_counting_table["Cluster_label"],
         color=color,
         label=label)
@@ -71,7 +71,7 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result,
                     "gbkey", "product", "sRNA_type"]:
         read_counting_table[feature] = read_counting_table[
             "Attributes_split"].apply(
-                lambda attributes: attributes.get(feature, "-"))
+            lambda attributes: attributes.get(feature, "-"))
         hower_data[feature] = read_counting_table[feature]
 
     source = ColumnDataSource(hower_data)
@@ -132,9 +132,9 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result,
 
     read_counting_table["Attributes_split"] = read_counting_table[
         "Attributes"].apply(
-            lambda attr: dict(
-                [key_value_pair.split("=") for
-                 key_value_pair in attr.split(";")]))
+        lambda attr: dict(
+            [key_value_pair.split("=") for
+             key_value_pair in attr.split(";")]))
 
     palette_map = create_palette_map(read_counting_table)
     color = read_counting_table["Feature"].apply(
@@ -146,7 +146,7 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result,
         x=read_counting_table["t-SNE-component_1"],
         y=read_counting_table["t-SNE-component_2"],
         feature=read_counting_table["Feature"],
-        gene=read_counting_table["Gene"],
+        gene=read_counting_table["gene"],
         color=color,
         label=label)
 
@@ -154,7 +154,7 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result,
                     "sRNA_type", "Name", "pseudo"]:
         read_counting_table[feature] = read_counting_table[
             "Attributes_split"].apply(
-                lambda attributes: attributes.get(feature, "-"))
+            lambda attributes: attributes.get(feature, "-"))
         hower_data[feature] = read_counting_table[feature]
 
     source = ColumnDataSource(hower_data)
@@ -187,7 +187,7 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result,
 
 
 def _label(row):
-    label = {"CDS": "CDS", "ncRNA": "ncRNA", "tRNA": "tRNA",
+    label = {"CDS": "CDS", "ncRNA": "ncRNA", "tRNA": "tRNA", "gene": "gene",
              "rRNA": "rRNA", "tmRNA": "tmRNA", "5UTR": "5UTR",
              "3UTR": "3UTR", "sRNA": "sRNA"
              }[row["Feature"]]
@@ -211,9 +211,9 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
 
     read_counting_table["Attributes_split"] = read_counting_table[
         "Attributes"].apply(
-            lambda attr: dict(
-                [key_value_pair.split("=") for
-                 key_value_pair in attr.split(";")]))
+        lambda attr: dict(
+            [key_value_pair.split("=") for
+             key_value_pair in attr.split(";")]))
 
     palette_map = create_palette_map(read_counting_table)
     color = read_counting_table.apply(
@@ -225,7 +225,7 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
         x=read_counting_table["t-SNE-component_1"],
         y=read_counting_table["t-SNE-component_2"],
         feature=read_counting_table["Feature"],
-        gene=read_counting_table["Gene"],
+        gene=read_counting_table["gene"],
         color=color,
         label=label)
 
@@ -233,7 +233,7 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
                     "sRNA_type", "Name", "pseudo"]:
         read_counting_table[feature] = read_counting_table[
             "Attributes_split"].apply(
-                lambda attributes: attributes.get(feature, "-"))
+            lambda attributes: attributes.get(feature, "-"))
         hower_data[feature] = read_counting_table[feature]
 
     source = ColumnDataSource(hower_data)
@@ -271,7 +271,7 @@ def _color_1(row, srnas_and_list_names, palette_map):
                           "sRNA_cluster_2": "#F0F3F4",
                           "sRNA_cluster_3": "#000000",
                           "sRNA_cluster_4": "#FFFF00"}
-    for feature in ["Gene"]:
+    for feature in ["gene"]:
         if row[feature] in srnas_and_list_names:
             color = srna_cluster_color[
                 srnas_and_list_names[row[feature]]]
@@ -282,13 +282,13 @@ def _label_1(row, srnas_and_list_names, cluster_names):
     label = {"ncRNA": "other ncRNAs", "sRNA": "other ncRNAs",
              "CDS": "CDS", "tRNA": "tRNA",
              "rRNA": "rRNA", "5'-UTR": "5'-UTR", "3'-UTR":
-                 "3'-UTR"}[row["Feature"]]
+                 "3'-UTR", "gene": "gene"}[row["Feature"]]
     srna_cluster_label = {}
     for index in range(0, len(cluster_names)):
         srna_cluster_label["sRNA_cluster_" + str(index + 1)] = \
             cluster_names[index]
 
-    for feature in ["Gene"]:
+    for feature in ["gene"]:
         if row[feature] in srnas_and_list_names:
             label = srna_cluster_label[
                 srnas_and_list_names[row[feature]]]
