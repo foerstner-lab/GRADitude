@@ -24,7 +24,7 @@ def robust_regression(
 def read_table(ref_feature_count_table):
     """Read the spike-in table as a dictionary"""
     ref_feature_count_table_dict = {}
-    ref_feature_count_table_df = pd.read_table(ref_feature_count_table, sep='\t')
+    ref_feature_count_table_df = pd.read_csv(ref_feature_count_table, sep='\t')
     for index, row in ref_feature_count_table_df.iterrows():
         key = row[0][:row[0].index(' ')]
         ref_feature_count_table_dict[key] = row
