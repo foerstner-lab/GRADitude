@@ -35,6 +35,7 @@ from graditudelib import extract_attribute_column
 from graditudelib import size_factor
 from graditudelib import move_columns
 from graditudelib import merge_features
+from graditudelib import merge_exctract_attributes
 
 __author__ = "Silvia Di Giorgio <digiorgio@zbmed.de>, " \
              "Konrad Foerstner <konrad@foerstner.org>"
@@ -1053,6 +1054,16 @@ def main():
                                         required=True,
                                         help="output table")
 
+    merge_attributes_parser = subparsers.add_parser("merge_attributes",
+                                                    help="")
+    merge_attributes_parser.set_defaults(func=run_merge_attributes)
+    merge_attributes_parser.add_argument('--feature_count_table',
+                                         '-f', required=True,
+                                         help="gene quantification table")
+    merge_attributes_parser.add_argument('--output_table', "-o",
+                                         required=True,
+                                         help="output table")
+
     args = parser.parse_args()
     if "func" in dir(args):
         args.func(args)
@@ -1073,6 +1084,12 @@ def filtering_tables(args):
         args.ref_feature_count_table,
         args.min_row_sum,
         args.filtered_ref_feature_count_table)
+
+
+def run_merge_attributes(args):
+    merge_exctract_attributes.merge_exctracted_attributes \
+        (args.feature_count_table,
+         args.output_file)
 
 
 def drop_column(args):
