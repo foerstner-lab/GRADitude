@@ -115,10 +115,11 @@ def main():
                                      help="Gene quantification table "
                                           "or ERCC-reads table")
     drop_columns_parser.add_argument("--column_to_drop", '-c',
+                                     nargs='+',
                                      required=True,
                                      help="This parameter specify "
-                                          "the name of the column you "
-                                          "want to drop")
+                                                         "the name of the column you "
+                                                         "want to drop")
     drop_columns_parser.add_argument("--output_file", "-o",
                                      required=True,
                                      help="Filtered table as output")
