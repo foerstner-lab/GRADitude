@@ -62,7 +62,7 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result,
         x=read_counting_table["t-SNE-component_1"],
         y=read_counting_table["t-SNE-component_2"],
         feature=read_counting_table["Feature"],
-        gene=read_counting_table['gene'],
+        gene=read_counting_table['Gene'],
         cluster_label=read_counting_table["Cluster_label"],
         color=color,
         label=label)
@@ -146,7 +146,7 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result,
         x=read_counting_table["t-SNE-component_1"],
         y=read_counting_table["t-SNE-component_2"],
         feature=read_counting_table["Feature"],
-        gene=read_counting_table["gene"],
+        gene=read_counting_table["Gene"],
         color=color,
         label=label)
 
