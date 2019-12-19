@@ -118,8 +118,8 @@ def main():
                                      nargs='+',
                                      required=True,
                                      help="This parameter specify "
-                                                         "the name of the column you "
-                                                         "want to drop")
+                                          "the name of the column you "
+                                          "want to drop")
     drop_columns_parser.add_argument("--output_file", "-o",
                                      required=True,
                                      help="Filtered table as output")
@@ -243,6 +243,10 @@ def main():
     normalize_spike_in_parser.add_argument("--size_factors_table", "-s",
                                            default=None,
                                            help="Table with all the size factor")
+
+    normalize_spike_in_parser.add_argument("--name_column_with_values", "-c",
+                                           default=True,
+                                           help="")
 
     normalize_spike_in_parser.add_argument("--normalized_table", "-o", required=True,
                                            help="Table normalized"
@@ -1324,6 +1328,7 @@ def normalize_table_with_one_spikein(args):
                                                             args.feature_count_start_column,
                                                             args.feature_count_end_column,
                                                             args.size_factors_table,
+                                                            args.name_column_with_values,
                                                             args.normalized_table)
 
 
