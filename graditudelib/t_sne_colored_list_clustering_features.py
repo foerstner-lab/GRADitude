@@ -67,6 +67,9 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result,
         color=color,
         label=label)
 
+    hower_data_df = pd.DataFrame.from_dict(hower_data)
+    hower_data_df.to_csv("output/hower_data_df.csv", sep='\t', index=None)
+
     for feature in ["ID", "Parent", "Dbxref", "Note", "function",
                     "gbkey", "product", "sRNA_type"]:
         read_counting_table[feature] = read_counting_table[
