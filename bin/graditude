@@ -1089,7 +1089,7 @@ def filtering_tables(args):
 def run_merge_attributes(args):
     merge_exctract_attributes.merge_exctracted_attributes \
         (args.feature_count_table,
-         args.output_file)
+         args.output_table)
 
 
 def drop_column(args):
