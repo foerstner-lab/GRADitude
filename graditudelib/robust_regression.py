@@ -72,7 +72,7 @@ def regression(read_grad_value, read_concentration_value, gradient_file,
                number_of_outliers):
     """Find the robust regression of the concentration and reads values"""
     table_with_outliers = {}
-    key = gradient_file.ix[:, 0].ravel()
+    key = gradient_file.iloc[:, 0].ravel()
     concentration_log10 = np.log10(read_concentration_value.values)
     for gradient in read_grad_value:
         read_grad_value_log10 = np.log10(read_grad_value[gradient])
