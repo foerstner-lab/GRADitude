@@ -68,7 +68,7 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result,
         label=label)
 
     hower_data_df = pd.DataFrame.from_dict(hower_data)
-    hower_data_df.to_csv("output/hower_data_df.csv", sep='\t', index=None)
+    hower_data_df.to_csv("hower_data_df.csv", sep='\t', index=None)
 
     for feature in ["ID", "Parent", "Dbxref", "Note", "function",
                     "gbkey", "product", "sRNA_type"]:
@@ -88,7 +88,7 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result,
     plot = figure(plot_width=900, plot_height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
-                  title="Grad-Seq t-SNE RNA-Seq", logo=None)
+                  title="Grad-Seq t-SNE RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3, color='color',
                 legend="label", line_color="black")
@@ -170,7 +170,7 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result,
     plot = figure(plot_width=900, plot_height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
-                  title="Grad-Seq t-SNE RNA-Seq", logo=None)
+                  title="Grad-Seq t-SNE RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3, color='color',
                 legend='label', line_color="black")
@@ -249,7 +249,7 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
     plot = figure(plot_width=900, plot_height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
-                  title="Grad-Seq t-SNE RNA-Seq", logo=None)
+                  title="Grad-Seq t-SNE RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3, color="color",
                 legend='label', line_color="black")

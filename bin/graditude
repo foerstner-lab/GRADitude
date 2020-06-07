@@ -509,13 +509,13 @@ def main():
                                    "-fc", required=True,
                                    help="This parameter specify "
                                         "the number of the column "
-                                        "with the first fraction")
+                                        "with the first fraction", type=int)
     silhouette_parser.add_argument("--feature_count_end_column", "-fe",
                                    required=True,
                                    help="Specify the number of "
                                         "the last fraction we would "
                                         "like to consider in the"
-                                        " analysis")
+                                        " analysis", type=int)
     silhouette_parser.add_argument("--min_number_of_clusters", "-min",
                                    required=True, type=int,
                                    help="Minimum number of clusters "
