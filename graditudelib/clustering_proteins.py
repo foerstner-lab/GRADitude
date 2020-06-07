@@ -42,7 +42,6 @@ def hierarchical_clustering(values_matrix, number_of_clusters):
 
 
 def k_means_clustering(values_matrix, number_of_clusters):
-    values_matrix.as_matrix()
     k_means = KMeans(n_clusters=number_of_clusters, random_state=0)
     k_means.fit(values_matrix)
     labels = k_means.labels_
