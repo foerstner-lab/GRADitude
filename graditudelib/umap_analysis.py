@@ -88,7 +88,7 @@ def plot_t_sne_using_clustering(read_counting_table, umap_results,
     plot = figure(plot_width=900, plot_height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
-                  title="Grad-Seq UMAP-RNA-Seq", logo=None)
+                  title="Grad-Seq UMAP-RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3, color='color',
                 legend="label", line_color="black")
@@ -171,7 +171,7 @@ def plot_using_only_rna_colors(read_counting_table, umap_results,
     plot = figure(plot_width=900, plot_height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
-                  title="Grad-Seq UMAP-RNA-Seq", logo=None)
+                  title="Grad-Seq UMAP-RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3, color='color',
                 legend='label', line_color="black")
@@ -250,7 +250,7 @@ def plot_t_sne_colored_by_lists(read_counting_table, umap_results,
     plot = figure(plot_width=900, plot_height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
-                  title="Grad-Seq UMAP-RNA-Seq", logo=None)
+                  title="Grad-Seq UMAP-RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3, color="color",
                 legend='label', line_color="black")

@@ -89,7 +89,7 @@ def plot_pca_using_clustering(read_counting_table, pca_result,
     plot = figure(plot_width=900, plot_height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
-                  title="Grad-Seq PCA RNA-Seq", logo=None)
+                  title="Grad-Seq PCA RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3,
                 color='color', legend="label", line_color="black")
@@ -173,7 +173,7 @@ def plot_using_only_rna_colors(read_counting_table, pca_result,
     plot = figure(plot_width=900, plot_height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
-                  title="Grad-Seq PCA RNA-Seq", logo=None)
+                  title="Grad-Seq PCA RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3, color='color',
                 legend='label', line_color="black")
@@ -252,7 +252,7 @@ def plot_pca_colored_by_lists(read_counting_table, pca_result,
     plot = figure(plot_width=900, plot_height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
-                  title="Grad-Seq PCA RNA-Seq", logo=None)
+                  title="Grad-Seq PCA RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3, color="color",
                 legend='label', line_color="black")
