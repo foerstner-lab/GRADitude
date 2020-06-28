@@ -45,9 +45,7 @@ __version__ = "0.1.0"
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--version", "-v", default=False, action="store_true",
-        help="show version")
+
     subparsers = parser.add_subparsers(help="commands")
 
     create_parser = subparsers.add_parser("create")
@@ -1069,6 +1067,9 @@ def main():
                                          required=True,
                                          help="output table")
 
+    version_parser = subparsers.add_parser("version", help="Print version")
+    version_parser.set_defaults(func=print_version)
+    
     args = parser.parse_args()
     if "func" in dir(args):
         args.func(args)
@@ -1357,5 +1358,7 @@ def run_finder_spikein(args):
     size_factor.size_factor_extraction(args.ref_feature_count_table,
                                        args.size_factors_table)
 
-
+def print_version(args):
+    print(__version__)
+    
 main()
