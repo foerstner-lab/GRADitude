@@ -41,7 +41,7 @@ __author__ = "Silvia Di Giorgio <digiorgio@zbmed.de>, " \
              "Konrad Foerstner <konrad@foerstner.org>"
 __license__ = "ISC license"
 __email__ = "digiorgio@zbmed.de"
-
+__version__ = "0.1.0"
 
 def main():
     parser = argparse.ArgumentParser()
@@ -1079,7 +1079,7 @@ def main():
 def create_project(args):
     projectcreator.create_root_folder("GRADitude")
     projectcreator.create_subfolders("GRADitude", ["input", "output"])
-    projectcreator.create_version_file("GRADitude/version.txt", "1.0.0")
+    projectcreator.create_version_file("GRADitude/version.txt", __version__)
     projectcreator.create_root_folder("GRADitude/subCommand")
     projectcreator.create_subfolders("GRADitude/subCommand", ["input", "output"])
 
