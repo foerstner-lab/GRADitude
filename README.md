@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/85380983.svg)](https://zenodo.org/badge/latestdoi/85380983)
+
 # About GRADitude 
 
 GRADitude - The GRAD-seq data analysis tool
