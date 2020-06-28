@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name='GRADitude',
-    version='0.0.1',
+    version='0.1.0',
     packages=['graditudelib'],
     author='Silvia Di Giorgio, Konrad U. Förstner',
     author1_email='silvia.digiorgio@uni-wuerzburg.de',
