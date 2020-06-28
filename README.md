@@ -123,8 +123,8 @@ positional arguments:
                         proteincomplexes are actually present in our specific
                         data sets.It finds if all the subunit of that specific
                         complexes are present and calculate the correlation
+    version             Print version
 
 optional arguments:
   -h, --help            show this help message and exit
-  --version, -v         show version
 ```
