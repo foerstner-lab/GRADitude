@@ -7,7 +7,7 @@ def find_complexes(tables_containing_list_complexes, protein_table,
                    feature_count_start_column, feature_count_end_column,
                    output_table):
     tables_containing_list_complexes_df = pd.read_excel(tables_containing_list_complexes, sep='\t')
-    protein_table_df = pd.read_table(protein_table, sep='\t')
+    protein_table_df = pd.read_csv(protein_table, sep='\t')
     selected_complexes = get_into_excel_complexes_table(tables_containing_list_complexes_df,
                                                         protein_table_df,
                                                         feature_count_start_column,
@@ -26,9 +26,7 @@ def get_into_excel_complexes_table(tables_containing_list_complexes, protein_tab
         for row in range(0, col.size):
             complex_name = col.name
             gene_name = col[row]
-            protein_table["Uniprot_ID"] = protein_table["Protein.IDs"].apply(
-                lambda attr: attr.split("|")[1])
-            selected_df = protein_table.loc[protein_table['Uniprot_ID'] == gene_name]
+            selected_df = protein_table.loc[protein_table['Gene.names'] == gene_name]
             selected_df = selected_df.iloc[:, int(feature_count_start_column): feature_count_end_column]
 
             cols = list(selected_df)
