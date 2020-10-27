@@ -284,8 +284,8 @@ def _color_1(row, srnas_and_list_names, palette_map):
 def _label_1(row, srnas_and_list_names, cluster_names):
     label = {"ncRNA": "other ncRNAs", "sRNA": "other ncRNAs",
              "CDS": "CDS", "tRNA": "tRNA",
-             "rRNA": "rRNA", "5'-UTR": "5'-UTR", "3'-UTR":
-                 "3'-UTR", "gene": "gene"}[row["Feature"]]
+             "rRNA": "rRNA", "5UTR": "5UTR", "3UTR":
+                 "3UTR", "gene": "gene"}[row["Feature"]]
     srna_cluster_label = {}
     for index in range(0, len(cluster_names)):
         srna_cluster_label["sRNA_cluster_" + str(index + 1)] = \
