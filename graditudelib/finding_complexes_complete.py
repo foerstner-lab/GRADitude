@@ -6,7 +6,7 @@ import numpy as np
 def find_complexes(tables_containing_list_complexes, protein_table,
                    feature_count_start_column, feature_count_end_column,
                    output_table):
-    tables_containing_list_complexes_df = pd.read_excel(tables_containing_list_complexes, sep='\t')
+    tables_containing_list_complexes_df = pd.read_excel(tables_containing_list_complexes)
     protein_table_df = pd.read_csv(protein_table, sep='\t')
     selected_complexes = get_into_excel_complexes_table(tables_containing_list_complexes_df,
                                                         protein_table_df,
