@@ -78,6 +78,8 @@ def plot_t_sne(read_counting_table, tsne_result, output_file_colorized_by_cluste
         color=color,
         label=label)
 
+    hower_data_df = pd.DataFrame.from_dict(hower_data)
+    hower_data_df.to_csv("hower_data_df.csv", sep='\t', index=None)
     source = ColumnDataSource(hower_data)
 
     hover = HoverTool(tooltips=[
