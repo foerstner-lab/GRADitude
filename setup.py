@@ -7,22 +7,28 @@ except ImportError:
 
 setup(
     name='GRADitude',
-    version='0.1.0',
+    version='0.1.11',
     packages=['graditudelib'],
     author='Silvia Di Giorgio, Konrad U. Förstner',
-    author1_email='silvia.digiorgio@uni-wuerzburg.de',
-    author2_email='konrad.foerstner@uni-wuerzburg.de',
+    author1_email='digiorgio@zbmed.de',
+    author2_email='foerstner@zbmed.de',
     description='A tool for the analysis of GRAD-seq data',
-    url='https://github.com/konrad/GRADitude',
+    url='https://github.com/foerstner-lab/GRADitude.git',
     install_requires=[
-        "matplotlib == 2.0.2",
-        "pandas == 0.20.1",
-        "numpy == 1.11.3",
-        "scipy == 0.19.0",
-        "scikit-learn == 0.18.1"
-        "bokeh == 0.12.6", 'scikit-learn', 'bokeh'
+        "matplotlib == 3.1.1",
+        "scipy == 1.3.1",
+        "bokeh == 1.3.4",
+        "Jinja2 == 2.10.3",
+        "numpy == 1.17.2",
+        "umap-learn == 0.3.10",
+        "pytest == 5.2.1",
+        "holoviews == 1.12.6",
+        "pandas == 0.25.1",
+        "networkx == 2.3",
+        "seaborn == 0.9.0",
+        "scikit-learn == 0.21.3"
     ],
-    scripts=['bin/GRADitude'],
+    scripts=['bin/graditude'],
     license='ISC License (ISCL)',
     classifiers=[
         'License :: OSI Approved :: ISC License (ISCL)',
