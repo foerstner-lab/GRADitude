@@ -1,4 +1,5 @@
 [![DOI](https://zenodo.org/badge/85380983.svg)](https://zenodo.org/badge/latestdoi/85380983)
+[![Latest Version](https://img.shields.io/pypi/v/reademption.svg)](https://pypi.python.org/pypi/READemption/)
 
 # About GRADitude 
 
