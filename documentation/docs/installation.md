@@ -27,7 +27,9 @@ link of graditudelib in bin.
 For using Docker image, please use one of the following commands:
 
 1) You can pull the Docker image as following
-$ docker pull silviadg87/graditude
+
+<code>$ docker pull silviadg87/graditude</code>
+
 2) Alternatively, you can build the image via Dockerfile. 
 Please Download the Dockerfile from our Git repository. 
 Then switch to the folder which Dockerfile are located. 
@@ -38,7 +40,7 @@ For the following commands, please refer to [here](https://docs.docker.com/get-s
 
 GRADitude is also hosted in PyPI server and for this reason it can be installed via pip3.
 
-<code>$ pip install GRADitude
+<code>$ pip install GRADitude</code>
 
 
 
