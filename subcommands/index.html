@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
+  
   <link rel="shortcut icon" href="../img/favicon.ico">
   <title>GRADitude's subcommands - GRADitude</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
-  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -24,7 +25,7 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
 </head>
@@ -35,6 +36,7 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
         <a href=".." class="icon icon-home"> GRADitude</a>
         <div role="search">
@@ -45,94 +47,82 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="..">Home</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../installation/">Installation</a>
-	    </li>
-          
-            <li class="toctree-l1 current">
-		
-    <a class="current" href="./">GRADitude's subcommands</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l2"><a href="#graditudes-subcommands">GRADitude's subcommands</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l3" href="#pre-process-sequencing-data">Pre-process sequencing data</a></li>
-        
-            <li><a class="toctree-l3" href="#create">create</a></li>
-        
-            <li><a class="toctree-l3" href="#min_row_sum_ercc-filter-the-table">min_row_sum_ercc (filter the table)</a></li>
-        
-            <li><a class="toctree-l3" href="#min_row_sum-filter-the-table">min_row_sum (filter the table)</a></li>
-        
-            <li><a class="toctree-l3" href="#drop_column-filter-the-table">drop_column (filter the table)</a></li>
-        
-            <li><a class="toctree-l3" href="#selecting_specific_features-filter-the-table">selecting_specific_features (filter the table)</a></li>
-        
-            <li><a class="toctree-l3" href="#robust_regression">robust_regression</a></li>
-        
-            <li><a class="toctree-l3" href="#normalize">normalize</a></li>
-        
-            <li><a class="toctree-l3" href="#scaling-scale-the-data">scaling (scale the data)</a></li>
-        
-            <li><a class="toctree-l3" href="#clustering_elbow-find-number-of-clusters">clustering_elbow (find number of clusters)</a></li>
-        
-            <li><a class="toctree-l3" href="#clustering-cluster-the-data">clustering (cluster the data)</a></li>
-        
-            <li><a class="toctree-l3" href="#clustering_proteins-cluster-the-data">clustering_proteins (cluster the data)</a></li>
-        
-            <li><a class="toctree-l3" href="#t-sne-dimension-reduction">t-sne (dimension reduction)</a></li>
-        
-            <li><a class="toctree-l3" href="#pca-dimension-reduction">pca (dimension reduction)</a></li>
-        
-            <li><a class="toctree-l3" href="#umap-dimension-reduction">umap (dimension reduction)</a></li>
-        
-            <li><a class="toctree-l3" href="#plot_kinetics-plot-the-in-gradient-behavior">plot_kinetics (plot the in-gradient behavior)</a></li>
-        
-            <li><a class="toctree-l3" href="#heatmap-plot-the-heatmap">heatmap (plot the heatmap)</a></li>
-        
-            <li><a class="toctree-l3" href="#silhouette_analysis-clustering">silhouette_analysis (clustering)</a></li>
-        
-            <li><a class="toctree-l3" href="#correlation_specific_gene-correlation-coefficient">correlation_specific_gene (correlation coefficient)</a></li>
-        
-            <li><a class="toctree-l3" href="#correlation_distribution_graph-histogram-of-correlation-coefficients-distribution">correlation_distribution_graph (histogram of correlation coefficients distribution)</a></li>
-        
-            <li><a class="toctree-l3" href="#correlation_rnas_protein-correlation-coefficient">correlation_rnas_protein (correlation coefficient)</a></li>
-        
-            <li><a class="toctree-l3" href="#correlation_all_against_all-correlation-coefficient">correlation_all_against_all (correlation coefficient)</a></li>
-        
-            <li><a class="toctree-l3" href="#correlation_replicates-correlation-coefficient">correlation_replicates (correlation coefficient)</a></li>
-        
-            <li><a class="toctree-l3" href="#plot_network_graph-network-plot">plot_network_graph (network plot)</a></li>
-        
-            <li><a class="toctree-l3" href="#interactive_plots-explore-the-plot">interactive_plots (explore the plot)</a></li>
-        
-            <li><a class="toctree-l3" href="#find_complexes-quality-control-of-protein-data">find_complexes (quality control of protein data)</a></li>
-        
-        </ul>
-    
-
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">GRADitude's subcommands</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#pre-process-sequencing-data">Pre-process sequencing data</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#create">create</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#min_row_sum_ercc-filter-the-table">min_row_sum_ercc (filter the table)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#min_row_sum-filter-the-table">min_row_sum (filter the table)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#drop_column-filter-the-table">drop_column (filter the table)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#selecting_specific_features-filter-the-table">selecting_specific_features (filter the table)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#robust_regression">robust_regression</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#normalize">normalize</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#scaling-scale-the-data">scaling (scale the data)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#clustering_elbow-find-number-of-clusters">clustering_elbow (find number of clusters)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#clustering-cluster-the-data">clustering (cluster the data)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#clustering_proteins-cluster-the-data">clustering_proteins (cluster the data)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#t-sne-dimension-reduction">t-sne (dimension reduction)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pca-dimension-reduction">pca (dimension reduction)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#umap-dimension-reduction">umap (dimension reduction)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#plot_kinetics-plot-the-in-gradient-behavior">plot_kinetics (plot the in-gradient behavior)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#heatmap-plot-the-heatmap">heatmap (plot the heatmap)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#silhouette_analysis-clustering">silhouette_analysis (clustering)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#correlation_specific_gene-correlation-coefficient">correlation_specific_gene (correlation coefficient)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#correlation_distribution_graph-histogram-of-correlation-coefficients-distribution">correlation_distribution_graph (histogram of correlation coefficients distribution)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#correlation_rnas_protein-correlation-coefficient">correlation_rnas_protein (correlation coefficient)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#correlation_all_against_all-correlation-coefficient">correlation_all_against_all (correlation coefficient)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#correlation_replicates-correlation-coefficient">correlation_replicates (correlation coefficient)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#plot_network_graph-network-plot">plot_network_graph (network plot)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#interactive_plots-explore-the-plot">interactive_plots (explore the plot)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#find_complexes-quality-control-of-protein-data">find_complexes (quality control of protein data)</a>
+    </li>
     </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../license/">License</a>
-	    </li>
-          
-        </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../perform_an_example_analysis/">Performing an example analysis</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
+                    </li>
+                </ul>
       </div>
-      &nbsp;
+    </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -157,6 +147,7 @@
       
     </li>
   </ul>
+  
   <hr/>
 </div>
           <div role="main">
@@ -181,7 +172,7 @@ the specified threshold.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude min_row_sum_ercc [-h] --ref_feature_count_table
+<pre><code class="language-bash">usage: graditude min_row_sum_ercc [-h] --ref_feature_count_table
                                   REF_FEATURE_COUNT_TABLE
                                   [--min_row_sum MIN_ROW_SUM]
                                   --filtered_ref_feature_count_table
@@ -199,7 +190,6 @@ basic arguments:
                         Filtered ERCC reads table as output
 
 </code></pre>
-
 <h2 id="min_row_sum-filter-the-table">min_row_sum (filter the table)</h2>
 <p><code>min_row_sum</code> </p>
 <p>A subcommand, specific for the sequencing data that filters 
@@ -208,7 +198,7 @@ the specified threshold.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude min_row_sum [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude min_row_sum [-h] --feature_count_table FEATURE_COUNT_TABLE
                              --feature_count_start_column
                              FEATURE_COUNT_START_COLUMN --min_row MIN_ROW
                              --output_file OUTPUT_FILE
@@ -228,12 +218,11 @@ basic arguments:
                         Filtered table as output
 
 </code></pre>
-
 <h2 id="drop_column-filter-the-table">drop_column (filter the table)</h2>
 <p><code>drop_column</code></p>
 <p>This subcommand is specific for the sequencing data and it can be use to drop a specific column we would not
 like to don't consider in the downstream analysis. For example it can be used to drop the Lysate column.</p>
-<pre><code class="bash">
+<pre><code class="language-bash">
 usage: graditude drop_column [-h] --feature_count_table FEATURE_COUNT_TABLE
                              --column_to_drop COLUMN_TO_DROP --output_file
                              OUTPUT_FILE
@@ -249,11 +238,10 @@ basic arguments:
 
 
 </code></pre>
-
 <h2 id="selecting_specific_features-filter-the-table">selecting_specific_features (filter the table)</h2>
 <p><code>selecting_specific_features</code></p>
 <p>This subcommand extract from a table specific feature, such as sRNAs or mRNAs. </p>
-<pre><code class="bash">usage: graditude selecting_specific_features [-h] --normalized_table
+<pre><code class="language-bash">usage: graditude selecting_specific_features [-h] --normalized_table
                                              NORMALIZED_TABLE
                                              --feature_count_start_column
                                              FEATURE_COUNT_START_COLUMN
@@ -280,7 +268,6 @@ optional arguments:
                         Filtered table
 
 </code></pre>
-
 <h2 id="robust_regression">robust_regression</h2>
 <p><code>robust_regression</code></p>
 <p>This subcommand, specific for the sequencing data, compares the ERCC concentration in mix (it
@@ -293,7 +280,7 @@ only the inliers ERCCs.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude robust_regression [-h] --ref_feature_count_table
+<pre><code class="language-bash">usage: graditude robust_regression [-h] --ref_feature_count_table
                                    REF_FEATURE_COUNT_TABLE
                                    --concentration_table CONCENTRATION_TABLE
                                    --number_of_outliers NUMBER_OF_OUTLIERS
@@ -319,7 +306,6 @@ basic arguments:
                         Output table with the inliers ERCC
 
 </code></pre>
-
 <h2 id="normalize">normalize</h2>
 <p><code>normalize</code></p>
 <p>This normalization is specific for the sequencing data.
@@ -333,7 +319,7 @@ considered as a reference sample obtained by taking the geometric mean across sa
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude normalize [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude normalize [-h] --feature_count_table FEATURE_COUNT_TABLE
                            [--feature_count_start_column FEATURE_COUNT_START_COLUMN]
                            [--feature_count_end_column FEATURE_COUNT_END_COLUMN]
                            --ref_feature_count_table REF_FEATURE_COUNT_TABLE
@@ -365,7 +351,6 @@ basic arguments:
                         Table with all the size factor
 
 </code></pre>
-
 <h2 id="scaling-scale-the-data">scaling (scale the data)</h2>
 <p><code>scaling</code></p>
 <p>This subcommand can be used for the protein and the sequencing data. It takes a table, that can be
@@ -377,7 +362,7 @@ of a transcript or a protein.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude scaling [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude scaling [-h] --feature_count_table FEATURE_COUNT_TABLE
                          --feature_count_start_column
                          FEATURE_COUNT_START_COLUMN
                          [--pseudo_count PSEUDO_COUNT] --scaling_method
@@ -407,7 +392,6 @@ basic arguments:
                         Scaled table as output
 
 </code></pre>
-
 <h2 id="clustering_elbow-find-number-of-clusters">clustering_elbow (find number of clusters)</h2>
 <p><code>clustering_elbow</code></p>
 <p>This subcommand implements a method designed to find the appropriate number 
@@ -421,7 +405,7 @@ indicates the optimal number of clusters.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude clustering_elbow [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude clustering_elbow [-h] --feature_count_table
                                   FEATURE_COUNT_TABLE
                                   --feature_count_start_column
                                   FEATURE_COUNT_START_COLUMN
@@ -455,7 +439,6 @@ basic arguments:
                         Plot showing the percentage of variance explained
                         versus the number of clusters
 </code></pre>
-
 <h2 id="clustering-cluster-the-data">clustering (cluster the data)</h2>
 <p><code>clustering</code></p>
 <p>The subcommands can be used for the sequencing data. It takes the
@@ -466,7 +449,7 @@ been included.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude clustering [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude clustering [-h] --feature_count_table FEATURE_COUNT_TABLE
                             --feature_count_start_column
                             FEATURE_COUNT_START_COLUMN --number_of_clusters
                             NUMBER_OF_CLUSTERS [--pseudo_count PSEUDO_COUNT]
@@ -504,11 +487,10 @@ basic arguments:
                         Output table with a new column containing the number
                         of clusters
 </code></pre>
-
 <ul>
 <li>Additional arguments</li>
 </ul>
-<pre><code class="bash">additional arguments:
+<pre><code class="language-bash">additional arguments:
   --epsilon EPSILON, -e EPSILON
                         This parameter is specific for the DBSCAN clustering
                         algorithm. It defines how close points should be in
@@ -521,14 +503,13 @@ basic arguments:
   --number_of_clusters NUMBER_OF_CLUSTERS, -nc NUMBER_OF_CLUSTERS
                         This parameter specify the number of clusters, k                        
 </code></pre>
-
 <h2 id="clustering_proteins-cluster-the-data">clustering_proteins (cluster the data)</h2>
 <p><code>clustering_proteins</code></p>
 <p>This subcommand is specific for the protein data.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude clustering_proteins [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude clustering_proteins [-h] --feature_count_table
                                      FEATURE_COUNT_TABLE
                                      --feature_count_start_column
                                      FEATURE_COUNT_START_COLUMN
@@ -557,11 +538,10 @@ basic arguments:
   --output_file OUTPUT_FILE, -o OUTPUT_FILE
                         Table with a cluster column
 </code></pre>
-
 <ul>
 <li>Additional arguments</li>
 </ul>
-<pre><code class="bash">  --epsilon EPSILON, -e EPSILON
+<pre><code class="language-bash">  --epsilon EPSILON, -e EPSILON
                         This parameter is specific for the DBSCAN clustering
                         algorithm. It defines how close points should be in
                         order to be considered part of a cluster
@@ -576,7 +556,6 @@ basic arguments:
                         clustering algorithm
 
 </code></pre>
-
 <h2 id="t-sne-dimension-reduction">t-sne (dimension reduction)</h2>
 <p><code>t_sne</code></p>
 <p>To identify biochemically similar transcripts the t-SNE dimension
@@ -588,7 +567,7 @@ Bokeh and the JavaScript Callbacks one to navigate t the data-set.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude t_sne [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude t_sne [-h] --feature_count_table FEATURE_COUNT_TABLE
                        --feature_count_start_column FEATURE_COUNT_START_COLUMN
                        --perplexity PERPLEXITY
                        [--srna_list SRNA_LIST [SRNA_LIST ...]]
@@ -619,11 +598,10 @@ basic arguments:
   --output_file3 OUTPUT_FILE3, -o3 OUTPUT_FILE3
                         Output plot colorized using a specific list
 </code></pre>
-
 <ul>
 <li>Additional arguments</li>
 </ul>
-<pre><code class="bash">additional arguments:
+<pre><code class="language-bash">additional arguments:
   --srna_list SRNA_LIST [SRNA_LIST ...], -list SRNA_LIST [SRNA_LIST ...]
                         This parameter allow the user to specify a list of
                         features or genes we would like to highlight in the
@@ -638,7 +616,6 @@ basic arguments:
                         html plot
 
 </code></pre>
-
 <h2 id="pca-dimension-reduction">pca (dimension reduction)</h2>
 <p><code>pca</code></p>
 <p>To identify biochemically similar transcripts the PCA dimension
@@ -650,7 +627,7 @@ Bokeh and the JavaScript Callbacks one to navigate the data-set.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude pca [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude pca [-h] --feature_count_table FEATURE_COUNT_TABLE
                      --feature_count_start_column FEATURE_COUNT_START_COLUMN
                      --feature_count_end_column FEATURE_COUNT_END_COLUMN
                      [--srna_list_files SRNA_LIST_FILES [SRNA_LIST_FILES ...]]
@@ -681,11 +658,10 @@ basic arguments:
   --output_file_colorized_by_lists OUTPUT_FILE_COLORIZED_BY_LISTS, -o3 OUTPUT_FILE_COLORIZED_BY_LISTS
                         Output plot colorized using a specific list
 </code></pre>
-
 <ul>
 <li>Additional arguments</li>
 </ul>
-<pre><code class="bash">additional arguments:
+<pre><code class="language-bash">additional arguments:
   --srna_list_files SRNA_LIST_FILES [SRNA_LIST_FILES ...], -list SRNA_LIST_FILES [SRNA_LIST_FILES ...]
                         This parameter allow the user to specify a list of
                         features or genes we would like to highlight in the
@@ -699,7 +675,6 @@ basic arguments:
                         like to open when clicking on a specific point in the
                         html plot
 </code></pre>
-
 <h2 id="umap-dimension-reduction">umap (dimension reduction)</h2>
 <p><code>umap</code></p>
 <p>To identify biochemically similar transcripts the PCA dimension
@@ -711,7 +686,7 @@ Bokeh and the JavaScript Callbacks one to navigate the data-set.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude umap [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude umap [-h] --feature_count_table FEATURE_COUNT_TABLE
                       --feature_count_start_column FEATURE_COUNT_START_COLUMN
                       --feature_count_end_column FEATURE_COUNT_END_COLUMN
                       [--srna_list SRNA_LIST [SRNA_LIST ...]]
@@ -748,11 +723,10 @@ basic arguments:from sklearn.decomposition import PCA
                         Output plot colorized using a specific list
 
 </code></pre>
-
 <ul>
 <li>Additional arguments</li>
 </ul>
-<pre><code class="bash">additional arguments:
+<pre><code class="language-bash">additional arguments:
   --srna_list_files SRNA_LIST_FILES [SRNA_LIST_FILES ...], -list SRNA_LIST_FILES [SRNA_LIST_FILES ...]
                         This parameter allow the user to specify a list of
                         features or genes we would like to highlight in the
@@ -766,7 +740,6 @@ basic arguments:from sklearn.decomposition import PCA
                         like to open when clicking on a specific point in the
                         html plot
 </code></pre>
-
 <h2 id="plot_kinetics-plot-the-in-gradient-behavior">plot_kinetics (plot the in-gradient behavior)</h2>
 <p><code>plot_kinetics</code></p>
 <p>This subcommand is useful to better visualize the behavior of a specific transcript or protein within the gradient. 
@@ -775,7 +748,7 @@ the sedimentation profiles of all detectable RNA and proteins.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude plot_kinetics [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude plot_kinetics [-h] --feature_count_table FEATURE_COUNT_TABLE
                                --feature_count_start_column
                                FEATURE_COUNT_START_COLUMN
                                --feature_count_end_column
@@ -800,7 +773,6 @@ basic arguments:
                         you would like tosave your plot
 
 </code></pre>
-
 <h2 id="heatmap-plot-the-heatmap">heatmap (plot the heatmap)</h2>
 <p><code>heatmap</code></p>
 <p>This subcommand is useful to better visualize the in-gradient behavior of a
@@ -808,7 +780,7 @@ basic arguments:
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude heatmap [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude heatmap [-h] --feature_count_table FEATURE_COUNT_TABLE
                          [--feature_count_start_column FEATURE_COUNT_START_COLUMN]
                          [--feature_count_end_column FEATURE_COUNT_END_COLUMN]
                          --y_label Y_LABEL --output_file OUTPUT_FILE
@@ -828,7 +800,6 @@ basic arguments:
   --output_file OUTPUT_FILE, -o OUTPUT_FILE
                         Plot as output
 </code></pre>
-
 <h2 id="silhouette_analysis-clustering">silhouette_analysis (clustering)</h2>
 <p><code>silhouette_analysis</code></p>
 <p>This subcommand can be used to interpret the distance between clusters. It is useful to see if the number of clusters (k)
@@ -836,7 +807,7 @@ you have chosen is correct for the data set.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude silhouette_analysis [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude silhouette_analysis [-h] --feature_count_table
                                      FEATURE_COUNT_TABLE
                                      --feature_count_start_column
                                      FEATURE_COUNT_START_COLUMN
@@ -863,7 +834,6 @@ basic arguments:
                         Maximum number of clusters that you want to represent
                         in the plot
 </code></pre>
-
 <h2 id="correlation_specific_gene-correlation-coefficient">correlation_specific_gene (correlation coefficient)</h2>
 <p><code>correlation_specific_gene</code></p>
 <p>This subcommand is useful if you have a gene or a protein of interest and you would like to predict new interactions.
@@ -871,7 +841,7 @@ The assumption is that proteins or genes with an high correlation coefficients m
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude correlation_specific_gene [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude correlation_specific_gene [-h] --feature_count_table
                                            FEATURE_COUNT_TABLE
                                            --feature_count_start_column
                                            FEATURE_COUNT_START_COLUMN
@@ -903,7 +873,6 @@ basic arguments:
                         Table with correlation coefficients and p-values
 
 </code></pre>
-
 <h2 id="correlation_distribution_graph-histogram-of-correlation-coefficients-distribution">correlation_distribution_graph (histogram of correlation coefficients distribution)</h2>
 <p><code>correlation_distribution_graph</code></p>
 <p>This subcommand creates a histogram to identify the distribution of the
@@ -912,7 +881,7 @@ The plot shows the percentile that might be used as cut-off in the network plot 
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude correlation_distribution_graph [-h]
+<pre><code class="language-bash">usage: graditude correlation_distribution_graph [-h]
                                                 --table_with_correlation_coefficient
                                                 TABLE_WITH_CORRELATION_COEFFICIENT
                                                 --percentile PERCENTILE
@@ -929,7 +898,6 @@ basic arguments:
                         distribution
 
 </code></pre>
-
 <h2 id="correlation_rnas_protein-correlation-coefficient">correlation_rnas_protein (correlation coefficient)</h2>
 <p><code>correlation_rnas_protein</code></p>
 <p>This subcommand find the correlation coefficient of two different tables. It can be used for example for combining 
@@ -939,7 +907,7 @@ quantification tables are generated.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude correlation_rnas_protein [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude correlation_rnas_protein [-h] --feature_count_table
                                           FEATURE_COUNT_TABLE
                                           --feature_count_start_column
                                           FEATURE_COUNT_START_COLUMN
@@ -974,7 +942,6 @@ basic arguments:
                         Output table containing the correlation coefficients
 
 </code></pre>
-
 <h2 id="correlation_all_against_all-correlation-coefficient">correlation_all_against_all (correlation coefficient)</h2>
 <p><code>correlation_all_against_all</code></p>
 <p>This subcommand calculates the correlation coefficients all agaist all. It can be used in the sequencing table or with 
@@ -982,7 +949,7 @@ the protein data.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude correlation_all_against_all [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude correlation_all_against_all [-h] --feature_count_table
                                              FEATURE_COUNT_TABLE
                                              --feature_count_start_column
                                              FEATURE_COUNT_START_COLUMN
@@ -1006,7 +973,6 @@ basic arguments:
   --output_table OUTPUT_TABLE, -o OUTPUT_TABLE
                         Table with correlation coefficients
 </code></pre>
-
 <h2 id="correlation_replicates-correlation-coefficient">correlation_replicates (correlation coefficient)</h2>
 <p><code>correlation_replicates</code></p>
 <p>This subcommand allows to see the distribution of the
@@ -1015,7 +981,7 @@ basic arguments:
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude correlation_replicates [-h] --table_replicate1
+<pre><code class="language-bash">usage: graditude correlation_replicates [-h] --table_replicate1
                                         TABLE_REPLICATE1 --table_replicate2
                                         TABLE_REPLICATE2
                                         --table_start_column-fc
@@ -1043,7 +1009,6 @@ optional arguments:
                         Plot that show a histogram with thedistribution ofthe
                         correlation coefficient
 </code></pre>
-
 <h2 id="plot_network_graph-network-plot">plot_network_graph (network plot)</h2>
 <p><code>plot_network_graph</code></p>
 <p>This subcommand plots the network plot. 
@@ -1052,7 +1017,7 @@ been drawn using a force-directed layout, computed using the Fruchterman-Reingol
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude plot_network_graph [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude plot_network_graph [-h] --feature_count_table
                                     FEATURE_COUNT_TABLE --threshold THRESHOLD
                                     --max_size MAX_SIZE
                                     [--output_plot OUTPUT_PLOT]
@@ -1071,7 +1036,6 @@ optional arguments:
                         Network plot
 
 </code></pre>
-
 <h2 id="interactive_plots-explore-the-plot">interactive_plots (explore the plot)</h2>
 <p><code>interactive_plots</code></p>
 <p>This subcommand shows the results of a dimension reduction and makes the plot more explorable.
@@ -1081,7 +1045,7 @@ will be generated.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude interactive_plots [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude interactive_plots [-h] --feature_count_table
                                    FEATURE_COUNT_TABLE
                                    --feature_count_start_column
                                    FEATURE_COUNT_START_COLUMN
@@ -1113,16 +1077,14 @@ basic arguments:
                         Output plot
 
 </code></pre>
-
 <ul>
 <li>Additional arguments</li>
 </ul>
-<pre><code class="bash">  --url_link URL_LINK, -url URL_LINK
+<pre><code class="language-bash">  --url_link URL_LINK, -url URL_LINK
                         This parameter allows to choose the website you would
                         like to open when clicking on a specific point in the
                         html plot
 </code></pre>
-
 <h2 id="find_complexes-quality-control-of-protein-data">find_complexes (quality control of protein data)</h2>
 <p><code>find_complexes</code></p>
 <p>As a general quality control for the protein data, we look at how many of the know protein
@@ -1131,7 +1093,7 @@ all the subunit of that specific complexes are present and calculate the correla
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude find_complexes [-h] --tables_containing_list_complexes
+<pre><code class="language-bash">usage: graditude find_complexes [-h] --tables_containing_list_complexes
                                 TABLES_CONTAINING_LIST_COMPLEXES
                                 --protein_table PROTEIN_TABLE
                                 --table_start_column-pc TABLE_START_COLUMN_PC
@@ -1161,7 +1123,7 @@ optional arguments:
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../license/" class="btn btn-neutral float-right" title="License">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../perform_an_example_analysis/" class="btn btn-neutral float-right" title="Performing an example analysis">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href="../installation/" class="btn btn-neutral" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -1176,7 +1138,7 @@ optional arguments:
     
   </div>
 
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
       
         </div>
@@ -1186,20 +1148,25 @@ optional arguments:
 
   </div>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
+  <div class="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
         <span><a href="../installation/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../license/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../perform_an_example_analysis/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
     <script>var base_url = '..';</script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
 
 </body>
 </html>
