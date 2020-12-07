@@ -3,5 +3,6 @@ nav:
     - Home: index.md
     - Installation: installation.md
     - GRADitude's subcommands: subcommands.md
+    - Performing an example analysis: perform_an_example_analysis.md
     - License: license.md
 theme: readthedocs
