@@ -28,7 +28,7 @@ For using Docker image, please use one of the following commands:
 
 1) You can pull the Docker image as following
 
-<code>$ docker pull silviadg87/graditude</code>
+<code>$ docker pull silviadigiorgio/graditude:0.1.0</code>
 
 2) Alternatively, you can build the image via Dockerfile. 
 Please Download the Dockerfile from our Git repository. 
