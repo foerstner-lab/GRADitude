@@ -43,6 +43,7 @@ __license__ = "ISC license"
 __email__ = "digiorgio@zbmed.de"
 __version__ = "0.1.0"
 
+
 def main():
     parser = argparse.ArgumentParser()
 
@@ -1069,7 +1070,7 @@ def main():
 
     version_parser = subparsers.add_parser("version", help="Print version")
     version_parser.set_defaults(func=print_version)
-    
+
     args = parser.parse_args()
     if "func" in dir(args):
         args.func(args)
@@ -1080,9 +1081,16 @@ def main():
 def create_project(args):
     projectcreator.create_root_folder("GRADitude")
     projectcreator.create_subfolders("GRADitude", ["input", "output"])
+    projectcreator.create_subfolders("GRADitude/output/", ["gene_wise_table",
+                                                           "normalized_table",
+                                                           "ncRNA_tables",
+                                                           "ERCC_table", "size_factor",
+                                                           "scaled_table",
+                                                           "clustering",
+                                                           "dimension_reduction",
+                                                           "plot_ERCC_reads_vs_concentration"])
+
     projectcreator.create_version_file("GRADitude/version.txt", __version__)
-    projectcreator.create_root_folder("GRADitude/subCommand")
-    projectcreator.create_subfolders("GRADitude/subCommand", ["input", "output"])
 
 
 def filtering_tables(args):
@@ -1358,7 +1366,9 @@ def run_finder_spikein(args):
     size_factor.size_factor_extraction(args.ref_feature_count_table,
                                        args.size_factors_table)
 
+
 def print_version(args):
     print(__version__)
-    
+
+
 main()
