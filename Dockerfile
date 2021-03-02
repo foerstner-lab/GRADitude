@@ -7,6 +7,6 @@ RUN apt-get update && apt-get install -y python3 python3-pip build-essential gfo
     libopenblas-dev liblapack-dev python3-matplotlib pkg-config libfreetype6 libfreetype6-dev \
     libfreetype-dev cython3
 
-RUN pip3 install GRADitude==0.1.0
+RUN pip3 install GRADitude==0.1.1
 
 WORKDIR /root
