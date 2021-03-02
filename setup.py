@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name='GRADitude',
-    version='0.1.0',
+    version='0.1.1',
     packages=['graditudelib'],
     author='Silvia Di Giorgio, Konrad U. Förstner',
     author1_email='digiorgio@zbmed.de',
@@ -22,7 +22,7 @@ setup(
         "numpy == 1.17.2",
         "umap-learn == 0.3.10",
         "pytest == 5.2.1",
-        "holoviews == 1.12.6",
+        "holoviews == 1.14.1",
         "pandas == 0.25.1",
         "networkx == 2.3",
         "seaborn == 0.9.0",
