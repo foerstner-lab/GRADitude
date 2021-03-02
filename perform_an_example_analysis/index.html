@@ -62,8 +62,6 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Performing an example analysis</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#pre-process-sequencing-data">Pre-process sequencing data</a>
-    </li>
     </ul>
                     </li>
                 </ul>
@@ -106,33 +104,48 @@
                 <h1 id="performing-an-example-analysis">Performing an example analysis</h1>
 <p>In this section you will be able to perform a complete analysis using already 
 published GRAD-seq data sets.</p>
-<p>In order explore all the potential of a GRADitude I will start using the <em>Escherichia coli</em> data set 
-(Höer <em>et</em> <em>al</em>., 2020, NAR)</p>
-<p>}</p>
-<p>get_reads(){
-     cd ${READ_LIB_FOLDER} &amp;&amp;
-    fastq-dump --bzip2 SRR1640296
-    fastq-dump --bzip2 SRR1640297
-    fastq-dump --bzip2 SRR1640298
-    fastq-dump --bzip2 SRR1640299
-    fastq-dump --bzip2 SRR1640300
-    fastq-dump --bzip2 SRR1640301
-    fastq-dump --bzip2 SRR1640302
-    fastq-dump --bzip2 SRR1640303
-    fastq-dump --bzip2 SRR1640304
-    fastq-dump --bzip2 SRR1640305
-    fastq-dump --bzip2 SRR1640306
-    fastq-dump --bzip2 SRR1640307
-    fastq-dump --bzip2 SRR1640308
-    fastq-dump --bzip2 SRR1640309
-    fastq-dump --bzip2 SRR1640310
-    fastq-dump --bzip2 SRR1640311
-    fastq-dump --bzip2 SRR1640312
-    fastq-dump --bzip2 SRR1640313
-    fastq-dump --bzip2 SRR1640314
-    fastq-dump --bzip2 SRR1640315 &amp;&amp; cd ..</p>
-<p>}</p>
-<h2 id="pre-process-sequencing-data">Pre-process sequencing data</h2>
+<p>In order explore all the potential of a GRADitude here you will be guided through an example analysis 
+using the <em>Escherichia coli</em> data set downloaded from NCBI  (Höer <em>et</em> <em>al</em>., 2020, NAR)</p>
+<h1 id="pre-processing-the-data-alignment-and-gene-quantification">Pre-processing the data, alignment and gene quantification</h1>
+<p>After downloading the raw data from NCBI, in the original publication, preprocessing steps like read trimming 
+and clipping were done with <a href="https://doi.org/10.14806/ej.17.1.200">cutadapt</a>. 
+Read filtering, read mapping, nucleotide‐wise coverage calculation, and genome feature‐wise read
+quantification was done using <a href="https://doi.org/10.1093/bioinformatics/btu533">READemption</a>.</p>
+<p>To conduce this steps we highly recommend the use of READemption, but anyway any other read mapping are
+working too. </p>
+<p>For completeness, we decided to perform the analysis starting from the raw-reads.</p>
+<h2 id="download-singularity-image">Download singularity image</h2>
+<h5 id="before-starting-the-analysis-you-can-download-the-singularity-image-from-zenodo-in-the-image-you-can-find-all-the-tools-necessary-for-the-analysis">Before starting the analysis you can download the singularity image from Zenodo. In the image you can find all the tools necessary for the analysis</h5>
+<h2 id="create-folders">Create folders</h2>
+<p><code> mkdir READ_LIB_FOLDER </code></p>
+<p><code> mkdir DATA_FOLDER </code></p>
+<h2 id="dowload-the-data">Dowload the data</h2>
+<p>cd READ_LIB_FOLDER &amp;&amp;
+    fastq-dump --bzip2 SRR12067299 &amp;
+    fastq-dump --bzip2 SRR12067300
+    fastq-dump --bzip2 SRR12067301
+    fastq-dump --bzip2 SRR12067302
+    fastq-dump --bzip2 SRR12067303
+    fastq-dump --bzip2 SRR12067304
+    fastq-dump --bzip2 SRR12067305
+    fastq-dump --bzip2 SRR12067306
+    fastq-dump --bzip2 SRR12067307
+    fastq-dump --bzip2 SRR12067308
+    fastq-dump --bzip2 SRR12067309
+    fastq-dump --bzip2 SRR12067310
+    fastq-dump --bzip2 SRR12067311
+    fastq-dump --bzip2 SRR12067312
+    fastq-dump --bzip2 SRR12067313
+    fastq-dump --bzip2 SRR12067314
+    fastq-dump --bzip2 SRR12067315
+    fastq-dump --bzip2 SRR12067316
+    fastq-dump --bzip2 SRR12067317
+    fastq-dump --bzip2 SRR12067318
+    fastq-dump --bzip2 SRR12067319
+    fastq-dump --bzip2 SRR12067320</p>
+<p>&amp;&amp; cd ..</p>
+<h2 id="graditude">GRADitude</h2>
+<p>Before starting the analysis we recommend These tables are output coming from the </p>
               
             </div>
           </div>
