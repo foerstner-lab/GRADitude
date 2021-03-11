@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name='GRADitude',
-    version='0.1.1',
+    version='0.1.2',
     packages=['graditudelib'],
     author='Silvia Di Giorgio, Konrad U. Förstner',
     author1_email='digiorgio@zbmed.de',
@@ -16,13 +16,13 @@ setup(
     url='https://github.com/foerstner-lab/GRADitude.git',
     install_requires=[
         "matplotlib == 3.1.1",
-        "scipy == 1.3.1",
-        "bokeh == 1.3.4",
+        "scipy == 1.6.1",
+        "bokeh == 2.3.0",
         "Jinja2 == 2.10.3",
         "numpy == 1.17.2",
         "umap-learn == 0.3.10",
         "pytest == 5.2.1",
-        "holoviews == 1.14.1",
+        "holoviews == 1.14.2",
         "pandas == 0.25.1",
         "networkx == 2.3",
         "seaborn == 0.9.0",
