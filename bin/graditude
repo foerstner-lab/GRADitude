@@ -1265,7 +1265,7 @@ def main():
                                         required=True,
                                         help="this parameter "
                                              "allows the user to specify "
-                                             "the fields you would like to "
+                                             "the field/s you would like to "
                                              "extract from the attribute column")
     extract_columns_parser.add_argument('--output_table', "-o",
                                         required=True,
@@ -1291,7 +1291,7 @@ def main():
         parser.print_help()
 
 
-def create_project():
+def create_project(args):
     projectcreator.create_root_folder("GRADitude")
     projectcreator.create_subfolders("GRADitude", ["input", "output"])
     projectcreator.create_subfolders("GRADitude/output/", ["gene_wise_table",
