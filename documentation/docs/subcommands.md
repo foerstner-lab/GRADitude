@@ -12,10 +12,36 @@ After the mapping two tables are relevant to proceed with the usage of GRADitude
 2) read alignment stats table that lists many statistics including the ERCC read counts.
 
 ## create
+<code>$ create</code> 
 
-<code>$ create</code> generates the GRADItude folder including the subfolders input and output.
-Once created, please move the required files into the input folders.
+A subcommand that generates the GRADitude folder including all subfolders. 
+Please move or copy the required files into the input folders.
 
+## extract_gene_columns 
+
+<code>$ extract_gene_columns</code>
+
+This subcommand allow to get names, IDs or any information derived from the "Attribute
+column". It gives as output a table with columns containing the information required.
+
+* Basic arguments
+```bash
+
+usage: graditude extract_gene_columns [-h] --feature_count_table FEATURE_COUNT_TABLE --name_columns NAME_COLUMNS [NAME_COLUMNS ...]
+                                      --output_table OUTPUT_TABLE
+
+optional arguments:
+  -h, --help            show this help message and exit
+  
+basic arguments:
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        gene quantification table
+  --name_columns NAME_COLUMNS [NAME_COLUMNS ...], -names NAME_COLUMNS [NAME_COLUMNS ...]
+                        this parameter allows the user to specify the fields you would like to extract from the attribute column
+  --output_table OUTPUT_TABLE, -o OUTPUT_TABLE
+                        output table
+                        
+```
 ## min_row_sum_ercc (filter the table)
 <code>min_row_sum_ercc</code> 
 
