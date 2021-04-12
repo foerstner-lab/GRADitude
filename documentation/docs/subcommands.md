@@ -35,11 +35,11 @@ optional arguments:
   
 basic arguments:
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
-                        gene quantification table
+                        gene quantification table 
   --name_columns NAME_COLUMNS [NAME_COLUMNS ...], -names NAME_COLUMNS [NAME_COLUMNS ...]
                         this parameter allows the user to specify the fields you would like to extract from the attribute column
   --output_table OUTPUT_TABLE, -o OUTPUT_TABLE
-                        output table
+                        the name of the output table
                         
 ```
 ## min_row_sum_ercc (filter the table)
@@ -115,17 +115,38 @@ usage: graditude drop_column [-h] --feature_count_table FEATURE_COUNT_TABLE
                              OUTPUT_FILE
 
 basic arguments:
+  -h, --help            show this help message and exit
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
-                        Gene quantification table or ERCC-reads table
-  --column_to_drop COLUMN_TO_DROP, -c COLUMN_TO_DROP
-                        This parameter specify the name of the column you
-                        would like to drop
+                        gene quantification table or ERCC-reads table
+  --column_to_drop COLUMN_TO_DROP [COLUMN_TO_DROP ...], -c COLUMN_TO_DROP [COLUMN_TO_DROP ...]
+                        this parameter specify the name of the column/s you would like to drop
   --output_file OUTPUT_FILE, -o OUTPUT_FILE
-                        Filtered table as output
+                        name of the filtered table as output
 
 
 ```
 
+## move_columns 
+<code>move_columns</code>
+
+
+```bash
+usage: graditude move_columns [-h] 
+--feature_count_table FEATURE_COUNT_TABLE 
+--number_of_columns NUMBER_OF_COLUMNS 
+--output_file OUTPUT_FILE
+
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        gene quantification table or ERCC-reads table
+  --number_of_columns NUMBER_OF_COLUMNS, -n NUMBER_OF_COLUMNS
+                        this parameter specify the number of the column you would like to move. For example -1 will move the last column in the first position
+  --output_file OUTPUT_FILE, -o OUTPUT_FILE
+                        name of the new table as output
+
+```
 ## selecting_specific_features (filter the table)
 <code>selecting_specific_features</code>
 

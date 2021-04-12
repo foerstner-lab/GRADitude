@@ -117,35 +117,36 @@ def main():
     drop_columns_parser.set_defaults(func=drop_column)
     drop_columns_parser.add_argument("--feature_count_table", "-f",
                                      required=True,
-                                     help="Gene quantification table "
+                                     help="gene quantification table "
                                           "or ERCC-reads table")
     drop_columns_parser.add_argument("--column_to_drop", '-c',
                                      nargs='+',
                                      required=True,
-                                     help="This parameter specify "
-                                          "the name of the column you "
-                                          "want to drop")
+                                     help="this parameter specify "
+                                          "the name of the column/s you "
+                                          "would like to drop")
     drop_columns_parser.add_argument("--output_file", "-o",
                                      required=True,
-                                     help="Filtered table as output")
+                                     help=" name of the filtered table as output")
 
     move_columns_parser = subparsers.add_parser("move_columns",
-                                                help=""
+                                                help="It moves column/s"
                                                 )
     move_columns_parser.set_defaults(func=run_move_columns)
     move_columns_parser.add_argument("--feature_count_table", "-f",
                                      required=True,
-                                     help="Gene quantification table "
+                                     help=" gene quantification table "
                                           "or ERCC-reads table")
     move_columns_parser.add_argument("--number_of_columns", '-n',
                                      required=True,
                                      type=int,
-                                     help="This parameter specify "
+                                     help="this parameter specify "
                                           "the number of the column you "
-                                          "want to move")
+                                          "would like to move. For example -1 will move the last "
+                                          "column in the first position")
     move_columns_parser.add_argument("--output_file", "-o",
                                      required=True,
-                                     help="Filtered table as output")
+                                     help="name of the new table as output")
 
     merge_features_parser = subparsers.add_parser("merge_features",
                                                   help="This subcommands "
@@ -1269,7 +1270,7 @@ def main():
                                              "extract from the attribute column")
     extract_columns_parser.add_argument('--output_table', "-o",
                                         required=True,
-                                        help="output table")
+                                        help="the name of the output table")
 
     merge_attributes_parser = subparsers.add_parser("merge_attributes",
                                                     help="")
