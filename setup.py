@@ -18,7 +18,7 @@ setup(
         "matplotlib == 3.1.1",
         "scipy == 1.6.1",
         "bokeh == 2.3.0",
-        "Jinja2 == 2.10.3",
+        "Jinja2 == 2.11.3",
         "numpy == 1.17.2",
         "umap-learn == 0.3.10",
         "pytest == 5.2.1",
