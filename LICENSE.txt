@@ -1,5 +1,5 @@
 Copyright (c) 2017-2022 Silvia Di Giorgio <digiorgio@zbmed.de>,
-Konrad Förstner <konrad@foerstern.org>
+Konrad Förstner <konrad@foerstner.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
