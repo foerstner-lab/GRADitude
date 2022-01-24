@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Performing an example analysis - GRADitude</title>
+  <title>Performing an example analysis using singularity - GRADitude</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -18,8 +18,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Performing an example analysis";
-    var mkdocs_page_input_path = "perform_an_example_analysis.md";
+    var mkdocs_page_name = "Performing an example analysis using singularity";
+    var mkdocs_page_input_path = "perform_an_example_analysis_using_docker.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -59,14 +59,14 @@
                     <li class="toctree-l1"><a class="reference internal" href="../subcommands/">GRADitude's subcommands</a>
                     </li>
                 </ul>
-                <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Performing an example analysis</a>
-    <ul class="current">
-    </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../perform_an_example_analysis/">Performing an example analysis</a>
                     </li>
                 </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../perform_an_example_analysis_using_docker/">Performing an example analysis using singularity</a>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Performing an example analysis using singularity</a>
+    <ul class="current">
+    </ul>
                     </li>
                 </ul>
                 <ul>
@@ -94,7 +94,7 @@
     
       
     
-    <li>Performing an example analysis</li>
+    <li>Performing an example analysis using singularity</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -105,51 +105,69 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="performing-an-example-analysis">Performing an example analysis</h1>
-<p>In this section you will be able to perform a complete analysis using already 
-published GRAD-seq data sets.</p>
-<p>In order explore all the potential of a GRADitude here you will be guided through an example analysis 
-using the <em>Escherichia coli</em> data set downloaded from NCBI  (Höer <em>et</em> <em>al</em>., 2020, NAR)</p>
-<h1 id="pre-processing-the-data-alignment-and-gene-quantification">Pre-processing the data, alignment and gene quantification</h1>
-<p>After downloading the raw data from NCBI, in the original publication, preprocessing steps like read trimming 
-and clipping were done with <a href="https://doi.org/10.14806/ej.17.1.200">cutadapt</a>. 
-Read filtering, read mapping, nucleotide‐wise coverage calculation, and genome feature‐wise read
-quantification was done using <a href="https://doi.org/10.1093/bioinformatics/btu533">READemption</a>.</p>
-<p>To conduce this steps we highly recommend the use of READemption, but anyway any other read mapping are
-working too. </p>
-<p>For completeness, we decided to perform the analysis starting from the raw-reads.</p>
-<h2 id="download-singularity-image">Download singularity image</h2>
-<h5 id="before-starting-the-analysis-you-can-download-the-singularity-image-from-zenodo-in-the-image-you-can-find-all-the-tools-necessary-for-the-analysis">Before starting the analysis you can download the singularity image from Zenodo. In the image you can find all the tools necessary for the analysis</h5>
-<h2 id="create-folders">Create folders</h2>
-<p><code> mkdir READ_LIB_FOLDER </code></p>
-<p><code> mkdir DATA_FOLDER </code></p>
-<h2 id="dowload-the-data">Dowload the data</h2>
-<p>cd READ_LIB_FOLDER &amp;&amp;
-    fastq-dump --bzip2 SRR12067299 &amp;
-    fastq-dump --bzip2 SRR12067300
-    fastq-dump --bzip2 SRR12067301
-    fastq-dump --bzip2 SRR12067302
-    fastq-dump --bzip2 SRR12067303
-    fastq-dump --bzip2 SRR12067304
-    fastq-dump --bzip2 SRR12067305
-    fastq-dump --bzip2 SRR12067306
-    fastq-dump --bzip2 SRR12067307
-    fastq-dump --bzip2 SRR12067308
-    fastq-dump --bzip2 SRR12067309
-    fastq-dump --bzip2 SRR12067310
-    fastq-dump --bzip2 SRR12067311
-    fastq-dump --bzip2 SRR12067312
-    fastq-dump --bzip2 SRR12067313
-    fastq-dump --bzip2 SRR12067314
-    fastq-dump --bzip2 SRR12067315
-    fastq-dump --bzip2 SRR12067316
-    fastq-dump --bzip2 SRR12067317
-    fastq-dump --bzip2 SRR12067318
-    fastq-dump --bzip2 SRR12067319
-    fastq-dump --bzip2 SRR12067320</p>
-<p>&amp;&amp; cd ..</p>
-<h2 id="graditude">GRADitude</h2>
-<p>Before starting the analysis we recommend These tables are output coming from the </p>
+                <h1 id="docker-image">DOCKER IMAGE</h1>
+<p>Another way to distribute packages is using Docker. Docker is a service that deliver software
+in so called containers. All containers have their own libraries and packages.</p>
+<p>A Docker container has inside all dependencies and applications. This increase
+the reproducibility of a specific analysis.
+In this example all the tools required for the analysis are inside the image that will be generated.</p>
+<p>In order to start the analysis you can build the image from the Dockerfile or you can
+pull it.</p>
+<p>1) Build the image using the Dockerfile.</p>
+<p>The Dockerfile can be downloaded from ZENODO and then in the same directory
+type:</p>
+<pre><code class="language-bash">docker build -t grad-seq-analysis:dev .
+</code></pre>
+<p>This command builds an image called grad-seq-analysis.</p>
+<p>2) You can pull the Docker image by running</p>
+<pre><code>bash docker pull silviadigiorgio/grad-seq-analysis:latest
+</code></pre>
+<p>This command build an image called silviadigiorgio/grad-seq-analysis</p>
+<p>In order to avoid root permission when running Docker, 
+Singularity can be used.
+For this reason, the example analysis provided, is done using singularity.</p>
+<p>You can download singularity in <a href="https://sylabs.io/guides/3.0/user-guide/installation.html#">here</a></p>
+<p>Once you have singularity in your computer you can run this command:</p>
+<pre><code>singularity build grad-seq-analysis.sif docker://silviadigiorgio/grad-seq-analysis:1.0
+</code></pre>
+<p>This will create an image that can be used to perform the analyis.
+Before starting the analysis we also recommend to create folders input and output in the main directory.</p>
+<p>At the end you will have inside the analysis folder the created image and the two folders</p>
+<pre><code class="language-bash">.
+├── grad-seq-analysis.sif
+├── input
+└── output
+
+</code></pre>
+<p>Now you can start the analysis downloading from ncbi the fastq files from the ncbi server.</p>
+<pre><code class="language-bash">for i in            \
+    SRR12067299     \
+    SRR12067300     \
+    SRR12067301     \
+    SRR12067302     \
+    SRR12067303     \
+    SRR12067304     \
+    SRR12067305     \
+    SRR12067306     \
+    SRR12067307     \
+    SRR12067308     \
+    SRR12067309     \
+    SRR12067310     \
+    SRR12067311     \
+    SRR12067312     \
+    SRR12067313     \
+    SRR12067314     \
+    SRR12067315     \
+    SRR12067316     \
+    SRR12067317     \
+    SRR12067318     \
+    SRR12067319     \
+    SRR12067320     \
+; do 
+    fastq-dump --bzip2 $i; 
+  done
+</code></pre>
+<p>You can download the reference genome and the annotation file from ZENODO.</p>
               
             </div>
           </div>
@@ -157,10 +175,10 @@ working too. </p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../perform_an_example_analysis_using_docker/" class="btn btn-neutral float-right" title="Performing an example analysis using singularity">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../license/" class="btn btn-neutral float-right" title="License">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../subcommands/" class="btn btn-neutral" title="GRADitude's subcommands"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../perform_an_example_analysis/" class="btn btn-neutral" title="Performing an example analysis"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -186,10 +204,10 @@ working too. </p>
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../subcommands/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../perform_an_example_analysis/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../perform_an_example_analysis_using_docker/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../license/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

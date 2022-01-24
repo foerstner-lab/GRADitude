@@ -62,11 +62,15 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#create">create</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#extract_gene_columns">extract_gene_columns</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#min_row_sum_ercc-filter-the-table">min_row_sum_ercc (filter the table)</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#min_row_sum-filter-the-table">min_row_sum (filter the table)</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#drop_column-filter-the-table">drop_column (filter the table)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#move_columns">move_columns</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#selecting_specific_features-filter-the-table">selecting_specific_features (filter the table)</a>
     </li>
@@ -118,6 +122,10 @@
                     </li>
                 </ul>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../perform_an_example_analysis_using_docker/">Performing an example analysis using singularity</a>
+                    </li>
+                </ul>
+                <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
                     </li>
                 </ul>
@@ -162,8 +170,32 @@ This will help you to have all the requested input files without prior elaborati
 <p>1) gene quantification table generated counting the number of overlapped reads for each of the gene
 2) read alignment stats table that lists many statistics including the ERCC read counts.</p>
 <h2 id="create">create</h2>
-<p><code>$ create</code> generates the GRADItude folder including the subfolders input and output.
-Once created, please move the required files into the input folders.</p>
+<p><code>$ create</code> </p>
+<p>A subcommand that generates the GRADitude folder including all subfolders. 
+Please move or copy the required files into the input folders.</p>
+<h2 id="extract_gene_columns">extract_gene_columns</h2>
+<p><code>$ extract_gene_columns</code></p>
+<p>This subcommand allow to get names, IDs or any information derived from the "Attribute
+column". It gives as output a table with columns containing the information required.</p>
+<ul>
+<li>Basic arguments</li>
+</ul>
+<pre><code class="language-bash">
+usage: graditude extract_gene_columns [-h] --feature_count_table FEATURE_COUNT_TABLE --name_columns NAME_COLUMNS [NAME_COLUMNS ...]
+                                      --output_table OUTPUT_TABLE
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+basic arguments:
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        gene quantification table 
+  --name_columns NAME_COLUMNS [NAME_COLUMNS ...], -names NAME_COLUMNS [NAME_COLUMNS ...]
+                        this parameter allows the user to specify the fields you would like to extract from the attribute column
+  --output_table OUTPUT_TABLE, -o OUTPUT_TABLE
+                        the name of the output table
+
+</code></pre>
 <h2 id="min_row_sum_ercc-filter-the-table">min_row_sum_ercc (filter the table)</h2>
 <p><code>min_row_sum_ercc</code> </p>
 <p>A subcommand, specific for the sequencing data, that filters the ERCC-reads table 
@@ -172,7 +204,7 @@ the specified threshold.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude min_row_sum_ercc [-h] --ref_feature_count_table
+<pre><code class="language-bash">usage: graditude min_row_sum_ercc [-h] --ref_feature_count_table
                                   REF_FEATURE_COUNT_TABLE
                                   [--min_row_sum MIN_ROW_SUM]
                                   --filtered_ref_feature_count_table
@@ -190,7 +222,6 @@ basic arguments:
                         Filtered ERCC reads table as output
 
 </code></pre>
-
 <h2 id="min_row_sum-filter-the-table">min_row_sum (filter the table)</h2>
 <p><code>min_row_sum</code> </p>
 <p>A subcommand, specific for the sequencing data that filters 
@@ -199,7 +230,7 @@ the specified threshold.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude min_row_sum [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude min_row_sum [-h] --feature_count_table FEATURE_COUNT_TABLE
                              --feature_count_start_column
                              FEATURE_COUNT_START_COLUMN --min_row MIN_ROW
                              --output_file OUTPUT_FILE
@@ -219,32 +250,48 @@ basic arguments:
                         Filtered table as output
 
 </code></pre>
-
 <h2 id="drop_column-filter-the-table">drop_column (filter the table)</h2>
 <p><code>drop_column</code></p>
 <p>This subcommand is specific for the sequencing data and it can be use to drop a specific column we would not
 like to don't consider in the downstream analysis. For example it can be used to drop the Lysate column.</p>
-<pre><code class="bash">
+<pre><code class="language-bash">
 usage: graditude drop_column [-h] --feature_count_table FEATURE_COUNT_TABLE
                              --column_to_drop COLUMN_TO_DROP --output_file
                              OUTPUT_FILE
 
 basic arguments:
+  -h, --help            show this help message and exit
   --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
-                        Gene quantification table or ERCC-reads table
-  --column_to_drop COLUMN_TO_DROP, -c COLUMN_TO_DROP
-                        This parameter specify the name of the column you
-                        would like to drop
+                        gene quantification table or ERCC-reads table
+  --column_to_drop COLUMN_TO_DROP [COLUMN_TO_DROP ...], -c COLUMN_TO_DROP [COLUMN_TO_DROP ...]
+                        this parameter specify the name of the column/s you would like to drop
   --output_file OUTPUT_FILE, -o OUTPUT_FILE
-                        Filtered table as output
+                        name of the filtered table as output
 
 
 </code></pre>
+<h2 id="move_columns">move_columns</h2>
+<p><code>move_columns</code></p>
+<pre><code class="language-bash">usage: graditude move_columns [-h] 
+--feature_count_table FEATURE_COUNT_TABLE 
+--number_of_columns NUMBER_OF_COLUMNS 
+--output_file OUTPUT_FILE
 
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --feature_count_table FEATURE_COUNT_TABLE, -f FEATURE_COUNT_TABLE
+                        gene quantification table or ERCC-reads table
+  --number_of_columns NUMBER_OF_COLUMNS, -n NUMBER_OF_COLUMNS
+                        this parameter specify the number of the column you would like to move. For example -1 will move the last column in the first position
+  --output_file OUTPUT_FILE, -o OUTPUT_FILE
+                        name of the new table as output
+
+</code></pre>
 <h2 id="selecting_specific_features-filter-the-table">selecting_specific_features (filter the table)</h2>
 <p><code>selecting_specific_features</code></p>
 <p>This subcommand extract from a table specific feature, such as sRNAs or mRNAs. </p>
-<pre><code class="bash">usage: graditude selecting_specific_features [-h] --normalized_table
+<pre><code class="language-bash">usage: graditude selecting_specific_features [-h] --normalized_table
                                              NORMALIZED_TABLE
                                              --feature_count_start_column
                                              FEATURE_COUNT_START_COLUMN
@@ -271,7 +318,6 @@ optional arguments:
                         Filtered table
 
 </code></pre>
-
 <h2 id="robust_regression">robust_regression</h2>
 <p><code>robust_regression</code></p>
 <p>This subcommand, specific for the sequencing data, compares the ERCC concentration in mix (it
@@ -284,7 +330,7 @@ only the inliers ERCCs.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude robust_regression [-h] --ref_feature_count_table
+<pre><code class="language-bash">usage: graditude robust_regression [-h] --ref_feature_count_table
                                    REF_FEATURE_COUNT_TABLE
                                    --concentration_table CONCENTRATION_TABLE
                                    --number_of_outliers NUMBER_OF_OUTLIERS
@@ -310,7 +356,6 @@ basic arguments:
                         Output table with the inliers ERCC
 
 </code></pre>
-
 <h2 id="normalize">normalize</h2>
 <p><code>normalize</code></p>
 <p>This normalization is specific for the sequencing data.
@@ -324,7 +369,7 @@ considered as a reference sample obtained by taking the geometric mean across sa
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude normalize [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude normalize [-h] --feature_count_table FEATURE_COUNT_TABLE
                            [--feature_count_start_column FEATURE_COUNT_START_COLUMN]
                            [--feature_count_end_column FEATURE_COUNT_END_COLUMN]
                            --ref_feature_count_table REF_FEATURE_COUNT_TABLE
@@ -356,7 +401,6 @@ basic arguments:
                         Table with all the size factor
 
 </code></pre>
-
 <h2 id="scaling-scale-the-data">scaling (scale the data)</h2>
 <p><code>scaling</code></p>
 <p>This subcommand can be used for the protein and the sequencing data. It takes a table, that can be
@@ -368,7 +412,7 @@ of a transcript or a protein.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude scaling [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude scaling [-h] --feature_count_table FEATURE_COUNT_TABLE
                          --feature_count_start_column
                          FEATURE_COUNT_START_COLUMN
                          [--pseudo_count PSEUDO_COUNT] --scaling_method
@@ -398,7 +442,6 @@ basic arguments:
                         Scaled table as output
 
 </code></pre>
-
 <h2 id="clustering_elbow-find-number-of-clusters">clustering_elbow (find number of clusters)</h2>
 <p><code>clustering_elbow</code></p>
 <p>This subcommand implements a method designed to find the appropriate number 
@@ -412,7 +455,7 @@ indicates the optimal number of clusters.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude clustering_elbow [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude clustering_elbow [-h] --feature_count_table
                                   FEATURE_COUNT_TABLE
                                   --feature_count_start_column
                                   FEATURE_COUNT_START_COLUMN
@@ -446,7 +489,6 @@ basic arguments:
                         Plot showing the percentage of variance explained
                         versus the number of clusters
 </code></pre>
-
 <h2 id="clustering-cluster-the-data">clustering (cluster the data)</h2>
 <p><code>clustering</code></p>
 <p>The subcommands can be used for the sequencing data. It takes the
@@ -457,7 +499,7 @@ been included.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude clustering [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude clustering [-h] --feature_count_table FEATURE_COUNT_TABLE
                             --feature_count_start_column
                             FEATURE_COUNT_START_COLUMN --number_of_clusters
                             NUMBER_OF_CLUSTERS [--pseudo_count PSEUDO_COUNT]
@@ -495,11 +537,10 @@ basic arguments:
                         Output table with a new column containing the number
                         of clusters
 </code></pre>
-
 <ul>
 <li>Additional arguments</li>
 </ul>
-<pre><code class="bash">additional arguments:
+<pre><code class="language-bash">additional arguments:
   --epsilon EPSILON, -e EPSILON
                         This parameter is specific for the DBSCAN clustering
                         algorithm. It defines how close points should be in
@@ -512,14 +553,13 @@ basic arguments:
   --number_of_clusters NUMBER_OF_CLUSTERS, -nc NUMBER_OF_CLUSTERS
                         This parameter specify the number of clusters, k                        
 </code></pre>
-
 <h2 id="clustering_proteins-cluster-the-data">clustering_proteins (cluster the data)</h2>
 <p><code>clustering_proteins</code></p>
 <p>This subcommand is specific for the protein data.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude clustering_proteins [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude clustering_proteins [-h] --feature_count_table
                                      FEATURE_COUNT_TABLE
                                      --feature_count_start_column
                                      FEATURE_COUNT_START_COLUMN
@@ -548,11 +588,10 @@ basic arguments:
   --output_file OUTPUT_FILE, -o OUTPUT_FILE
                         Table with a cluster column
 </code></pre>
-
 <ul>
 <li>Additional arguments</li>
 </ul>
-<pre><code class="bash">  --epsilon EPSILON, -e EPSILON
+<pre><code class="language-bash">  --epsilon EPSILON, -e EPSILON
                         This parameter is specific for the DBSCAN clustering
                         algorithm. It defines how close points should be in
                         order to be considered part of a cluster
@@ -567,7 +606,6 @@ basic arguments:
                         clustering algorithm
 
 </code></pre>
-
 <h2 id="t-sne-dimension-reduction">t-sne (dimension reduction)</h2>
 <p><code>t_sne</code></p>
 <p>To identify biochemically similar transcripts the t-SNE dimension
@@ -579,7 +617,7 @@ Bokeh and the JavaScript Callbacks one to navigate t the data-set.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude t_sne [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude t_sne [-h] --feature_count_table FEATURE_COUNT_TABLE
                        --feature_count_start_column FEATURE_COUNT_START_COLUMN
                        --perplexity PERPLEXITY
                        [--srna_list SRNA_LIST [SRNA_LIST ...]]
@@ -610,11 +648,10 @@ basic arguments:
   --output_file3 OUTPUT_FILE3, -o3 OUTPUT_FILE3
                         Output plot colorized using a specific list
 </code></pre>
-
 <ul>
 <li>Additional arguments</li>
 </ul>
-<pre><code class="bash">additional arguments:
+<pre><code class="language-bash">additional arguments:
   --srna_list SRNA_LIST [SRNA_LIST ...], -list SRNA_LIST [SRNA_LIST ...]
                         This parameter allow the user to specify a list of
                         features or genes we would like to highlight in the
@@ -629,7 +666,6 @@ basic arguments:
                         html plot
 
 </code></pre>
-
 <h2 id="pca-dimension-reduction">pca (dimension reduction)</h2>
 <p><code>pca</code></p>
 <p>To identify biochemically similar transcripts the PCA dimension
@@ -641,7 +677,7 @@ Bokeh and the JavaScript Callbacks one to navigate the data-set.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude pca [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude pca [-h] --feature_count_table FEATURE_COUNT_TABLE
                      --feature_count_start_column FEATURE_COUNT_START_COLUMN
                      --feature_count_end_column FEATURE_COUNT_END_COLUMN
                      [--srna_list_files SRNA_LIST_FILES [SRNA_LIST_FILES ...]]
@@ -672,11 +708,10 @@ basic arguments:
   --output_file_colorized_by_lists OUTPUT_FILE_COLORIZED_BY_LISTS, -o3 OUTPUT_FILE_COLORIZED_BY_LISTS
                         Output plot colorized using a specific list
 </code></pre>
-
 <ul>
 <li>Additional arguments</li>
 </ul>
-<pre><code class="bash">additional arguments:
+<pre><code class="language-bash">additional arguments:
   --srna_list_files SRNA_LIST_FILES [SRNA_LIST_FILES ...], -list SRNA_LIST_FILES [SRNA_LIST_FILES ...]
                         This parameter allow the user to specify a list of
                         features or genes we would like to highlight in the
@@ -690,7 +725,6 @@ basic arguments:
                         like to open when clicking on a specific point in the
                         html plot
 </code></pre>
-
 <h2 id="umap-dimension-reduction">umap (dimension reduction)</h2>
 <p><code>umap</code></p>
 <p>To identify biochemically similar transcripts the PCA dimension
@@ -702,7 +736,7 @@ Bokeh and the JavaScript Callbacks one to navigate the data-set.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude umap [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude umap [-h] --feature_count_table FEATURE_COUNT_TABLE
                       --feature_count_start_column FEATURE_COUNT_START_COLUMN
                       --feature_count_end_column FEATURE_COUNT_END_COLUMN
                       [--srna_list SRNA_LIST [SRNA_LIST ...]]
@@ -739,11 +773,10 @@ basic arguments:from sklearn.decomposition import PCA
                         Output plot colorized using a specific list
 
 </code></pre>
-
 <ul>
 <li>Additional arguments</li>
 </ul>
-<pre><code class="bash">additional arguments:
+<pre><code class="language-bash">additional arguments:
   --srna_list_files SRNA_LIST_FILES [SRNA_LIST_FILES ...], -list SRNA_LIST_FILES [SRNA_LIST_FILES ...]
                         This parameter allow the user to specify a list of
                         features or genes we would like to highlight in the
@@ -757,7 +790,6 @@ basic arguments:from sklearn.decomposition import PCA
                         like to open when clicking on a specific point in the
                         html plot
 </code></pre>
-
 <h2 id="plot_kinetics-plot-the-in-gradient-behavior">plot_kinetics (plot the in-gradient behavior)</h2>
 <p><code>plot_kinetics</code></p>
 <p>This subcommand is useful to better visualize the behavior of a specific transcript or protein within the gradient. 
@@ -766,7 +798,7 @@ the sedimentation profiles of all detectable RNA and proteins.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude plot_kinetics [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude plot_kinetics [-h] --feature_count_table FEATURE_COUNT_TABLE
                                --feature_count_start_column
                                FEATURE_COUNT_START_COLUMN
                                --feature_count_end_column
@@ -791,7 +823,6 @@ basic arguments:
                         you would like tosave your plot
 
 </code></pre>
-
 <h2 id="heatmap-plot-the-heatmap">heatmap (plot the heatmap)</h2>
 <p><code>heatmap</code></p>
 <p>This subcommand is useful to better visualize the in-gradient behavior of a
@@ -799,7 +830,7 @@ basic arguments:
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude heatmap [-h] --feature_count_table FEATURE_COUNT_TABLE
+<pre><code class="language-bash">usage: graditude heatmap [-h] --feature_count_table FEATURE_COUNT_TABLE
                          [--feature_count_start_column FEATURE_COUNT_START_COLUMN]
                          [--feature_count_end_column FEATURE_COUNT_END_COLUMN]
                          --y_label Y_LABEL --output_file OUTPUT_FILE
@@ -819,7 +850,6 @@ basic arguments:
   --output_file OUTPUT_FILE, -o OUTPUT_FILE
                         Plot as output
 </code></pre>
-
 <h2 id="silhouette_analysis-clustering">silhouette_analysis (clustering)</h2>
 <p><code>silhouette_analysis</code></p>
 <p>This subcommand can be used to interpret the distance between clusters. It is useful to see if the number of clusters (k)
@@ -827,7 +857,7 @@ you have chosen is correct for the data set.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude silhouette_analysis [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude silhouette_analysis [-h] --feature_count_table
                                      FEATURE_COUNT_TABLE
                                      --feature_count_start_column
                                      FEATURE_COUNT_START_COLUMN
@@ -854,7 +884,6 @@ basic arguments:
                         Maximum number of clusters that you want to represent
                         in the plot
 </code></pre>
-
 <h2 id="correlation_specific_gene-correlation-coefficient">correlation_specific_gene (correlation coefficient)</h2>
 <p><code>correlation_specific_gene</code></p>
 <p>This subcommand is useful if you have a gene or a protein of interest and you would like to predict new interactions.
@@ -862,7 +891,7 @@ The assumption is that proteins or genes with an high correlation coefficients m
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude correlation_specific_gene [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude correlation_specific_gene [-h] --feature_count_table
                                            FEATURE_COUNT_TABLE
                                            --feature_count_start_column
                                            FEATURE_COUNT_START_COLUMN
@@ -894,7 +923,6 @@ basic arguments:
                         Table with correlation coefficients and p-values
 
 </code></pre>
-
 <h2 id="correlation_distribution_graph-histogram-of-correlation-coefficients-distribution">correlation_distribution_graph (histogram of correlation coefficients distribution)</h2>
 <p><code>correlation_distribution_graph</code></p>
 <p>This subcommand creates a histogram to identify the distribution of the
@@ -903,7 +931,7 @@ The plot shows the percentile that might be used as cut-off in the network plot 
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude correlation_distribution_graph [-h]
+<pre><code class="language-bash">usage: graditude correlation_distribution_graph [-h]
                                                 --table_with_correlation_coefficient
                                                 TABLE_WITH_CORRELATION_COEFFICIENT
                                                 --percentile PERCENTILE
@@ -920,7 +948,6 @@ basic arguments:
                         distribution
 
 </code></pre>
-
 <h2 id="correlation_rnas_protein-correlation-coefficient">correlation_rnas_protein (correlation coefficient)</h2>
 <p><code>correlation_rnas_protein</code></p>
 <p>This subcommand find the correlation coefficient of two different tables. It can be used for example for combining 
@@ -930,7 +957,7 @@ quantification tables are generated.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude correlation_rnas_protein [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude correlation_rnas_protein [-h] --feature_count_table
                                           FEATURE_COUNT_TABLE
                                           --feature_count_start_column
                                           FEATURE_COUNT_START_COLUMN
@@ -965,7 +992,6 @@ basic arguments:
                         Output table containing the correlation coefficients
 
 </code></pre>
-
 <h2 id="correlation_all_against_all-correlation-coefficient">correlation_all_against_all (correlation coefficient)</h2>
 <p><code>correlation_all_against_all</code></p>
 <p>This subcommand calculates the correlation coefficients all agaist all. It can be used in the sequencing table or with 
@@ -973,7 +999,7 @@ the protein data.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude correlation_all_against_all [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude correlation_all_against_all [-h] --feature_count_table
                                              FEATURE_COUNT_TABLE
                                              --feature_count_start_column
                                              FEATURE_COUNT_START_COLUMN
@@ -997,7 +1023,6 @@ basic arguments:
   --output_table OUTPUT_TABLE, -o OUTPUT_TABLE
                         Table with correlation coefficients
 </code></pre>
-
 <h2 id="correlation_replicates-correlation-coefficient">correlation_replicates (correlation coefficient)</h2>
 <p><code>correlation_replicates</code></p>
 <p>This subcommand allows to see the distribution of the
@@ -1006,7 +1031,7 @@ basic arguments:
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude correlation_replicates [-h] --table_replicate1
+<pre><code class="language-bash">usage: graditude correlation_replicates [-h] --table_replicate1
                                         TABLE_REPLICATE1 --table_replicate2
                                         TABLE_REPLICATE2
                                         --table_start_column-fc
@@ -1034,7 +1059,6 @@ optional arguments:
                         Plot that show a histogram with thedistribution ofthe
                         correlation coefficient
 </code></pre>
-
 <h2 id="plot_network_graph-network-plot">plot_network_graph (network plot)</h2>
 <p><code>plot_network_graph</code></p>
 <p>This subcommand plots the network plot. 
@@ -1043,7 +1067,7 @@ been drawn using a force-directed layout, computed using the Fruchterman-Reingol
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude plot_network_graph [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude plot_network_graph [-h] --feature_count_table
                                     FEATURE_COUNT_TABLE --threshold THRESHOLD
                                     --max_size MAX_SIZE
                                     [--output_plot OUTPUT_PLOT]
@@ -1062,7 +1086,6 @@ optional arguments:
                         Network plot
 
 </code></pre>
-
 <h2 id="interactive_plots-explore-the-plot">interactive_plots (explore the plot)</h2>
 <p><code>interactive_plots</code></p>
 <p>This subcommand shows the results of a dimension reduction and makes the plot more explorable.
@@ -1072,7 +1095,7 @@ will be generated.</p>
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude interactive_plots [-h] --feature_count_table
+<pre><code class="language-bash">usage: graditude interactive_plots [-h] --feature_count_table
                                    FEATURE_COUNT_TABLE
                                    --feature_count_start_column
                                    FEATURE_COUNT_START_COLUMN
@@ -1104,16 +1127,14 @@ basic arguments:
                         Output plot
 
 </code></pre>
-
 <ul>
 <li>Additional arguments</li>
 </ul>
-<pre><code class="bash">  --url_link URL_LINK, -url URL_LINK
+<pre><code class="language-bash">  --url_link URL_LINK, -url URL_LINK
                         This parameter allows to choose the website you would
                         like to open when clicking on a specific point in the
                         html plot
 </code></pre>
-
 <h2 id="find_complexes-quality-control-of-protein-data">find_complexes (quality control of protein data)</h2>
 <p><code>find_complexes</code></p>
 <p>As a general quality control for the protein data, we look at how many of the know protein
@@ -1122,7 +1143,7 @@ all the subunit of that specific complexes are present and calculate the correla
 <ul>
 <li>Basic arguments</li>
 </ul>
-<pre><code class="bash">usage: graditude find_complexes [-h] --tables_containing_list_complexes
+<pre><code class="language-bash">usage: graditude find_complexes [-h] --tables_containing_list_complexes
                                 TABLES_CONTAINING_LIST_COMPLEXES
                                 --protein_table PROTEIN_TABLE
                                 --table_start_column-pc TABLE_START_COLUMN_PC
