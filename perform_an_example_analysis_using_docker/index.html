@@ -105,33 +105,24 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="docker-image">DOCKER IMAGE</h1>
+                <h1 id="tutorial-of-graditude-using-singularity">Tutorial of GRADitude using Singularity</h1>
 <p>Another way to distribute packages is using Docker. Docker is a service that deliver software
 in so called containers. All containers have their own libraries and packages.</p>
 <p>A Docker container has inside all dependencies and applications. This increase
 the reproducibility of a specific analysis.
 In this example all the tools required for the analysis are inside the image that will be generated.</p>
-<p>In order to start the analysis you can build the image from the Dockerfile or you can
-pull it.</p>
-<p>1) Build the image using the Dockerfile.</p>
-<p>The Dockerfile can be downloaded from ZENODO and then in the same directory
-type:</p>
-<pre><code class="language-bash">docker build -t grad-seq-analysis:dev .
-</code></pre>
-<p>This command builds an image called grad-seq-analysis.</p>
-<p>2) You can pull the Docker image by running</p>
-<pre><code>bash docker pull silviadigiorgio/grad-seq-analysis:latest
-</code></pre>
-<p>This command build an image called silviadigiorgio/grad-seq-analysis</p>
 <p>In order to avoid root permission when running Docker, 
 Singularity can be used.
 For this reason, the example analysis provided, is done using singularity.</p>
 <p>You can download singularity in <a href="https://sylabs.io/guides/3.0/user-guide/installation.html#">here</a></p>
-<p>Once you have singularity in your computer you can run this command:</p>
-<pre><code>singularity build grad-seq-analysis.sif docker://silviadigiorgio/grad-seq-analysis:1.0
+<p>Once you have singularity in your computer you can run inside your project directory this command:</p>
+<pre><code class="language-bash">singularity build grad-seq-analysis.sif docker://silviadigiorgio/grad-seq-analysis:1.0
 </code></pre>
 <p>This will create an image that can be used to perform the analyis.
-Before starting the analysis we also recommend to create folders input and output in the main directory.</p>
+Before starting the analysis please create the folders input and output in the main directory.</p>
+<p>This can be also done via shell using the bash command mkdir.</p>
+<pre><code class="language-bash">mkdir input output
+</code></pre>
 <p>At the end you will have inside the analysis folder the created image and the two folders</p>
 <pre><code class="language-bash">.
 ├── grad-seq-analysis.sif
@@ -139,35 +130,35 @@ Before starting the analysis we also recommend to create folders input and outpu
 └── output
 
 </code></pre>
-<p>Now you can start the analysis downloading from ncbi the fastq files from the ncbi server.</p>
-<pre><code class="language-bash">for i in            \
-    SRR12067299     \
-    SRR12067300     \
-    SRR12067301     \
-    SRR12067302     \
-    SRR12067303     \
-    SRR12067304     \
-    SRR12067305     \
-    SRR12067306     \
-    SRR12067307     \
-    SRR12067308     \
-    SRR12067309     \
-    SRR12067310     \
-    SRR12067311     \
-    SRR12067312     \
-    SRR12067313     \
-    SRR12067314     \
-    SRR12067315     \
-    SRR12067316     \
-    SRR12067317     \
-    SRR12067318     \
-    SRR12067319     \
-    SRR12067320     \
-; do 
-    fastq-dump --bzip2 $i; 
-  done
+<p>To perform our test case, the raw data have to be retrieved from <a href="https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP049525&amp;o=acc_s%3Aa">NCBI</a>.</p>
+<p>In order to perform this step the user needs to use the fastq-dump function
+provided by the SRA-toolkit that can be downloaded <a href="https://anaconda.org/bioconda/sra-tools">here</a></p>
+<p>We suggest to download the raw data inside the input folder it has been  previously created </p>
+<pre><code class="language-bash">cd input
 </code></pre>
-<p>You can download the reference genome and the annotation file from ZENODO.</p>
+<p>and then </p>
+<pre><code class="language-bash">    fastq-dump --bzip2 SRR1640296
+    fastq-dump --bzip2 SRR1640297
+    fastq-dump --bzip2 SRR1640298
+    fastq-dump --bzip2 SRR1640299
+    fastq-dump --bzip2 SRR1640300
+    fastq-dump --bzip2 SRR1640301
+    fastq-dump --bzip2 SRR1640302
+    fastq-dump --bzip2 SRR1640303
+    fastq-dump --bzip2 SRR1640304
+    fastq-dump --bzip2 SRR1640305
+    fastq-dump --bzip2 SRR1640306
+    fastq-dump --bzip2 SRR1640307
+    fastq-dump --bzip2 SRR1640308
+    fastq-dump --bzip2 SRR1640309
+    fastq-dump --bzip2 SRR1640310
+    fastq-dump --bzip2 SRR1640311
+    fastq-dump --bzip2 SRR1640312
+    fastq-dump --bzip2 SRR1640313
+    fastq-dump --bzip2 SRR1640314
+    fastq-dump --bzip2 SRR1640315 
+
+</code></pre>
               
             </div>
           </div>
