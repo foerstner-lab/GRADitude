@@ -66,6 +66,8 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Performing an example analysis using singularity</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#docker-containers-and-singularity">Docker containers and singularity</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -106,6 +108,16 @@
             <div class="section">
               
                 <h1 id="tutorial-of-graditude-using-singularity">Tutorial of GRADitude using Singularity</h1>
+<p>This tutorial will guide you through a test case to show how to 
+perform a GRAD-seq analysis from the pre-processing steps to the
+downstream analysis that will be done using GRADitude.</p>
+<p>In this tutorial we will try to show how to use all GRADitude's subcommands
+in order to have an overview of all possible complexes.</p>
+<p>In order to perform all these steps we need to have many tools and dependencies in 
+your pc. To make all simpler and more reproducible we suggest following the example provided below.
+All these steps can be then easily adjusted to analyze different 
+GRAD-seq experiments.</p>
+<h2 id="docker-containers-and-singularity">Docker containers and singularity</h2>
 <p>Another way to distribute packages is using Docker. Docker is a service that deliver software
 in so called containers. All containers have their own libraries and packages.</p>
 <p>A Docker container has inside all dependencies and applications. This increase
@@ -158,6 +170,32 @@ provided by the SRA-toolkit that can be downloaded <a href="https://anaconda.org
     fastq-dump --bzip2 SRR1640314
     fastq-dump --bzip2 SRR1640315 
 
+</code></pre>
+<p>or to automate the process you can run the same command using a for loop</p>
+<pre><code class="language-bash">for i in            \
+    SRR1640296     \
+    SRR1640297     \
+    SRR1640298     \
+    SRR1640299     \
+    SRR1640300     \
+    SRR1640301     \
+    SRR1640302     \
+    SRR1640303     \
+    SRR1640304     \
+    SRR1640305     \
+    SRR1640306     \
+    SRR1640307     \
+    SRR1640308     \
+    SRR1640309     \
+    SRR1640310     \
+    SRR1640311     \
+    SRR1640312     \
+    SRR1640313     \
+    SRR1640314     \
+    SRR1640315     \
+; do 
+    fastq-dump --bzip2 $i; 
+  done
 </code></pre>
               
             </div>

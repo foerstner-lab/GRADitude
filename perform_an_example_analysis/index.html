@@ -109,7 +109,7 @@
 <p>In this section you will be able to perform a complete analysis using already 
 published GRAD-seq data sets.</p>
 <p>In order explore all the potential of a GRADitude here you will be guided through an example analysis 
-using the <em>Escherichia coli</em> data set downloaded from NCBI  (Höer <em>et</em> <em>al</em>., 2020, NAR)</p>
+using the <em>Salmonella Thyphimurium</em> data set downloaded from NCBI  (Höer <em>et</em> <em>al</em>., 2020, NAR)</p>
 <h1 id="pre-processing-the-data-alignment-and-gene-quantification">Pre-processing the data, alignment and gene quantification</h1>
 <p>After downloading the raw data from NCBI, in the original publication, preprocessing steps like read trimming 
 and clipping were done with <a href="https://doi.org/10.14806/ej.17.1.200">cutadapt</a>. 
@@ -121,10 +121,11 @@ working too. </p>
 <h2 id="download-singularity-image">Download singularity image</h2>
 <h5 id="before-starting-the-analysis-you-can-download-the-singularity-image-from-zenodo-in-the-image-you-can-find-all-the-tools-necessary-for-the-analysis">Before starting the analysis you can download the singularity image from Zenodo. In the image you can find all the tools necessary for the analysis</h5>
 <h2 id="create-folders">Create folders</h2>
-<p><code> mkdir READ_LIB_FOLDER </code></p>
-<p><code> mkdir DATA_FOLDER </code></p>
+<pre><code class="language-bash">mkir input output
+</code></pre>
 <h2 id="dowload-the-data">Dowload the data</h2>
-<p>cd READ_LIB_FOLDER &amp;&amp;
+<pre><code class="language-bash">cd READ_LIB_FOLDER &amp;&amp;
+
     fastq-dump --bzip2 SRR12067299 &amp;
     fastq-dump --bzip2 SRR12067300
     fastq-dump --bzip2 SRR12067301
@@ -146,8 +147,11 @@ working too. </p>
     fastq-dump --bzip2 SRR12067317
     fastq-dump --bzip2 SRR12067318
     fastq-dump --bzip2 SRR12067319
-    fastq-dump --bzip2 SRR12067320</p>
-<p>&amp;&amp; cd ..</p>
+    fastq-dump --bzip2 SRR12067320
+
+&amp;&amp; cd ..
+
+</code></pre>
 <h2 id="graditude">GRADitude</h2>
 <p>Before starting the analysis we recommend These tables are output coming from the </p>
               
