@@ -130,7 +130,7 @@ For this reason, the example analysis provided, is done using singularity.</p>
 <p>Once you have singularity in your computer you can run inside your project directory this command:</p>
 <pre><code class="language-bash">singularity build grad-seq-analysis.sif docker://silviadigiorgio/grad-seq-analysis:1.0
 </code></pre>
-<p>This will create an image that can be used to perform the analyis.
+<p>This will create an image that can be used to perform the analysis.
 Before starting the analysis please create the folders input and output in the main directory.</p>
 <p>This can be also done via shell using the bash command mkdir.</p>
 <pre><code class="language-bash">mkdir input output
@@ -149,50 +149,54 @@ provided by the SRA-toolkit that can be downloaded <a href="https://anaconda.org
 <pre><code class="language-bash">cd input
 </code></pre>
 <p>and then </p>
-<pre><code class="language-bash">    fastq-dump --bzip2 SRR1640296
-    fastq-dump --bzip2 SRR1640297
-    fastq-dump --bzip2 SRR1640298
-    fastq-dump --bzip2 SRR1640299
-    fastq-dump --bzip2 SRR1640300
-    fastq-dump --bzip2 SRR1640301
-    fastq-dump --bzip2 SRR1640302
-    fastq-dump --bzip2 SRR1640303
-    fastq-dump --bzip2 SRR1640304
-    fastq-dump --bzip2 SRR1640305
-    fastq-dump --bzip2 SRR1640306
-    fastq-dump --bzip2 SRR1640307
-    fastq-dump --bzip2 SRR1640308
-    fastq-dump --bzip2 SRR1640309
-    fastq-dump --bzip2 SRR1640310
-    fastq-dump --bzip2 SRR1640311
-    fastq-dump --bzip2 SRR1640312
-    fastq-dump --bzip2 SRR1640313
-    fastq-dump --bzip2 SRR1640314
-    fastq-dump --bzip2 SRR1640315 
+<pre><code class="language-bash">    fastq-dump --bzip2 SRR12067299
+    fastq-dump --bzip2 SRR12067300
+    fastq-dump --bzip2 SRR12067301
+    fastq-dump --bzip2 SRR12067302
+    fastq-dump --bzip2 SRR12067303
+    fastq-dump --bzip2 SRR12067304
+    fastq-dump --bzip2 SRR12067305
+    fastq-dump --bzip2 SRR12067306
+    fastq-dump --bzip2 SRR12067307
+    fastq-dump --bzip2 SRR12067308
+    fastq-dump --bzip2 SRR12067309
+    fastq-dump --bzip2 SRR12067310
+    fastq-dump --bzip2 SRR12067311
+    fastq-dump --bzip2 SRR12067312
+    fastq-dump --bzip2 SRR12067313
+    fastq-dump --bzip2 SRR12067314
+    fastq-dump --bzip2 SRR12067315
+    fastq-dump --bzip2 SRR12067316
+    fastq-dump --bzip2 SRR12067317
+    fastq-dump --bzip2 SRR12067318 
+    fastq-dump --bzip2 SRR12067319 
+    fastq-dump --bzip2 SRR12067320
 
 </code></pre>
 <p>or to automate the process you can run the same command using a for loop</p>
 <pre><code class="language-bash">for i in            \
-    SRR1640296     \
-    SRR1640297     \
-    SRR1640298     \
-    SRR1640299     \
-    SRR1640300     \
-    SRR1640301     \
-    SRR1640302     \
-    SRR1640303     \
-    SRR1640304     \
-    SRR1640305     \
-    SRR1640306     \
-    SRR1640307     \
-    SRR1640308     \
-    SRR1640309     \
-    SRR1640310     \
-    SRR1640311     \
-    SRR1640312     \
-    SRR1640313     \
-    SRR1640314     \
-    SRR1640315     \
+    SRR12067299     \
+    SRR12067300     \
+    SRR12067301     \
+    SRR12067302     \
+    SRR12067303     \
+    SRR12067304     \
+    SRR12067305     \
+    SRR12067306     \
+    SRR12067307     \
+    SRR12067308     \
+    SRR12067309     \
+    SRR12067310     \
+    SRR12067311     \
+    SRR12067312     \
+    SRR12067313     \
+    SRR12067314     \
+    SRR12067315     \
+    SRR12067316     \
+    SRR12067317     \
+    SRR12067318     \
+    SRR12067319     \
+    SRR12067320     \
 ; do 
     fastq-dump --bzip2 $i; 
   done
