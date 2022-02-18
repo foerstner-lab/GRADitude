@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it as below.
+authors:
+  - family-names: Di Giorgio
+    given-names: Silvia
+    orcid: https://orcid.org/0000-0002-8565-1421
+  - family-names: Förstner
+    given-names: Konrad U.
+    orcid: https://orcid.org/0000-0002-1481-2996
+title: "GRADitude - The GRAD-seq data analysis tool"
+version: 0.1.0
+doi: 10.5281/zenodo.3911964
+date-released: 2020-06-28
