@@ -110,7 +110,9 @@
                 <h1 id="tutorial-of-graditude-using-singularity">Tutorial of GRADitude using Singularity</h1>
 <p>This tutorial will guide you through a test case to show how to 
 perform a GRAD-seq analysis from the pre-processing steps to the
-downstream analysis that will be done using GRADitude.</p>
+downstream analysis that will be done using GRADitude.
+We recommend to execute this analysis in a server or in a virtual machine. The pre-processing 
+and mapping steps require a lot of computational time and power.</p>
 <p>In this tutorial we will try to show how to use all GRADitude's subcommands
 in order to have an overview of all possible complexes.</p>
 <p>In order to perform all these steps we need to have many tools and dependencies in 
@@ -135,21 +137,26 @@ Before starting the analysis please create the folders input and output in the m
 <p>This can be also done via shell using the bash command mkdir.</p>
 <pre><code class="language-bash">mkdir input output
 </code></pre>
+<p>We recommend to create subfolders inside the input main folder</p>
+<pre><code class="language-bash">cd input &amp;&amp;
+mkdir data_folder raw_reads
+</code></pre>
 <p>At the end you will have inside the analysis folder the created image and the two folders</p>
 <pre><code class="language-bash">.
 ├── grad-seq-analysis.sif
 ├── input
+│   ├── data_folder
+│   └── raw_reads
 └── output
 
 </code></pre>
 <p>To perform our test case, the raw data have to be retrieved from <a href="https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP049525&amp;o=acc_s%3Aa">NCBI</a>.</p>
 <p>In order to perform this step the user needs to use the fastq-dump function
 provided by the SRA-toolkit that can be downloaded <a href="https://anaconda.org/bioconda/sra-tools">here</a></p>
-<p>We suggest to download the raw data inside the input folder it has been  previously created </p>
-<pre><code class="language-bash">cd input
-</code></pre>
-<p>and then </p>
-<pre><code class="language-bash">    fastq-dump --bzip2 SRR12067299
+<p>We suggest to download the raw data inside the input folder it has been previously created </p>
+<pre><code class="language-bash">
+cd input/raw_reads &amp;&amp;
+    fastq-dump --bzip2 SRR12067299
     fastq-dump --bzip2 SRR12067300
     fastq-dump --bzip2 SRR12067301
     fastq-dump --bzip2 SRR12067302
@@ -200,6 +207,32 @@ provided by the SRA-toolkit that can be downloaded <a href="https://anaconda.org
 ; do 
     fastq-dump --bzip2 $i; 
   done
+</code></pre>
+<p>You can download the reference genome that will be used later on from the NCBI using this command</p>
+<pre><code class="language-bash">
+cd input/data_folder &amp;&amp;
+wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2/GCF_000005845.2_ASM584v2_genomic.fna.gz &amp;&amp;
+gzip -d GCF_000005845.2_ASM584v2_genomic.fna.gz
+
+</code></pre>
+<p>You can download the ERCC fasta file that will be necessary for the normalization</p>
+<pre><code class="language-bash">
+cd input/data_folder &amp;&amp;
+wget https://assets.thermofisher.com/TFS-Assets/LSG/manuals/ERCC92.zip &amp;&amp;
+unzip ERCC92.zip &amp;&amp; rm ERCC92.zip &amp;&amp; rm ERCC92.gtf
+
+</code></pre>
+<p>The annotation file can be download from Zenodo  (Höer <em>et</em> <em>al</em>., 2020, NAR)</p>
+<p>Once all the raw reads are downloaded. We can start with removing 
+the adapter using <a href="https://doi.org/10.14806/ej.17.1.200">cutadapt</a>.  </p>
+<pre><code class="language-bash">ls ${RAW_READ_FOLDER} | parallel -k -j ${CPUS} 
+            -q 20 
+            -m 1 \
+            -a ${ADAPTER} \
+            -o ${READEMPTION_FOLDER}/input/reads/'$(basename {} .gz)'.bz2 \
+            ${RAW_READ_FOLDER}/{} \
+    &gt; ${READ_PROCESSING_STATS_FOLDER}/cutadapt_stats.txt
+
 </code></pre>
               
             </div>
