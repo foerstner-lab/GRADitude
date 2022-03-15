@@ -130,7 +130,7 @@ Singularity can be used.
 For this reason, the example analysis provided, is done using singularity.</p>
 <p>You can download singularity in <a href="https://sylabs.io/guides/3.0/user-guide/installation.html#">here</a></p>
 <p>Once you have singularity in your computer you can run inside your project directory this command:</p>
-<pre><code class="language-bash">singularity build grad-seq-analysis.sif docker://silviadigiorgio/grad-seq-analysis:1.0
+<pre><code class="language-bash">singularity build grad-seq-analysis.sif docker://silviadigiorgio/grad-seq-analysis-ecoli
 </code></pre>
 <p>This will create an image that can be used to perform the analysis.
 Before starting the analysis please create the folders input and output in the main directory.</p>
@@ -212,7 +212,7 @@ cd input/raw_reads &amp;&amp;
 <pre><code class="language-bash">
 cd input/data_folder &amp;&amp;
 wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2/GCF_000005845.2_ASM584v2_genomic.fna.gz &amp;&amp;
-gzip -d GCF_000005845.2_ASM584v2_genomic.fna.gz
+gzip -d GCF_000005845.2_ASM584v2_genomic.fna.gz &amp;&amp; cd ../..
 
 </code></pre>
 <p>You can download the ERCC fasta file that will be necessary for the normalization</p>
@@ -222,16 +222,37 @@ wget https://assets.thermofisher.com/TFS-Assets/LSG/manuals/ERCC92.zip &amp;&amp
 unzip ERCC92.zip &amp;&amp; rm ERCC92.zip &amp;&amp; rm ERCC92.gtf
 
 </code></pre>
-<p>The annotation file can be download from Zenodo  (Höer <em>et</em> <em>al</em>., 2020, NAR)</p>
+<p>The annotation file can be download from <a href="https://github.com/foerstner-lab/GRADitude/blob/main/tutorial_data/NC_000913.3_no_duplicates.gff">tutorial_data folder</a> in github  (Höer <em>et</em> <em>al</em>., 2020, NAR)
+Please be sure to move the file inside the data_folder we previously generated.</p>
 <p>Once all the raw reads are downloaded. We can start with removing 
 the adapter using <a href="https://doi.org/10.14806/ej.17.1.200">cutadapt</a>.  </p>
-<pre><code class="language-bash">ls ${RAW_READ_FOLDER} | parallel -k -j ${CPUS} 
-            -q 20 
-            -m 1 \
-            -a ${ADAPTER} \
-            -o ${READEMPTION_FOLDER}/input/reads/'$(basename {} .gz)'.bz2 \
-            ${RAW_READ_FOLDER}/{} \
-    &gt; ${READ_PROCESSING_STATS_FOLDER}/cutadapt_stats.txt
+<p>Before doing that we create the READemption folder where we will store the output that comes out from executing cutdadapt</p>
+<pre><code class="language-bash">
+singularity exec grad-seq-analysis-ecoli.sif reademption create -f READemption_analysis
+
+</code></pre>
+<p>If the commands works from your shell it should appear the READemption logo with no errors</p>
+<pre><code class="language-bash">
+   ___  _______   ___                 __  _
+  / _ \/ __/ _ | / _ \___ __ _  ___  / /_(_)__  ___
+ / , _/ _// __ |/ // / -_)  ' \/ _ \/ __/ / _ \/ _ \
+/_/|_/___/_/ |_/____/\__/_/_/_/ .__/\__/_/\___/_//_/
+                             / /
+====================================================
+========================================
+=======================
+==============
+
+</code></pre>
+<p>Once we create the READemption folder we can execute cutadapt</p>
+<pre><code class="language-bash">ls input/raw_reads | parallel -k -j 10 \
+singularity exec grad-seq-analysis-ecoli.sif cutadapt \
+-q 20 \
+-m 1 \
+-a &quot;AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC&quot; \
+-o READemption_analysis/input/reads/'$(basename {} .gz)'.bz2 \
+input/raw_reads/{} \
+&gt; output/cutadapt_stats.txt
 
 </code></pre>
               
