@@ -150,6 +150,8 @@ mkdir data_folder raw_reads
 └── output
 
 </code></pre>
+<p>If you are not familiar with Bioinformatics please be aware that some commands we will execute 
+they will take some time. So we recommend to run everything in a server and with <a href="https://github.com/tmux/tmux/wiki">tmux</a></p>
 <p>To perform our test case, the raw data have to be retrieved from <a href="https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP049525&amp;o=acc_s%3Aa">NCBI</a>.</p>
 <p>In order to perform this step the user needs to use the fastq-dump function
 provided by the SRA-toolkit that can be downloaded <a href="https://anaconda.org/bioconda/sra-tools">here</a></p>
@@ -219,11 +221,16 @@ gzip -d GCF_000005845.2_ASM584v2_genomic.fna.gz &amp;&amp; cd ../..
 <pre><code class="language-bash">
 cd input/data_folder &amp;&amp;
 wget https://assets.thermofisher.com/TFS-Assets/LSG/manuals/ERCC92.zip &amp;&amp;
-unzip ERCC92.zip &amp;&amp; rm ERCC92.zip &amp;&amp; rm ERCC92.gtf
+unzip ERCC92.zip &amp;&amp; rm ERCC92.zip &amp;&amp; rm ERCC92.gtf &amp;&amp; cd ../..
 
 </code></pre>
-<p>The annotation file can be download from <a href="https://github.com/foerstner-lab/GRADitude/blob/main/tutorial_data/NC_000913.3_no_duplicates.gff">tutorial_data folder</a> in github  (Höer <em>et</em> <em>al</em>., 2020, NAR)
-Please be sure to move the file inside the data_folder we previously generated.</p>
+<p>The annotation file can be download from <a href="https://github.com/foerstner-lab/GRADitude/blob/main/tutorial_data/NC_000913.3_no_duplicates.gff">tutorial_data folder</a> in github  (Höer <em>et</em> <em>al</em>., 2020, NAR)</p>
+<pre><code class="language-bash">
+cd input/data_folder &amp;&amp;
+wget https://github.com/foerstner-lab/GRADitude/raw/main/tutorial_data/NC_000913.3_no_duplicates.gff &amp;&amp; cd ../..
+
+</code></pre>
+<p>https://github.com/foerstner-lab/GRADitude/raw/main/tutorial_data/NC_000913.3_no_duplicates.gff</p>
 <p>Once all the raw reads are downloaded. We can start with removing 
 the adapter using <a href="https://doi.org/10.14806/ej.17.1.200">cutadapt</a>.  </p>
 <p>Before doing that we create the READemption folder where we will store the output that comes out from executing cutdadapt</p>
@@ -244,7 +251,7 @@ singularity exec grad-seq-analysis-ecoli.sif reademption create -f READemption_a
 ==============
 
 </code></pre>
-<p>Once we create the READemption folder we can execute cutadapt</p>
+<p>Once we create the READemption folder we can execute cutadapt.</p>
 <pre><code class="language-bash">ls input/raw_reads | parallel -k -j 10 \
 singularity exec grad-seq-analysis-ecoli.sif cutadapt \
 -q 20 \
@@ -253,6 +260,32 @@ singularity exec grad-seq-analysis-ecoli.sif cutadapt \
 -o READemption_analysis/input/reads/'$(basename {} .gz)'.bz2 \
 input/raw_reads/{} \
 &gt; output/cutadapt_stats.txt
+
+</code></pre>
+<p>After executing cutadapt the trimmed output are already saved in the READemption/input/reads folder
+as requested by READemption subcommand.</p>
+<p>Now we have to copy the reference genome and the annotation 
+in READemption/input/reference_sequences and READemption/input/annotations respectively
+You can do it manually or you can run the following code:</p>
+<pre><code class="language-bash">cp -r input/data_folder/NC_000913.3_no_duplicates.gff READemption_analysis/input/annotations/
+
+</code></pre>
+<pre><code class="language-bash">cp -r input/data_folder/GCF_000005845.2_ASM584v2_genomic.fna READemption_analysis/input/reference_sequences/
+
+</code></pre>
+<pre><code class="language-bash">cp -r input/data_folder/ERCC92.fa READemption_analysis/input/reference_sequences/
+
+</code></pre>
+<p>Now we can finally start with the alignment.
+The -p parameter can be increase or decreased based on the CPUs that are available</p>
+<pre><code class="language-bash">
+singularity exec grad-seq-analysis-ecoli.sif reademption align \
+--project_path READemption_analysis \
+-p 4 \
+-a 95 \
+-l 20 \
+--fastq \
+--progress
 
 </code></pre>
               
