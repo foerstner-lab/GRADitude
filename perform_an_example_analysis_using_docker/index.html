@@ -256,7 +256,7 @@ singularity exec grad-seq-analysis-ecoli.sif cutadapt \
 -q 20 \
 -m 1 \
 -a &quot;AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC&quot; \
--o READemption_analysis/input/reads/'$(basename {} .gz)'.bz2 \
+-o READemption_analysis/input/reads/'$(basename {})'.bz2 \
 input/raw_reads/{} \
 &gt; output/cutadapt_stats.txt
 
@@ -285,6 +285,23 @@ singularity exec grad-seq-analysis-ecoli.sif reademption align \
 -l 20 \
 --fastq \
 --progress
+
+</code></pre>
+<p>After the alignment is finished the user can continue running the coverage subcommand </p>
+<pre><code class="language-bash">
+singularity exec grad-seq-analysis-ecoli.sif reademption coverage \
+-p 4 \
+--project_path READemption_analysis
+</code></pre>
+<p>Now the user can run the gene quantification. This subcommand will have as output one of the tables necessary for our further 
+analysis with GRADitude.
+With the parameter --features you can specify which features you want to quantify. For our analysis we decided to use 
+CDS, rRNA, tRNA and ncRNA but many more features can be added, depending on the annotation file.</p>
+<pre><code class="language-bash">    singularity exec grad-seq-analysis-ecoli.sif reademption gene_quanti \
+        -p 4 \
+        --features CDS,rRNA,tRNA,ncRNA \
+        -l \
+        --project_path READemption_analysis
 
 </code></pre>
               
