@@ -152,7 +152,7 @@ mkdir data_folder raw_reads
 </code></pre>
 <p>If you are not familiar with Bioinformatics please be aware that some commands we will execute 
 they will take some time. So we recommend to run everything in a server and with <a href="https://github.com/tmux/tmux/wiki">tmux</a></p>
-<p>To perform our test case, the raw data have to be retrieved from <a href="https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP049525&amp;o=acc_s%3Aa">NCBI</a>.</p>
+<p>To perform our test case, the raw data have to be retrieved from <a href="https://www.ncbi.nlm.nih.gov/sra?term=SRP268299">NCBI</a>.</p>
 <p>In order to perform this step the user needs to use the fastq-dump function
 provided by the SRA-toolkit that can be downloaded <a href="https://anaconda.org/bioconda/sra-tools">here</a></p>
 <p>We suggest to download the raw data inside the input folder it has been previously created </p>
@@ -209,6 +209,32 @@ cd input/raw_reads &amp;&amp;
 ; do 
     fastq-dump --bzip2 $i; 
   done
+</code></pre>
+<p>After downloading the data I recommend to change the name of the files according the specific 
+fraction like suggested here:</p>
+<pre><code class="language-bash">cd input/raw_reads &amp;&amp;
+mv SRR12067299.fastq.bz2 Grad-00L.fastq.bz2 &amp;&amp;
+mv SRR12067300.fastq.bz2 Grad-01.fastq.bz2 &amp;&amp;
+mv SRR12067301.fastq.bz2 Grad-02.fastq.bz2 &amp;&amp;  
+mv SRR12067302.fastq.bz2 Grad-03.fastq.bz2 &amp;&amp;   
+mv SRR12067303.fastq.bz2 Grad-04.fastq.bz2 &amp;&amp;   
+mv SRR12067304.fastq.bz2 Grad-05.fastq.bz2 &amp;&amp;   
+mv SRR12067305.fastq.bz2 Grad-06.fastq.bz2 &amp;&amp;   
+mv SRR12067306.fastq.bz2 Grad-07.fastq.bz2 &amp;&amp;    
+mv SRR12067307.fastq.bz2 Grad-08.fastq.bz2 &amp;&amp;   
+mv SRR12067308.fastq.bz2 Grad-09.fastq.bz2 &amp;&amp;   
+mv SRR12067309.fastq.bz2 Grad-10.fastq.bz2 &amp;&amp;   
+mv SRR12067310.fastq.bz2 Grad-11.fastq.bz2 &amp;&amp;   
+mv SRR12067311.fastq.bz2 Grad-12.fastq.bz2 &amp;&amp;    
+mv SRR12067312.fastq.bz2 Grad-13.fastq.bz2 &amp;&amp;    
+mv SRR12067313.fastq.bz2 Grad-14.fastq.bz2 &amp;&amp;   
+mv SRR12067314.fastq.bz2 Grad-15.fastq.bz2 &amp;&amp;    
+mv SRR12067315.fastq.bz2 Grad-16.fastq.bz2 &amp;&amp;   
+mv SRR12067316.fastq.bz2 Grad-17.fastq.bz2 &amp;&amp;   
+mv SRR12067317.fastq.bz2 Grad-18.fastq.bz2 &amp;&amp;    
+mv SRR12067318.fastq.bz2 Grad-19.fastq.bz2 &amp;&amp;    
+mv SRR12067319.fastq.bz2 Grad-20.fastq.bz2 &amp;&amp;   
+mv SRR12067320.fastq.bz2 Grad-21P.fastq.bz2    
 </code></pre>
 <p>You can download the reference genome that will be used later on from the NCBI using this command</p>
 <pre><code class="language-bash">
@@ -337,6 +363,10 @@ and output folder inside the GRADitude folder created</p>
 └── READemption_analysis
     ├── input
     └── output
+</code></pre>
+<p>We now start the analysis copying all the necessary tables inside GRADitude</p>
+<pre><code class="language-bash">  cp -r READemption_analysis/output/align/reports_and_stats/read_alignment_stats.csv ./GRADitude/input/ &amp;&amp;
+  cp -r READemption_analysis/output/gene_quanti/gene_quanti_combined/gene_wise_quantifications_combined.csv ./GRADitude/input/
 </code></pre>
               
             </div>
