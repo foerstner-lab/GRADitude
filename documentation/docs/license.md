@@ -2,7 +2,7 @@
 
 Copyright (c) 2017-2022 
 
-Silvia Di Giorgio <digiorgio@zbmed.de>,
+Silvia Di Giorgio <silviadg87@gmail.com>,
 Konrad Förstner <konrad@foerstner.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

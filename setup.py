@@ -7,10 +7,10 @@ except ImportError:
 
 setup(
     name='GRADitude',
-    version='0.1.2',
+    version='1.0',
     packages=['graditudelib'],
     author='Silvia Di Giorgio, Konrad U. Förstner',
-    author1_email='digiorgio@zbmed.de',
+    author1_email='silviadg87@gmail.com',
     author2_email='foerstner@zbmed.de',
     description='A tool for the analysis of GRAD-seq data',
     url='https://github.com/foerstner-lab/GRADitude.git',
