@@ -304,6 +304,40 @@ CDS, rRNA, tRNA and ncRNA but many more features can be added, depending on the 
         --project_path READemption_analysis
 
 </code></pre>
+<p>After running the gene quantification, the 2 tables necessary for the downstream analysis are found in:</p>
+<pre><code class="language-bash">READemption_analysis/output/align/reports_and_stats ---&gt; read_alignment_stats.csv
+&amp;
+READemption_analysis/output/gene_quanti/gene_quanti_combined --&gt; gene_wise_quantifications_combined.csv
+
+</code></pre>
+<p>Let's have a look at the folder structure we created right now:</p>
+<pre><code class="language-bash">
+├── grad-seq-analysis-ecoli.sif
+├── input
+└── output
+└── READemption_analysis
+    ├── input
+    └── output
+
+
+</code></pre>
+<p>Now the user can create a folder GRADitude using the following subcommand</p>
+<pre><code class="language-bash">
+mkdir GRADitude &amp;&amp; mkdir GRADitude/input GRADitude/output
+
+</code></pre>
+<p>and then your folder structure will be like the one showed below where there is an input
+and output folder inside the GRADitude folder created</p>
+<pre><code class="language-bash">├── GRADitude
+├── input
+    └── output
+├── grad-seq-analysis-ecoli.sif
+├── input
+└── output
+└── READemption_analysis
+    ├── input
+    └── output
+</code></pre>
               
             </div>
           </div>
