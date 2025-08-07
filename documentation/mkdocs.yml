@@ -4,5 +4,6 @@ nav:
     - Installation: installation.md
     - GRADitude's subcommands: subcommands.md
     - Performing an example analysis: perform_an_example_analysis.md
+    - Performing an example analysis using singularity : perform_an_example_analysis_using_docker.md
     - License: license.md
 theme: readthedocs

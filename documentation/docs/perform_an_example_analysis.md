@@ -1,67 +1,171 @@
-# Performing an example analysis
+# 🧪 GRADitude Tutorial — Complete Analysis Example
 
-In this section you will be able to perform a complete analysis using already 
-published GRAD-seq data sets.
+This tutorial will guide you through a **complete GRAD-seq analysis** using published data and the tool **GRADitude**.
 
-In order explore all the potential of a GRADitude here you will be guided through an example analysis 
-using the *Escherichia coli* data set downloaded from NCBI  (Höer *et* *al*., 2020, NAR)
+We will use *Escherichia coli* GRAD-seq data from [Höer et al., 2020 (NAR)](https://www.ncbi.nlm.nih.gov/sra?term=SRP268299).
 
+---
 
-# Pre-processing the data, alignment and gene quantification
+# 🛠️ Environment Setup (Conda-based, No Docker/Singularity)
 
-After downloading the raw data from NCBI, in the original publication, preprocessing steps like read trimming 
-and clipping were done with [cutadapt]( https://doi.org/10.14806/ej.17.1.200). 
-Read filtering, read mapping, nucleotide‐wise coverage calculation, and genome feature‐wise read
-quantification was done using [READemption](https://doi.org/10.1093/bioinformatics/btu533).
+We use **Conda** for reproducibility and ease of setup. This includes the installation of `READemption`, `cutadapt`, and other required tools.
 
-To conduce this steps we highly recommend the use of READemption, but anyway any other read mapping are
-working too. 
-
-For completeness, we decided to perform the analysis starting from the raw-reads.
-
-## Download singularity image
-
-##### Before starting the analysis you can download the singularity image from Zenodo. In the image you can find all the tools necessary for the analysis
-
-## Create folders
+## ➤ Step 1: Configure Conda Channels (only once)
 
 ```bash
-mkir input output
+conda config --add channels conda-forge
+conda config --add channels bioconda
+conda config --add channels till_sauerwein
 ```
 
-## Dowload the data
+## ➤ Step 2: Create and Activate Environment
 
 ```bash
-cd READ_LIB_FOLDER &&
-
-    fastq-dump --bzip2 SRR12067299 &
-    fastq-dump --bzip2 SRR12067300
-    fastq-dump --bzip2 SRR12067301
-    fastq-dump --bzip2 SRR12067302
-    fastq-dump --bzip2 SRR12067303
-    fastq-dump --bzip2 SRR12067304
-    fastq-dump --bzip2 SRR12067305
-    fastq-dump --bzip2 SRR12067306
-    fastq-dump --bzip2 SRR12067307
-    fastq-dump --bzip2 SRR12067308
-    fastq-dump --bzip2 SRR12067309
-    fastq-dump --bzip2 SRR12067310
-    fastq-dump --bzip2 SRR12067311
-    fastq-dump --bzip2 SRR12067312
-    fastq-dump --bzip2 SRR12067313
-    fastq-dump --bzip2 SRR12067314
-    fastq-dump --bzip2 SRR12067315
-    fastq-dump --bzip2 SRR12067316
-    fastq-dump --bzip2 SRR12067317
-    fastq-dump --bzip2 SRR12067318
-    fastq-dump --bzip2 SRR12067319
-    fastq-dump --bzip2 SRR12067320
-
-&& cd ..
-
+conda create -n reademption_env python=3.9 reademption -c till_sauerwein -c conda-forge -c bioconda -y
+conda activate reademption_env
 ```
 
+This will install:
 
+- `READemption`
+- `cutadapt`
+- `sra-tools`
+- `parallel`
+- all Python dependencies
 
-## GRADitude 
-Before starting the analysis we recommend These tables are output coming from the 
+---
+
+# 📁 Set Up Directory Structure
+
+```bash
+mkdir -p GRADseq_analysis/input/{raw_reads,data_folder} GRADseq_analysis/output
+cd GRADseq_analysis
+```
+
+---
+
+# ⬇️ Download the Raw Data
+
+```bash
+cd input/raw_reads
+for i in $(seq -f "SRR120672%02g" 99 120); do
+    fastq-dump --bzip2 $i
+done
+```
+
+Rename for clarity:
+
+```bash
+mv SRR12067299.fastq.bz2 Grad-00L.fastq.bz2
+mv SRR12067300.fastq.bz2 Grad-01.fastq.bz2
+# ...
+mv SRR12067320.fastq.bz2 Grad-21P.fastq.bz2
+```
+
+---
+
+# 📚 Download Reference Files
+
+```bash
+cd ../data_folder
+
+# Reference genome
+wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2/GCF_000005845.2_ASM584v2_genomic.fna.gz
+gzip -d GCF_000005845.2_ASM584v2_genomic.fna.gz
+
+# ERCC spike-ins
+wget https://assets.thermofisher.com/TFS-Assets/LSG/manuals/ERCC92.zip
+unzip ERCC92.zip && rm ERCC92.zip ERCC92.gtf
+
+# Annotation file
+wget https://github.com/foerstner-lab/GRADitude/raw/main/tutorial_data/NC_000913.3_no_duplicates.gff
+
+cd ../../
+```
+
+---
+
+# ✂️ Trim Adapters with Cutadapt
+
+```bash
+reademption create -f READemption_analysis
+
+ls input/raw_reads | parallel -k -j 10 \
+cutadapt \
+-q 20 \
+-m 1 \
+-a "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC" \
+-o READemption_analysis/input/reads/{.}.fastq.bz2 \
+input/raw_reads/{} \
+> output/cutadapt_stats.txt
+```
+
+---
+
+# 📁 Prepare Reference Files for READemption
+
+```bash
+cp input/data_folder/*.gff READemption_analysis/input/annotations/
+cp input/data_folder/*.fna READemption_analysis/input/reference_sequences/
+cp input/data_folder/ERCC92.fa READemption_analysis/input/reference_sequences/
+```
+
+---
+
+# 🎯 Align Reads
+
+```bash
+reademption align \
+--project_path READemption_analysis \
+-p 5 \
+-a 95 \
+-l 20 \
+--fastq \
+--progress
+```
+
+---
+
+# 📊 Generate Coverage
+
+```bash
+reademption coverage \
+--project_path READemption_analysis \
+-p 4
+```
+
+---
+
+# 📈 Gene Quantification
+
+```bash
+reademption gene_quanti \
+--project_path READemption_analysis \
+--features CDS,rRNA,tRNA,ncRNA \
+-p 4 \
+-l
+```
+
+---
+
+# 📁 Prepare Input for GRADitude
+
+```bash
+mkdir -p GRADitude/input GRADitude/output
+
+cp READemption_analysis/output/align/reports_and_stats/read_alignment_stats.csv GRADitude/input/
+cp READemption_analysis/output/gene_quanti/gene_quanti_combined/gene_wise_quantifications_combined.csv GRADitude/input/
+```
+
+---
+
+# ✅ Ready for GRADitude!
+
+You have successfully:
+
+- Preprocessed the data
+- Performed read alignment
+- Generated coverage
+- Quantified genes
+
+You're now ready to continue the analysis using **GRADitude**!
