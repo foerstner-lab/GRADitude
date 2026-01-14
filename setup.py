@@ -16,7 +16,7 @@ setup(
     url='https://github.com/foerstner-lab/GRADitude.git',
     install_requires=[
         "matplotlib == 3.1.1",
-        "scipy == 1.6.1",
+        "scipy == 1.10.0",
         "bokeh == 2.3.0",
         "Jinja2 == 2.11.3",
         "numpy == 1.22.0",
