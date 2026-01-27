@@ -203,7 +203,7 @@ READemption_analysis/output/gene_quanti/gene_quanti_combined/gene_wise_quantific
 mkdir -p GRADitude/input GRADitude/output
 
 cp READemption_analysis/output/align/reports_and_stats/read_alignment_stats.csv GRADitude/input/
-cp READemption_analysis/output/gene_quanti/gene_quanti_combined/gene_wise_quantifications_combined.csv GRADitude/input/
+cp READemption_analysis/output/ecoli_gene_quanti_combined/gene_wise_quantifications_combined.csv GRADitude/input/
 ```
 
 Folder structure now looks like:
@@ -234,3 +234,6 @@ You have successfully:
 - Quantified genes  
 
 You're now ready to continue the analysis using **GRADitude**!
+
+
+
