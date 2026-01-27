@@ -1,184 +1,305 @@
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  
-  
-  <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Performing an example analysis - GRADitude</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
-
-  <link rel="stylesheet" href="../css/theme.css" />
-  <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
-  
-  <script>
-    // Current page data
-    var mkdocs_page_name = "Performing an example analysis";
-    var mkdocs_page_input_path = "perform_an_example_analysis.md";
-    var mkdocs_page_url = null;
-  </script>
-  
-  <script src="../js/jquery-2.1.1.min.js" defer></script>
-  <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script> 
-  
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Performing an example analysis - GRADitude</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Performing an example analysis";
+        var mkdocs_page_input_path = "perform_an_example_analysis.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
 
   <div class="wy-grid-for-nav">
-
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> GRADitude</a>
-        <div role="search">
+          <a href=".." class="icon icon-home"> GRADitude
+        </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../subcommands/">GRADitude's subcommands</a>
-                    </li>
-                </ul>
-                <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Performing an example analysis</a>
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../subcommands/">GRADitude's subcommands</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Performing an example analysis</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#environment-setup-conda-based">🛠 Environment Setup (Conda-based)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#step-1-configure-conda-channels-only-once">Step 1: Configure Conda Channels (only once)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-2-create-and-activate-environment">Step 2: Create and Activate Environment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-3-install-required-tools">Step 3: Install required tools</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#set-up-directory-structure">📂 Set Up Directory Structure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#download-raw-sequencing-data-from-ncbi-sra">⬇ Download raw sequencing data from NCBI SRA</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#download-reference-files">📚 Download Reference Files</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#trim-adapters-with-cutadapt">✂️ Trim Adapters with Cutadapt</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#prepare-reference-files-for-reademption">📁 Prepare Reference Files for READemption</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#align-reads">🎯 Align Reads</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#generate-coverage">📊 Generate Coverage</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#gene-quantification">📈 Gene Quantification</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#prepare-input-for-graditude">📁 Prepare Input for GRADitude</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ready-for-graditude">✅ Ready for GRADitude!</a>
+    </li>
     </ul>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../perform_an_example_analysis_using_docker/">Performing an example analysis using singularity</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
-                    </li>
-                </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../perform_an_example_analysis_using_docker/">Performing an example analysis using singularity</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
+                </li>
+              </ul>
       </div>
     </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">GRADitude</a>
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">GRADitude</a>
+        
       </nav>
-
-      
       <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="..">Docs</a> &raquo;</li>
-    
-      
-    
-    <li>Performing an example analysis</li>
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Performing an example analysis</li>
     <li class="wy-breadcrumbs-aside">
-      
     </li>
   </ul>
-  
   <hr/>
 </div>
-          <div role="main">
-            <div class="section">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
               
-                <h1 id="performing-an-example-analysis">Performing an example analysis</h1>
-<p>In this section you will be able to perform a complete analysis using already 
-published GRAD-seq data sets.</p>
-<p>In order explore all the potential of a GRADitude here you will be guided through an example analysis 
-using the <em>Escherichia coli</em> data set downloaded from NCBI  (Höer <em>et</em> <em>al</em>., 2020, NAR)</p>
-<h1 id="pre-processing-the-data-alignment-and-gene-quantification">Pre-processing the data, alignment and gene quantification</h1>
-<p>After downloading the raw data from NCBI, in the original publication, preprocessing steps like read trimming 
-and clipping were done with <a href="https://doi.org/10.14806/ej.17.1.200">cutadapt</a>. 
-Read filtering, read mapping, nucleotide‐wise coverage calculation, and genome feature‐wise read
-quantification was done using <a href="https://doi.org/10.1093/bioinformatics/btu533">READemption</a>.</p>
-<p>To conduce this steps we highly recommend the use of READemption, but anyway any other read mapping are
-working too. </p>
-<p>For completeness, we decided to perform the analysis starting from the raw-reads.</p>
-<h2 id="download-singularity-image">Download singularity image</h2>
-<h5 id="before-starting-the-analysis-you-can-download-the-singularity-image-from-zenodo-in-the-image-you-can-find-all-the-tools-necessary-for-the-analysis">Before starting the analysis you can download the singularity image from Zenodo. In the image you can find all the tools necessary for the analysis</h5>
-<h2 id="create-folders">Create folders</h2>
-<pre><code class="language-bash">mkir input output
+                <h1 id="graditude-tutorial-complete-analysis-example-no-dockersingularity">🧪 GRADitude Tutorial — Complete Analysis Example (No Docker/Singularity)</h1>
+<p>This tutorial will guide you through a <strong>complete GRAD-seq analysis</strong> using published data and the tool <strong>GRADitude</strong>.</p>
+<p>We will use <em>Escherichia coli</em> GRAD-seq data from <a href="https://www.ncbi.nlm.nih.gov/sra?term=SRP268299">Höer et al., 2020 (NAR)</a>.<br />
+Gradient fractions come from <a href="https://www.ncbi.nlm.nih.gov/sra?term=SRX8595091">Experiment SRX8595091</a>.</p>
+<hr />
+<h2 id="environment-setup-conda-based">🛠 Environment Setup (Conda-based)</h2>
+<p>We use <strong>Conda</strong> for reproducibility and ease of setup. This will install <code>READemption</code>, <code>cutadapt</code>, <code>sra-tools</code>, and other required tools.</p>
+<h3 id="step-1-configure-conda-channels-only-once">Step 1: Configure Conda Channels (only once)</h3>
+<pre><code class="language-bash">conda config --add channels conda-forge
+conda config --add channels bioconda
 </code></pre>
-<h2 id="dowload-the-data">Dowload the data</h2>
-<pre><code class="language-bash">cd READ_LIB_FOLDER &amp;&amp;
+<h3 id="step-2-create-and-activate-environment">Step 2: Create and Activate Environment</h3>
+<pre><code class="language-bash">conda create -n gradseq_env python=3.10 -y
+conda activate gradseq_env
+</code></pre>
+<p>If you see: <em>Your shell has not been properly configured to use 'conda activate'</em><br />
+run <code>conda init</code> and restart your shell, or <code>source ~/.bashrc</code> (Linux bash) / <code>source ~/.zshrc</code> (macOS zsh).</p>
+<h3 id="step-3-install-required-tools">Step 3: Install required tools</h3>
+<pre><code class="language-bash">conda install cutadapt sra-tools parallel wget unzip pigz bzip2 coreutils -y
+conda install -c bioconda -c conda-forge -c till_sauerwein reademption -y
+</code></pre>
+<p><strong>SSL note:</strong> If <code>fastq-dump</code> fails with certificate errors, check version:  </p>
+<pre><code class="language-bash">
+</code></pre>
+<p>If &lt; 2.11, update with:  </p>
+<pre><code class="language-bash">conda install -c bioconda -c conda-forge sra-tools=3.0.10 -y
+</code></pre>
+<p>** if <code>fastq-dump</code> --version still gives you a previous version then please install using it this:</p>
+<pre><code class="language-bash">wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/3.0.10/sratoolkit.3.0.10-mac64.tar.gz
+tar -xzf sratoolkit.3.0.10-mac64.tar.gz
+export PATH=&quot;$PWD/sratoolkit.3.0.10-mac64/bin:$PATH&quot;
+fastq-dump --version
+</code></pre>
+<hr />
+<h2 id="set-up-directory-structure">📂 Set Up Directory Structure</h2>
+<pre><code class="language-bash">mkdir -p GRADseq_analysis/input/{raw_reads,data_folder} GRADseq_analysis/output
+cd GRADseq_analysis
+</code></pre>
+<p>Folder structure after setup:</p>
+<pre><code>GRADseq_analysis/
+├── input/
+│   ├── raw_reads/
+│   └── data_folder/
+└── output/
+</code></pre>
+<hr />
+<h2 id="download-raw-sequencing-data-from-ncbi-sra">⬇ Download raw sequencing data from NCBI SRA</h2>
+<p>We download the <strong>22 gradient fractions</strong> from experiment SRX8595091 (Höer et al., 2020).<br />
+Each SRR accession corresponds to one gradient fraction.</p>
+<pre><code class="language-bash">cd input/raw_reads
 
-    fastq-dump --bzip2 SRR12067299 &amp;
-    fastq-dump --bzip2 SRR12067300
-    fastq-dump --bzip2 SRR12067301
-    fastq-dump --bzip2 SRR12067302
-    fastq-dump --bzip2 SRR12067303
-    fastq-dump --bzip2 SRR12067304
-    fastq-dump --bzip2 SRR12067305
-    fastq-dump --bzip2 SRR12067306
-    fastq-dump --bzip2 SRR12067307
-    fastq-dump --bzip2 SRR12067308
-    fastq-dump --bzip2 SRR12067309
-    fastq-dump --bzip2 SRR12067310
-    fastq-dump --bzip2 SRR12067311
-    fastq-dump --bzip2 SRR12067312
-    fastq-dump --bzip2 SRR12067313
-    fastq-dump --bzip2 SRR12067314
-    fastq-dump --bzip2 SRR12067315
-    fastq-dump --bzip2 SRR12067316
-    fastq-dump --bzip2 SRR12067317
-    fastq-dump --bzip2 SRR12067318
-    fastq-dump --bzip2 SRR12067319
-    fastq-dump --bzip2 SRR12067320
+for i in SRR12067299 SRR12067300 SRR12067301          SRR12067302 SRR12067303 SRR12067304          SRR12067305 SRR12067306 SRR12067307          SRR12067308 SRR12067309 SRR12067310          SRR12067311 SRR12067312 SRR12067313          SRR12067314 SRR12067315 SRR12067316          SRR12067317 SRR12067318 SRR12067319          SRR12067320
+do
+    fastq-dump --bzip2 &quot;$i&quot;
+done
 
-&amp;&amp; cd ..
+cd ../..
+</code></pre>
+<p>Rename files for clarity:</p>
+<pre><code class="language-bash">cd input/raw_reads &amp;&amp;
+mv SRR12067299.fastq.bz2 Grad-00L.fastq.bz2 &amp;&amp;
+mv SRR12067300.fastq.bz2 Grad-01.fastq.bz2 &amp;&amp;
+mv SRR12067301.fastq.bz2 Grad-02.fastq.bz2 &amp;&amp;
+mv SRR12067302.fastq.bz2 Grad-03.fastq.bz2 &amp;&amp;
+mv SRR12067303.fastq.bz2 Grad-04.fastq.bz2 &amp;&amp;
+mv SRR12067304.fastq.bz2 Grad-05.fastq.bz2 &amp;&amp;
+mv SRR12067305.fastq.bz2 Grad-06.fastq.bz2 &amp;&amp;
+mv SRR12067306.fastq.bz2 Grad-07.fastq.bz2 &amp;&amp;
+mv SRR12067307.fastq.bz2 Grad-08.fastq.bz2 &amp;&amp;
+mv SRR12067308.fastq.bz2 Grad-09.fastq.bz2 &amp;&amp;
+mv SRR12067309.fastq.bz2 Grad-10.fastq.bz2 &amp;&amp;
+mv SRR12067310.fastq.bz2 Grad-11.fastq.bz2 &amp;&amp;
+mv SRR12067311.fastq.bz2 Grad-12.fastq.bz2 &amp;&amp;
+mv SRR12067312.fastq.bz2 Grad-13.fastq.bz2 &amp;&amp;
+mv SRR12067313.fastq.bz2 Grad-14.fastq.bz2 &amp;&amp;
+mv SRR12067314.fastq.bz2 Grad-15.fastq.bz2 &amp;&amp;
+mv SRR12067315.fastq.bz2 Grad-16.fastq.bz2 &amp;&amp;
+mv SRR12067316.fastq.bz2 Grad-17.fastq.bz2 &amp;&amp;
+mv SRR12067317.fastq.bz2 Grad-18.fastq.bz2 &amp;&amp;
+mv SRR12067318.fastq.bz2 Grad-19.fastq.bz2 &amp;&amp;
+mv SRR12067319.fastq.bz2 Grad-20.fastq.bz2 &amp;&amp;
+mv SRR12067320.fastq.bz2 Grad-21P.fastq.bz2
+cd ../../
+</code></pre>
+<hr />
+<h2 id="download-reference-files">📚 Download Reference Files</h2>
+<pre><code class="language-bash">cd input/data_folder
+
+# Reference genome
+wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2/GCF_000005845.2_ASM584v2_genomic.fna.gz
+gzip -d GCF_000005845.2_ASM584v2_genomic.fna.gz
+
+# ERCC spike-ins
+wget https://assets.thermofisher.com/TFS-Assets/LSG/manuals/ERCC92.zip
+unzip ERCC92.zip &amp;&amp; rm ERCC92.zip ERCC92.gtf
+
+# Annotation file
+wget https://github.com/foerstner-lab/GRADitude/raw/main/tutorial_data/NC_000913.3_no_duplicates.gff
+
+cd ../..
+</code></pre>
+<hr />
+<h2 id="trim-adapters-with-cutadapt">✂️ Trim Adapters with Cutadapt</h2>
+<pre><code class="language-bash">reademption create -f READemption_analysis -s 'ecoli=Escherichia coli K-12 MG1655'
+
+ls input/raw_reads | parallel -k -j 10   &quot;cutadapt -q 20 -m 1 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC   -o READemption_analysis/input/reads/{/.}.fastq.bz2 input/raw_reads/{}&quot;   &gt; output/cutadapt_stats.txt
+</code></pre>
+<hr />
+<h2 id="prepare-reference-files-for-reademption">📁 Prepare Reference Files for READemption</h2>
+<pre><code class="language-bash">cp input/data_folder/NC_000913.3_no_duplicates.gff READemption_analysis/input/ecoli_annotations/
+cp input/data_folder/GCF_000005845.2_ASM584v2_genomic.fna READemption_analysis/input/ecoli_reference_sequences/
+cp input/data_folder/ERCC92.fa READemption_analysis/input/ecoli_reference_sequences/
+</code></pre>
+<hr />
+<h2 id="align-reads">🎯 Align Reads</h2>
+<pre><code class="language-bash">reademption align --project_path READemption_analysis \
+-p 5 \
+-a 95 \
+-l 20 \
+--fastq \
+--progress
 
 </code></pre>
-<h2 id="graditude">GRADitude</h2>
-<p>Before starting the analysis we recommend These tables are output coming from the </p>
+<hr />
+<h2 id="generate-coverage">📊 Generate Coverage</h2>
+<pre><code class="language-bash">reademption coverage --project_path READemption_analysis -p 4
+</code></pre>
+<hr />
+<h2 id="gene-quantification">📈 Gene Quantification</h2>
+<pre><code class="language-bash">reademption gene_quanti --project_path READemption_analysis --features CDS,rRNA,tRNA,ncRNA -p 4 -l
+</code></pre>
+<p>Output files required for GRADitude are located at:</p>
+<pre><code>READemption_analysis/output/align/reports_and_stats/read_alignment_stats.csv
+READemption_analysis/output/gene_quanti/gene_quanti_combined/gene_wise_quantifications_combined.csv
+</code></pre>
+<hr />
+<h2 id="prepare-input-for-graditude">📁 Prepare Input for GRADitude</h2>
+<pre><code class="language-bash">mkdir -p GRADitude/input GRADitude/output
+
+cp READemption_analysis/output/align/reports_and_stats/read_alignment_stats.csv GRADitude/input/
+cp READemption_analysis/output/ecoli_gene_quanti_combined/gene_wise_quantifications_combined.csv GRADitude/input/
+</code></pre>
+<p>Folder structure now looks like:</p>
+<pre><code>GRADseq_analysis/
+├── input/
+│   ├── raw_reads/
+│   └── data_folder/
+├── output/
+├── READemption_analysis/
+│   ├── input/
+│   └── output/
+└── GRADitude/
+    ├── input/
+    └── output/
+</code></pre>
+<hr />
+<h2 id="ready-for-graditude">✅ Ready for GRADitude!</h2>
+<p>You have successfully:</p>
+<ul>
+<li>Preprocessed the raw reads  </li>
+<li>Performed read alignment  </li>
+<li>Generated coverage files  </li>
+<li>Quantified genes  </li>
+</ul>
+<p>You're now ready to continue the analysis using <strong>GRADitude</strong>!</p>
               
             </div>
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../subcommands/" class="btn btn-neutral float-left" title="GRADitude's subcommands"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../perform_an_example_analysis_using_docker/" class="btn btn-neutral float-right" title="Performing an example analysis using singularity">Next <span class="icon icon-circle-arrow-right"></span></a>
-      
-      
-        <a href="../subcommands/" class="btn btn-neutral" title="GRADitude's subcommands"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-      
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <!-- Copyright etc -->
-    
   </div>
 
-  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
-      
+          
         </div>
       </div>
 
@@ -186,24 +307,26 @@ working too. </p>
 
   </div>
 
-  <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../subcommands/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../perform_an_example_analysis_using_docker/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../subcommands/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../perform_an_example_analysis_using_docker/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
-    <script>var base_url = '..';</script>
-    <script src="../js/theme.js" defer></script>
-      <script src="../search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>
