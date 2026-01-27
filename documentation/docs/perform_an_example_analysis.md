@@ -237,3 +237,13 @@ You're now ready to continue the analysis using **GRADitude**!
 
 
 
+# Grad-seq Data Preprocessing & Formatting
+
+Once the raw quantification tables are generated, the data must be formatted to be compatible with 
+GRADitude's statistical modules. This phase involves extracting gene identifiers, removing non-relevant fractions 
+(e.g., Total Lysate), and filtering out low-expression genes to ensure robust downstream analysis.
+
+
+## Attribute Extraction & Merging
+
+

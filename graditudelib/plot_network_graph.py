@@ -4,9 +4,16 @@ import pandas as pd
 from bokeh.io import show, output_file
 from bokeh.models import Range1d, MultiLine, Circle, HoverTool, TapTool, ColumnDataSource, \
     BoxZoomTool, ResetTool, PanTool, WheelZoomTool, OpenURL
-from bokeh.models.graphs import from_networkx, NodesAndLinkedEdges
 from bokeh.palettes import Spectral4
 from bokeh.plotting import figure
+
+# Bokeh import compatibility (Bokeh 2.x vs 3.x)
+try:
+    from bokeh.plotting import from_networkx  # Bokeh 3.x
+except ImportError:  # pragma: no cover
+    from bokeh.models.graphs import from_networkx  # Bokeh 2.x
+
+from bokeh.models.graphs import NodesAndLinkedEdges
 
 
 def plot_network_graph_rna_protein(feature_count_table, index_table, threshold, max_size, output_plot):
