@@ -246,4 +246,257 @@ GRADitude's statistical modules. This phase involves extracting gene identifiers
 
 ## Attribute Extraction & Merging
 
+The first step is to extract specific identifier columns (such as Gene ID and Common Name) from the combined quantification file.
+
+### Extract Attributes
+
+Raw quantification tables (like those from READemption) often store gene metadata in a single, semi-structured column called Attributes (e.g., ID=gene01;Name=dnaA;Type=CDS). 
+To perform analysis, these values must be extracted into their own separate columns.
+
+Use the ```extract_gene_columns``` command to parse the GFF-style Attributes column and extract specific metadata keys 
+(such as gene ID or Name) into their own dedicated columns.
+
+```bash
+
+graditude extract_gene_columns \
+    -f input/gene_wise_quantifications_combined.csv \
+    -names "gene" "Name" \
+    -o input/gene_wise_extended.csv
+
+```
+
+
+### Consolidate Gene Identifiers 
+
+After extracting attributes, gene identifiers may be scattered across different columns depending on
+the annotation completeness (e.g., some entries use "Parent", others "name" or "ID"). This subcommand consolidates these columns into a single, 
+definitive 'Gene' column to ensure every feature is uniquely identified for downstream analysis.
+
+**Command:**
+
+```bash
+graditude merge_attributes \
+    -f input/gene_wise_extended.csv \
+    -o input/gene_wise_extended_merged.csv
+```
+
+
+
+### Data Cleaning: Removing Unwanted Columns
+
+After consolidating the identifiers, the dataset often still includes experimental controls—such as
+the Lysate (or Input)—and redundant metadata columns. While the lysate is essential for quality control,
+it represents the cellular state prior to fractionation and does not belong to the sedimentation profile.
+Including it can skew downstream statistical analyses (like normalization and clustering).
+
+The ```drop_column``` removes the specified columns to produce a clean numerical matrix for analysis.
+
+
+```bash
+graditude drop_column \
+    -f input/gene_wise_extended_merged.csv \
+    -c "Grad-00L.fastq" "Name" "gene"\
+    -o input/gene_wise_quanti.csv
+    
+```
+
+To ensure accurate downstream normalization, the table containing the ERCC spike-in read counts
+must undergo the same cleaning process as the gene quantification table. 
+This involves removing the Lysate fraction,
+so that the control data perfectly matches the dimensions of the gradient data.
+
+```bash
+graditude drop_column \
+    -f input/read_alignment_stats.csv \
+    -c "Grad-00L.fastq" "Species" \
+    -o input/read_alignment_stats_no_lysate.csv
+    
+```
+### Reorder Columns
+
+
+After the previous processing steps (merging attributes and dropping controls), the definitive Gene 
+identifier column is typically located at the very end of the table. To prepare the matrix for downstream analysis 
+where the row identifier is expected to be the first column needs to be executed.
+
+The ```move_columns``` shifts the specified number of columns from the end of the table to the beginning
+
+```bash
+graditude move_columns \
+    -f input/gene_wise_quanti.csv \
+    -n 1 \
+    -o input/feature_count_table.csv
+
+```
+
+### Filter Low-Abundance Genes in the gene quantification table
+
+
+Before running statistical analyses (like clustering or correlation), it is good practice to 
+remove genes that have very low expression levels across the entire gradient. 
+These "noisy" low-count features can destabilize normalization and clustering algorithms. 
+This command filters the quantification table by summing the reads for each gene across 
+the specified fractions and keeping only those that meet a minimum threshold.
+
+The ```min_row_sum``` is used to filter out genes that have a total count less than the specified value.
+
+```bash
+graditude min_row_sum \
+    -f input/feature_count_table.csv \
+    -fc 11 \
+    -fe 32 \
+    -m 100 \
+    -o input/gene_wise_100.csv
+
+```
+
+
+###  Filter Low-Abundance Genes in the ERCC table
+
+
+This subcommand filters the ERCC quantification table based on a minimum read count threshold. 
+It calculates the sum of reads for each ERCC transcript across all gradient fractions and discards those that
+do not meet the specified threshold. 
+This ensures that only robustly detected spike-ins are used for normalization and regression analysis
+
+The ```min_row_sum_ercc``` is used to filter out ERCC transcripts that have a total count less than the specified value.```
+
+```bash
+graditude min_row_sum_ercc \
+    -r input/read_alignment_stats_no_lysate.csv \
+    -m 100 \
+    -fr input/read_alignment_stats_100.csv
+```
+
+
+### Outlier Detection 
+After filtering for read depth, we must verify that the ERCC spike-ins behave as expected. 
+Theoretically, there should be a linear relationship between the log10(Read Counts) and the log10(Concentration) of the spike-ins.
+
+This command performs a Robust Regression (RANSAC) on each gradient fraction to identify ERCCs that deviate significantly 
+from this linear relationship. By removing these "bad" controls (outliers), we create a high-quality standard for the final normalization.
+
+The ```robust_regression``` command is used to perform a robust regression analysis on the ERCC spike-in data. 
+It identifies outliers that deviate significantly from the expected linear relationship between log10(Read Counts) and log10(Concentration) of the spike-ins. 
+By removing these outliers, we ensure that the normalization process is based on a high-quality standard.
+
+
+```bash
+graditude robust_regression \
+    -r input/read_alignment_stats_100.csv \
+    -c ../input/data_folder/cms_095046.txt \
+    -n 20 \
+    -nc 18 \
+    -mix 4 \
+    -o input/read_alignment_stats_correlated_ERCC.csv
+
+```
+
+### Normalization
+
+After removing the outlier spike-ins, we proceed to normalize the gene count data. 
+Since sequencing depth can vary between different gradient fractions due to technical reasons (e.g., library preparation efficiency), 
+raw read counts are not directly comparable.
+
+The ```normalize``` subcommand uses the filtered, high-quality ERCC spike-ins to calculate Size Factors for each gradient fraction.
+The method used is the "Median of Ratios" (similar to DESeq2), which is robust against extreme values. 
+The command then divides the raw counts of the target genes by these specific size factors to produce a normalized 
+expression table that allows for accurate comparison across the gradient.
+
+
+```bash
+graditude normalize \
+    -f input/gene_wise_100.csv \
+    -fc 11 \
+    -fe 32 \
+    -r input/read_alignment_stats_correlated_ERCC.csv \
+    -rc 1 \
+    -re 22 \
+    -o input/Norm_100.csv \
+    -s input/size_factor_100.csv
+
+```
+
+
+### Data Scaling 
+
+Once the data has been normalized for sequencing depth, it is often useful to scale the expression profiles to facilitate visualization (e.g., heatmaps) 
+and pattern recognition. Scaling focuses on the shape
+of the distribution along the gradient rather than the absolute abundance.
+
+The ```scaling``` command transforms the normalized counts row-by-row. In this analysis, we use the to_max method, 
+which divides the counts of each gene by its maximum expression value across the gradient. This transformation 
+sets the peak expression of every gene to 1.0, allowing for a direct comparison of sedimentation profiles between genes with very different expression levels.
+
+```bash
+graditude scaling \
+    -f input/Norm_100.csv \
+    -fc 11 \
+    -fe 32 \
+    -sm to_max \
+    -o input/scaled_100_to_max.csv
+
+```
+
+
+### Clustering Analysis
+
+To identify groups of genes with similar sedimentation profiles, we performed clustering analysis on the scaled expression data. 
+Genes falling into the same cluster share similar sedimentation properties, suggesting they may be part of the same macromolecular complexes 
+(e.g., ribosomal subunits) or share similar functional characteristics.
+
+The clustering command applies unsupervised learning algorithms to partition the genes. In this workflow, we utilized the K-Means algorithm (-cm 'k-means').
+The number of clusters was set to 6 (-nc 6) based on prior knowledge of the expected sedimentation patterns (e.g., free mRNA, monosomes, polysomes).
+The input data was already scaled to the maximum value, so no further internal normalization was applied (-sm no_normalization)
+
+```bash
+graditude clustering \
+    -f input/scaled_100_to_max.csv \
+    -fc 11 \
+    -fe 32 \
+    -nc 6 \
+    -p 1 \
+    -cm 'k-means' \
+    -sm no_normalization \
+    -o output/k-means_100_max_6_cl.csv
+
+```
+
+### Visualization (t-SNE)   
+
+
+To intuitively visualize the relationships between thousands of genes simultaneously, we employed t-Distributed Stochastic Neighbor Embedding (t-SNE).
+While clustering groups genes into discrete sets, t-SNE projects the high-dimensional data (expression across 20+ gradient fractions) 
+into a 2D space. In this map, genes with similar sedimentation profiles appear close to each other, while dissimilar genes are far apart.
+
+The t_sne command generates interactive HTML plots (viewable in a web browser) where each dot represents a gene. We generate three views:
+
+- Colored by Cluster: Validates the K-Means results (clusters should appear as distinct islands).
+- Colored by RNA Class: Highlights the global distribution of RNA types (e.g., rRNA vs mRNA).
+- Colored by Custom Lists: Specifically highlights proteins or genes of interest (e.g., RBPs) to see where they sediment relative to the RNA clusters.
+
+```bash
+graditude t_sne \
+    -f output/k-means_100_max_6_cl.csv \
+    -fc 11 \
+    -fe 32 \
+    -pp 30 \
+    -list ../input/data_folder/2019-11-22_predicted_RBPs.txt \
+    -names RBPs \
+    -o1 output/t-SNE_cl_6cl_30pp.html \
+    -o2 output/t-SNE_fe_6cl_30pp.html \
+    -o3 output/t-SNE_RBPs_6cl_30pp.html
+
+```
+
+
+
+
+
+
+
+
+
+
+
 
