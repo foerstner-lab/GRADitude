@@ -47,7 +47,7 @@ def merging_dict(ref_feature_count_table_dict, new_dict_for_conc_table, mix):
     for key in ref_feature_count_table_dict:
         reads = ref_feature_count_table_dict[key][1:]
         concentration = new_dict_for_conc_table[key][mix]
-        for gradient, val in reads.iteritems():
+        for gradient, val in reads.items():
             if gradient not in combined_dict:
                 combined_dict[gradient] = {}
             combined_dict[gradient][key] = val
@@ -106,7 +106,7 @@ def regression(read_grad_value, read_concentration_value, gradient_file,
                   "The slope values is " +
                   str(clt_ransac.estimator_.coef_),
                   fontsize=15)
-        plt.savefig(gradient)
+        plt.savefig(f"{gradient}.png")
         plt.close()
         """Find the outliers using the number that you defined as parameter"""
         """Selecting first the number of outliers that you want to find in the dataset"""

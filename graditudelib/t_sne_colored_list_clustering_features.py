@@ -85,13 +85,13 @@ def plot_t_sne_using_clustering(read_counting_table, tsne_result,
         ("Feature", "@feature"),
         ("Cluster label", "@cluster_label")])
 
-    plot = figure(plot_width=900, plot_height=900,
+    plot = figure(width=900, height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
                   title="Grad-Seq t-SNE RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3, color='color',
-                legend="label", line_color="black")
+                legend_field="label", line_color="black")
     plot.yaxis.axis_label_text_font_size = "15pt"
     plot.xaxis.axis_label_text_font_size = "15pt"
     plot.title.text_font_size = '15pt'
@@ -167,13 +167,13 @@ def plot_using_only_rna_colors(read_counting_table, t_sne_result,
         ("ID", "@ID"),
         ("Feature", "@feature")])
 
-    plot = figure(plot_width=900, plot_height=900,
+    plot = figure(width=900, height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
                   title="Grad-Seq t-SNE RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3, color='color',
-                legend='label', line_color="black")
+                legend_field='label', line_color="black")
     plot.yaxis.axis_label_text_font_size = "15pt"
     plot.xaxis.axis_label_text_font_size = "15pt"
     plot.title.text_font_size = '15pt'
@@ -246,13 +246,13 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
         ("ID", "@ID"),
         ("Feature", "@feature")])
 
-    plot = figure(plot_width=900, plot_height=900,
+    plot = figure(width=900, height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
                   title="Grad-Seq t-SNE RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3, color="color",
-                legend='label', line_color="black")
+                legend_field='label', line_color="black")
     plot.yaxis.axis_label_text_font_size = "15pt"
     plot.xaxis.axis_label_text_font_size = "15pt"
     plot.title.text_font_size = '15pt'
