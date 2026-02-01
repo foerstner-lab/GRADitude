@@ -436,6 +436,10 @@ def main():
                                            "specify in which format you would like to"
                                            " save your plot")
 
+    plot_kinetics_parser.add_argument("--y_label", "-yl",
+                                      required=True,
+                                      help="Label to show on the y-axis (e.g. 'Read counts' or 'Normalized read counts')")
+
     clustering_parser = subparsers.add_parser("clustering",
                                               help="This subcommand "
                                                    "performs unsupervised clustering "
@@ -1346,7 +1350,7 @@ def plot_kinetics(args):
     visualizing_kinetics.plot_kinetics(
         args.feature_count_table, args.feature_count_start_column,
         args.feature_count_end_column, args.gene_name,
-        args.output_format)
+        args.output_format, args.y_label)
 
 
 def select_specific_features(args):
