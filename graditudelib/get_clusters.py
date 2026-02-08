@@ -1,37 +1,45 @@
 import pandas as pd
 import os
 
-
 def extract_cluster_lists(feature_count_table, output_table):
-    """
-    Splits a table into multiple files based on the 'Cluster_label' column.
-    It automatically detects the number of clusters.
-    """
+    print(f"--- Processing file: {feature_count_table} ---")
+
     # 1. Read the table
-    df = pd.read_csv(feature_count_table, sep='\t')
+    # sep=None allows Python to automatically detect commas or tabs
+    try:
+        df = pd.read_csv(feature_count_table, sep=None, engine='python')
+    except Exception as e:
+        print(f"Critical error reading the file: {e}")
+        return
 
-    # 2. Check if the required column exists
+    # 2. Check if the Cluster_label column exists
     if 'Cluster_label' not in df.columns:
-        raise ValueError("The column 'Cluster_label' was not found in the table.")
+        print("Error: The column 'Cluster_label' was not found.")
+        print(f"Available columns: {list(df.columns)}")
+        return
 
-    # 3. Automatically find all unique cluster IDs (e.g., 0, 1, 2... 8)
+    # 3. Find unique clusters (e.g., 0, 1, 2...)
     unique_clusters = sorted(df['Cluster_label'].unique())
-    print(f"Found {len(unique_clusters)} unique clusters: {unique_clusters}")
+    print(f"Clusters found: {unique_clusters}")
 
-    # 4. Prepare the filename base (e.g., split "results/list.txt" into "results/list" and ".txt")
+    # 4. Prepare the base filename
+    # Splits "results/heatmap_data.tsv" into "results/heatmap_data" and ".tsv"
     base_name, ext = os.path.splitext(output_table)
 
-    # 5. Loop through every cluster found
+    # 5. Loop through each cluster and save the file
     for cluster_id in unique_clusters:
-        # Filter rows belonging to this cluster
-        sub_df = df[df['Cluster_label'] == cluster_id]
+        # Filter the rows belonging to the specific cluster
+        df_cluster = df.loc[df['Cluster_label'] == cluster_id]
 
-        # Extract only the first column (Gene names/IDs)
-        gene_list = sub_df.iloc[:, 0]
+        # Create the dynamic filename
+        final_name = f"{base_name}_cluster_{cluster_id}{ext}"
 
-        # Create the dynamic filename: "output_cluster_1.txt"
-        final_output_name = f"{base_name}_cluster_{cluster_id}{ext}"
+        # --- SAVE SETTINGS ---
+        # index=False: Do not save the row numbers (0, 1, 2...)
+        # sep='\t': Use tab separation (standard for Grad-seq tools)
+        # header=True: KEEP the header! (Essential for heatmaps to know column names)
+        df_cluster.to_csv(final_name, index=False, sep='\t', header=True)
 
-        # Save the file (no header, no index, ready for GO analysis)
-        gene_list.to_csv(final_output_name, index=None, sep='\t', header=None)
-        print(f"Cluster {cluster_id} saved to: {final_output_name}")
+        print(f" -> Saved full table: {final_name} (Rows: {len(df_cluster)})")
+
+    print("--- Done! ---")
