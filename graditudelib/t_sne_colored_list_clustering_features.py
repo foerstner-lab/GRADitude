@@ -252,7 +252,7 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
                   title="Grad-Seq t-SNE RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3, color="color",
-                legend_field='label', line_color="black")
+                legend_field='label', line_color="#4D4D4D")
     plot.yaxis.axis_label_text_font_size = "15pt"
     plot.xaxis.axis_label_text_font_size = "15pt"
     plot.title.text_font_size = '15pt'
@@ -269,11 +269,14 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
 
 
 def _color_1(row, srnas_and_list_names, palette_map):
-    color = palette_map[row["Feature"]]
-    srna_cluster_color = {"sRNA_cluster_1": "#FF4D4D",
-                          "sRNA_cluster_2": "#F0F3F4",
-                          "sRNA_cluster_3": "#000000",
-                          "sRNA_cluster_4": "#FFFF00"}
+    color = "#B0BEC5"
+    srna_cluster_color = {
+        "sRNA_cluster_1": "#CC6677",  # CsrA
+        "sRNA_cluster_2": "#8073AC",  # Hfq
+        "sRNA_cluster_3": "#44AA99",  # ProQ
+        "sRNA_cluster_4": "#DDCC77",
+        "sRNA_cluster_5": "#332288",
+    }
     for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
             color = srna_cluster_color[

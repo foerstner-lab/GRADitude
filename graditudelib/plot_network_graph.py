@@ -1,8 +1,8 @@
 import numpy as np
 import networkx as nx
 import pandas as pd
-from bokeh.io import show, output_file
-from bokeh.models import Range1d, MultiLine, Circle, HoverTool, TapTool, ColumnDataSource, \
+from bokeh.io import show, output_file, save
+from bokeh.models import Range1d, MultiLine, Scatter, HoverTool, TapTool, ColumnDataSource, \
     BoxZoomTool, ResetTool, PanTool, WheelZoomTool, OpenURL
 from bokeh.palettes import Spectral4
 from bokeh.plotting import figure
@@ -19,6 +19,8 @@ from bokeh.models.graphs import NodesAndLinkedEdges
 def plot_network_graph_rna_protein(feature_count_table, index_table, threshold, max_size, output_plot):
     correlated_table = pd.read_csv(feature_count_table, sep='\t')
     correlated_table.set_index(index_table, inplace=True)
+    correlated_table = correlated_table.loc[
+        ~correlated_table.index.duplicated(), ~correlated_table.columns.duplicated()]
     plot_graph(correlated_table, threshold, max_size, output_plot)
 
 
@@ -30,7 +32,7 @@ def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
     hover = HoverTool(tooltips=[
         ("name", "@index")])
 
-    plot = figure(plot_width=900, plot_height=900, x_range=Range1d(-1.1, 1.1), y_range=Range1d(-1.1, 1.1),
+    plot = figure(width=900, height=900, x_range=Range1d(-1.1, 1.1), y_range=Range1d(-1.1, 1.1),
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
                   title=output_plot)
@@ -46,13 +48,14 @@ def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
 
     source = ColumnDataSource({'index': nodes, 'fill_color': colors, 'size': sizes})
     graph_renderer.node_renderer.data_source = source
-    graph_renderer.node_renderer.glyph = Circle(size="size", fill_color="fill_color", line_width=0,
-                                                line_color="fill_color")
+    # Use Scatter instead of Circle for pixel-based sizing
+    graph_renderer.node_renderer.glyph = Scatter(size="size", fill_color="fill_color", line_width=0,
+                                                 line_color="fill_color")
 
-    graph_renderer.node_renderer.selection_glyph = Circle(size="size", fill_color=Spectral4[2], line_width=0,
-                                                          line_color=Spectral4[1])
-    graph_renderer.node_renderer.hover_glyph = Circle(size="size", fill_color=Spectral4[1], line_width=0,
-                                                      line_color=Spectral4[1])
+    graph_renderer.node_renderer.selection_glyph = Scatter(size="size", fill_color=Spectral4[2], line_width=0,
+                                                           line_color=Spectral4[1])
+    graph_renderer.node_renderer.hover_glyph = Scatter(size="size", fill_color=Spectral4[1], line_width=0,
+                                                       line_color=Spectral4[1])
 
     graph_renderer.edge_renderer.glyph = MultiLine(line_color="#CCCCCC", line_alpha=1, line_width=0.2)
     graph_renderer.edge_renderer.selection_glyph = MultiLine(line_color=Spectral4[2], line_width=1)
@@ -64,6 +67,7 @@ def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
     plot.renderers.append(graph_renderer)
 
     output_file(output_plot)
+    save(plot)
 
 
 def plot_graph(correlated_table, threshold, max_size, output_plot):
@@ -94,3 +98,4 @@ def plot_graph(correlated_table, threshold, max_size, output_plot):
     scaled_sizes = [float(i) / max(sizes) * max_size for i in sizes]
 
     do_plot_graph(nodes, edges, colors, scaled_sizes, description, output_plot)
+
