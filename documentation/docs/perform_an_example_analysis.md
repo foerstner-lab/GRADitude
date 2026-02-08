@@ -494,9 +494,137 @@ graditude t_sne \
 
 
 
+graditude plot_kinetics \
+    -f GRADitude/input/scaled_100_to_max.csv \
+    -fc 11 \
+    -fe 32 \
+    -g ssrA \
+    -format pdf \
+    -yl Normalized and scaled to max read counts
 
 
 
 
+graditude plot_kinetics \
+    -f GRADitude/input/feature_count_table.csv \
+    -fc 11 \
+    -fe 32 \
+    -g ssrA \
+    -format pdf \
+    -yl "Raw read counts"
+
+graditude plot_kinetics \
+    -f GRADitude/input/scaled_100_to_max.csv \
+    -fc 11 \
+    -fe 32 \
+    -g rnpB \
+    -format pdf \
+    -yl "Normalized and scaled to max read counts"
+
+graditude plot_kinetics \
+    -f GRADitude/input/feature_count_table.csv \
+    -fc 11 \
+    -fe 32 \
+    -g rnpB \
+    -format pdf \
+    -yl "Raw read counts"
 
 
+graditude clustering_elbow \
+  -f GRADitude/input/scaled_100_to_max.csv \
+  -fc 11 \
+  -fe 32 \
+  -min 2 \
+  -max 15 \
+  -o1 elbow_wcss.pdf \
+  -o2 elbow_variance_explained.pdf
+
+
+graditude selecting_specific_features \
+    -n GRADitude/input/scaled_100_to_max.csv \
+    -fc 11 \
+    -fe 32 \
+    -f sRNA ncRNA \
+    -o GRADitude/input/sRNAs_filtered.csv
+
+
+graditude clustering_elbow \
+  -f GRADitude/input/sRNAs_filtered.csv \
+  -fc 11 \
+  -fe 32 \
+  -min 2 \
+  -max 15 \
+  -o1 elbow_wcss-ncRNAs.pdf \
+  -o2 elbow_variance_explained-ncRNAs .pdf
+
+
+
+graditude clustering \
+    -f GRADitude/input/sRNAs_filtered.csv \
+    -fc 11 \
+    -fe 32 \
+    -nc 3 \
+    -cm 'k-means' \
+    -sm no_normalization \
+    -o GRADitude/output/k-means_scaled_max_3_cl.csv
+
+
+graditude silhouette_analysis \
+    -c GRADitude/input/sRNAs_filtered.csv \
+    -fc 11 \
+    -fe 32 \
+    -min 2 \
+    -max 10 
+
+
+graditude silhouette_analysis \
+    -c GRADitude/input/scaled_100_to_max.csv \
+    -fc 11 \
+    -fe 32 \
+    -min 2 \
+    -max 10 
+
+
+graditude t_sne \
+            -f GRADitude/output/k-means_scaled_max_3_cl.csv \
+            -fc 11 \
+            -fe 32 \
+            -pp 25 \
+            -list input/20180202_classic_CsrA_sRNAs.txt \
+            -names CsrA-targets Hfq-targets ProQ-targets \
+            input/20180202_unique_Hfq_sRNAs_manual_curation.txt \
+            input/20180202_unique_ProQ_sRNAs_manual_curation.txt \
+            -o1 GRADitude/output//t-SNE_clusters__3cl-25pp \
+            -o2 GRADitude/output//t-SNE_features_3cl-25pp \
+           -o3 GRADitude/output/t-SNE_lists_3cl-25pp.html
+
+
+graditude correlation_all_against_all \
+    -f GRADitude/input/scaled_100_to_max.csv \
+    -fc 11 \
+    -fe 32 \
+    -corr Spearman \
+    -o GRADitude/output/RNA_correlation_matrix.tsv
+
+
+
+graditude plot_network_graph \
+    -f GRADitude/GRADitude/RNA_correlation_matrix.csv \
+    -index Gene \
+    -t 0.98 \
+    -max 25 \
+    -o GRADitude/output/network_RNA_only.html
+
+
+
+graditude heatmap \
+    -f GRADitude/input/sRNAs_filtered.csv \
+    -fc 11 \
+    -fe 32 \
+    -label "ncRNA Gene Name" \
+    -o GRADitude/output/ncRNA_complexome_heatmap.pdf
+
+
+graditude extract_cluster_lists \
+    -f GRADitude/output/k-means_scaled_max_3_cl.csv \
+    -o GRADitude/output/gene_list.csv

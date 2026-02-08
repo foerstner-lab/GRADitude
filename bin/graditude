@@ -993,10 +993,10 @@ def main():
                                    help="output colorized using "
                                         "clusters information")
 
-    extract_clusters_parser = subparsers.add_parser("extract_cluster_table",
+    extract_clusters_parser = subparsers.add_parser("extract_cluster_tables",
                                                    help="Automatically extracts gene lists for "
                                                         "every cluster found in the table.")
-    extract_clusters_parser.set_defaults(func=run_extract_cluster_table)
+    extract_clusters_parser.set_defaults(func=run_extract_cluster_tables)
 
     extract_clusters_parser.add_argument('--feature_count_table', '-f',
                                          required=True,
@@ -1602,7 +1602,7 @@ def run_finder_spikein(args):
 
 
 def run_extract_cluster_table(args):
-    get_cluster_tables.extract_cluster_table(args.feature_count_table,
+    get_cluster_tables.extract_cluster_tables(args.feature_count_table,
                                            args.output_table)
 
 
