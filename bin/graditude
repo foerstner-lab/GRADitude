@@ -1601,7 +1601,7 @@ def run_finder_spikein(args):
                                        args.size_factors_table)
 
 
-def run_extract_cluster_table(args):
+def run_extract_cluster_tables(args):
     get_cluster_tables.extract_cluster_tables(args.feature_count_table,
                                            args.output_table)
 

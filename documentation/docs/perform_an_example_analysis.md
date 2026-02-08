@@ -625,6 +625,6 @@ graditude heatmap \
     -o GRADitude/output/ncRNA_complexome_heatmap.pdf
 
 
-graditude extract_cluster_lists \
+graditude extract_cluster_tables \
     -f GRADitude/output/k-means_scaled_max_3_cl.csv \
     -o GRADitude/output/gene_list.csv
