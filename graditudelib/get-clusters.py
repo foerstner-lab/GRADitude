@@ -33,5 +33,5 @@ def extract_cluster_lists(feature_count_table, output_table):
         final_output_name = f"{base_name}_cluster_{cluster_id}{ext}"
 
         # Save the file (no header, no index, ready for GO analysis)
-        gene_list.to_csv(final_output_name, index=False, header=False)
+        gene_list.to_csv(final_output_name, index=None, sep='\t', header=None)
         print(f"Cluster {cluster_id} saved to: {final_output_name}")
