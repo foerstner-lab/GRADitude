@@ -1603,7 +1603,7 @@ def run_finder_spikein(args):
 
 def run_extract_cluster_tables(args):
     get_cluster_tables.extract_cluster_tables(args.feature_count_table,
-                                           args.output_table)
+                                              args.output_table)
 
 
 def print_version():
