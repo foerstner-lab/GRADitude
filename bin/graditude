@@ -24,6 +24,7 @@ from graditudelib import clustering_proteins
 from graditudelib import correlation_specific_gene
 from graditudelib import interactive_plots
 from graditudelib import heatmap
+from graditudelib import extract_clusters
 from graditudelib import correlation_replicates_sequencing_data
 from graditudelib import projectcreator
 from graditudelib import dropping_specific_columns
@@ -992,6 +993,21 @@ def main():
                                    help="output colorized using "
                                         "clusters information")
 
+    extract_clusters_parser = subparsers.add_parser("extract_cluster_lists",
+                                                   help="Automatically extracts gene lists for "
+                                                        "every cluster found in the table.")
+    extract_clusters_parser.set_defaults(func=run_extract_cluster_lists)
+
+    extract_clusters_parser.add_argument('--feature_count_table', '-f',
+                                         required=True,
+                                         help="Input table containing the 'Cluster_label' column.")
+
+    extract_clusters_parser.add_argument('--output_table', '-o',
+                                         required=True,
+                                         help="Base name for the output files. "
+                                              "Example: 'results/genes.txt' will generate "
+                                              "'results/genes_cluster_0.txt', etc.")
+
     corr_specific_gene_parser = subparsers.add_parser("correlation_specific_gene",
                                                       help="This subcommand calculate "
                                                            "the Spearman or "
@@ -1583,6 +1599,11 @@ def run_merge_features(args):
 def run_finder_spikein(args):
     size_factor.size_factor_extraction(args.ref_feature_count_table,
                                        args.size_factors_table)
+
+
+def run_extract_cluster_lists(args):
+    extract_clusters.extract_cluster_lists(args.feature_count_table,
+                                           args.output_table)
 
 
 def print_version():
