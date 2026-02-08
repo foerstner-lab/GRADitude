@@ -43,7 +43,3 @@ def extract_cluster_tables(feature_count_table, output_table):
         print(f" -> Saved full table: {final_name} (Rows: {len(df_cluster)})")
 
     print("--- Done! ---")
-
-
-def extract_cluster_tables(feature_count_table, output_table):
-    return None
