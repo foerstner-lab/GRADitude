@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-def extract_cluster_lists(feature_count_table, output_table):
+def extract_cluster_table(feature_count_table, output_table):
     print(f"--- Processing file: {feature_count_table} ---")
 
     # 1. Read the table

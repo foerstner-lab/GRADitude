@@ -24,7 +24,7 @@ from graditudelib import clustering_proteins
 from graditudelib import correlation_specific_gene
 from graditudelib import interactive_plots
 from graditudelib import heatmap
-from graditudelib import get_clusters
+from graditudelib import get_cluster_tables
 from graditudelib import correlation_replicates_sequencing_data
 from graditudelib import projectcreator
 from graditudelib import dropping_specific_columns
@@ -993,10 +993,10 @@ def main():
                                    help="output colorized using "
                                         "clusters information")
 
-    extract_clusters_parser = subparsers.add_parser("extract_cluster_lists",
+    extract_clusters_parser = subparsers.add_parser("extract_cluster_table",
                                                    help="Automatically extracts gene lists for "
                                                         "every cluster found in the table.")
-    extract_clusters_parser.set_defaults(func=run_extract_cluster_lists)
+    extract_clusters_parser.set_defaults(func=run_extract_cluster_table)
 
     extract_clusters_parser.add_argument('--feature_count_table', '-f',
                                          required=True,
@@ -1601,8 +1601,8 @@ def run_finder_spikein(args):
                                        args.size_factors_table)
 
 
-def run_extract_cluster_lists(args):
-    get_clusters.extract_cluster_lists(args.feature_count_table,
+def run_extract_cluster_table(args):
+    get_cluster_tables.extract_cluster_table(args.feature_count_table,
                                            args.output_table)
 
 
