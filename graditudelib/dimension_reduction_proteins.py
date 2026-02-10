@@ -86,13 +86,13 @@ def plot_t_sne(read_counting_table, tsne_result, output_file_colorized_by_cluste
         ("Protein.names", "@feature"),
         ("Protein.IDs", "@id")])
 
-    plot = figure(plot_width=900, plot_height=900,
+    plot = figure(width=900, height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
                   title="Grad-Seq t-SNE proteins")
 
     plot.circle("x", "y", source=source, size=7, alpha=3,
-                color='color', legend="label", line_color="black")
+                color='color', legend_field="label", line_color="black")
     plot.yaxis.axis_label_text_font_size = "15pt"
     plot.xaxis.axis_label_text_font_size = "15pt"
     plot.title.text_font_size = '15pt'
@@ -140,7 +140,7 @@ def plot_pca(read_counting_table, pca_result, output_file_colorized_by_clusters)
                   title="Grad-Seq PCA proteins")
 
     plot.circle("x", "y", source=source, size=7, alpha=3,
-                color='color', legend="label", line_color="black")
+                color='color', legend_field="label", line_color="black")
     plot.yaxis.axis_label_text_font_size = "15pt"
     plot.xaxis.axis_label_text_font_size = "15pt"
     plot.title.text_font_size = '15pt'
@@ -188,7 +188,7 @@ def plot_umap(read_counting_table, umap_result, output_file_colorized_by_cluster
                   title="Grad-Seq UMAP proteins")
 
     plot.circle("x", "y", source=source, size=7, alpha=3,
-                color='color', legend="label", line_color="black")
+                color='color', legend_field="label", line_color="black")
     plot.yaxis.axis_label_text_font_size = "15pt"
     plot.xaxis.axis_label_text_font_size = "15pt"
     plot.title.text_font_size = '15pt'

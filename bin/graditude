@@ -333,6 +333,9 @@ def main():
                                        help="Specify the number of "
                                             "the last fraction we would like to consider in the"
                                             " analysis")
+    corr_gene_gene_parser.add_argument('--column_name', '-name',
+                                       required=True,
+                                       help="Specify the column Name")
     corr_gene_gene_parser.add_argument('--correlation_type', '-corr',
                                        required=True,
                                        choices=["Pearson", "Spearman"],
@@ -1358,6 +1361,7 @@ def run_correlation_gene_gene(args):
     correlation_between_genes.correlation(args.feature_count_table,
                                           args.feature_count_start_column,
                                           args.feature_count_end_column,
+                                          args.column_name,
                                           args.correlation_type,
                                           args.output_table)
 

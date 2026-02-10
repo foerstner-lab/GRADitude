@@ -3,11 +3,11 @@ from scipy import stats
 
 
 def correlation(
-        feature_count_table, feature_count_start_column, feature_count_end_column,
+        feature_count_table, feature_count_start_column, feature_count_end_column,column_name,
         correlation_type,
         output_table):
     feature_count_table_df = pd.read_table(feature_count_table, sep='\t')
-    feature_count_table_df.set_index(['Gene'], inplace=True)
+    feature_count_table_df.set_index([column_name], inplace=True)
     feature_count_table_df_value = _extract_value_matrix(feature_count_table_df,
                                                          feature_count_start_column,
                                                          feature_count_end_column)
