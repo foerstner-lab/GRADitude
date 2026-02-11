@@ -46,7 +46,7 @@ def do_plot_graph(nodes, edges, colors, sizes, description, highlight_node, outp
 
     graph_renderer = from_networkx(G, nx.fruchterman_reingold_layout, scale=1)
     final_colors = [
-        "#e31a1c" if (highlight_node is not None and n == highlight_node) else c
+        "#00ff00" if (highlight_node is not None and n == highlight_node) else c
         for n, c in zip(nodes, colors)
     ]
     source = ColumnDataSource({'index': nodes, 'fill_color': final_colors, 'size': sizes})
