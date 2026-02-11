@@ -888,6 +888,13 @@ def main():
                                            "of each point. "
                                            "All the points are then scaled based "
                                            "on that")
+    network_graph_parser.add_argument(
+        "--highlight_node", "-hl",
+        required=False,
+        type=str,
+        default=None,
+        help="Name of a gene/protein node to highlight in the network (exact match)."
+    )
     network_graph_parser.add_argument("--output_plot", "-o",
                                       help="Network plot")
 
@@ -1502,6 +1509,7 @@ def plot_network_graph_parser_rna_protein(args):
                                                       args.index_table,
                                                       args.threshold,
                                                       args.max_size,
+                                                      args.highlight_node,
                                                       args.output_plot)
 
 
@@ -1608,6 +1616,7 @@ def run_finder_spikein(args):
 def run_extract_cluster_tables(args):
     get_cluster_tables.extract_cluster_tables(args.feature_count_table,
                                               args.output_table)
+
 
 
 def print_version():

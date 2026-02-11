@@ -16,15 +16,15 @@ except ImportError:  # pragma: no cover
 from bokeh.models.graphs import NodesAndLinkedEdges
 
 
-def plot_network_graph_rna_protein(feature_count_table, index_table, threshold, max_size, output_plot):
+def plot_network_graph_rna_protein(feature_count_table, index_table, threshold, max_size, highlight_node, output_plot):
     correlated_table = pd.read_csv(feature_count_table, sep='\t')
     correlated_table.set_index(index_table, inplace=True)
     correlated_table = correlated_table.loc[
         ~correlated_table.index.duplicated(), ~correlated_table.columns.duplicated()]
-    plot_graph(correlated_table, threshold, max_size, output_plot)
+    plot_graph(correlated_table, threshold, max_size, highlight_node, output_plot)
 
 
-def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
+def do_plot_graph(nodes, edges, colors, sizes, description, highlight_node, output_plot):
     G = nx.Graph()
     G.add_nodes_from(nodes)
     G.add_edges_from(edges)
@@ -45,8 +45,11 @@ def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
     taptool.callback = OpenURL(url=url_protein)
 
     graph_renderer = from_networkx(G, nx.fruchterman_reingold_layout, scale=1)
-
-    source = ColumnDataSource({'index': nodes, 'fill_color': colors, 'size': sizes})
+    final_colors = [
+        "#e31a1c" if (highlight_node is not None and n == highlight_node) else c
+        for n, c in zip(nodes, colors)
+    ]
+    source = ColumnDataSource({'index': nodes, 'fill_color': final_colors, 'size': sizes})
     graph_renderer.node_renderer.data_source = source
     # Use Scatter instead of Circle for pixel-based sizing
     graph_renderer.node_renderer.glyph = Scatter(size="size", fill_color="fill_color", line_width=0,
@@ -70,7 +73,7 @@ def do_plot_graph(nodes, edges, colors, sizes, description, output_plot):
     save(plot)
 
 
-def plot_graph(correlated_table, threshold, max_size, output_plot):
+def plot_graph(correlated_table, threshold, max_size, highlight_node, output_plot):
     description = "Network graph rna-protein"
     nodes = [*correlated_table.index, *correlated_table.columns]
 
@@ -97,5 +100,5 @@ def plot_graph(correlated_table, threshold, max_size, output_plot):
 
     scaled_sizes = [float(i) / max(sizes) * max_size for i in sizes]
 
-    do_plot_graph(nodes, edges, colors, scaled_sizes, description, output_plot)
+    do_plot_graph(nodes, edges, colors, scaled_sizes, description, highlight_node, output_plot)
 
