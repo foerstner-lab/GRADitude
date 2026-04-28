@@ -30,8 +30,8 @@ def do_plot_graph(nodes, edges, colors, sizes, description, highlight_node, outp
     mapped_nodes = list(node_mapping.values())
     mapped_edges = [(node_mapping[a], node_mapping[b]) for a, b in edges]
     G = nx.Graph()
-    G.add_nodes_from(nodes)
-    G.add_edges_from(edges)
+    G.add_nodes_from(mapped_nodes)
+    G.add_edges_from(mapped_edges)
 
     hover = HoverTool(tooltips=[
         ("name", "@name")
@@ -49,7 +49,8 @@ def do_plot_graph(nodes, edges, colors, sizes, description, highlight_node, outp
     taptool = plot.select(type=TapTool)
     taptool.callback = OpenURL(url=url_protein)
 
-    graph_renderer = from_networkx(G, nx.fruchterman_reingold_layout, scale=1)
+    pos = nx.fruchterman_reingold_layout(G, scale=1)
+    graph_renderer = from_networkx(G, pos)
     final_colors = [
         "#00ff00" if (highlight_node is not None and n == highlight_node) else c
         for n, c in zip(nodes, colors)
