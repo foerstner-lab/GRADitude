@@ -497,7 +497,7 @@ graditude t_sne \
 graditude plot_kinetics \
     -f GRADitude/input/scaled_100_to_max.csv \
     -fc 11 \
-    -fe 32 \
+    -fe 31 \
     -g ssrA \
     -format pdf \
     -yl Normalized and scaled to max read counts
@@ -628,3 +628,98 @@ graditude heatmap \
 graditude extract_cluster_tables \
     -f GRADitude/output/k-means_scaled_max_3_cl.csv \
     -o GRADitude/output/gene_list.csv
+
+
+
+
+graditude heatmap \
+    -f GRADitude/output/gene_list_cluster_0.csv \
+    -fc 11 \
+    -fe 32 \
+    -label "ncRNA Gene Name" \
+    -o GRADitude/output/heatmap_CLUSTER1.pdf
+
+
+graditude heatmap \
+    -f GRADitude/output/gene_list_cluster_1.csv \
+    -fc 11 \
+    -fe 32 \
+    -label "ncRNA Gene Name" \
+    -o GRADitude/output/heatmap_CLUSTER2.pdf
+
+
+graditude heatmap \
+    -f GRADitude/output/gene_list_cluster_2.csv \
+    -fc 11 \
+    -fe 32 \
+    -label "ncRNA Gene Name" \
+    -o GRADitude/output/heatmap_CLUSTER3.pdf
+
+
+
+graditude clustering_elbow \
+    -f output/protein-normalisazion_20260210.1206_pgFilt4_MINIMAL.csv \
+    -fc 6 \
+    -fe 27 \
+    -min 2 \
+    -max 12 \
+    -o1 GRADitude/output/elbow_variance-protein.pdf \
+    -o2 GRADitude/output/elbow_sum_squares-protein.pdf
+
+
+graditude silhouette_analysis \
+    -c output/protein-normalisazion_20260210.1206_pgFilt4_MINIMAL.csv \
+    -fc 6 \
+    -fe 27 \
+    -min 2 \
+    -max 12 
+
+
+graditude clustering_proteins \
+    -f output/protein-normalisazion_20260210.1206_pgFilt4_MINIMAL.csv \
+    -fc 6 \
+    -fe 27 \
+    -nc 4 \
+    -cm k-means \
+    -o GRADitude/output/k-mean-clusters-protein.csv
+
+
+graditude dimension_reduction_proteins \
+    -f GRADitude/output/k-mean-clusters-protein.csv \
+    -fc 6 \
+    -fe 27 \
+    -dm t-SNE \
+    -pp 30 \
+    -o GRADitude/output/interactive_map.html
+
+
+
+graditude correlation_all_against_all \
+    -f output/protein-normalisazion_20260210.1206_pgFilt4_MINIMAL.csv \
+    -fc 6 \
+    -fe 27 \
+    -name "Protein IDs" \
+    -corr Spearman \
+    -o GRADitude/output/Protein_correlation_matrix.tsv
+
+graditude extract_cluster_tables \
+    -f GRADitude/output/k-mean-clusters-protein.csv \
+    -o GRADitude/output/protein_list.csv
+
+
+graditude correlation_all_against_all \
+    -f GRADitude/output/protein_list_cluster_2.csv \
+    -fc 6 \
+    -fe 27 \
+    -name Protein.names \
+    -corr Spearman \
+    -o GRADitude/output/Protein_correlation_matrix.csv
+
+
+graditude plot_network_graph \
+    -f GRADitude/output/Protein_correlation_matrix.csv \
+    -index Protein.names \
+    -t 0.98 \
+    -max 25 \
+    -hl "RNA chaperone ProQ" \
+    -o GRADitude/output/network_Protein_Cluster3_t099.html

@@ -271,11 +271,11 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
 def _color_1(row, srnas_and_list_names, palette_map):
     color = "#B0BEC5"
     srna_cluster_color = {
-        "sRNA_cluster_1": "#CC6677",  # CsrA
-        "sRNA_cluster_2": "#8073AC",  # Hfq
-        "sRNA_cluster_3": "#44AA99",  # ProQ
-        "sRNA_cluster_4": "#DDCC77",
-        "sRNA_cluster_5": "#332288",
+        "sRNA_cluster_1": "#FF0000",
+        "sRNA_cluster_2": "#0000FF",
+        "sRNA_cluster_3": "#00FF00",
+        "sRNA_cluster_4": "#FFD700",
+        "sRNA_cluster_5": "#FF00FF",
     }
     for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
