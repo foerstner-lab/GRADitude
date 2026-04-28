@@ -26,6 +26,9 @@ def plot_network_graph_rna_protein(feature_count_table, index_table, threshold, 
 
 
 def do_plot_graph(nodes, edges, colors, sizes, description, highlight_node, output_plot):
+    node_mapping = {name: i for i, name in enumerate(nodes)}
+    mapped_nodes = list(node_mapping.values())
+    mapped_edges = [(node_mapping[a], node_mapping[b]) for a, b in edges]
     G = nx.Graph()
     G.add_nodes_from(nodes)
     G.add_edges_from(edges)
