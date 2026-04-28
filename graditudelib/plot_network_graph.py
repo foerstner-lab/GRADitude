@@ -19,6 +19,7 @@ from bokeh.models.graphs import NodesAndLinkedEdges
 def plot_network_graph_rna_protein(feature_count_table, index_table, threshold, max_size, highlight_node, output_plot):
     correlated_table = pd.read_csv(feature_count_table, sep='\t')
     correlated_table.set_index(index_table, inplace=True)
+    correlated_table = correlated_table[correlated_table.index.notna()]
     correlated_table = correlated_table.loc[
         ~correlated_table.index.duplicated(), ~correlated_table.columns.duplicated()]
     plot_graph(correlated_table, threshold, max_size, highlight_node, output_plot)
