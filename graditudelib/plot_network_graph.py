@@ -34,7 +34,8 @@ def do_plot_graph(nodes, edges, colors, sizes, description, highlight_node, outp
     G.add_edges_from(edges)
 
     hover = HoverTool(tooltips=[
-        ("name", "@index")])
+        ("name", "@name")
+    ])
 
     plot = figure(width=900, height=900, x_range=Range1d(-1.1, 1.1), y_range=Range1d(-1.1, 1.1),
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
@@ -53,7 +54,12 @@ def do_plot_graph(nodes, edges, colors, sizes, description, highlight_node, outp
         "#00ff00" if (highlight_node is not None and n == highlight_node) else c
         for n, c in zip(nodes, colors)
     ]
-    source = ColumnDataSource({'index': nodes, 'fill_color': final_colors, 'size': sizes})
+    source = ColumnDataSource({
+        'index': mapped_nodes,
+        'name': nodes,
+        'fill_color': final_colors,
+        'size': sizes
+    })
     graph_renderer.node_renderer.data_source = source
     # Use Scatter instead of Circle for pixel-based sizing
     graph_renderer.node_renderer.glyph = Scatter(size="size", fill_color="fill_color", line_width=0,
