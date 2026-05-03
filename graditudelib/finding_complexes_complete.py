@@ -52,7 +52,8 @@ def modifying_first_letter(table_with_complexes):
 
 
 def correlation(table_with_selected_complexes, output_table):
-    table_dropped = table_with_selected_complexes.iloc[:, 1:-1]
+    numeric_cols = table_with_selected_complexes.select_dtypes(include=[np.number]).columns
+    table_dropped = table_with_selected_complexes[['complex_name'] + list(numeric_cols)]
     series_by_complex = {}
     for index, row in table_dropped.iterrows():
         complex_name = row['complex_name']
