@@ -32,7 +32,7 @@ def get_into_excel_complexes_table(tables_containing_list_complexes, protein_tab
             cols = list(selected_df)
             if selected_df.empty:
                 # print("empty")
-                selected_df = pd.DataFrame().append({'complex_name': complex_name, "gene": gene_name}, ignore_index=True)
+                selected_df = pd.DataFrame([{'complex_name': complex_name, "gene": gene_name}])
             else:
                 selected_df['complex_name'] = complex_name
                 selected_df['gene'] = gene_name
