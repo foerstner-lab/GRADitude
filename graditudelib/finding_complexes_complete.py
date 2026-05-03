@@ -25,7 +25,7 @@ def get_into_excel_complexes_table(tables_containing_list_complexes, protein_tab
         col = tables_containing_list_complexes[column_idx].dropna()
         for row in range(0, col.size):
             complex_name = col.name
-            gene_name = col[row]
+            gene_name = col.iloc[row]
             selected_df = protein_table.loc[protein_table['Gene.names'] == gene_name]
             selected_df = selected_df.iloc[:, int(feature_count_start_column): feature_count_end_column]
 
@@ -39,7 +39,7 @@ def get_into_excel_complexes_table(tables_containing_list_complexes, protein_tab
                 cols = ['complex_name', 'gene'] + cols
                 selected_df = selected_df.loc[:, cols]
 
-            output_df = output_df.append(selected_df)
+            output_df = pd.concat([output_df, selected_df], ignore_index=True)
     return output_df
 
 
