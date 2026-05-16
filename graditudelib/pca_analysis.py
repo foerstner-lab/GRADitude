@@ -86,7 +86,7 @@ def plot_pca_using_clustering(read_counting_table, pca_result,
         ("Feature", "@feature"),
         ("Cluster label", "@cluster_label")])
 
-    plot = figure(plot_width=900, plot_height=900,
+    plot = figure(width=900, height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
                   title="Grad-Seq PCA RNA-Seq")
@@ -170,7 +170,7 @@ def plot_using_only_rna_colors(read_counting_table, pca_result,
         ("ID", "@ID"),
         ("Feature", "@feature")])
 
-    plot = figure(plot_width=900, plot_height=900,
+    plot = figure(width=900, height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
                   title="Grad-Seq PCA RNA-Seq")
@@ -249,7 +249,7 @@ def plot_pca_colored_by_lists(read_counting_table, pca_result,
         ("ID", "@ID"),
         ("Feature", "@feature")])
 
-    plot = figure(plot_width=900, plot_height=900,
+    plot = figure(width=900, height=900,
                   tools=[hover, BoxZoomTool(), ResetTool(), PanTool(),
                          WheelZoomTool(), "tap"],
                   title="Grad-Seq PCA RNA-Seq")
