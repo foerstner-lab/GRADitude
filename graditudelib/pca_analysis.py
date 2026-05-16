@@ -66,7 +66,7 @@ def plot_pca_using_clustering(read_counting_table, pca_result,
         x=read_counting_table["PCA-component_1"],
         y=read_counting_table["PCA-component_2"],
         feature=read_counting_table["Feature"],
-        gene=read_counting_table["gene"],
+        gene=read_counting_table["Gene"],
         cluster_label=read_counting_table["Cluster_label"],
         color=color,
         label=label)
@@ -152,11 +152,11 @@ def plot_using_only_rna_colors(read_counting_table, pca_result,
         x=read_counting_table["PCA-component_1"],
         y=read_counting_table["PCA-component_2"],
         feature=read_counting_table["Feature"],
-        gene=read_counting_table["gene"],
+        gene=read_counting_table["Gene"],
         color=color,
         label=label)
 
-    for feature in ["gene", "product", "ID", "type", "ncrna_class",
+    for feature in ["product", "ID", "type", "ncrna_class",
                     "sRNA_type", "Name", "pseudo"]:
         read_counting_table[feature] = read_counting_table[
             "Attributes_split"].apply(
@@ -231,7 +231,7 @@ def plot_pca_colored_by_lists(read_counting_table, pca_result,
         x=read_counting_table["PCA-component_1"],
         y=read_counting_table["PCA-component_2"],
         feature=read_counting_table["Feature"],
-        gene=read_counting_table["gene"],
+        gene=read_counting_table["Gene"],
         color=color,
         label=label)
 
@@ -277,7 +277,7 @@ def _color_1(row, srnas_and_list_names, palette_map):
                           "sRNA_cluster_2": "#F0F3F4",
                           "sRNA_cluster_3": "#000000",
                           "sRNA_cluster_4": "#FFFF00"}
-    for feature in ["gene"]:
+    for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
             color = srna_cluster_color[
                 srnas_and_list_names[row[feature]]]
@@ -294,7 +294,7 @@ def _label_1(row, srnas_and_list_names, cluster_names):
         srna_cluster_label["sRNA_cluster_" +
                            str(index + 1)] = cluster_names[index]
 
-    for feature in ["gene"]:
+    for feature in ["Gene"]:
         if row[feature] in srnas_and_list_names:
             label = srna_cluster_label[
                 srnas_and_list_names[row[feature]]]
