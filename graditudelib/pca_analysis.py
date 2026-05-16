@@ -176,7 +176,7 @@ def plot_using_only_rna_colors(read_counting_table, pca_result,
                   title="Grad-Seq PCA RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3, color='color',
-                legend='label', line_color="black")
+                legend_label="label", line_color="black")
     plot.yaxis.axis_label_text_font_size = "15pt"
     plot.xaxis.axis_label_text_font_size = "15pt"
     plot.title.text_font_size = '15pt'
@@ -255,7 +255,7 @@ def plot_pca_colored_by_lists(read_counting_table, pca_result,
                   title="Grad-Seq PCA RNA-Seq")
 
     plot.circle("x", "y", source=source, size=7, alpha=3, color="color",
-                legend='label', line_color="black")
+                legend_label="label", line_color="black")
     plot.yaxis.axis_label_text_font_size = "15pt"
     plot.xaxis.axis_label_text_font_size = "15pt"
     plot.title.text_font_size = '15pt'
