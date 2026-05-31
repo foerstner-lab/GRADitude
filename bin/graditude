@@ -172,6 +172,20 @@ def main():
 
     nearest_neighbors_parser.add_argument("--feature_count_table", "-f", required=True)
     nearest_neighbors_parser.add_argument("--feature_count_start_column", "-fc", required=True, type=int)
+    nearest_neighbors_parser.add_argument(
+        "--number_neighbors",
+        "-n",
+        type=int,
+        default=10,
+        help="Number of nearest neighbours"
+    )
+
+    nearest_neighbors_parser.add_argument(
+        "--output_file",
+        "-o",
+        required=True,
+        help="Output figure file"
+    )
 
     regression_parser = subparsers.add_parser("robust_regression",
                                               help="It compares the ERCC "
@@ -1350,9 +1364,10 @@ def create_project(args):
 def run_nearest_neighbors(args):
     nearest_neighbors.generate_nearest_neighbors(
         args.feature_count_table,
-        args.feature_count_start_column
+        args.feature_count_start_column,
+        args.number_neighbors,
+        args.output_file
     )
-
 def filtering_tables(args):
     min_row_sum_ercc_table.filtering_ercc_table(
         args.ref_feature_count_table,
