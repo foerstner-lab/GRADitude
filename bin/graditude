@@ -23,6 +23,7 @@ from graditudelib import dimension_reduction_proteins
 from graditudelib import clustering_proteins
 from graditudelib import correlation_specific_gene
 from graditudelib import nearest_neighbors
+from graditudelib import histograms_of_fractions
 from graditudelib import interactive_plots
 from graditudelib import heatmap
 from graditudelib import get_cluster_tables
@@ -191,6 +192,36 @@ def main():
         "-o",
         required=True,
         help="Output figure file"
+    )
+
+    histograms_parser = subparsers.add_parser(
+        "plot_histograms",
+        help="Generate one histogram per gradient fraction"
+    )
+
+    histograms_parser.set_defaults(func=run_histograms)
+
+    histograms_parser.add_argument(
+        "--feature_count_table",
+        "-f",
+        required=True,
+        help="Input table"
+    )
+
+    histograms_parser.add_argument(
+        "--feature_count_start_column",
+        "-fc",
+        required=True,
+        type=int,
+        help="First fraction column"
+    )
+
+    histograms_parser.add_argument(
+        "--feature_count_end_column",
+        "-fe",
+        required=True,
+        type=int,
+        help="Last fraction column"
     )
 
     regression_parser = subparsers.add_parser("robust_regression",
@@ -1481,6 +1512,12 @@ def run_pca(args):
                       args.output_file_colorized_by_rna_class,
                       args.output_file_colorized_by_lists)
 
+def run_histograms(args):
+    histograms_of_fractions.plot_histograms(
+        args.feature_count_table,
+        args.feature_count_start_column,
+        args.feature_count_end_column
+    )
 
 def run_scaling(args):
     scaling.scaling_(args.feature_count_table,
