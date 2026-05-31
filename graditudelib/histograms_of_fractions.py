@@ -51,7 +51,10 @@ def _plot_histogram_pdf(feature_count_table_df_value,
             bins=50
         )
 
-        axes[i].set_title(column, fontsize=8)
+        axes[i].set_title(
+            column.replace(".fastq", ""),
+            fontsize=8
+        )
 
     fig.supxlabel("Scaled abundance")
     fig.supylabel("Number of features")
