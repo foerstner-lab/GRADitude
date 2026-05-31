@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import math
 
 
 def plot_histograms(feature_count_table,
                     feature_count_start_column,
-                    feature_count_end_column):
+                    feature_count_end_column, output_file):
 
     feature_count_table_df = pd.read_table(feature_count_table)
 
@@ -14,7 +15,7 @@ def plot_histograms(feature_count_table,
         feature_count_end_column
     )
 
-    _plot_histogram_pdf(feature_count_table_df_value)
+    _plot_histogram_pdf(feature_count_table_df_value, output_file)
 
 
 def _extract_value_matrix(feature_count_table_df,
@@ -28,18 +29,34 @@ def _extract_value_matrix(feature_count_table_df,
     ]
 
 
-def _plot_histogram_pdf(feature_count_table_df_value):
+def _plot_histogram_pdf(feature_count_table_df_value,
+                        output_file):
 
-    for column in feature_count_table_df_value:
+    n_plots = len(feature_count_table_df_value.columns)
 
-        plt.figure()
+    n_cols = 4
+    n_rows = math.ceil(n_plots / n_cols)
 
-        plt.hist(
-            feature_count_table_df_value[column].values
+    fig, axes = plt.subplots(
+        n_rows,
+        n_cols,
+        figsize=(4 * n_cols, 3 * n_rows)
+    )
+
+    axes = axes.flatten()
+
+    for i, column in enumerate(feature_count_table_df_value):
+
+        axes[i].hist(
+            feature_count_table_df_value[column].values,
+            bins=50
         )
 
-        plt.title(column)
+        axes[i].set_title(column)
 
-        plt.savefig(f"{column}.pdf")
+    for j in range(i + 1, len(axes)):
+        axes[j].axis("off")
 
-        plt.close()
+    plt.tight_layout()
+    plt.savefig(output_file)
+    plt.close()

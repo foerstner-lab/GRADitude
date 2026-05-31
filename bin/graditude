@@ -223,6 +223,12 @@ def main():
         type=int,
         help="Last fraction column"
     )
+    histograms_parser.add_argument(
+        "--output_file",
+        "-o",
+        required=True,
+        help="Output PDF file"
+    )
 
     regression_parser = subparsers.add_parser("robust_regression",
                                               help="It compares the ERCC "
@@ -1516,7 +1522,8 @@ def run_histograms(args):
     histograms_of_fractions.plot_histograms(
         args.feature_count_table,
         args.feature_count_start_column,
-        args.feature_count_end_column
+        args.feature_count_end_column,
+        args.output_file
     )
 
 def run_scaling(args):
