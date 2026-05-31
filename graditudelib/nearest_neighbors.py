@@ -5,16 +5,16 @@ import matplotlib.pyplot as plt
 
 
 def generate_nearest_neighbors(feature_count_table,
-                               feature_count_start_column, n_neighbors, output_file):
+                               feature_count_start_column, feature_count_end_column, n_neighbors, output_file):
     feature_count_table_df = pd.read_table(feature_count_table)
     value_matrix = _extract_value_matrix(feature_count_table_df,
-                                         feature_count_start_column)
+                                         feature_count_start_column, feature_count_end_column)
     nearest_neighbors(value_matrix, n_neighbors, output_file)
 
 
 def _extract_value_matrix(feature_count_table_df,
-                          feature_count_start_column):
-    return feature_count_table_df.iloc[:, int(feature_count_start_column):]
+                          feature_count_start_column, feature_count_end_column):
+    return feature_count_table_df.iloc[:, int(feature_count_start_column): int(feature_count_end_column) + 1]
 
 
 def _extract_attributes(feature_count_table_df,
