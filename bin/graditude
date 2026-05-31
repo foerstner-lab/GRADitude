@@ -22,6 +22,7 @@ from graditudelib import distribution_correlation
 from graditudelib import dimension_reduction_proteins
 from graditudelib import clustering_proteins
 from graditudelib import correlation_specific_gene
+from graditudelib import nearest_neighbors
 from graditudelib import interactive_plots
 from graditudelib import heatmap
 from graditudelib import get_cluster_tables
@@ -162,6 +163,15 @@ def main():
     merge_features_parser.add_argument("--output_file", "-o",
                                        required=True,
                                        help="")
+
+    nearest_neighbors_parser = subparsers.add_parser(
+        "nearest_neighbors",
+        help="Generate a k-distance plot to help choose epsilon for DBSCAN clustering"
+    )
+    nearest_neighbors_parser.set_defaults(func=run_nearest_neighbors)
+
+    nearest_neighbors_parser.add_argument("--feature_count_table", "-f", required=True)
+    nearest_neighbors_parser.add_argument("--feature_count_start_column", "-fc", required=True, type=int)
 
     regression_parser = subparsers.add_parser("robust_regression",
                                               help="It compares the ERCC "
@@ -1336,6 +1346,12 @@ def create_project(args):
 
     projectcreator.create_version_file("GRADitude/version.txt", __version__)
 
+
+def run_nearest_neighbors(args):
+    nearest_neighbors.generate_nearest_neighbors(
+        args.feature_count_table,
+        args.feature_count_start_column
+    )
 
 def filtering_tables(args):
     min_row_sum_ercc_table.filtering_ercc_table(
