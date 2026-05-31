@@ -25,12 +25,8 @@ def _extract_attributes(feature_count_table_df,
 def nearest_neighbors(value_matrix, n_neighbors, output_file):
     nearest_neighbors_ = NearestNeighbors(n_neighbors=n_neighbors).fit(value_matrix)
     distances, indices = nearest_neighbors_.kneighbors(value_matrix)
-
     my_distance = distances[:, -1]
-    my_distance_df = pd.DataFrame(my_distance)
-    my_distance_df_div = my_distance_df.divide(len(my_distance))
-    sorted_df = my_distance_df_div.sort_values(by=0, ascending=False)
-    sorted_list = sorted_df[0].tolist()
+    sorted_list = sorted(my_distance, reverse=True)
     plt.plot(sorted_list)
     plt.savefig(output_file)
     plt.close()
