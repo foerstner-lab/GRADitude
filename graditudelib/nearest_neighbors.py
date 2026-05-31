@@ -32,4 +32,6 @@ def nearest_neighbors(value_matrix):
     sorted_df = my_distance_df_div.sort_values(by=0, ascending=False)
     sorted_list = sorted_df[0].tolist()
     plt.plot(sorted_list)
+    plt.savefig("nearest_neighbors.pdf")
+    plt.close()
     plt.show()
