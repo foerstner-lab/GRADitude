@@ -55,10 +55,14 @@ def _plot_histogram_pdf(feature_count_table_df_value,
 
     fig.supxlabel("Scaled abundance")
     fig.supylabel("Number of features")
+    fig.suptitle(
+        "Distribution of scaled abundance values across gradient fractions",
+        fontsize=14
+    )
 
     for j in range(i + 1, len(axes)):
         axes[j].axis("off")
 
-    plt.tight_layout()
+    plt.tight_layout(rect=[0.02, 0.02, 1, 0.96])
     plt.savefig(output_file)
     plt.close()
