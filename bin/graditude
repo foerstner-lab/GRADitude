@@ -173,6 +173,12 @@ def main():
     nearest_neighbors_parser.add_argument("--feature_count_table", "-f", required=True)
     nearest_neighbors_parser.add_argument("--feature_count_start_column", "-fc", required=True, type=int)
     nearest_neighbors_parser.add_argument(
+        "--feature_count_end_column",
+        "-fe",
+        required=True,
+        type=int
+    )
+    nearest_neighbors_parser.add_argument(
         "--number_neighbors",
         "-n",
         type=int,
@@ -1365,6 +1371,7 @@ def run_nearest_neighbors(args):
     nearest_neighbors.generate_nearest_neighbors(
         args.feature_count_table,
         args.feature_count_start_column,
+        args.feature_count_end_column,
         args.number_neighbors,
         args.output_file
     )

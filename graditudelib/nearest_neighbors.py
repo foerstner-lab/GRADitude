@@ -23,10 +23,30 @@ def _extract_attributes(feature_count_table_df,
 
 
 def nearest_neighbors(value_matrix, n_neighbors, output_file):
-    nearest_neighbors_ = NearestNeighbors(n_neighbors=n_neighbors).fit(value_matrix)
-    distances, indices = nearest_neighbors_.kneighbors(value_matrix)
+
+    nearest_neighbors_ = NearestNeighbors(
+        n_neighbors=n_neighbors
+    ).fit(value_matrix)
+
+    distances, indices = nearest_neighbors_.kneighbors(
+        value_matrix
+    )
+
     my_distance = distances[:, -1]
-    sorted_list = sorted(my_distance, reverse=True)
+
+    sorted_list = sorted(
+        my_distance,
+        reverse=True
+    )
+
+    plt.figure(figsize=(8, 5))
     plt.plot(sorted_list)
+
+    plt.xlabel("Features")
+    plt.ylabel(
+        f"Distance to {n_neighbors}th nearest neighbour"
+    )
+
+    plt.tight_layout()
     plt.savefig(output_file)
     plt.close()
