@@ -46,13 +46,15 @@ def _plot_histogram_pdf(feature_count_table_df_value,
     axes = axes.flatten()
 
     for i, column in enumerate(feature_count_table_df_value):
-
         axes[i].hist(
             feature_count_table_df_value[column].values,
             bins=50
         )
 
-        axes[i].set_title(column)
+        axes[i].set_title(column, fontsize=8)
+
+    fig.supxlabel("Scaled abundance")
+    fig.supylabel("Number of features")
 
     for j in range(i + 1, len(axes)):
         axes[j].axis("off")
