@@ -25,6 +25,7 @@ from graditudelib import correlation_specific_gene
 from graditudelib import nearest_neighbors
 from graditudelib import histograms_of_fractions
 from graditudelib import interactive_plots
+from graditudelib import ego_network
 from graditudelib import heatmap
 from graditudelib import get_cluster_tables
 from graditudelib import correlation_replicates_sequencing_data
@@ -965,6 +966,41 @@ def main():
     network_graph_parser.add_argument("--output_plot", "-o",
                                       help="Network plot")
 
+    ego_network_parser = subparsers.add_parser(
+        "plot_ego_network",
+        help="Plot an ego network for a selected RNA or protein using a top-correlation table."
+    )
+    ego_network_parser.set_defaults(func=plot_ego_network)
+
+    ego_network_parser.add_argument(
+        "--correlation_table",
+        "-c",
+        required=True,
+        help="CSV table containing top correlation partners for the selected feature."
+    )
+
+    ego_network_parser.add_argument(
+        "--central_node",
+        "-node",
+        required=True,
+        help="Name of the central RNA or protein node."
+    )
+
+    ego_network_parser.add_argument(
+        "--output_plot",
+        "-o",
+        required=True,
+        help="Output plot file, for example ego_network_ssrA.png or ego_network_ssrA.pdf."
+    )
+
+    ego_network_parser.add_argument(
+        "--color",
+        default="orange",
+        help="Color of the central node."
+    )
+
+
+
     clust_proteins_parser = subparsers.add_parser("clustering_proteins",
                                                   help="This subcommand "
                                                        "performs the unsupervised "
@@ -1688,6 +1724,14 @@ def run_extract_gene_columns(args):
 def run_merge_features(args):
     merge_features.merge_features_(args.feature_count_table,
                                    args.output_file)
+
+def plot_ego_network(args):
+    ego_network.plot_ego_network(
+        args.correlation_table,
+        args.central_node,
+        args.output_plot,
+        args.color
+    )
 
 
 def run_finder_spikein(args):
