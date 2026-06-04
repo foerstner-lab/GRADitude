@@ -23,6 +23,7 @@ from graditudelib import dimension_reduction_proteins
 from graditudelib import clustering_proteins
 from graditudelib import correlation_specific_gene
 from graditudelib import nearest_neighbors
+from graditudelib import extract_top_correlations
 from graditudelib import histograms_of_fractions
 from graditudelib import interactive_plots
 from graditudelib import ego_network
@@ -999,7 +1000,48 @@ def main():
         help="Color of the central node."
     )
 
+    extract_top_corr_parser = subparsers.add_parser(
+        "extract_top_correlations",
+        help="Extract the top correlation partners for selected RNAs or proteins from a correlation matrix."
+    )
+    extract_top_corr_parser.set_defaults(func=run_extract_top_correlations)
 
+    extract_top_corr_parser.add_argument(
+        "--correlation_matrix",
+        "-m",
+        required=True,
+        help="Input correlation matrix, for example RNA_correlation_matrix.tsv."
+    )
+
+    extract_top_corr_parser.add_argument(
+        "--features",
+        "-f",
+        nargs="+",
+        required=True,
+        help="Feature names to extract, for example ssrA ryeG."
+    )
+
+    extract_top_corr_parser.add_argument(
+        "--output_prefix",
+        "-o",
+        required=True,
+        help="Output prefix. Files will be saved as <prefix>_<feature>_top_correlations.csv."
+    )
+
+    extract_top_corr_parser.add_argument(
+        "--top_n",
+        "-n",
+        type=int,
+        default=20,
+        help="Number of top correlation partners to extract."
+    )
+
+    extract_top_corr_parser.add_argument(
+        "--separator",
+        "-sep",
+        default="\t",
+        help="Input matrix separator. Default is tab."
+    )
 
     clust_proteins_parser = subparsers.add_parser("clustering_proteins",
                                                   help="This subcommand "
@@ -1640,6 +1682,14 @@ def clustering_proteins_data(args):
                                    args.epsilon, args.min_samples,
                                    args.output_file)
 
+def run_extract_top_correlations(args):
+    extract_top_correlations.extract_top_correlations(
+        args.correlation_matrix,
+        args.features,
+        args.output_prefix,
+        args.top_n,
+        args.separator,
+    )
 
 def run_dr_proteins(args):
     dimension_reduction_proteins.dr_proteins(args.feature_count_table,
