@@ -269,19 +269,33 @@ def plot_t_sne_colored_by_lists(read_counting_table, tsne_result,
 
 
 def _color_1(row, srnas_and_list_names, palette_map):
-    color = "#B0BEC5"
+
+    # colori per le liste target
     srna_cluster_color = {
-        "sRNA_cluster_1": "#FF0000",
-        "sRNA_cluster_2": "#0000FF",
-        "sRNA_cluster_3": "#00FF00",
-        "sRNA_cluster_4": "#FFD700",
-        "sRNA_cluster_5": "#FF00FF",
+        "sRNA_cluster_1": "#FF0000",  # rosso
+        "sRNA_cluster_2": "#0000FF",  # blu
+        "sRNA_cluster_3": "#00FF00",  # verde
+        "sRNA_cluster_4": "#FFD700",  # giallo
+        "sRNA_cluster_5": "#FF00FF",  # magenta
     }
-    for feature in ["Gene"]:
-        if row[feature] in srnas_and_list_names:
-            color = srna_cluster_color[
-                srnas_and_list_names[row[feature]]]
-    return color
+
+    # priorità ai target
+    if row["Gene"] in srnas_and_list_names:
+        return srna_cluster_color[srnas_and_list_names[row["Gene"]]]
+
+    # colori delle classi RNA
+    feature_colors = {
+        "CDS": "#B0BEC5",     # grigio
+        "rRNA": "#A6CEE3",    # azzurro
+        "tRNA": "#33A02C",    # verde
+        "ncRNA": "#FB9A99",   # rosa
+        "sRNA": "#CAB2D6",    # lilla
+        "5UTR": "#FDBF6F",
+        "3UTR": "#FF7F00",
+        "gene": "#B15928"
+    }
+
+    return feature_colors.get(row["Feature"], "#B0BEC5")
 
 
 def _label_1(row, srnas_and_list_names, cluster_names):
